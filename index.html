@@ -10043,12 +10043,12 @@ function seedPackDoneAuditData() {
   }
 }
 function seedPendingPackData() {
-  // 待打包演示数据 x10（5条待打包 + 5条待打包-待审核）
-  var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','铁路超大件','特快空运敏感','海运普货','铁路普货','特快空运普货'];
-  var creators = ['小霞','小萌','小张','小李','小王'];
+  // 待打包演示数据 x15（5条待打包 + 10条待打包-待审核）
+  var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','铁路超大件','特快空运敏感','海运普货','铁路普货','特快空运普货','空运普货','铁路超大件','海运普货','铁路敏感','特快空运敏感'];
+  var creators = ['小霞','小萌','小张','小李','小王','阿明','老陈'];
   var trackers = ['张三','李四','王五','赵六'];
-  var demands = ['加固包装','易碎品','加急','防潮','普通','贵重','拍照','标准','轻放','标注'];
-  for (var i = 0; i < 10; i++) {
+  var demands = ['加固包装','易碎品','加急','防潮','普通','贵重','拍照','标准','轻放','标注','拍照留存','防震包装','防水','加急处理','按清单'];
+  for (var i = 0; i < 15; i++) {
     var isAudit = i >= 5;
     var status = isAudit ? '待打包-待审核' : '待打包';
     var day = 22 + i;
@@ -11636,7 +11636,7 @@ function renderOrderPackPool() {
     case 'all': break;
     case 'pendingAssign': list = list.filter(function(o){ return o.status==='待分配'; }); break;
     case 'pendingClaim': list = list.filter(function(o){ return o.status==='待认领'; }); break;
-    case 'pendingPack': list = list.filter(function(o){ return o.status==='拣货完成'||o.status==='待打包'; }); break;
+    case 'pendingPack': list = list.filter(function(o){ return o.status==='拣货完成'||o.status==='待打包'||o.status==='待打包-待审核'; }); break;
     case 'pendingPackAudit': list = list.filter(function(o){ return o.status==='待打包-待审核'; }); break;
     case 'packing': list = list.filter(function(o){ return o.status==='打包中' || o.status==='打包完成-待审核' || o.status==='驳回'; }); break;
     case 'packed': list = list.filter(function(o){ return o.status==='打包完毕'; }); break;
@@ -12354,7 +12354,7 @@ function switchPackMineStage(stage, el) {
 function renderOrderPackMine() {
   var list;
   switch (currentPackMineStage) {
-    case 'pendingPack': list = orderPackages.filter(function(o){ return o.status==='待分配'||o.status==='待打包'; }); break;
+    case 'pendingPack': list = orderPackages.filter(function(o){ return o.status==='待分配'||o.status==='待打包'||o.status==='待打包-待审核'; }); break;
     case 'pendingMyAudit': list = orderPackages.filter(function(o){ return o.status==='打包中'; }); break;
     case 'pendingPackAudit': list = orderPackages.filter(function(o){ return o.status==='待打包-待审核'; }); break;
     case 'packing': list = orderPackages.filter(function(o){ return o.status==='打包中' || o.status==='打包完成-待审核' || o.status==='驳回'; }); break;
