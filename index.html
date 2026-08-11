@@ -10872,10 +10872,18 @@ function showOrderPkgDetail(id) {
     '<div>'+
       statusBadge+
       // 右上区域：海鸥订单号高光 + 进展
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;">'+
         '<span style="font-size:16px;font-weight:700;color:var(--primary);white-space:nowrap;">'+showXy+'</span>'+
         '<span style="white-space:nowrap;">'+orderStatusTag(o.status)+'</span>'+
       '</div>'+
+      (o.void && o.voidNewXy ?
+      '<div style="margin-bottom:14px;margin-top:8px;">'+
+        '<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:#EDE9FE;border:1px solid #C4B5FD;border-radius:16px;font-size:12px;color:#6D28D9;font-weight:500;cursor:pointer;" onclick="event.stopPropagation()">'+
+          '<svg class="ico" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>'+
+          '关联新订单 '+(o.voidType?o.voidType+'：':'')+o.voidNewXy+
+        '</span>'+
+      '</div>' : '')+
+      '<div style="margin-bottom:14px;"></div>'+
       // 基本信息两列
       '<div style="background:#F9FAFB;border-radius:8px;padding:12px 14px;margin-bottom:12px;">'+
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;">'+
@@ -10889,7 +10897,7 @@ function showOrderPkgDetail(id) {
         '</div>'+
         (o.type==='拼团'&&o.links.length ? '<div style="margin-top:8px;padding-top:6px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);">关联XY号：'+o.links.map(function(l,i){ var b=(o.linkBoxes&&o.linkBoxes[i])?o.linkBoxes[i]+'箱':''; return l+b; }).join(', ')+'</div>' : '')+
         (isEx&&o.exception ? '<div style="margin-top:8px;padding:8px 10px;background:#FEF2F2;border-radius:6px;font-size:11px;"><div style="color:#DC2626;font-weight:600;margin-bottom:4px;">异常信息</div><div style="color:#991B1B;">来源：'+(o.exception.source||'')+' | 原因：'+(o.exception.reason||'')+(o.exception.note?(' | 说明：'+o.exception.note):'')+'</div></div>' : '')+
-        (o.void ? '<div style="margin-top:8px;padding:8px 10px;background:#F3F4F6;border-radius:6px;font-size:11px;"><div style="color:#6B7280;font-weight:600;margin-bottom:4px;">作废信息</div><div style="color:#4B5563;">作废类型：'+(o.voidType||'—')+' | 作废理由：'+(o.voidReason||'—')+(o.voidNewXy?(' | 关联新订单：'+o.voidNewXy):'')+'</div></div>' : '')+
+        (o.void ? '<div style="margin-top:8px;padding:8px 10px;background:#F3F4F6;border-radius:6px;font-size:11px;"><div style="color:#6B7280;font-weight:600;margin-bottom:4px;">作废信息</div><div style="color:#4B5563;">作废类型：'+(o.voidType||'—')+' | 作废理由：'+(o.voidReason||'—')+'</div></div>' : '')+
       '</div>'+
       // 客户要求
       '<div style="font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px;">'+
