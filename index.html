@@ -9965,6 +9965,7 @@ function seedOrderPackages() {
   seedPackDoneAuditData();
   seedPendingPackData();
   seedGoodsRejectData();
+  seedCsOrderExData();
 }
 function seedPackAuditData() {
   // 打包审核演示数据 x10（超管可见）
@@ -10107,6 +10108,42 @@ function seedGoodsRejectData() {
       country: '',
       haioId: 'HIO-'+(90000+i),
       haioStatus: '已出库'
+    });
+  }
+}
+function seedCsOrderExData() {
+  // 客服异常 + 跟单异常演示数据各5条
+  var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','特快空运敏感','海运普货','铁路普货','特快空运普货','海运超大件'];
+  var creators = ['小霞','小萌','小张','小李','小王'];
+  var trackers = ['张三','李四','王五','赵六'];
+  var packers = ['赵六','阿强','阿明','小周','老陈'];
+  var sources = ['客服异常','跟单异常'];
+  var reasons = {
+    '客服异常': ['客户投诉包裹破损','地址填写错误需核实','客户要求变更收货人','客户联系不上','客户反馈商品缺失'],
+    '跟单异常': ['物流轨迹异常延迟','海关查验滞留','目的地派送失败','转运中丢件','清关文件不全']
+  };
+  for (var i = 0; i < 10; i++) {
+    var src = sources[i < 5 ? 0 : 1];
+    var day = 10 + i;
+    var xy = 'XY202407' + String(60+i).padStart(2,'0') + String(500+i);
+    orderPackages.push({
+      id: orderPkgNextId++,
+      code: 'JB-202407'+String(60+i).padStart(2,'0')+'-'+String(5000+i).padStart(4,'0'),
+      xy: xy, type: i%3===0?'拼团':'普通', source: i<5?'客服':'门店',
+      route: routes[i], creator: creators[i%5],
+      tracker: trackers[i%4],
+      assignMode: '直接指派', assignee: packers[i%5],
+      status: '异常',
+      exception: { source: src, reason: reasons[src][i%5], note: '待协调处理#'+(i+1) },
+      demand: reasons[src][i%5],
+      picker: i%3===0?'小萌':'小霞',
+      packer: packers[i%5],
+      createdAt: '2026-07-'+String(10+i).padStart(2,'0')+' 08:00',
+      updatedAt: '2026-07-'+String(60+i).padStart(2,'0')+' 15:00',
+      links: [], xpd: '', dueDate: '2026-07-'+String(65+i).padStart(2,'0')+'T18:00',
+      country: '',
+      haioId: 'HIO-'+(40000+i),
+      haioStatus: '异常'
     });
   }
 }
