@@ -4218,13 +4218,13 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
     </div>
 
-    <!-- 批量释放弹框 -->
+    <!-- 重置认领弹框 -->
     <div class="modal-overlay" id="packReleaseModal">
       <div class="modal" style="width:420px;">
         <h3>重置认领</h3>
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;" id="packReleaseInfo"></div>
-        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">释放理由 <span style="color:var(--danger);">*必填</span></label><textarea id="packReleaseReason" placeholder="请输入释放理由..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hidePackReleaseModal()">取消</button><button class="btn btn-primary btn-sm btn-danger" onclick="confirmPackRelease()">确认释放</button></div>
+        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">重置理由 <span style="color:var(--danger);">*必填</span></label><textarea id="packReleaseReason" placeholder="请输入重置理由..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hidePackReleaseModal()">取消</button><button class="btn btn-primary btn-sm btn-danger" onclick="confirmPackRelease()">确认重置</button></div>
       </div>
     </div>
 
@@ -4341,7 +4341,7 @@ main > .modal-overlay.show { display: flex !important; }
           <div style="display:flex;align-items:center;gap:10px;">
             <button class="btn btn-sm pack-btn-manager" onclick="batchAssignPack()">批量分配</button>
             <button class="btn btn-sm pack-btn-manager" onclick="batchClaimPack()">批量认领</button>
-            <button class="btn btn-sm pack-btn-super" onclick="batchReleasePack()">批量释放</button>
+            <button class="btn btn-sm pack-btn-super" onclick="batchReleasePack()">重置认领</button>
           </div>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table" style="min-width:1600px;"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllPackCheckboxes(this)" title="全选"></th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>海鸥ID</th><th>状态</th><th>国家</th><th>线路</th><th>分包负责人</th><th>打包员</th><th>分配时间</th><th>打木箱</th><th>打包要求</th><th>异常说明</th><th>海鸥状态</th><th>创建时间</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="orderPackPoolList"></tbody></table></div></div>
@@ -11980,14 +11980,14 @@ function batchReleasePack() {
   packReleaseIds = [];
   checks.forEach(function(c){ packReleaseIds.push(parseInt(c.value)); });
   if (packReleaseIds.length===0) { alert('请至少勾选一个工单'); return; }
-  document.getElementById('packReleaseInfo').textContent = '已选择 '+packReleaseIds.length+' 个工单，释放后将清除打包员和负责人，状态恢复为待分配。';
+  document.getElementById('packReleaseInfo').textContent = '已选择 '+packReleaseIds.length+' 个工单，重置认领后将清除打包员和负责人，状态恢复为待分配。';
   document.getElementById('packReleaseReason').value = '';
   document.getElementById('packReleaseModal').classList.add('show');
 }
 function hidePackReleaseModal() { document.getElementById('packReleaseModal').classList.remove('show'); packReleaseIds = []; }
 function confirmPackRelease() {
   var reason = document.getElementById('packReleaseReason').value.trim();
-  if (!reason) { alert('请填写释放理由'); return; }
+  if (!reason) { alert('请填写重置理由'); return; }
   packReleaseIds.forEach(function(id){
     var o = orderPackages.find(function(p){ return p.id===id; });
     if (o) {
