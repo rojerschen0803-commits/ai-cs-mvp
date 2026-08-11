@@ -12509,18 +12509,22 @@ function renderPackAuditList() {
     var woodenBox = o.woodenBox !== undefined ? o.woodenBox : (o.type==='拼团' ? '是' : '否');
     var packDone = o.packDoneAt || (o.status==='打包完毕'?o.updatedAt:'');
     var acts = '';
+    var statusHtml = '';
     if (o.status === '打包完成-待审核') {
+      statusHtml = '<span class="tag tag-purple">待审核</span>';
       acts = (currentRole==='super'||currentRole==='manager') ?
         '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button>' :
         '<span class="tag tag-purple">审核中</span>';
     } else if (o.status === '打包完毕') {
+      statusHtml = '<span class="tag tag-green">审核通过</span>';
       acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>';
     } else if (o.status === '驳回') {
+      statusHtml = '<span class="tag tag-red">审核驳回</span>';
       acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>';
     }
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
     '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
-    '<td>'+packStatus(o)+'</td><td>'+(o.packer||o.assignee||'')+'</td><td>'+woodenBox+'</td>'+
+    '<td>'+statusHtml+'</td><td>'+(o.packer||o.assignee||'')+'</td><td>'+woodenBox+'</td>'+
     '<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td>'+
     '<td>'+(o.haioStatus||'')+'</td><td>'+packDone+'</td><td style="white-space:nowrap;">'+acts+'</td></tr>';
   }).join('');
