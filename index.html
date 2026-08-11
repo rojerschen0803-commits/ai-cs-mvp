@@ -9964,6 +9964,7 @@ function seedOrderPackages() {
   seedPackAuditData();
   seedPackDoneAuditData();
   seedPendingPackData();
+  seedGoodsRejectData();
 }
 function seedPackAuditData() {
   // 打包审核演示数据 x10（超管可见）
@@ -10072,6 +10073,35 @@ function seedPendingPackData() {
       links: [], xpd: '', dueDate: '2026-07-'+String(35+i).padStart(2,'0')+'T18:00',
       country: '',
       haioId: 'HIO-'+(80000+i),
+      haioStatus: '已出库'
+    });
+  }
+}
+function seedGoodsRejectData() {
+  // 货品审核-审核驳回演示数据 x10
+  var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','铁路超大件','特快空运敏感','海运普货','铁路普货','特快空运普货'];
+  var creators = ['小霞','小萌','小张','小李','小王'];
+  var demands = ['物品信息不符','缺少必要文件','客户取消','重复提交','超重超标'];
+  for (var i = 0; i < 10; i++) {
+    var day = 5 + i;
+    var xy = 'XY202407' + String(50+i).padStart(2,'0') + String(400+i);
+    orderPackages.push({
+      id: orderPkgNextId++,
+      code: 'JB-202407'+String(50+i).padStart(2,'0')+'-'+String(6000+i).padStart(4,'0'),
+      xy: xy, type: i%3===0?'拼团':'普通', source: i<5?'客服':'门店',
+      route: routes[i], creator: creators[i%5],
+      tracker: i%2===0?'张三':'李四',
+      assignMode: '放入公海', assignee: '',
+      status: '驳回', rejectSource: '待打包驳回', auditReason: demands[i%5]+'，需重新提交#'+(i+1),
+      demand: demands[i%5],
+      picker: i%3===0?'小萌':'小霞',
+      pickedAt: '2026-07-'+String(50+i).padStart(2,'0')+' 09:00',
+      packer: '',
+      createdAt: '2026-07-'+String(50+i).padStart(2,'0')+' 08:00',
+      updatedAt: '2026-07-'+String(50+i).padStart(2,'0')+' 11:00',
+      links: [], xpd: '', dueDate: '2026-07-'+String(55+i).padStart(2,'0')+'T18:00',
+      country: '',
+      haioId: 'HIO-'+(90000+i),
       haioStatus: '已出库'
     });
   }
@@ -12421,16 +12451,20 @@ function renderGoodsAuditList() {
     var showXy = orderDisplayXy(o);
     var woodenBox = o.woodenBox !== undefined ? o.woodenBox : (o.type==='拼团' ? '是' : '否');
     var acts = '';
+    var statusHtml = '';
     if (o.status === '待打包-待审核') {
+      statusHtml = '<span class="tag tag-orange">待审核</span>';
       acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button>';
     } else if (o.status === '打包中') {
+      statusHtml = '<span class="tag tag-green">审核通过</span>';
       acts = '<span class="tag tag-green">审核通过</span>';
     } else if (o.status === '驳回') {
+      statusHtml = '<span class="tag tag-red">审核驳回</span>';
       acts = '<span class="tag tag-red">审核驳回</span>';
     }
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
     '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
-    '<td>'+packStatus(o)+'</td><td>'+(o.packer||o.assignee||'')+'</td><td>'+woodenBox+'</td>'+
+    '<td>'+statusHtml+'</td><td>'+(o.packer||o.assignee||'')+'</td><td>'+woodenBox+'</td>'+
     '<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td>'+
     '<td>'+(o.haioStatus||'')+'</td><td>'+(o.createdAt||'')+'</td><td style="white-space:nowrap;">'+acts+'</td></tr>';
   }).join('');
