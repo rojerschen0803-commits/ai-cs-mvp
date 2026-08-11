@@ -8269,7 +8269,7 @@ document.addEventListener('click', function(e) {
 // Close pkg-more menus on outside click
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.pkg-more-menu')) {
-    document.querySelectorAll('.pkg-more-menu [id^="pkgMore"]').forEach(function(m){ m.style.display = 'none'; });
+    document.querySelectorAll('.pkg-more-menu [id^="pkgMore"], .pkg-more-menu [id^="pkMore"]').forEach(function(m){ m.style.display = 'none'; });
   }
 });
 
@@ -11730,6 +11730,16 @@ function getId(id) {
   var el = document.getElementById(id);
   return el ? el.value : '';
 }
+function wrapMoreActions(actsHtml, uid) {
+  var parts = actsHtml.split('</button>').filter(Boolean);
+  if (parts.length <= 2) return actsHtml;
+  var visible = parts.slice(0, 2).map(function(p){ return p+'</button>'; }).join(' ');
+  var hidden = parts.slice(2).map(function(p){ return '<div style="padding:2px 10px;">'+p+'</button></div>'; }).join('');
+  return visible+' <span class="pkg-more-menu" style="position:relative;display:inline-block;">'+
+    '<button class="btn btn-sm" onclick="var m=document.getElementById(\''+uid+'\');m.style.display=m.style.display===\'block\'?\'none\':\'block\';event.stopPropagation();" title="更多">···</button>'+
+    '<span id="'+uid+'" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);padding:4px 0;z-index:100;min-width:80px;white-space:nowrap;">'+hidden+'</span></span>';
+}
+
 function renderOrderPackPool() {
   var filterStatus = getId('orderPackFilterStatus');
   var filterSubLead = getId('orderPackFilterSubLead');
@@ -11789,7 +11799,7 @@ function renderOrderPackPool() {
       else if (o.status==='打包中') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包完毕') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='驳回') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      else if (o.status==='驳回') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <span class="pkg-more-menu" style="position:relative;display:inline-block;"><button class="btn btn-sm" onclick="var m=document.getElementById(\'pkMore'+o.id+'\');m.style.display=m.style.display===\'block\'?\'none\':\'block\';event.stopPropagation();" title="更多">···</button><span id="pkMore'+o.id+'" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);padding:4px 0;z-index:100;min-width:80px;white-space:nowrap;"><div style="padding:2px 10px;"><button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button></div></span></span>';
       else if (o.void) acts = '<button class="btn btn-sm btn-primary" onclick="restoreOrderPack('+o.id+')">恢复</button>';
     }
     // Manager actions
