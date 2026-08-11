@@ -11674,7 +11674,7 @@ function renderOrderPackPool() {
       if (o.status==='待认领') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='待分配') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包中') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包完毕') acts = '<button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
@@ -11686,7 +11686,7 @@ function renderOrderPackPool() {
       if (o.status==='待认领') acts = '<button class="btn btn-sm btn-primary" onclick="managerClaimPack('+o.id+')">认领</button>';
       else if (o.status==='待分配') acts = '<button class="btn btn-sm btn-primary" onclick="managerAssignPack('+o.id+')">分配</button>';
       else if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button>';
+      else if (o.status==='待打包-待审核') acts = '';
       else if (o.status==='打包中') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
       else if (o.status==='打包完成-待审核') acts = '';
       else if (o.status==='打包完成') acts = '';
