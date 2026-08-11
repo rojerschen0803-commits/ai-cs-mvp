@@ -4587,13 +4587,17 @@ main > .modal-overlay.show { display: flex !important; }
 
 <!-- ====== ORDER: 打包审核 ====== -->
     <div class="page fade-in" id="page-orderPackAudit">
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:10px 14px;">
-        打包审核汇总：包含打包审核、审核通过、审核驳回三个阶段的工单。
-      </div>
       <div class="sub-tab-bar" style="margin-bottom:12px;">
-        <div class="sub-tab-item active" onclick="switchPackAuditStage('pendingDoneAudit',this)">打包审核</div>
+        <div class="sub-tab-item active" onclick="switchPackAuditStage('all',this)">全部</div>
+        <div class="sub-tab-item" onclick="switchPackAuditStage('pendingDoneAudit',this)">待审核</div>
         <div class="sub-tab-item" onclick="switchPackAuditStage('packed',this)">审核通过</div>
         <div class="sub-tab-item" onclick="switchPackAuditStage('reject',this)">审核驳回</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">客户ID</span><input type="text" id="packAuditFilterCid" placeholder="客户ID" style="width:120px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">订单号</span><input type="text" id="packAuditFilterSearch" placeholder="集包号/海鸥订单号" style="width:160px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
+        <button class="btn btn-primary btn-sm" onclick="renderPackAuditList()">查询</button>
+        <button class="btn btn-sm" onclick="resetPackAuditFilter()">重置</button>
       </div>
       <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>状态</th><th>打包员</th><th>打木箱</th><th>打包要求</th><th>海鸥状态</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="packAuditList"></tbody></table></div></div>
     </div>
@@ -12435,7 +12439,7 @@ function resetGoodsAuditFilter() {
   renderGoodsAuditList();
 }
 // ========== 打包审核页 ==========
-var currentPackAuditStage = 'pendingDoneAudit';
+var currentPackAuditStage = 'all';
 function switchPackAuditStage(stage, el) {
   currentPackAuditStage = stage;
   document.querySelectorAll('#page-orderPackAudit .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
@@ -12448,7 +12452,13 @@ function renderPackAuditList() {
     case 'pendingDoneAudit': list = orderPackages.filter(function(o){ return o.status === '打包完成-待审核'; }); break;
     case 'packed': list = orderPackages.filter(function(o){ return o.status === '打包完毕'; }); break;
     case 'reject': list = orderPackages.filter(function(o){ return o.status === '驳回'; }); break;
+    default: list = orderPackages.filter(function(o){ return o.status === '打包完成-待审核' || o.status === '打包完毕' || o.status === '驳回'; }); break;
   }
+  // 筛选
+  var filterCid = (document.getElementById('packAuditFilterCid')||{}).value.toLowerCase();
+  var filterSearch = (document.getElementById('packAuditFilterSearch')||{}).value.toLowerCase();
+  if (filterCid) list = list.filter(function(o){ return (o.haioId||'').toLowerCase().indexOf(filterCid)>=0; });
+  if (filterSearch) list = list.filter(function(o){ return (o.code||'').toLowerCase().indexOf(filterSearch)>=0 || (o.xy||'').toLowerCase().indexOf(filterSearch)>=0; });
   var html = list.map(function(o){
     var showXy = orderDisplayXy(o);
     var woodenBox = o.woodenBox !== undefined ? o.woodenBox : (o.type==='拼团' ? '是' : '否');
@@ -12472,6 +12482,13 @@ function renderPackAuditList() {
     '<td>'+(o.haioStatus||'')+'</td><td>'+packDone+'</td><td style="white-space:nowrap;">'+acts+'</td></tr>';
   }).join('');
   document.getElementById('packAuditList').innerHTML = html || '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">暂无数据</td></tr>';
+}
+function resetPackAuditFilter() {
+  var cid = document.getElementById('packAuditFilterCid');
+  var search = document.getElementById('packAuditFilterSearch');
+  if (cid) cid.value = '';
+  if (search) search.value = '';
+  renderPackAuditList();
 }
 function startPackMine(id) {
   currentPackStartId = id;
