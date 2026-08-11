@@ -11566,7 +11566,7 @@ function switchOrderPackTab(tab, el) {
   document.querySelectorAll('#page-orderPack .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
 }
-function getPackableStatuses() { return ['待分配','待认领','待打包','待打包-待审核','打包中','打包完成-待审核','打包完毕','驳回','已作废']; }
+function getPackableStatuses() { return ['待分配','待认领','待打包','待打包-待审核','打包中','打包完成-待审核','打包完毕','驳回']; }
 function updatePackTabsByRole() {
   var isAdmin = currentRole==='super'||currentRole==='manager';
   var isEmp = currentRole==='employee';
@@ -11633,7 +11633,7 @@ function renderOrderPackPool() {
   var doneFrom = getId('orderPackFilterDoneFrom');
   var doneTo = getId('orderPackFilterDoneTo');
   var statuses = getPackableStatuses();
-  var list = orderPackages.filter(function(o){ return !o.void && (o.type==='分单'||o.status==='拣货完成'||o.status==='待分配'||o.status==='待认领'||o.status==='通过'||o.status==='驳回'||o.status==='已作废'||statuses.indexOf(o.status)>=0); });
+  var list = orderPackages.filter(function(o){ return !o.void && (o.type==='分单'||o.status==='拣货完成'||o.status==='待分配'||o.status==='待认领'||o.status==='通过'||o.status==='驳回'||statuses.indexOf(o.status)>=0); });
   // Stage tab filter
   switch (currentPackStage) {
     case 'all': break;
