@@ -12508,9 +12508,9 @@ function renderPackAuditList() {
         '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button>' :
         '<span class="tag tag-purple">审核中</span>';
     } else if (o.status === '打包完毕') {
-      acts = '<span class="tag tag-green">审核通过</span>';
+      acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>';
     } else if (o.status === '驳回') {
-      acts = '<span class="tag tag-red">审核驳回</span>';
+      acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>';
     }
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
     '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
