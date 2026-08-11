@@ -4571,9 +4571,18 @@ main > .modal-overlay.show { display: flex !important; }
 <!-- ====== ORDER: 货品审核 ====== -->
     <div class="page fade-in" id="page-orderGoodsAudit">
       <div class="sub-tab-bar" style="margin-bottom:12px;">
-        <div class="sub-tab-item active" onclick="switchGoodsAuditStage('pendingPackAudit',this)">待打包审核</div>
+        <div class="sub-tab-item active" onclick="switchGoodsAuditStage('all',this)">全部</div>
+        <div class="sub-tab-item" onclick="switchGoodsAuditStage('pending',this)">待审核</div>
+        <div class="sub-tab-item" onclick="switchGoodsAuditStage('approved',this)">已审核</div>
+        <div class="sub-tab-item" onclick="switchGoodsAuditStage('rejected',this)">已驳回</div>
       </div>
-      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>打包员</th><th>分配时间</th><th>打木箱</th><th>打包要求</th><th>海鸥状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="goodsAuditList"></tbody></table></div></div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">客户ID</span><input type="text" id="goodsAuditFilterCid" placeholder="客户ID" style="width:120px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">订单号</span><input type="text" id="goodsAuditFilterSearch" placeholder="集包号/海鸥订单号" style="width:160px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
+        <button class="btn btn-primary btn-sm" onclick="renderGoodsAuditList()">查询</button>
+        <button class="btn btn-sm" onclick="resetGoodsAuditFilter()">重置</button>
+      </div>
+      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>状态</th><th>打包员</th><th>打木箱</th><th>打包要求</th><th>海鸥状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="goodsAuditList"></tbody></table></div></div>
     </div>
 
 <!-- ====== ORDER: 打包审核 ====== -->
@@ -12374,7 +12383,7 @@ function renderOrderPackMine() {
   document.getElementById('orderPackMineList').innerHTML = html || '<tr><td colspan="13" style="text-align:center;color:var(--text-muted);padding:30px;">暂无打包任务</td></tr>';
 }
 // ========== 货品审核 ==========
-var currentGoodsAuditStage = 'pendingPackAudit';
+var currentGoodsAuditStage = 'all';
 function switchGoodsAuditStage(stage, el) {
   currentGoodsAuditStage = stage;
   document.querySelectorAll('#page-orderGoodsAudit .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
@@ -12387,18 +12396,43 @@ function renderGoodsAuditList() {
     document.getElementById('goodsAuditList').innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">仅超管/主管可操作货品审核</td></tr>';
     return;
   }
-  var list = orderPackages.filter(function(o){ return o.status === '待打包-待审核'; });
+  var list;
+  switch (currentGoodsAuditStage) {
+    case 'pending': list = orderPackages.filter(function(o){ return o.status === '待打包-待审核'; }); break;
+    case 'approved': list = orderPackages.filter(function(o){ return o.status === '打包中'; }); break;
+    case 'rejected': list = orderPackages.filter(function(o){ return o.status === '驳回' && o.rejectSource === '待打包驳回'; }); break;
+    default: list = orderPackages.filter(function(o){ return o.status === '待打包-待审核' || o.status === '打包中' || (o.status === '驳回' && o.rejectSource === '待打包驳回'); }); break;
+  }
+  // 筛选
+  var filterCid = (document.getElementById('goodsAuditFilterCid')||{}).value.toLowerCase();
+  var filterSearch = (document.getElementById('goodsAuditFilterSearch')||{}).value.toLowerCase();
+  if (filterCid) list = list.filter(function(o){ return (o.haioId||'').toLowerCase().indexOf(filterCid)>=0; });
+  if (filterSearch) list = list.filter(function(o){ return (o.code||'').toLowerCase().indexOf(filterSearch)>=0 || (o.xy||'').toLowerCase().indexOf(filterSearch)>=0; });
   var html = list.map(function(o){
     var showXy = orderDisplayXy(o);
     var woodenBox = o.woodenBox !== undefined ? o.woodenBox : (o.type==='拼团' ? '是' : '否');
+    var acts = '';
+    if (o.status === '待打包-待审核') {
+      acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button>';
+    } else if (o.status === '打包中') {
+      acts = '<span class="tag tag-green">已审核</span>';
+    } else if (o.status === '驳回') {
+      acts = '<span class="tag tag-red">已驳回</span>';
+    }
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
     '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
-    '<td>'+(o.packer||o.assignee||'')+'</td><td>'+(o.assignedAt||'—')+'</td><td>'+woodenBox+'</td>'+
+    '<td>'+packStatus(o)+'</td><td>'+(o.packer||o.assignee||'')+'</td><td>'+woodenBox+'</td>'+
     '<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td>'+
-    '<td>'+(o.haioStatus||'')+'</td><td>'+(o.createdAt||'')+'</td>'+
-    '<td style="white-space:nowrap;"><button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button></td></tr>';
+    '<td>'+(o.haioStatus||'')+'</td><td>'+(o.createdAt||'')+'</td><td style="white-space:nowrap;">'+acts+'</td></tr>';
   }).join('');
-  document.getElementById('goodsAuditList').innerHTML = html || '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">暂无待审核工单</td></tr>';
+  document.getElementById('goodsAuditList').innerHTML = html || '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">暂无工单</td></tr>';
+}
+function resetGoodsAuditFilter() {
+  var cid = document.getElementById('goodsAuditFilterCid');
+  var search = document.getElementById('goodsAuditFilterSearch');
+  if (cid) cid.value = '';
+  if (search) search.value = '';
+  renderGoodsAuditList();
 }
 // ========== 打包审核页 ==========
 var currentPackAuditStage = 'pendingDoneAudit';
