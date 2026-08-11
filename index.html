@@ -1819,6 +1819,9 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="nav-item" data-page="orderGoodsAudit" onclick="showPage('orderGoodsAudit')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> <span class="nav-text">货品审核</span>
     </div>
+    <div class="nav-item" data-page="orderPackAudit" onclick="showPage('orderPackAudit')">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">打包审核</span>
+    </div>
     <div class="nav-item" data-page="orderVerify" onclick="showPage('orderVerify')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> <span class="nav-text">核款</span><span class="nav-badge" id="navBadgeVerify"></span>
     </div>
@@ -4580,6 +4583,19 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>打包员</th><th>分配时间</th><th>打木箱</th><th>打包要求</th><th>海鸥状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="goodsAuditList"></tbody></table></div></div>
     </div>
 
+<!-- ====== ORDER: 打包审核 ====== -->
+    <div class="page fade-in" id="page-orderPackAudit">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:10px 14px;">
+        打包审核汇总：包含打包审核、审核通过、审核驳回三个阶段的工单。
+      </div>
+      <div class="sub-tab-bar" style="margin-bottom:12px;">
+        <div class="sub-tab-item active" onclick="switchPackAuditStage('pendingDoneAudit',this)">打包审核</div>
+        <div class="sub-tab-item" onclick="switchPackAuditStage('packed',this)">审核通过</div>
+        <div class="sub-tab-item" onclick="switchPackAuditStage('reject',this)">审核驳回</div>
+      </div>
+      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>状态</th><th>打包员</th><th>打木箱</th><th>打包要求</th><th>海鸥状态</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="packAuditList"></tbody></table></div></div>
+    </div>
+
 <!-- ====== ORDER: 异常处理 ====== -->
     <div class="page fade-in" id="page-orderException">
       <div class="stat-cards" id="orderExStats"></div>
@@ -5433,7 +5449,7 @@ function showPage(pageId) {
   var nav = document.querySelector('[data-page=\"'+pageId+'\"]');
   if (nav) nav.classList.add('active');
   // Update page title
-  var titles = { home: '首页', ticket: '工单', crm: '客户', tag: '标签', group: '客户组', aiTicket: 'AI工单', ticketType: '工单类型', dashboard: '报表', orderOverview: '订单概览', orderPackage: '集包管理', orderPick: '拣货管理', orderPack: '打包管理', orderException: '异常', orderVerify: '核款', orderReturn: '退件', orderVoid: '作废', team: '团队', settings: '设置', updatelog: '更新日志', training: 'AI训练', knowledge: '知识库', assistant: 'AI助手', chat: '会话', bot: '机器人', channel: '渠道' };
+  var titles = { home: '首页', ticket: '工单', crm: '客户', tag: '标签', group: '客户组', aiTicket: 'AI工单', ticketType: '工单类型', dashboard: '报表', orderOverview: '订单概览', orderPackage: '集包管理', orderPick: '拣货管理', orderPack: '打包管理', orderGoodsAudit: '货品审核', orderPackAudit: '打包审核', orderException: '异常', orderVerify: '核款', orderReturn: '退件', orderVoid: '作废', team: '团队', settings: '设置', updatelog: '更新日志', training: 'AI训练', knowledge: '知识库', assistant: 'AI助手', chat: '会话', bot: '机器人', channel: '渠道' };
   document.getElementById('pageTitle').textContent = titles[pageId] || pageId;
   // Render data
   updateNavBadges();
@@ -5465,6 +5481,7 @@ function showPage(pageId) {
     renderOrderPackStats(); renderOrderPackPool(); renderOrderPackMine();
   }
   if (pageId === 'orderGoodsAudit') { renderGoodsAuditList(); }
+  if (pageId === 'orderPackAudit') { renderPackAuditList(); }
   if (pageId === 'orderException') { renderOrderExStats(); renderOrderExList(); }
   if (pageId === 'orderVerify') { renderOrderVerifyStats(); renderVerifyAll(); }
   if (pageId === 'orderReturn') { renderOrderReturnStats(); renderOrderReturnList(); }
@@ -12359,6 +12376,45 @@ function renderGoodsAuditList() {
     '<td style="white-space:nowrap;"><button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button></td></tr>';
   }).join('');
   document.getElementById('goodsAuditList').innerHTML = html || '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">暂无待审核工单</td></tr>';
+}
+// ========== 打包审核页 ==========
+var currentPackAuditStage = 'pendingDoneAudit';
+function switchPackAuditStage(stage, el) {
+  currentPackAuditStage = stage;
+  document.querySelectorAll('#page-orderPackAudit .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  renderPackAuditList();
+}
+function renderPackAuditList() {
+  var list;
+  switch (currentPackAuditStage) {
+    case 'pendingDoneAudit': list = orderPackages.filter(function(o){ return o.status === '打包完成-待审核'; }); break;
+    case 'packed': list = orderPackages.filter(function(o){ return o.status === '打包完毕'; }); break;
+    case 'reject': list = orderPackages.filter(function(o){ return o.status === '驳回'; }); break;
+  }
+  var html = list.map(function(o){
+    var showXy = orderDisplayXy(o);
+    var woodenBox = o.woodenBox !== undefined ? o.woodenBox : (o.type==='拼团' ? '是' : '否');
+    var packDone = o.packDoneAt || (o.status==='打包完毕'?o.updatedAt:'');
+    var acts = '';
+    if (o.status === '打包完成-待审核') {
+      acts = (currentRole==='super'||currentRole==='manager') ?
+        '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button>' :
+        '<span class="tag tag-purple">审核中</span>';
+    } else if (o.status === '打包完毕') {
+      acts = '<span class="tag tag-green">已通过</span>';
+    } else if (o.status === '驳回') {
+      acts = (currentRole==='employee') ?
+        '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">'+(o.rejectSource==='待打包驳回'?'重新打包':'重新完成')+'</button>' :
+        '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+    }
+    return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
+    '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
+    '<td>'+packStatus(o)+'</td><td>'+(o.packer||o.assignee||'')+'</td><td>'+woodenBox+'</td>'+
+    '<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td>'+
+    '<td>'+(o.haioStatus||'')+'</td><td>'+packDone+'</td><td style="white-space:nowrap;">'+acts+'</td></tr>';
+  }).join('');
+  document.getElementById('packAuditList').innerHTML = html || '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">暂无数据</td></tr>';
 }
 function startPackMine(id) {
   currentPackStartId = id;
