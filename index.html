@@ -4605,7 +4605,7 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="page fade-in" id="page-orderException">
       <div class="stat-cards" id="orderExStats"></div>
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 0;margin-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">异常来源</span><select id="orderExFilterSource" onchange="renderOrderExList();renderOrderExStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>拣货异常</option><option>打包异常</option></select></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">异常来源</span><select id="orderExFilterSource" onchange="renderOrderExList();renderOrderExStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>拣货异常</option><option>打包异常</option><option>客服异常</option><option>跟单异常</option></select></div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">全部线路</span><select id="orderExFilterRoute" onchange="renderOrderExList();renderOrderExStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
         <div style="position:relative;display:inline-flex;align-items:center;">
           <svg class="ico" style="position:absolute;left:10px;width:14px;height:14px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -12639,16 +12639,22 @@ function renderOrderExStats() {
   var total = all.filter(function(o){ return o.status==='异常'; }).length;
   var pickEx = all.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source==='拣货异常'; }).length;
   var packEx = all.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source==='打包异常'; }).length;
-  var bg = { '全部异常':'#FEF2F2', '拣货异常':'#FFF7ED', '打包异常':'#FFFBEB' };
+  var csEx = all.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source==='客服异常'; }).length;
+  var orderEx = all.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source==='跟单异常'; }).length;
+  var bg = { '全部异常':'#FEF2F2', '拣货异常':'#FFF7ED', '打包异常':'#FFFBEB', '客服异常':'#F3E8FF', '跟单异常':'#ECFEFF' };
   var ico = {
     all: '<svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
     pick: '<svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>',
-    pack: '<svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>'
+    pack: '<svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>',
+    cs: '<svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    order: '<svg class="ico ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
   };
   var cards = [
     { label:'全部异常', value:total, color:'#DC2626', ico:ico.all },
     { label:'拣货异常', value:pickEx, color:'#EA580C', ico:ico.pick },
-    { label:'打包异常', value:packEx, color:'#D97706', ico:ico.pack }
+    { label:'打包异常', value:packEx, color:'#D97706', ico:ico.pack },
+    { label:'客服异常', value:csEx, color:'#7C3AED', ico:ico.cs },
+    { label:'跟单异常', value:orderEx, color:'#0891B2', ico:ico.order }
   ];
   var html = '';
   cards.forEach(function(c){
