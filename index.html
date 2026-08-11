@@ -10114,6 +10114,7 @@ function seedVerifyFlowData() {
   var routes = ['海运普货','海运超大件','铁路普货','铁路敏感','铁路超大件','特快空运普货','特快空运敏感'];
   var creators = ['小霞','小萌','小张','小李'];
   var trackers = ['张三','李四','王五','赵六'];
+  var packers = ['赵六','阿强','阿明','小周','老陈'];
   var countries = {};
   var stages = [
     { key: 'pendingShip', count: 15 },
@@ -10136,8 +10137,9 @@ function seedVerifyFlowData() {
         xy: xy, type: Math.random()>0.8?'拼团':'普通', source: Math.random()>0.5?'客服':'门店',
         route: route, creator: creators[Math.floor(Math.random()*creators.length)],
         tracker: trackers[Math.floor(Math.random()*trackers.length)],
-        assignMode: '放入公海', assignee: '', status: '打包完毕',
+        assignMode: '直接指派', assignee: packers[Math.floor(Math.random()*packers.length)], status: '打包完毕',
         demand: '', picker: creators[Math.floor(Math.random()*creators.length)],
+        packer: packers[Math.floor(Math.random()*packers.length)],
         pickedAt: createdAt, createdAt: createdAt,
         updatedAt: doneAt, links: [], xpd: '', dueDate: '2026-07-10T18:00',
         country: countries[route],
