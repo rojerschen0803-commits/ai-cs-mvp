@@ -1816,10 +1816,10 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="nav-item" data-page="orderPack" onclick="showPage('orderPack')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> <span class="nav-text">打包</span>
     </div>
-    <div class="nav-item" data-page="orderGoodsAudit" onclick="showPage('orderGoodsAudit')">
+    <div class="nav-item nav-super-only" data-page="orderGoodsAudit" onclick="showPage('orderGoodsAudit')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> <span class="nav-text">货品审核</span>
     </div>
-    <div class="nav-item" data-page="orderPackAudit" onclick="showPage('orderPackAudit')">
+    <div class="nav-item nav-super-only" data-page="orderPackAudit" onclick="showPage('orderPackAudit')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">打包审核</span>
     </div>
     <div class="nav-item" data-page="orderVerify" onclick="showPage('orderVerify')">
@@ -5388,6 +5388,8 @@ function switchRole(role, el) {
   if (document.getElementById('deptTabs')) document.getElementById('deptTabs').style.display = (role === 'super') ? 'flex' : 'none';
   // Training dept tabs: only super sees them
   if (document.getElementById('trainingDeptTabs')) document.getElementById('trainingDeptTabs').style.display = (role === 'super') ? 'flex' : 'none';
+  // 货品审核 / 打包审核 菜单：仅超管可见
+  document.querySelectorAll('.nav-super-only').forEach(function(n){ n.style.display = (role === 'super') ? '' : 'none'; });
   // Training sub tabs: employee only sees 'AI自动识别', manager/super sees both
   var subTabBar = document.getElementById('trainingSubTabBar');
   if (subTabBar) {
