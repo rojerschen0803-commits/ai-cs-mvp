@@ -1817,10 +1817,10 @@ main > .modal-overlay.show { display: flex !important; }
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> <span class="nav-text">打包</span>
     </div>
     <div class="nav-item nav-super-only" data-page="orderGoodsAudit" onclick="showPage('orderGoodsAudit')">
-      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> <span class="nav-text">货品审核</span>
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> <span class="nav-text">货品审核</span><span class="nav-badge" id="navBadgeGoodsAudit"></span>
     </div>
     <div class="nav-item nav-super-only" data-page="orderPackAudit" onclick="showPage('orderPackAudit')">
-      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">打包审核</span>
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">打包审核</span><span class="nav-badge" id="navBadgePackAudit"></span>
     </div>
     <div class="nav-item" data-page="orderVerify" onclick="showPage('orderVerify')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> <span class="nav-text">核款</span><span class="nav-badge" id="navBadgeVerify"></span>
@@ -5438,10 +5438,14 @@ function updateNavBadges() {
   var exCount = orderPackages.filter(function(o){ return o.status==='异常'; }).length;
   var verifyCount = orderPackages.filter(function(o){ return o.status==='打包完毕'&&!o.verifyPaidAt; }).length;
   var returnCount = orderReturns.length;
+  var goodsAuditCount = orderPackages.filter(function(o){ return o.status==='待打包-待审核'; }).length;
+  var packAuditCount = orderPackages.filter(function(o){ return o.status==='打包完成-待审核'; }).length;
   var setBadge = function(id, n){ var el=document.getElementById(id); if(el) el.textContent=n||''; };
   setBadge('navBadgeEx', exCount);
   setBadge('navBadgeVerify', verifyCount);
   setBadge('navBadgeReturn', returnCount);
+  setBadge('navBadgeGoodsAudit', goodsAuditCount);
+  setBadge('navBadgePackAudit', packAuditCount);
 }
 function showPage(pageId) {
   dismissLogPopup();
