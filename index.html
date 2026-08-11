@@ -4171,6 +4171,8 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="modal" style="width:440px;">
         <h3>作废订单</h3>
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;" id="pkgVoidInfo"></div>
+        <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废类型 <span style="color:var(--danger);">*</span></label><select id="pkgVoidType" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onVoidTypeChange()"><option value="">请选择作废类型</option><option value="客户退仓">客户退仓</option><option value="加货单">加货单</option><option value="修改路线">修改路线</option></select></div>
+        <div style="margin-bottom:12px;" id="pkgVoidNewXyGroup" style="display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新XY订单号 <span style="color:var(--danger);">*</span></label><input type="text" id="pkgVoidNewXy" placeholder="请输入关联的新XY订单号" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废理由 <span style="color:var(--danger);">*</span></label><textarea id="pkgVoidReason" placeholder="请填写作废理由..." style="width:100%;height:80px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hidePkgVoid()">取消</button><button class="btn btn-danger btn-sm" onclick="confirmPkgVoid()">确认作废</button></div>
       </div>
@@ -4493,10 +4495,16 @@ main > .modal-overlay.show { display: flex !important; }
     </div></div>
 
     <!-- 打包作废弹框 -->
-    <div class="modal-overlay" id="voidPackModal"><div class="modal" style="width:420px;">
+    <div class="modal-overlay" id="voidPackModal"><div class="modal" style="width:440px;">
       <h3>作废打包工单</h3>
       <div style="margin-bottom:8px;font-size:12px;color:var(--text-secondary);" id="voidPackInfo"></div>
-      <label>作废理由 <span style="color:var(--danger);">*</span></label>
+      <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废类型 <span style="color:var(--danger);">*</span></label>
+      <select id="voidPackType" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;margin-bottom:10px;" onchange="onVoidPackTypeChange()"><option value="">请选择作废类型</option><option value="客户退仓">客户退仓</option><option value="加货单">加货单</option><option value="修改路线">修改路线</option></select>
+      <div id="voidPackNewXyGroup" style="display:none;margin-bottom:10px;">
+        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新XY订单号 <span style="color:var(--danger);">*</span></label>
+        <input type="text" id="voidPackNewXy" placeholder="请输入关联的新XY订单号" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
+      </div>
+      <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废理由 <span style="color:var(--danger);">*</span></label>
       <textarea id="voidPackReason" placeholder="请填写作废理由..." style="width:100%;height:80px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;margin-bottom:12px;"></textarea>
       <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hideVoidPack()">取消</button><button class="btn btn-danger btn-sm" onclick="confirmVoidPack()">确认作废</button></div>
     </div></div>
@@ -4721,7 +4729,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">作废环节</span><select id="voidFilterSource" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>集包作废</option><option>拣货作废</option><option>打包作废</option><option>核款作废</option></select></div>
         <button class="btn btn-primary btn-sm" onclick="renderOrderVoidList()">查询</button>
       </div>
-      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>作废环节</th><th>作废操作人</th><th>作废时间</th><th>操作</th></tr></thead><tbody id="orderVoidList"></tbody></table></div></div>
+      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>作废类型</th><th>作废环节</th><th>作废操作人</th><th>作废时间</th><th>操作</th></tr></thead><tbody id="orderVoidList"></tbody></table></div></div>
     </div>
 
 <!-- ====== ORDER: 退件 ====== -->
@@ -9861,10 +9869,10 @@ function seedOrderPackages() {
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240705-0006', xy: 'XY20240705006', type: '仓库', source: '仓库', route: '铁路超大件', creator: '仓库小李', tracker: '王五', assignMode: '放入公海', assignee: '', status: '待开始', demand: '仓库出货，常规流程', picker: '', pickedAt: '', createdAt: '2026-07-05 16:00', updatedAt: '2026-07-05 16:00', links: [], xpd: '', dueDate: '2026-07-08T18:00' });
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240707-0001', xy: 'XY20240707001', type: '常规', source: '客服', route: '铁路敏感', creator: '小霞', tracker: '张三', subLead: '张三', claimedBy: '张三', claimedAt: '2026-07-07 14:00', packer: '赵六', assignee: '赵六', assignedAt: '2026-07-07 14:30', status: '驳回', packDoneAt: '2026-07-07 15:00', packCompleteReason: '打包完毕待审核', packCompletePhotos: 2, auditReason: '照片不清晰，需重新拍摄上传', auditAt: '2026-07-07 15:10', demand: '客户要求加固包装', woodenBox: '是', haioStatus: '已出库', pickedAt: '2026-07-07 13:00', createdAt: '2026-07-07 12:00', updatedAt: '2026-07-07 15:10', links: [], xpd: '', dueDate: '2026-07-10T18:00' });
   // 作废演示数据 x4
-  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240715-0001', xy: 'XY20240715001', type: '普通', source: '客服', route: '海运普货', creator: '小霞', tracker: '张三', status: '已作废', void: true, voidSource: '集包作废', voidOperator: '超管', voidAt: '2026-07-15 10:30', demand: '客户撤单', createdAt: '2026-07-15 09:00', updatedAt: '2026-07-15 10:30', links: [], xpd: '', dueDate: '' });
-  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240716-0001', xy: 'XY20240716001', type: '普通', source: '客服', route: '铁路普货', creator: '小萌', tracker: '李四', status: '已作废', void: true, voidSource: '拣货作废', voidOperator: '超管', voidAt: '2026-07-16 14:00', demand: '商品损坏', picker: '小萌', pickedAt: '2026-07-16 11:00', createdAt: '2026-07-16 10:00', updatedAt: '2026-07-16 14:00', links: [], xpd: '', dueDate: '' });
-  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240718-0002', xy: 'XY20240718002', type: '超大件', source: '仓库', route: '特快空运普货', creator: '仓库小李', tracker: '王五', status: '已作废', void: true, voidSource: '打包作废', voidOperator: '超管', voidAt: '2026-07-18 09:15', demand: '超重无法运输', packer: '赵六', packDoneAt: '2026-07-18 08:00', createdAt: '2026-07-17 16:00', updatedAt: '2026-07-18 09:15', links: [], xpd: '', dueDate: '' });
-  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240719-0003', xy: 'XY20240719003', type: '拼团', source: '客服', route: '铁路敏感', creator: '小霞', tracker: '张三', status: '已作废', void: true, voidSource: '核款作废', voidOperator: '超管', voidAt: '2026-07-19 16:00', demand: '客户拒收', picker: '小霞', pickedAt: '2026-07-19 10:00', packer: '赵六', packDoneAt: '2026-07-19 14:00', verifyPayer: '张三', verifyPaidAt: '2026-07-19 15:30', verifyPayAmount: '326', verifyPayWeight: '12.5', haioId: 'HIO-10018', createdAt: '2026-07-19 09:00', updatedAt: '2026-07-19 16:00', links: [], xpd: '', dueDate: '' });
+  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240715-0001', xy: 'XY20240715001', type: '普通', source: '客服', route: '海运普货', creator: '小霞', tracker: '张三', status: '已作废', void: true, voidType: '客户退仓', voidSource: '集包作废', voidOperator: '超管', voidAt: '2026-07-15 10:30', voidReason: '客户撤单', demand: '客户撤单', createdAt: '2026-07-15 09:00', updatedAt: '2026-07-15 10:30', links: [], xpd: '', dueDate: '' });
+  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240716-0001', xy: 'XY20240716001', type: '普通', source: '客服', route: '铁路普货', creator: '小萌', tracker: '李四', status: '已作废', void: true, voidType: '加货单', voidNewXy: 'XY20240801001', voidSource: '拣货作废', voidOperator: '超管', voidAt: '2026-07-16 14:00', voidReason: '商品损坏,需重新下单', demand: '商品损坏', picker: '小萌', pickedAt: '2026-07-16 11:00', createdAt: '2026-07-16 10:00', updatedAt: '2026-07-16 14:00', links: [], xpd: '', dueDate: '' });
+  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240718-0002', xy: 'XY20240718002', type: '超大件', source: '仓库', route: '特快空运普货', creator: '仓库小李', tracker: '王五', status: '已作废', void: true, voidType: '修改路线', voidNewXy: 'XY20240802001', voidSource: '打包作废', voidOperator: '超管', voidAt: '2026-07-18 09:15', voidReason: '超重无法运输,改发海运', demand: '超重无法运输', packer: '赵六', packDoneAt: '2026-07-18 08:00', createdAt: '2026-07-17 16:00', updatedAt: '2026-07-18 09:15', links: [], xpd: '', dueDate: '' });
+  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240719-0003', xy: 'XY20240719003', type: '拼团', source: '客服', route: '铁路敏感', creator: '小霞', tracker: '张三', status: '已作废', void: true, voidType: '客户退仓', voidSource: '核款作废', voidOperator: '超管', voidAt: '2026-07-19 16:00', voidReason: '客户拒收', demand: '客户拒收', picker: '小霞', pickedAt: '2026-07-19 10:00', packer: '赵六', packDoneAt: '2026-07-19 14:00', verifyPayer: '张三', verifyPaidAt: '2026-07-19 15:30', verifyPayAmount: '326', verifyPayWeight: '12.5', haioId: 'HIO-10018', createdAt: '2026-07-19 09:00', updatedAt: '2026-07-19 16:00', links: [], xpd: '', dueDate: '' });
   // 异常演示数据 x5
   var _routes = ['海运普货','海运超大件','铁路普货','铁路敏感','铁路超大件','特快空运普货','特快空运敏感'];
   var _creators = ['小霞','小萌','小张','小李'];
@@ -9876,8 +9884,11 @@ function seedOrderPackages() {
     orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240708-EX'+(ei+1), xy: 'XY20240708E'+(ei+1), type: '常规', source: '客服', route: _routes[ei%6], creator: _creators[ei%4], tracker: _trackers[ei%6], status: '异常', demand: '', picker: '小萌', pickedAt: '2026-07-08T0'+(ei+1)+':00', createdAt: '2026-07-08T08:00', updatedAt: '2026-07-08T0'+(ei+1)+':30', links: [], xpd: '', dueDate: '2026-07-12T18:00', country: _countries[_routes[ei%6]], haioId: 'HIO-'+(30000+ei), haioStatus: '已出库', exception: { source: exSources[ei], reason: exReasons[ei], note: '演示异常数据#'+(ei+1), fromStatus: ei<3?'拣货中':'打包中' } });
   }
   // 作废演示数据 x5
+  var voidTypes = ['客户退仓','加货单','修改路线','客户退仓','加货单'];
   for (var vi=0; vi<5; vi++) {
-    orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240708-VD'+(vi+1), xy: 'XY20240708V'+(vi+1), type: '常规', source: '客服', route: _routes[(vi+2)%6], creator: _creators[(vi+1)%4], tracker: _trackers[(vi+2)%6], status: '拣货完成', void: true, voidReason: '演示作废数据#'+(vi+1), demand: '', picker: '小萌', pickedAt: '2026-07-08T09:00', createdAt: '2026-07-08T08:00', updatedAt: '2026-07-08T10:00', links: [], xpd: '', dueDate: '2026-07-12T18:00', country: _countries[_routes[(vi+2)%6]], haioId: 'HIO-'+(40000+vi), haioStatus: '已出库' });
+    var vt = voidTypes[vi];
+    var newXy = (vt==='加货单'||vt==='修改路线') ? ('XY2024080V'+(vi+1)) : null;
+    orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240708-VD'+(vi+1), xy: 'XY20240708V'+(vi+1), type: '常规', source: '客服', route: _routes[(vi+2)%6], creator: _creators[(vi+1)%4], tracker: _trackers[(vi+2)%6], status: '已作废', void: true, voidType: vt, voidNewXy: newXy, voidReason: '演示作废数据#'+(vi+1), voidSource: '集包作废', voidOperator: '超管', voidAt: '2026-07-08T1'+(vi)+':00', demand: '', createdAt: '2026-07-08T08:00', updatedAt: '2026-07-08T10:00', links: [], xpd: '', dueDate: '2026-07-12T18:00', country: _countries[_routes[(vi+2)%6]], haioId: 'HIO-'+(40000+vi), haioStatus: '已出库' });
   }
   // 通过演示数据 x5
   for (var pi=0; pi<5; pi++) {
@@ -10382,16 +10393,31 @@ function voidOrderPackage(id) {
   currentVoidPkgId = id;
   var o = orderPackages.find(function(p){ return p.id===id; });
   document.getElementById('pkgVoidInfo').textContent = '集包号：'+(o?o.code:'')+' | 海鸥订单号：'+(o.xy||o.xpd||'');
+  document.getElementById('pkgVoidType').value = '';
+  document.getElementById('pkgVoidNewXy').value = '';
+  document.getElementById('pkgVoidNewXyGroup').style.display = 'none';
   document.getElementById('pkgVoidReason').value = '';
   document.getElementById('pkgVoidModal').classList.add('show');
 }
 function hidePkgVoid() { document.getElementById('pkgVoidModal').classList.remove('show'); currentVoidPkgId = null; }
+function onVoidTypeChange() {
+  var t = document.getElementById('pkgVoidType').value;
+  var needXy = (t === '加货单' || t === '修改路线');
+  document.getElementById('pkgVoidNewXyGroup').style.display = needXy ? 'block' : 'none';
+}
 function confirmPkgVoid() {
+  var voidType = document.getElementById('pkgVoidType').value;
+  if (!voidType) { alert('请选择作废类型'); return; }
+  var needXy = (voidType === '加货单' || voidType === '修改路线');
+  var newXy = document.getElementById('pkgVoidNewXy').value.trim();
+  if (needXy && !newXy) { alert('加货单/修改路线必须填写新XY订单号'); return; }
   var reason = document.getElementById('pkgVoidReason').value.trim();
   if (!reason) { alert('请填写作废理由'); return; }
   var o = orderPackages.find(function(p){ return p.id===currentVoidPkgId; });
   if (!o) return;
   o.void = true; o.status = '已作废';
+  o.voidType = voidType;
+  if (newXy) o.voidNewXy = newXy;
   o.voidReason = reason;
   var prevStatus = o.status;
   if (o.verifyPaidAt||o.verifyShipAt||o.verifyDoneAt) o.voidSource = '核款作废';
@@ -10411,15 +10437,17 @@ function renderOrderVoidList() {
   var filterSource = document.getElementById('voidFilterSource')?document.getElementById('voidFilterSource').value:'';
   if (search) list = list.filter(function(o){ return o.code.toLowerCase().indexOf(search)!==-1 || (o.xy||'').toLowerCase().indexOf(search)!==-1 || (o.xpd||'').toLowerCase().indexOf(search)!==-1; });
   if (filterSource) list = list.filter(function(o){ return o.voidSource===filterSource; });
+  var voidTypeColors = { '客户退仓':'tag tag-orange', '加货单':'tag tag-blue', '修改路线':'tag tag-purple' };
   var html = list.map(function(o){
     var showXy = orderDisplayXy(o);
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
     '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
+    '<td>'+(o.voidType?'<span class="'+(voidTypeColors[o.voidType]||'tag tag-gray')+'">'+o.voidType+'</span>':'<span class="tag tag-gray">-</span>')+'</td>'+
     '<td><span class="tag tag-gray">'+(o.voidSource||'')+'</span></td>'+
     '<td>'+(o.voidOperator||'')+'</td><td>'+(o.voidAt||'')+'</td>'+
     '<td style="white-space:nowrap;"><button class="btn btn-sm btn-primary" onclick="restoreFromVoid('+o.id+')">恢复</button> <button class="btn btn-sm btn-danger" onclick="deleteFromVoid('+o.id+')">删除</button></td></tr>';
   }).join('');
-  document.getElementById('orderVoidList').innerHTML = html || '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:30px;">暂无作废工单</td></tr>';
+  document.getElementById('orderVoidList').innerHTML = html || '<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:30px;">暂无作废工单</td></tr>';
 }
 var currentRestoreId = null;
 function restoreFromVoid(id) {
@@ -10861,6 +10889,7 @@ function showOrderPkgDetail(id) {
         '</div>'+
         (o.type==='拼团'&&o.links.length ? '<div style="margin-top:8px;padding-top:6px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);">关联XY号：'+o.links.map(function(l,i){ var b=(o.linkBoxes&&o.linkBoxes[i])?o.linkBoxes[i]+'箱':''; return l+b; }).join(', ')+'</div>' : '')+
         (isEx&&o.exception ? '<div style="margin-top:8px;padding:8px 10px;background:#FEF2F2;border-radius:6px;font-size:11px;"><div style="color:#DC2626;font-weight:600;margin-bottom:4px;">异常信息</div><div style="color:#991B1B;">来源：'+(o.exception.source||'')+' | 原因：'+(o.exception.reason||'')+(o.exception.note?(' | 说明：'+o.exception.note):'')+'</div></div>' : '')+
+        (o.void ? '<div style="margin-top:8px;padding:8px 10px;background:#F3F4F6;border-radius:6px;font-size:11px;"><div style="color:#6B7280;font-weight:600;margin-bottom:4px;">作废信息</div><div style="color:#4B5563;">作废类型：'+(o.voidType||'—')+' | 作废理由：'+(o.voidReason||'—')+(o.voidNewXy?(' | 关联新订单：'+o.voidNewXy):'')+'</div></div>' : '')+
       '</div>'+
       // 客户要求
       '<div style="font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px;">'+
@@ -11956,16 +11985,31 @@ function voidOrderPack(id) {
   currentVoidPackId = id;
   var o = orderPackages.find(function(p){ return p.id===id; });
   document.getElementById('voidPackInfo').textContent = '集包号：'+(o?o.code:'')+' | 海鸥订单号：'+(o?o.xy:'');
+  document.getElementById('voidPackType').value = '';
+  document.getElementById('voidPackNewXy').value = '';
+  document.getElementById('voidPackNewXyGroup').style.display = 'none';
   document.getElementById('voidPackReason').value = '';
   document.getElementById('voidPackModal').classList.add('show');
 }
 function hideVoidPack() { document.getElementById('voidPackModal').classList.remove('show'); currentVoidPackId = null; }
+function onVoidPackTypeChange() {
+  var t = document.getElementById('voidPackType').value;
+  var needXy = (t === '加货单' || t === '修改路线');
+  document.getElementById('voidPackNewXyGroup').style.display = needXy ? 'block' : 'none';
+}
 function confirmVoidPack() {
+  var voidType = document.getElementById('voidPackType').value;
+  if (!voidType) { alert('请选择作废类型'); return; }
+  var needXy = (voidType === '加货单' || voidType === '修改路线');
+  var newXy = document.getElementById('voidPackNewXy').value.trim();
+  if (needXy && !newXy) { alert('加货单/修改路线必须填写新XY订单号'); return; }
   var reason = document.getElementById('voidPackReason').value.trim();
   if (!reason) { alert('请填写作废理由'); return; }
   var o = orderPackages.find(function(p){ return p.id===currentVoidPackId; });
   if (!o) return;
   o.void = true;
+  o.voidType = voidType;
+  if (newXy) o.voidNewXy = newXy;
   o.voidReason = reason;
   o.voidSource = '打包作废'; o.voidOperator = (currentRole==='super'?'超管':'主管');
   o.voidAt = new Date().toISOString().slice(0,16).replace('T',' ');
