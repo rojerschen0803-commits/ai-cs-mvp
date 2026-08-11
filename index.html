@@ -1969,9 +1969,6 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
       <div class="annotation" style="position:relative;margin:0 0 12px 0;font-size:11px;padding:6px 10px;background:#FFF7ED;border-left:3px solid #EA580C;border-radius:4px;"><span class="note-type logic">状态说明</span> 超管/主管：进行中=待处理+跟进中，已结束=已完成+已关闭。员工：按待处理/我创建/我指派/已完成/已关闭分类。点击切换后列表和筛选条件保留。</div>
 
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <button class="btn btn-primary btn-sm" onclick="showTicketCreateModal()">+ 新建工单</button>
-      </div>
       <div class="ticket-filter-bar filter-section">
         <select id="ticketFilterType"><option value="">工单类型</option><option>售前报价</option><option>售中跟进</option><option>售后客诉</option><option>物流查询</option></select>
         <select id="ticketFilterStatus"><option value="">进展状态</option><option>待处理</option><option>跟进中</option><option>已完成</option><option>已关闭</option></select>
@@ -1984,6 +1981,9 @@ main > .modal-overlay.show { display: flex !important; }
         <button class="btn btn-primary btn-sm" onclick="filterTickets()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
         <button class="btn btn-sm" onclick="resetTicketFilters();filterTickets()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
       <div class="annotation" style="position:relative;margin:6px 0;font-size:11px;padding:6px 10px;background:#FFF7ED;border-left:3px solid #EA580C;border-radius:4px;"><span class="note-type logic">操作说明</span> 设置筛选条件后点击查询按钮。勾选工单后出现批量操作条。工单号点击打开右侧抽屉详情。操作列按钮：进行中=编辑+完成+关闭，已结束=激活。</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <button class="btn btn-primary btn-sm" onclick="showTicketCreateModal()">+ 新建工单</button>
       </div>
 
       <!-- Batch action bar -->
@@ -2330,9 +2330,6 @@ main > .modal-overlay.show { display: flex !important; }
         客户管理系统（CRM）：客户ID规则 AG+6位数字、工单ID规则 创建日期-客户ID-海鸥ID。<br>
         <strong>核心功能</strong>：客户画像沉淀、标签管理、关联工单、AI客户分析。
       </div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <button class="btn btn-primary btn-sm" onclick="showCrmCreateModal()">+ 新建客户</button>
-      </div>
       <div class="ticket-filter-bar filter-section">
             <select id="crmFilterGroup"><option value="">客户组</option></select>
             <input type="date" id="crmFilterDateFrom" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;width:130px;" title="创建时间从">
@@ -2345,6 +2342,9 @@ main > .modal-overlay.show { display: flex !important; }
 
       <div class="annotation" style="position:relative;margin:6px 0;font-size:11px;padding:6px 10px;background:#FFF7ED;border-left:3px solid #EA580C;border-radius:4px;"><span class="note-type logic">操作说明</span> 点击客户ID蓝色链接打开右侧抽屉查看详情和关联工单。勾选客户后出现批量操作条(批量打标签/批量分组)。[修改]按钮编辑客户信息。[工单]按钮快速创建关联工单。询价列统计售前报价类型数量。</div>
           </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <button class="btn btn-primary btn-sm" onclick="showCrmCreateModal()">+ 新建客户</button>
+      </div>
           <div class="ticket-filter-bar" id="crmBatchBar" style="display:none;background:var(--primary-light);padding:8px 12px;border-radius:6px;">
             <span style="font-size:12px;font-weight:600;color:var(--primary);">已选 <b id="crmBatchCount">0</b> 个客户</span>
             <button class="btn btn-sm btn-primary" onclick="batchCrmTag()">批量打标签</button>
@@ -2427,13 +2427,13 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
       <div style="display:flex;gap:16px;">
         <div style="flex:1;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-            <button class="btn btn-primary btn-sm" onclick="showTagCreateModal()">+ 新建标签</button>
-          </div>
           <div class="ticket-filter-bar filter-section">
             <input type="text" placeholder="搜索标签..." style="width:200px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;" id="tagSearchInput" onkeydown="if(event.key==='Enter')renderTagList()">
             <button class="btn btn-primary btn-sm" onclick="renderTagList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
             <button class="btn btn-sm" onclick="document.getElementById('tagSearchInput').value='';renderTagList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <button class="btn btn-primary btn-sm" onclick="showTagCreateModal()">+ 新建标签</button>
           </div>
           <div class="data-table-wrap">
             <table class="data-table">
@@ -2463,13 +2463,13 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
       <div style="display:flex;gap:16px;">
         <div style="flex:1;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-            <button class="btn btn-primary btn-sm" onclick="showGroupModal()">+ 新建组别</button>
-          </div>
           <div class="ticket-filter-bar filter-section">
             <input type="text" placeholder="搜索组别..." style="width:200px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;" id="groupSearch" onkeydown="if(event.key==='Enter')renderGroupList()">
             <button class="btn btn-primary btn-sm" onclick="renderGroupList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
             <button class="btn btn-sm" onclick="document.getElementById('groupSearch').value='';renderGroupList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <button class="btn btn-primary btn-sm" onclick="showGroupModal()">+ 新建组别</button>
           </div>
           <div class="data-table-wrap">
             <table class="data-table">
@@ -2522,9 +2522,6 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="page fade-in" id="page-ticketType">
       <div style="margin-bottom:16px;font-size:15px;font-weight:600;">工单类型配置</div>
       <div style="margin-bottom:12px;font-size:12px;color:var(--text-muted);">每个部门可配置独立的工单类型体系</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <button class="btn btn-primary btn-sm" onclick="addTicketType()">+ 新增类型</button>
-      </div>
       <div class="ticket-filter-bar filter-section">
         <select id="ttDept"><option>市场-门店团队</option><option>市场-销售团队</option><option>运营团队</option></select>
         <input type="text" placeholder="搜索工单类型..." style="width:200px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;" id="ttSearch" onkeydown="if(event.key==='Enter')renderTicketType()">
@@ -2532,6 +2529,9 @@ main > .modal-overlay.show { display: flex !important; }
         <button class="btn btn-sm" onclick="document.getElementById('ttSearch').value='';renderTicketType()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
 
       <div class="annotation" style="position:relative;margin:6px 0;font-size:11px;padding:6px 10px;background:#FFF7ED;border-left:3px solid #EA580C;border-radius:4px;"><span class="note-type logic">操作说明</span> 每个部门独立配置工单类型，创建工单时按部门显示对应类型。开关直接切换启用/停用。编辑类型名自动同步关联工单。删除前检查是否有工单使用，有则禁止删除。</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <button class="btn btn-primary btn-sm" onclick="addTicketType()">+ 新增类型</button>
       </div>
       <div class="data-table-wrap">
         <table class="data-table"><thead><tr><th>部门</th><th>类型名称</th><th>状态</th><th>创建人</th><th>创建时间</th><th>操作</th></tr></thead>
