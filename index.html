@@ -4729,7 +4729,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">作废环节</span><select id="voidFilterSource" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>集包作废</option><option>拣货作废</option><option>打包作废</option><option>核款作废</option></select></div>
         <button class="btn btn-primary btn-sm" onclick="renderOrderVoidList()">查询</button>
       </div>
-      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>作废类型</th><th>作废环节</th><th>作废操作人</th><th>作废时间</th><th>操作</th></tr></thead><tbody id="orderVoidList"></tbody></table></div></div>
+      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>作废订单号</th><th>新订单号</th><th>类型</th><th>活动</th><th>线路</th><th>作废类型</th><th>作废环节</th><th>作废操作人</th><th>作废时间</th><th>操作</th></tr></thead><tbody id="orderVoidList"></tbody></table></div></div>
     </div>
 
 <!-- ====== ORDER: 退件 ====== -->
@@ -10441,13 +10441,15 @@ function renderOrderVoidList() {
   var html = list.map(function(o){
     var showXy = orderDisplayXy(o);
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
-    '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
+    '<td>'+showXy+'</td>'+
+    '<td>'+(o.voidNewXy?'<span style="color:var(--primary);font-weight:500;">'+o.voidNewXy+'</span>':'<span style="color:var(--text-muted);">—</span>')+'</td>'+
+    '<td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
     '<td>'+(o.voidType?'<span class="'+(voidTypeColors[o.voidType]||'tag tag-gray')+'">'+o.voidType+'</span>':'<span class="tag tag-gray">-</span>')+'</td>'+
     '<td><span class="tag tag-gray">'+(o.voidSource||'')+'</span></td>'+
     '<td>'+(o.voidOperator||'')+'</td><td>'+(o.voidAt||'')+'</td>'+
     '<td style="white-space:nowrap;"><button class="btn btn-sm btn-primary" onclick="restoreFromVoid('+o.id+')">恢复</button> <button class="btn btn-sm btn-danger" onclick="deleteFromVoid('+o.id+')">删除</button></td></tr>';
   }).join('');
-  document.getElementById('orderVoidList').innerHTML = html || '<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:30px;">暂无作废工单</td></tr>';
+  document.getElementById('orderVoidList').innerHTML = html || '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:30px;">暂无作废工单</td></tr>';
 }
 var currentRestoreId = null;
 function restoreFromVoid(id) {
