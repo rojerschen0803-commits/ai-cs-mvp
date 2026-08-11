@@ -4221,7 +4221,7 @@ main > .modal-overlay.show { display: flex !important; }
     <!-- 批量释放弹框 -->
     <div class="modal-overlay" id="packReleaseModal">
       <div class="modal" style="width:420px;">
-        <h3>批量释放</h3>
+        <h3>重置认领</h3>
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;" id="packReleaseInfo"></div>
         <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">释放理由 <span style="color:var(--danger);">*必填</span></label><textarea id="packReleaseReason" placeholder="请输入释放理由..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hidePackReleaseModal()">取消</button><button class="btn btn-primary btn-sm btn-danger" onclick="confirmPackRelease()">确认释放</button></div>
@@ -4251,7 +4251,7 @@ main > .modal-overlay.show { display: flex !important; }
           <button class="btn btn-primary btn-sm" onclick="renderOrderPickPool();renderOrderPickStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetPickPoolFilters();renderOrderPickPool();renderOrderPickStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
         </div>
-        <div style="margin-top:4px;"><button class="btn btn-sm btn-danger pick-btn-super" onclick="batchReleasePick()">批量释放</button></div>
+        <div style="margin-top:4px;"><button class="btn btn-sm btn-danger pick-btn-super" onclick="batchReleasePick()">重置认领</button></div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllPickCheckboxes(this)" title="全选"></th><th>海鸥订单号</th><th>集包类型</th><th>活动</th><th>进展</th><th>创建人</th><th>拣货人</th><th>创建时间</th><th>认领时间</th><th>完成时间</th><th>待拣时长</th><th>操作</th></tr></thead><tbody id="orderPickPoolList"></tbody></table></div></div>
       </div>
       <div id="orderPickMinePanel" style="display:none;">
@@ -11484,7 +11484,7 @@ function batchReleasePick() {
     if (o) { o.picker = ''; o.pickedAt = ''; o.claimedBy = ''; o.claimedAt = ''; o.status = '待认领'; o.updatedAt = new Date().toISOString().slice(0,16).replace('T',' '); }
   });
   renderOrderPickPool(); renderOrderPickStats();
-  showToast('已批量释放 '+checks.length+' 个工单');
+  showToast('已重置认领 '+checks.length+' 个工单');
 }
 var currentPickExId = null;
 function markOrderPickException(id) {
