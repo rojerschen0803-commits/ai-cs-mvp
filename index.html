@@ -10083,8 +10083,10 @@ function seedGoodsRejectData() {
   // 货品审核-审核驳回演示数据 x10
   var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','铁路超大件','特快空运敏感','海运普货','铁路普货','特快空运普货'];
   var creators = ['小霞','小萌','小张','小李','小王'];
+  var packers = ['赵六','阿强','阿明','小周','老陈'];
   var demands = ['物品信息不符','缺少必要文件','客户取消','重复提交','超重超标'];
   for (var i = 0; i < 10; i++) {
+    var pkr = packers[i % 5];
     var day = 5 + i;
     var xy = 'XY202407' + String(50+i).padStart(2,'0') + String(400+i);
     orderPackages.push({
@@ -10093,12 +10095,12 @@ function seedGoodsRejectData() {
       xy: xy, type: i%3===0?'拼团':'普通', source: i<5?'客服':'门店',
       route: routes[i], creator: creators[i%5],
       tracker: i%2===0?'张三':'李四',
-      assignMode: '放入公海', assignee: '',
+      assignMode: '直接指派', assignee: pkr,
       status: '驳回', rejectSource: '待打包驳回', auditReason: demands[i%5]+'，需重新提交#'+(i+1),
       demand: demands[i%5],
       picker: i%3===0?'小萌':'小霞',
       pickedAt: '2026-07-'+String(50+i).padStart(2,'0')+' 09:00',
-      packer: '',
+      packer: pkr,
       createdAt: '2026-07-'+String(50+i).padStart(2,'0')+' 08:00',
       updatedAt: '2026-07-'+String(50+i).padStart(2,'0')+' 11:00',
       links: [], xpd: '', dueDate: '2026-07-'+String(55+i).padStart(2,'0')+'T18:00',
