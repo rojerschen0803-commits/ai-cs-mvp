@@ -10051,10 +10051,12 @@ function seedPendingPackData() {
   var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','铁路超大件','特快空运敏感','海运普货','铁路普货','特快空运普货','空运普货','铁路超大件','海运普货','铁路敏感','特快空运敏感'];
   var creators = ['小霞','小萌','小张','小李','小王','阿明','老陈'];
   var trackers = ['张三','李四','王五','赵六'];
+  var packers = ['赵六','阿强','阿明','小周','老陈'];
   var demands = ['加固包装','易碎品','加急','防潮','普通','贵重','拍照','标准','轻放','标注','拍照留存','防震包装','防水','加急处理','按清单'];
   for (var i = 0; i < 15; i++) {
     var isAudit = i >= 5;
     var status = isAudit ? '待打包-待审核' : '待打包';
+    var pkr = packers[i % 5];
     var day = 22 + i;
     var xy = 'XY202407' + String(30+i).padStart(2,'0') + String(300+i);
     orderPackages.push({
@@ -10063,11 +10065,11 @@ function seedPendingPackData() {
       xy: xy, type: i%3===0?'拼团':'普通', source: i<5?'客服':'门店',
       route: routes[i], creator: creators[i%5],
       tracker: trackers[i%4],
-      assignMode: '放入公海', assignee: '',
+      assignMode: '直接指派', assignee: pkr,
       status: status, demand: demands[i],
       picker: i%3===0?'小萌':'小霞',
       pickedAt: isAudit ? '2026-07-'+String(30+i).padStart(2,'0')+' 09:00' : '',
-      packer: '',
+      packer: pkr,
       createdAt: '2026-07-'+String(30+i).padStart(2,'0')+' 08:00',
       updatedAt: '2026-07-'+String(30+i).padStart(2,'0')+' 08:00',
       links: [], xpd: '', dueDate: '2026-07-'+String(35+i).padStart(2,'0')+'T18:00',
