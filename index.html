@@ -4349,10 +4349,11 @@ main > .modal-overlay.show { display: flex !important; }
       <div id="orderPackMinePanel" style="display:none;">
         <div class="sub-tab-bar" style="margin-bottom:12px;">
           <div class="sub-tab-item active" onclick="switchPackMineStage('pendingPack',this)">待打包</div>
-          <div class="sub-tab-item" onclick="switchPackMineStage('pendingPackAudit',this)">打包审核</div>
+          <div class="sub-tab-item" onclick="switchPackMineStage('pendingMyAudit',this)">待打包审核</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packing',this)">打包中</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('pendingDoneAudit',this)">完成审核</div>
-          <div class="sub-tab-item" onclick="switchPackMineStage('packed',this)">打包完毕</div>
+          <div class="sub-tab-item" onclick="switchPackMineStage('pendingPackAudit',this)">打包审核</div>
+          <div class="sub-tab-item" onclick="switchPackMineStage('packed',this)">审核通过</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('exception',this)">异常</div>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>海鸥订单号</th><th>类型</th><th>状态</th><th>国家</th><th>线路</th><th>打包员</th><th>分配时间</th><th>打木箱</th><th>打包要求</th><th>异常说明</th><th>海鸥状态</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="orderPackMineList"></tbody></table></div></div>
@@ -12241,6 +12242,7 @@ function renderOrderPackMine() {
   var list;
   switch (currentPackMineStage) {
     case 'pendingPack': list = orderPackages.filter(function(o){ return o.status==='待分配'||o.status==='待打包'; }); break;
+    case 'pendingMyAudit': list = orderPackages.filter(function(o){ return o.status==='打包待审核'; }); break;
     case 'pendingPackAudit': list = orderPackages.filter(function(o){ return o.status==='打包待审核'; }); break;
     case 'packing': list = orderPackages.filter(function(o){ return o.status==='打包中'; }); break;
     case 'pendingDoneAudit': list = orderPackages.filter(function(o){ return o.status==='完成待审核'; }); break;
