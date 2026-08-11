@@ -999,6 +999,31 @@ input[type="range"]::-webkit-slider-thumb {
 .fade-in { animation: fadeIn 0.25s ease-out; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+/* ---------- DRAG & DROP 审核物品 ---------- */
+.pack-audit-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.pack-audit-col { background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; max-height: 260px; display: flex; flex-direction: column; }
+.pack-audit-col.general { border-color: #A7F3D0; }
+.pack-audit-col.sensitive { border-color: #FECACA; }
+.pack-audit-col-header { padding: 6px 10px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); }
+.pack-audit-col-header.gen { background: #ECFDF5; color: #059669; }
+.pack-audit-col-header.sen { background: #FEF2F2; color: #DC2626; }
+.pack-audit-col-body { flex: 1; overflow-y: auto; padding: 4px 6px; min-height: 60px; }
+.pack-audit-col-body.drag-over { background: var(--primary-light); outline: 2px dashed var(--primary); outline-offset: -2px; border-radius: 0 0 8px 8px; }
+.pack-audit-item { display: flex; gap: 4px; align-items: center; padding: 5px 6px; margin-bottom: 2px; border-radius: 6px; border: 1px solid transparent; background: #FAFBFC; cursor: grab; transition: all 0.15s; user-select: none; }
+.pack-audit-item:hover { background: #F0F0FF; border-color: var(--border); }
+.pack-audit-item.dragging { opacity: 0.4; background: #E0E7FF; border-color: var(--primary); }
+.pack-audit-item .drag-handle { cursor: grab; color: var(--text-muted); font-size: 13px; flex-shrink: 0; padding: 0 2px; }
+.pack-audit-item .drag-handle:active { cursor: grabbing; }
+.pack-audit-item-name { flex: 2; font-size: 11px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pack-audit-item-qty { width: 30px; text-align: center; font-size: 11px; font-weight: 600; color: var(--text); }
+.pack-audit-item-acts { width: 44px; display: flex; gap: 4px; justify-content: flex-end; flex-shrink: 0; }
+.pack-audit-item-acts span { cursor: pointer; font-size: 11px; transition: all 0.15s; }
+.pack-audit-item-acts .act-edit { color: var(--primary); }
+.pack-audit-item-acts .act-edit:hover { color: var(--primary-dark); }
+.pack-audit-item-acts .act-del { color: var(--text-muted); }
+.pack-audit-item-acts .act-del:hover { color: var(--danger); }
+.pack-audit-col-footer { padding: 4px 8px; border-top: 1px solid var(--border-light); font-size: 10px; color: var(--text-muted); }
+
 /* Responsive */
 @media (max-width: 1024px) {
   .chat-layout { grid-template-columns: 200px 1fr 240px; }
@@ -10933,24 +10958,44 @@ function showOrderPkgDetail(id) {
             '<div style="width:72px;height:54px;background:#DBEAFE;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#3B82F6;">照片3</div>'+
           '</div>'+
         '</div>'+
-        // 物品清单表头
-        '<div style="display:flex;gap:4px;padding:3px 0;font-size:10px;color:var(--text-muted);border-bottom:1px solid var(--border);margin-bottom:4px;">'+
-          '<span style="flex:2;">物品名称</span><span style="width:36px;text-align:center;">数量</span><span style="width:52px;text-align:center;">属性</span><span style="width:48px;text-align:center;">操作</span>'+
-        '</div>'+
-        // 物品清单内容
-        '<div id="drawerPackItems_'+o.id+'">'+
-          (o.packItems||[{name:'棉质T恤',qty:2,cat:'普货'},{name:'书籍杂志',qty:5,cat:'普货'},{name:'充电宝',qty:2,cat:'敏货'},{name:'香水×1瓶',qty:1,cat:'敏货'}]).map(function(item,i){
-            var c = item.cat==='敏货'?'#DC2626':'#10B981';
-            return '<div style="display:flex;gap:4px;align-items:center;padding:4px 0;border-bottom:1px solid var(--border-light);">'+
-              '<span style="flex:2;font-size:11px;color:var(--text);">'+item.name+'</span>'+
-              '<span style="width:36px;text-align:center;font-size:11px;font-weight:600;">'+item.qty+'</span>'+
-              '<span style="width:52px;text-align:center;font-size:10px;font-weight:600;color:'+c+';">'+item.cat+'</span>'+
-              '<span style="width:48px;display:flex;gap:6px;justify-content:center;">'+
-                '<span style="color:var(--primary);cursor:pointer;font-size:12px;" title="修改" onclick="editPackAuditItem('+o.id+','+i+')">✎</span>'+
-                '<span style="color:var(--danger);cursor:pointer;font-size:12px;" title="删除" onclick="deletePackAuditItem('+o.id+','+i+')">✕</span>'+
-              '</span>'+
+        // 物品清单 — 左右分栏：普货 | 敏货（可互相拖拽）
+        '<div class="pack-audit-split">'+
+          // 左栏：普货
+          (function(genItems){
+            return '<div class="pack-audit-col general" ondragover="packAuditDragOver(event)" ondrop="packAuditDrop(event,'+o.id+',\'普货\')" ondragleave="packAuditDragLeave(event)">'+
+              '<div class="pack-audit-col-header gen"><span>普货</span><span style="font-size:10px;font-weight:400;">'+genItems.length+'件</span></div>'+
+              '<div class="pack-audit-col-body" id="packAuditGen_'+o.id+'">'+
+                genItems.map(function(item,i){
+                  var gIdx = (o.packItems||[]).indexOf(item);
+                  return '<div class="pack-audit-item" draggable="true" ondragstart="packAuditDragStart(event,'+o.id+','+i+',\'普货\')" ondragend="packAuditDragEnd(event)">'+
+                    '<span class="drag-handle">⋮⋮</span>'+
+                    '<span class="pack-audit-item-name" title="'+item.name+'">'+item.name+'</span>'+
+                    '<span class="pack-audit-item-qty">'+item.qty+'</span>'+
+                    '<span class="pack-audit-item-acts"><span class="act-edit" title="修改" onclick="editPackAuditItem('+o.id+','+gIdx+')">✎</span><span class="act-del" title="删除" onclick="deletePackAuditItem('+o.id+','+gIdx+')">✕</span></span>'+
+                  '</div>';
+                }).join('') || '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:12px 0;">拖拽放入普货</div>'+
+              '</div>'+
+              '<div class="pack-audit-col-footer">普货 · 常规非限制物品</div>'+
             '</div>';
-          }).join('')+
+          })((o.packItems||[{name:\'棉质T恤\',qty:2,cat:\'普货\'},{name:\'书籍杂志\',qty:5,cat:\'普货\'},{name:\'充电宝\',qty:2,cat:\'敏货\'},{name:\'香水×1瓶\',qty:1,cat:\'敏货\'}]).filter(function(it){return it.cat===\'普货\';}))+
+          // 右栏：敏货
+          (function(senItems){
+            return '<div class="pack-audit-col sensitive" ondragover="packAuditDragOver(event)" ondrop="packAuditDrop(event,'+o.id+',\'敏货\')" ondragleave="packAuditDragLeave(event)">'+
+              '<div class="pack-audit-col-header sen"><span>敏货</span><span style="font-size:10px;font-weight:400;">'+senItems.length+'件</span></div>'+
+              '<div class="pack-audit-col-body" id="packAuditSen_'+o.id+'">'+
+                senItems.map(function(item,i){
+                  var gIdx = (o.packItems||[]).indexOf(item);
+                  return '<div class="pack-audit-item" draggable="true" ondragstart="packAuditDragStart(event,'+o.id+','+i+',\'敏货\')" ondragend="packAuditDragEnd(event)">'+
+                    '<span class="drag-handle">⋮⋮</span>'+
+                    '<span class="pack-audit-item-name" title="'+item.name+'">'+item.name+'</span>'+
+                    '<span class="pack-audit-item-qty">'+item.qty+'</span>'+
+                    '<span class="pack-audit-item-acts"><span class="act-edit" title="修改" onclick="editPackAuditItem('+o.id+','+gIdx+')">✎</span><span class="act-del" title="删除" onclick="deletePackAuditItem('+o.id+','+gIdx+')">✕</span></span>'+
+                  '</div>';
+                }).join('') || '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:12px 0;">拖拽放入敏货</div>'+
+              '</div>'+
+              '<div class="pack-audit-col-footer">敏货 · 含电池/液体/粉末等限制品</div>'+
+            '</div>';
+          })((o.packItems||[{name:\'棉质T恤\',qty:2,cat:\'普货\'},{name:\'书籍杂志\',qty:5,cat:\'普货\'},{name:\'充电宝\',qty:2,cat:\'敏货\'},{name:\'香水×1瓶\',qty:1,cat:\'敏货\'}]).filter(function(it){return it.cat===\'敏货\';}))+
         '</div>'+
         // 操作按钮行
         '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">'+
@@ -11989,6 +12034,54 @@ function reRunPackAuditAi(oid) {
     { name:'香水', qty:2, cat:'敏货' }
   ];
   showOrderPkgDetail(oid); showToast('AI已重新识别，共6件');
+}
+// ========== 审核物品拖拽（普货 ↔ 敏货） ==========
+var packAuditDragData = null;
+function packAuditDragStart(e, oid, idx, fromCat) {
+  var o = orderPackages.find(function(p){ return p.id===oid; });
+  if (!o||!o.packItems) return;
+  // 从 packItems 中找到对应物品的全局索引
+  var allItems = o.packItems;
+  var globalIdx = -1;
+  var matchCount = 0;
+  for (var j = 0; j < allItems.length; j++) {
+    if (allItems[j].cat === fromCat) {
+      if (matchCount === idx) { globalIdx = j; break; }
+      matchCount++;
+    }
+  }
+  packAuditDragData = { oid: oid, idx: globalIdx, fromCat: fromCat };
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', '');
+  e.target.classList.add('dragging');
+}
+function packAuditDragEnd(e) {
+  e.target.classList.remove('dragging');
+  document.querySelectorAll('.pack-audit-col-body.drag-over').forEach(function(el){ el.classList.remove('drag-over'); });
+  packAuditDragData = null;
+}
+function packAuditDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-over');
+}
+function packAuditDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+function packAuditDrop(e, oid, toCat) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!packAuditDragData || packAuditDragData.oid !== oid) return;
+  if (packAuditDragData.fromCat === toCat) return; // 同类型不处理
+  var o = orderPackages.find(function(p){ return p.id===oid; });
+  if (!o||!o.packItems) return;
+  var item = o.packItems[packAuditDragData.idx];
+  if (!item) return;
+  var oldCat = item.cat;
+  item.cat = toCat;
+  addPackAuditLog(oid, '拖拽 '+item.name+' 从 '+(oldCat==='普货'?'🟢普货→🔴敏货':'🔴敏货→🟢普货'));
+  showOrderPkgDetail(oid);
+  showToast('已移动：'+item.name+' → '+(toCat==='普货'?'普货':'敏货'));
 }
 var currentVoidPackId = null;
 function voidOrderPack(id) {
