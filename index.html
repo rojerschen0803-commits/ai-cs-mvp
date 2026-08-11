@@ -11021,6 +11021,10 @@ function showOrderPkgDetail(id) {
         '<div style="font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px;">'+
           '<svg class="ico" style="width:15px;height:15px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'+
           'AI识别物品审核 <span style="font-size:10px;color:var(--text-muted);font-weight:400;">'+(o.packItems?o.packItems.length:0)+'件</span>'+
+          '<span style="margin-left:auto;display:flex;gap:6px;">'+
+            '<button class="btn btn-sm" onclick="reRunPackAuditAi('+o.id+')" style="font-size:10px;padding:4px 8px;">重新识别</button>'+
+            '<button class="btn btn-sm" onclick="addPackAuditItem('+o.id+')" style="font-size:10px;padding:4px 8px;">+ 新增物品</button>'+
+          '</span>'+
         '</div>'+
         '<div style="background:#F9FAFB;border-radius:8px;padding:12px 14px;border:1px solid var(--border);">'+
         // 拆包照片
@@ -11051,17 +11055,8 @@ function showOrderPkgDetail(id) {
         '</div>'+
         // 操作按钮行
         '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">'+
-          '<button class="btn btn-sm" onclick="reRunPackAuditAi('+o.id+')" style="font-size:10px;padding:4px 8px;">🔄 重新识别</button>'+
-          '<button class="btn btn-sm" onclick="addPackAuditItem('+o.id+')" style="font-size:10px;padding:4px 8px;">+ 新增物品</button>'+
-          '<button class="btn btn-sm btn-success" onclick="approvePackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">✅ 通过</button>'+
-          '<button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">❌ 驳回</button>'+
-        '</div>'+
-        // 审核日志
-        '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">'+
-          '<div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">📋 审核日志</div>'+
-          '<div id="packAuditLog_'+o.id+'" style="font-size:10px;color:var(--text-secondary);max-height:100px;overflow-y:auto;">'+
-            '<div style="padding:3px 0;color:var(--text-muted);">暂无操作记录</div>'+
-          '</div>'+
+          '<button class="btn btn-sm btn-success" onclick="approvePackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">通过</button>'+
+          '<button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">驳回</button>'+
         '</div>'+
         '</div>'+
       '</div>' : '')+
