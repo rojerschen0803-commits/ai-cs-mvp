@@ -12548,7 +12548,7 @@ function renderPackAuditList() {
     var acts = '';
     var statusHtml = '';
     if (o.status === '打包完成-待审核') {
-      statusHtml = '<span class="tag tag-purple">待审核</span>';
+      statusHtml = '<span class="tag tag-yellow">待审核</span>';
       acts = (currentRole==='super'||currentRole==='manager') ?
         '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button>' :
         '<span class="tag tag-purple">审核中</span>';
