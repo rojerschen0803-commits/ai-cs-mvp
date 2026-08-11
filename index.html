@@ -4315,10 +4315,10 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item pack-tab-admin" onclick="switchPackStage('pendingClaim',this)">待认领</div>
           <div class="sub-tab-item pack-tab-admin" onclick="switchPackStage('pendingAssign',this)">待分配</div>
           <div class="sub-tab-item" onclick="switchPackStage('pendingPack',this)">待打包</div>
-          <div class="sub-tab-item" onclick="switchPackStage('pendingPackAudit',this)">打包审核</div>
+          <div class="sub-tab-item" onclick="switchPackStage('pendingPackAudit',this)">待打包审核</div>
           <div class="sub-tab-item" onclick="switchPackStage('packing',this)">打包中</div>
-          <div class="sub-tab-item" onclick="switchPackStage('pendingDoneAudit',this)">完成审核</div>
-          <div class="sub-tab-item" onclick="switchPackStage('packed',this)">打包完毕</div>
+          <div class="sub-tab-item" onclick="switchPackStage('pendingDoneAudit',this)">打包审核</div>
+          <div class="sub-tab-item" onclick="switchPackStage('packed',this)">审核通过</div>
           <div class="sub-tab-item" onclick="switchPackStage('reject',this)">驳回</div>
           <div class="sub-tab-item" onclick="switchPackStage('exception',this)">异常</div>
           <div class="sub-tab-item" onclick="switchPackStage('void',this)">已作废</div>
@@ -4351,8 +4351,7 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item active" onclick="switchPackMineStage('pendingPack',this)">待打包</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('pendingMyAudit',this)">待打包审核</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packing',this)">打包中</div>
-          <div class="sub-tab-item" onclick="switchPackMineStage('pendingDoneAudit',this)">完成审核</div>
-          <div class="sub-tab-item" onclick="switchPackMineStage('pendingPackAudit',this)">打包审核</div>
+          <div class="sub-tab-item" onclick="switchPackMineStage('pendingDoneAudit',this)">打包审核</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packed',this)">审核通过</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('exception',this)">异常</div>
         </div>
