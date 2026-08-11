@@ -9943,7 +9943,7 @@ function seedPackAuditData() {
       route: route, creator: creators[i%6],
       tracker: i%2===0?'张三':'李四',
       assignMode: i%2===0?'直接指派':'放入公海',
-      assignee: packers[i%5], status: '打包待审核',
+      assignee: packers[i%5], status: '待打包-待审核',
       demand: demands[i],
       picker: i%3===0?'小萌':'小霞',
       pickedAt: '2026-07-'+String(20+i).padStart(2,'0')+' 09:00',
@@ -9967,7 +9967,7 @@ function seedPackAuditData() {
   }
 }
 function seedPackDoneAuditData() {
-  // 打包完成演示数据 x10（完成待审核状态，超管/主管在打包审核tab可见）
+  // 打包完成演示数据 x10（打包完成-待审核状态，超管/主管在打包审核tab可见）
   var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','铁路超大件','特快空运敏感','海运普货','铁路普货','特快空运普货'];
   var creators = ['小霞','小萌','小张','小李','小王','赵敏'];
   var packers = ['赵六','阿强','阿明','小周','老陈'];
@@ -9982,7 +9982,7 @@ function seedPackDoneAuditData() {
       route: routes[i], creator: creators[i%6],
       tracker: i%2===0?'张三':'李四',
       assignMode: i%2===0?'直接指派':'放入公海',
-      assignee: packers[i%5], status: '完成待审核',
+      assignee: packers[i%5], status: '打包完成-待审核',
       demand: demands[i],
       picker: i%3===0?'小萌':'小霞',
       pickedAt: '2026-07-'+String(10+i).padStart(2,'0')+' 09:00',
@@ -10128,7 +10128,7 @@ function seedMorePackData() {
 
 // ========== ORDER MANAGEMENT - UTILS ==========
 function orderStatusTag(s) {
-  var m = { '待开始':'<span class="tag tag-orange">待开始</span>', '待认领':'<span class="tag tag-purple">待认领</span>', '待拣货':'<span class="tag tag-blue">待拣货</span>', '拣货中':'<span class="tag tag-yellow">拣货中</span>', '拣货完成':'<span class="tag tag-green">拣货完成</span>', '待分配':'<span class="tag tag-gray">待分配</span>', '待打包':'<span class="tag tag-blue">待打包</span>', '打包待审核':'<span class="tag tag-orange">打包待审核</span>', '打包中':'<span class="tag tag-yellow">打包中</span>', '完成待审核':'<span class="tag tag-purple">完成待审核</span>', '打包完成':'<span class="tag tag-blue">打包完成</span>', '打包完毕':'<span class="tag tag-green">打包完毕</span>', '异常':'<span class="tag tag-red">异常</span>', '拣货异常':'<span class="tag tag-red">拣货异常</span>', '打包异常':'<span class="tag tag-red">打包异常</span>', '客服异常':'<span class="tag tag-red">客服异常</span>', '已付款':'<span class="tag tag-gray">已付款</span>', '待付款':'<span class="tag tag-blue">待付款</span>', '待发货':'<span class="tag tag-yellow">待发货</span>', '发货中':'<span class="tag tag-purple">发货中</span>', '已完成':'<span class="tag tag-green">已完成</span>', '驳回':'<span class="tag tag-red">驳回</span>', '通过':'<span class="tag tag-green">通过</span>', '退件':'<span class="tag tag-red">退件</span>' };
+  var m = { '待开始':'<span class="tag tag-orange">待开始</span>', '待认领':'<span class="tag tag-purple">待认领</span>', '待拣货':'<span class="tag tag-blue">待拣货</span>', '拣货中':'<span class="tag tag-yellow">拣货中</span>', '拣货完成':'<span class="tag tag-green">拣货完成</span>', '待分配':'<span class="tag tag-gray">待分配</span>', '待打包':'<span class="tag tag-blue">待打包</span>', '待打包-待审核':'<span class="tag tag-orange">待打包-待审核</span>', '打包中':'<span class="tag tag-yellow">打包中</span>', '打包完成-待审核':'<span class="tag tag-purple">打包完成-待审核</span>', '打包完成':'<span class="tag tag-blue">打包完成</span>', '打包完毕':'<span class="tag tag-green">打包完毕</span>', '异常':'<span class="tag tag-red">异常</span>', '拣货异常':'<span class="tag tag-red">拣货异常</span>', '打包异常':'<span class="tag tag-red">打包异常</span>', '客服异常':'<span class="tag tag-red">客服异常</span>', '已付款':'<span class="tag tag-gray">已付款</span>', '待付款':'<span class="tag tag-blue">待付款</span>', '待发货':'<span class="tag tag-yellow">待发货</span>', '发货中':'<span class="tag tag-purple">发货中</span>', '已完成':'<span class="tag tag-green">已完成</span>', '驳回':'<span class="tag tag-red">驳回</span>', '通过':'<span class="tag tag-green">通过</span>', '退件':'<span class="tag tag-red">退件</span>' };
   return m[s] || s;
 }
 function orderSourceTag(s) {
@@ -11062,7 +11062,7 @@ function showOrderPkgDetail(id) {
         }).join('') : (o.demand ? '<div style="font-size:12px;line-height:1.7;color:var(--text);">'+o.demand+'</div>' : '<div style="color:var(--text-muted);font-size:12px;">暂无客户要求</div>'))+
       '</div>'+
       // 打包审核区域（打包待审核时，超管/主管可见）
-      (o.status==='打包待审核'&&(currentRole==='super'||currentRole==='manager') ?
+      (o.status==='待打包-待审核'&&(currentRole==='super'||currentRole==='manager') ?
       '<div style="margin-top:12px;">'+
         '<div style="font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px;">'+
           '<svg class="ico" style="width:15px;height:15px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'+
@@ -11496,7 +11496,7 @@ function switchOrderPackTab(tab, el) {
   document.querySelectorAll('#page-orderPack .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
 }
-function getPackableStatuses() { return ['待分配','待认领','待打包','打包待审核','打包中','完成待审核','打包完毕','驳回','异常','已作废']; }
+function getPackableStatuses() { return ['待分配','待认领','待打包','待打包-待审核','打包中','打包完成-待审核','打包完毕','驳回','异常','已作废']; }
 function updatePackTabsByRole() {
   var isAdmin = currentRole==='super'||currentRole==='manager';
   var isEmp = currentRole==='employee';
@@ -11519,9 +11519,9 @@ function renderOrderPackStats() {
   var total = all.filter(function(o){ return o.status==='拣货完成'||o.status==='待分配'||o.status==='待打包'||statuses.indexOf(o.status)>=0; }).length;
   var pending = all.filter(function(o){ return o.status==='待分配'||o.status==='待打包'; }).length;
   var claiming = all.filter(function(o){ return o.status==='待认领'; }).length;
-  var packAudit = all.filter(function(o){ return o.status==='打包待审核'; }).length;
+  var packAudit = all.filter(function(o){ return o.status==='待打包-待审核'; }).length;
   var packing = all.filter(function(o){ return o.status==='打包中'; }).length;
-  var doneAudit = all.filter(function(o){ return o.status==='完成待审核'; }).length;
+  var doneAudit = all.filter(function(o){ return o.status==='打包完成-待审核'; }).length;
   var done = all.filter(function(o){ return o.status==='打包完毕'; }).length;
   var ex = all.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source==='打包异常'; }).length;
   var bg = { '全部待打包':'#F3F4F6', '待分配':'#F5F3FF', '待认领':'#FFF7ED', '打包中':'#FFFBEB', '已完成':'#ECFDF5', '已审核':'#EFF6FF', '异常':'#FEF2F2' };
@@ -11570,9 +11570,9 @@ function renderOrderPackPool() {
     case 'pendingAssign': list = list.filter(function(o){ return o.status==='待分配'; }); break;
     case 'pendingClaim': list = list.filter(function(o){ return o.status==='待认领'; }); break;
     case 'pendingPack': list = list.filter(function(o){ return o.status==='拣货完成'||o.status==='待打包'; }); break;
-    case 'pendingPackAudit': list = list.filter(function(o){ return o.status==='打包待审核'; }); break;
+    case 'pendingPackAudit': list = list.filter(function(o){ return o.status==='待打包-待审核'; }); break;
     case 'packing': list = list.filter(function(o){ return o.status==='打包中'; }); break;
-    case 'pendingDoneAudit': list = list.filter(function(o){ return o.status==='完成待审核'; }); break;
+    case 'pendingDoneAudit': list = list.filter(function(o){ return o.status==='打包完成-待审核'; }); break;
     case 'packed': list = list.filter(function(o){ return o.status==='打包完毕'; }); break;
     case 'reject': list = list.filter(function(o){ return o.status==='驳回'; }); break;
     case 'exception': list = list.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source && o.exception.source.indexOf('打包')>=0; }); break;
@@ -11608,9 +11608,9 @@ function renderOrderPackPool() {
       if (o.status==='待认领') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='待分配') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='打包待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包中') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='完成待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包完毕') acts = '<button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='驳回') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.void) acts = '<button class="btn btn-sm btn-primary" onclick="restoreOrderPack('+o.id+')">恢复</button>';
@@ -11620,9 +11620,9 @@ function renderOrderPackPool() {
       if (o.status==='待认领') acts = '<button class="btn btn-sm btn-primary" onclick="managerClaimPack('+o.id+')">认领</button>';
       else if (o.status==='待分配') acts = '<button class="btn btn-sm btn-primary" onclick="managerAssignPack('+o.id+')">分配</button>';
       else if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='打包待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button>';
+      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button>';
       else if (o.status==='打包中') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='完成待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button>';
+      else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button>';
       else if (o.status==='打包完成') acts = '';
       else if (o.status==='驳回') acts = '';
       else if (o.void) acts = '';
@@ -11634,9 +11634,9 @@ function renderOrderPackPool() {
     // Employee: 待打包→打包+完成+异常 | 打包中→完成+异常 | 打包完成→无 | 驳回→完成 | 异常→异常处理中 | 已作废→无
     else {
       if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm btn-primary" onclick="startPackMine('+o.id+')">打包</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='打包待审核') acts = '<span class="tag tag-orange">打包审核中</span>';
+      else if (o.status==='待打包-待审核') acts = '<span class="tag tag-orange">打包审核中</span>';
       else if (o.status==='打包中') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='完成待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
+      else if (o.status==='打包完成-待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
       else if (o.status==='驳回') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button>';
       else if (o.status==='打包完毕') acts = '<span class="tag tag-green">打包完毕</span>';
       else if (o.void) acts = '';
@@ -12290,9 +12290,9 @@ function renderOrderPackMine() {
   switch (currentPackMineStage) {
     case 'pendingPack': list = orderPackages.filter(function(o){ return o.status==='待分配'||o.status==='待打包'; }); break;
     case 'pendingMyAudit': list = orderPackages.filter(function(o){ return o.status==='打包中'; }); break;
-    case 'pendingPackAudit': list = orderPackages.filter(function(o){ return o.status==='打包待审核'; }); break;
+    case 'pendingPackAudit': list = orderPackages.filter(function(o){ return o.status==='待打包-待审核'; }); break;
     case 'packing': list = orderPackages.filter(function(o){ return o.status==='打包中'; }); break;
-    case 'pendingDoneAudit': list = orderPackages.filter(function(o){ return o.status==='完成待审核'; }); break;
+    case 'pendingDoneAudit': list = orderPackages.filter(function(o){ return o.status==='打包完成-待审核'; }); break;
     case 'packed': list = orderPackages.filter(function(o){ return o.status==='打包完毕'; }); break;
     case 'reject': list = orderPackages.filter(function(o){ return o.status==='驳回'; }); break;
     case 'exception': list = orderPackages.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source && o.exception.source.indexOf('打包')>=0; }); break;
@@ -12306,16 +12306,16 @@ function renderOrderPackMine() {
     var packDone = o.packDoneAt || (o.status==='打包完毕'?o.updatedAt:'');
     var packer = o.packer || o.assignee || '';
     var assignedAt = o.assignedAt || '—';
-    // 待打包审核：员工只读，状态标签覆盖为打包待审核
+    // 待打包审核：员工只读，状态标签覆盖为待打包-待审核
     var isPendingMyAudit = currentPackMineStage === 'pendingMyAudit';
-    var statusHtml = isPendingMyAudit ? '<span class="tag tag-orange">打包待审核</span>' : packStatus(o);
+    var statusHtml = isPendingMyAudit ? '<span class="tag tag-orange">待打包-待审核</span>' : packStatus(o);
     var acts = '';
     if (isPendingMyAudit) {
       acts = '<span style="font-size:11px;color:var(--text-muted);">--</span>';
     } else if (o.status==='待分配'||o.status==='待打包') acts = '<button class="btn btn-sm" onclick="startPackMine('+o.id+')">开始打包</button>';
-    else if (o.status==='打包待审核') acts = '<span class="tag tag-orange">打包审核中</span>';
+    else if (o.status==='待打包-待审核') acts = '<span class="tag tag-orange">打包审核中</span>';
     else if (o.status==='打包中') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-    else if (o.status==='完成待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
+    else if (o.status==='打包完成-待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
     else if (o.status==='驳回') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">'+(o.rejectSource==='待打包驳回'?'重新打包':'重新完成')+'</button>';
     else if (o.status==='打包完毕') acts = '<span class="tag tag-green">已完成</span>';
     else acts = '<button class="btn btn-sm" onclick="startPackMine('+o.id+')">开始打包</button>';
@@ -12403,7 +12403,7 @@ function submitPackStart() {
   if (files.length === 0) { alert('请上传拆包图片'); return; }
   var o = orderPackages.find(function(p){ return p.id===currentPackStartId; });
   if (!o) return;
-  o.status = '打包待审核';
+  o.status = '待打包-待审核';
   o.packStartReason = document.getElementById('packStartInfo').textContent || '';
   o.packStartPhotos = files.length;
   o.packItems = packStartItems.slice();
@@ -12443,7 +12443,7 @@ function confirmOrderPack() {
   if (!files || files.length===0) { alert('请至少上传一张完成照片'); return; }
   var o = orderPackages.find(function(p){ return p.id===currentPackTask; });
   if (!o) return;
-  o.status = '完成待审核';
+  o.status = '打包完成-待审核';
   o.packDoneAt = new Date().toISOString().slice(0,16).replace('T',' ');
   o.packCompleteReason = reason;
   o.packCompletePhotos = files.length;
