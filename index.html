@@ -4087,7 +4087,6 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="sub-tab-item" onclick="switchPkgTab('pendingShip',this)">待发货</div>
         <div class="sub-tab-item" onclick="switchPkgTab('shipping',this)">发货中</div>
         <div class="sub-tab-item" onclick="switchPkgTab('done',this)">已完成</div>
-        <div class="sub-tab-item" onclick="switchPkgTab('exception',this)">异常</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 0;">
@@ -11567,7 +11566,7 @@ function switchOrderPackTab(tab, el) {
   document.querySelectorAll('#page-orderPack .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
 }
-function getPackableStatuses() { return ['待分配','待认领','待打包','待打包-待审核','打包中','打包完成-待审核','打包完毕','驳回','异常','已作废']; }
+function getPackableStatuses() { return ['待分配','待认领','待打包','待打包-待审核','打包中','打包完成-待审核','打包完毕','驳回','已作废']; }
 function updatePackTabsByRole() {
   var isAdmin = currentRole==='super'||currentRole==='manager';
   var isEmp = currentRole==='employee';
