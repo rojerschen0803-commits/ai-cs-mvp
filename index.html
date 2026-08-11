@@ -1969,7 +1969,7 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
       <div class="annotation" style="position:relative;margin:0 0 12px 0;font-size:11px;padding:6px 10px;background:#FFF7ED;border-left:3px solid #EA580C;border-radius:4px;"><span class="note-type logic">状态说明</span> 超管/主管：进行中=待处理+跟进中，已结束=已完成+已关闭。员工：按待处理/我创建/我指派/已完成/已关闭分类。点击切换后列表和筛选条件保留。</div>
 
-      <div class="ticket-filter-bar">
+      <div class="ticket-filter-bar filter-section">
         <select id="ticketFilterType"><option value="">工单类型</option><option>售前报价</option><option>售中跟进</option><option>售后客诉</option><option>物流查询</option></select>
         <select id="ticketFilterStatus"><option value="">进展状态</option><option>待处理</option><option>跟进中</option><option>已完成</option><option>已关闭</option></select>
         <select id="ticketFilterPriority"><option value="">优先级</option><option>严重</option><option>紧急</option><option>普通</option></select>
@@ -2328,7 +2328,7 @@ main > .modal-overlay.show { display: flex !important; }
         客户管理系统（CRM）：客户ID规则 AG+6位数字、工单ID规则 创建日期-客户ID-海鸥ID。<br>
         <strong>核心功能</strong>：客户画像沉淀、标签管理、关联工单、AI客户分析。
       </div>
-      <div class="ticket-filter-bar">
+      <div class="ticket-filter-bar filter-section">
             <select id="crmFilterGroup"><option value="">客户组</option></select>
             <input type="date" id="crmFilterDateFrom" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;width:130px;" title="创建时间从">
             <input type="date" id="crmFilterDateTo" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;width:130px;" title="创建时间至">
@@ -2423,7 +2423,7 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
       <div style="display:flex;gap:16px;">
         <div style="flex:1;">
-          <div class="ticket-filter-bar">
+          <div class="ticket-filter-bar filter-section">
             <button class="btn btn-primary btn-sm" onclick="showTagCreateModal()">+ 新建标签</button>
             <input type="text" placeholder="搜索标签..." style="width:200px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;" id="tagSearchInput" onkeydown="if(event.key==='Enter')renderTagList()">
             <button class="btn btn-primary btn-sm" onclick="renderTagList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
@@ -2457,7 +2457,7 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
       <div style="display:flex;gap:16px;">
         <div style="flex:1;">
-          <div class="ticket-filter-bar">
+          <div class="ticket-filter-bar filter-section">
             <button class="btn btn-primary btn-sm" onclick="showGroupModal()">+ 新建组别</button>
             <input type="text" placeholder="搜索组别..." style="width:200px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;" id="groupSearch" onkeydown="if(event.key==='Enter')renderGroupList()">
             <button class="btn btn-primary btn-sm" onclick="renderGroupList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
@@ -2498,7 +2498,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="sub-tab-item" onclick="switchAiTicketTab('pending',this)">待挑入</div>
         <div class="sub-tab-item" onclick="switchAiTicketTab('picked',this)">已挑入</div>
       </div>
-      <div class="ticket-filter-bar">
+      <div class="ticket-filter-bar filter-section">
         <input type="text" placeholder="搜索AI工单..." style="width:200px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;" id="aiTicketSearch" onkeydown="if(event.key==='Enter')filterAiTickets()">
         <button class="btn btn-primary btn-sm" onclick="filterAiTickets()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
         <button class="btn btn-sm" onclick="resetAiTicketFilters();filterAiTickets()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
@@ -2514,7 +2514,7 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="page fade-in" id="page-ticketType">
       <div style="margin-bottom:16px;font-size:15px;font-weight:600;">工单类型配置</div>
       <div style="margin-bottom:12px;font-size:12px;color:var(--text-muted);">每个部门可配置独立的工单类型体系</div>
-      <div class="ticket-filter-bar">
+      <div class="ticket-filter-bar filter-section">
         <select id="ttDept"><option>市场-门店团队</option><option>市场-销售团队</option><option>运营团队</option></select>
         <input type="text" placeholder="搜索工单类型..." style="width:200px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;" id="ttSearch" onkeydown="if(event.key==='Enter')renderTicketType()">
         <button class="btn btn-primary btn-sm" onclick="renderTicketType()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
