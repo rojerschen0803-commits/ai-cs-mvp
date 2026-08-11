@@ -10208,7 +10208,7 @@ function packStatus(o) {
   if (s === '拣货完成') s = '待打包';
   // 审核驳回区分：待打包驳回 / 打包完成驳回
   if (s === '驳回') {
-    return '<span class="tag tag-red">'+(o.rejectSource||'驳回').replace('打包完成驳回','打包完成-驳回')+'</span>';
+    return '<span class="tag tag-red">打包完成-驳回</span>';
   }
   return orderStatusTag(s);
 }
