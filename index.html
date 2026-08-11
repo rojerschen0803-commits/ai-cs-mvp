@@ -4322,7 +4322,7 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item pack-tab-admin" onclick="switchPackStage('pendingAssign',this)">待分配</div>
           <div class="sub-tab-item" onclick="switchPackStage('pendingPack',this)">待打包</div>
           <div class="sub-tab-item" onclick="switchPackStage('packing',this)">打包中</div>
-          <div class="sub-tab-item" onclick="switchPackStage('packed',this)">审核通过</div>
+          <div class="sub-tab-item" onclick="switchPackStage('packed',this)">打包完成</div>
           <div class="sub-tab-item" onclick="switchPackStage('reject',this)">审核驳回</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
@@ -4352,7 +4352,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="sub-tab-bar" style="margin-bottom:12px;">
           <div class="sub-tab-item active" onclick="switchPackMineStage('pendingPack',this)">待打包</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packing',this)">打包中</div>
-          <div class="sub-tab-item" onclick="switchPackMineStage('packed',this)">审核通过</div>
+          <div class="sub-tab-item" onclick="switchPackMineStage('packed',this)">打包完成</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('reject',this)">审核驳回</div>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>海鸥订单号</th><th>类型</th><th>状态</th><th>国家</th><th>线路</th><th>打包员</th><th>分配时间</th><th>打木箱</th><th>打包要求</th><th>异常说明</th><th>海鸥状态</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="orderPackMineList"></tbody></table></div></div>
