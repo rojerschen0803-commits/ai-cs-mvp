@@ -1816,6 +1816,9 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="nav-item" data-page="orderPack" onclick="showPage('orderPack')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> <span class="nav-text">打包</span>
     </div>
+    <div class="nav-item" data-page="orderGoodsAudit" onclick="showPage('orderGoodsAudit')">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> <span class="nav-text">货品审核</span>
+    </div>
     <div class="nav-item" data-page="orderVerify" onclick="showPage('orderVerify')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> <span class="nav-text">核款</span><span class="nav-badge" id="navBadgeVerify"></span>
     </div>
@@ -4315,7 +4318,6 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item pack-tab-admin" onclick="switchPackStage('pendingClaim',this)">待认领</div>
           <div class="sub-tab-item pack-tab-admin" onclick="switchPackStage('pendingAssign',this)">待分配</div>
           <div class="sub-tab-item" onclick="switchPackStage('pendingPack',this)">待打包</div>
-          <div class="sub-tab-item" onclick="switchPackStage('pendingPackAudit',this)">待打包审核</div>
           <div class="sub-tab-item" onclick="switchPackStage('packing',this)">打包中</div>
           <div class="sub-tab-item" onclick="switchPackStage('pendingDoneAudit',this)">打包审核</div>
           <div class="sub-tab-item" onclick="switchPackStage('packed',this)">审核通过</div>
@@ -4347,7 +4349,6 @@ main > .modal-overlay.show { display: flex !important; }
       <div id="orderPackMinePanel" style="display:none;">
         <div class="sub-tab-bar" style="margin-bottom:12px;">
           <div class="sub-tab-item active" onclick="switchPackMineStage('pendingPack',this)">待打包</div>
-          <div class="sub-tab-item" onclick="switchPackMineStage('pendingMyAudit',this)">待打包审核</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packing',this)">打包中</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('pendingDoneAudit',this)">打包审核</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packed',this)">审核通过</div>
@@ -4566,6 +4567,17 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">指派理由 <span style="color:var(--danger);">*</span></label><textarea id="batchAssignReason" placeholder="请输入指派理由" style="width:100%;height:60px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hideBatchAssign()">取消</button><button class="btn btn-primary btn-sm" onclick="doBatchAssign()">确认指派</button></div>
       </div>
+    </div>
+
+<!-- ====== ORDER: 货品审核 ====== -->
+    <div class="page fade-in" id="page-orderGoodsAudit">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;background:#F0FDF4;border:1px solid #A7F3D0;border-radius:8px;padding:10px 14px;">
+        货品审核列表：展示待打包审核的工单，超管/主管可进行AI识别物品审核。
+      </div>
+      <div class="sub-tab-bar" style="margin-bottom:12px;">
+        <div class="sub-tab-item active" onclick="switchGoodsAuditStage('pendingPackAudit',this)">待打包审核</div>
+      </div>
+      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包号</th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>线路</th><th>打包员</th><th>分配时间</th><th>打木箱</th><th>打包要求</th><th>海鸥状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="goodsAuditList"></tbody></table></div></div>
     </div>
 
 <!-- ====== ORDER: 异常处理 ====== -->
@@ -5452,6 +5464,7 @@ function showPage(pageId) {
     updatePackTabsByRole();
     renderOrderPackStats(); renderOrderPackPool(); renderOrderPackMine();
   }
+  if (pageId === 'orderGoodsAudit') { renderGoodsAuditList(); }
   if (pageId === 'orderException') { renderOrderExStats(); renderOrderExList(); }
   if (pageId === 'orderVerify') { renderOrderVerifyStats(); renderVerifyAll(); }
   if (pageId === 'orderReturn') { renderOrderReturnStats(); renderOrderReturnList(); }
@@ -12319,6 +12332,33 @@ function renderOrderPackMine() {
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+showXy+'</td><td>'+(o.type||'')+'</td><td>'+statusHtml+'</td><td>'+country+'</td><td>'+(o.route||'')+'</td><td>'+packer+'</td><td>'+assignedAt+'</td><td>'+woodenBox+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'+(o.exception?'color:#DC2626;font-weight:500;':'')+'">'+exNote+'</td><td>'+haioStatus+'</td><td>'+packDone+'</td><td nowrap>'+acts+'</td></tr>';
   }).join('');
   document.getElementById('orderPackMineList').innerHTML = html || '<tr><td colspan="13" style="text-align:center;color:var(--text-muted);padding:30px;">暂无打包任务</td></tr>';
+}
+// ========== 货品审核 ==========
+var currentGoodsAuditStage = 'pendingPackAudit';
+function switchGoodsAuditStage(stage, el) {
+  currentGoodsAuditStage = stage;
+  document.querySelectorAll('#page-orderGoodsAudit .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  renderGoodsAuditList();
+}
+function renderGoodsAuditList() {
+  // 员工不能查看货品审核
+  if (currentRole === 'employee') {
+    document.getElementById('goodsAuditList').innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">仅超管/主管可操作货品审核</td></tr>';
+    return;
+  }
+  var list = orderPackages.filter(function(o){ return o.status === '待打包-待审核'; });
+  var html = list.map(function(o){
+    var showXy = orderDisplayXy(o);
+    var woodenBox = o.woodenBox !== undefined ? o.woodenBox : (o.type==='拼团' ? '是' : '否');
+    return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
+    '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
+    '<td>'+(o.packer||o.assignee||'')+'</td><td>'+(o.assignedAt||'—')+'</td><td>'+woodenBox+'</td>'+
+    '<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td>'+
+    '<td>'+(o.haioStatus||'')+'</td><td>'+(o.createdAt||'')+'</td>'+
+    '<td style="white-space:nowrap;"><button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button></td></tr>';
+  }).join('');
+  document.getElementById('goodsAuditList').innerHTML = html || '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">暂无待审核工单</td></tr>';
 }
 function startPackMine(id) {
   currentPackStartId = id;
