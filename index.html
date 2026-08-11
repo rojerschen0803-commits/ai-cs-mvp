@@ -328,7 +328,7 @@ body {
 .data-table th {
   text-align: left;
   padding: 7px 12px;
-  background: #F8F9FC;
+  background: #fff;
   color: var(--text-secondary);
   font-weight: 500;
   font-size: 11px;
@@ -4098,6 +4098,10 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="sub-tab-item" onclick="switchPkgTab('shipping',this)">发货中</div>
         <div class="sub-tab-item" onclick="switchPkgTab('done',this)">已完成</div>
       </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <button class="btn btn-primary btn-sm" onclick="showOrderPkgCreate()">+ 新建集包</button>
+        <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
+      </div>
       <div class="filter-section" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 0;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">进展状态</span><select id="orderPkgFilterStatus" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>待开始</option><option>待认领</option><option>拣货中</option><option>拣货完成</option><option>待打包</option><option>打包中</option><option>打包完成</option><option>打包完毕</option><option>异常</option><option>已付款</option></select></div>
@@ -4112,10 +4116,6 @@ main > .modal-overlay.show { display: flex !important; }
           </div>
           <button class="btn btn-primary btn-sm" onclick="renderOrderPkgList();renderOrderPkgStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="clearPkgFilters();renderOrderPkgList();renderOrderPkgStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
-          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <button class="btn btn-primary btn-sm" onclick="showOrderPkgCreate()">+ 新建集包</button>
         </div>
       </div>
       <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>海鸥订单号</th><th>类型</th><th>活动</th><th>集包号</th><th>海鸥ID</th><th>线路</th><th>进展</th><th>创建人</th><th>客户要求</th><th>创建时间</th><th>截止时间</th><th>操作</th></tr></thead><tbody id="orderPkgList"></tbody></table></div></div>
@@ -4249,6 +4249,10 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item" onclick="switchPickStage('picking',this)">拣货中</div>
           <div class="sub-tab-item" onclick="switchPickStage('picked',this)">拣货完成</div>
         </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <button class="btn btn-sm pick-btn-super" style="background:#fff;color:#333;border:1px solid #333;" onclick="batchReleasePick()">重置认领</button>
+          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
+        </div>
         <div class="filter-section" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 0;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">进展状态</span><select id="orderPickFilterStatus" onchange="renderOrderPickPool()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>待认领</option><option>拣货中</option><option>拣货完成</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">集包类型</span><select id="orderPickFilterType" onchange="renderOrderPickPool()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>拼团</option></select></div>
@@ -4260,9 +4264,7 @@ main > .modal-overlay.show { display: flex !important; }
           </div>
           <button class="btn btn-primary btn-sm" onclick="renderOrderPickPool();renderOrderPickStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetPickPoolFilters();renderOrderPickPool();renderOrderPickStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
-          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
         </div>
-        <div style="margin-top:4px;"><button class="btn btn-sm pick-btn-super" style="background:#fff;color:#333;border:1px solid #333;" onclick="batchReleasePick()">重置认领</button></div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllPickCheckboxes(this)" title="全选"></th><th>海鸥订单号</th><th>集包类型</th><th>活动</th><th>进展</th><th>创建人</th><th>拣货人</th><th>创建时间</th><th>认领时间</th><th>完成时间</th><th>待拣时长</th><th>操作</th></tr></thead><tbody id="orderPickPoolList"></tbody></table></div></div>
       </div>
       <div id="orderPickMinePanel" style="display:none;">
@@ -4334,6 +4336,12 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item" onclick="switchPackStage('packing',this)">打包中</div>
           <div class="sub-tab-item" onclick="switchPackStage('packed',this)">打包完成</div>
         </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <button class="btn btn-sm pack-btn-manager" onclick="batchAssignPack()">批量分配</button>
+          <button class="btn btn-sm pack-btn-manager" onclick="batchClaimPack()">批量认领</button>
+          <button class="btn btn-sm pack-btn-super" onclick="batchReleasePack()">重置认领</button>
+          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
+        </div>
         <div class="filter-section" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:10px 0;">
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">线路</span><select id="orderPackFilterRoute" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
@@ -4348,12 +4356,6 @@ main > .modal-overlay.show { display: flex !important; }
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">完成时间</span><input type="date" id="orderPackFilterDoneFrom" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><span style="font-size:11px;color:var(--text-muted);margin:0 4px;">至</span><input type="date" id="orderPackFilterDoneTo" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
             <button class="btn btn-primary btn-sm" onclick="renderOrderPackPool();renderOrderPackStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
             <button class="btn btn-sm" onclick="clearPackFilters();renderOrderPackPool();renderOrderPackStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
-            <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <button class="btn btn-sm pack-btn-manager" onclick="batchAssignPack()">批量分配</button>
-            <button class="btn btn-sm pack-btn-manager" onclick="batchClaimPack()">批量认领</button>
-            <button class="btn btn-sm pack-btn-super" onclick="batchReleasePack()">重置认领</button>
           </div>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table" style="min-width:1600px;"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllPackCheckboxes(this)" title="全选"></th><th>海鸥订单号</th><th>类型</th><th>活动</th><th>海鸥ID</th><th>状态</th><th>国家</th><th>线路</th><th>分包负责人</th><th>打包员</th><th>分配时间</th><th>打木箱</th><th>打包要求</th><th>异常说明</th><th>海鸥状态</th><th>创建时间</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="orderPackPoolList"></tbody></table></div></div>
@@ -4662,6 +4664,12 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包编号</th><th>海鸥订单号</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>门店</th><th>状态</th><th>更新时间</th></tr></thead><tbody id="verifyAllList"></tbody></table></div></div>
       </div>
       <div id="verifyPendingPanel" style="display:none;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <button class="btn btn-sm btn-primary" onclick="batchAssignVerify()">批量分配</button>
+          <button class="btn btn-sm btn-gray" onclick="resetVerifyAssign()">重置分配</button>
+          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="verifyAssignCount"></span>
+        </div>
         <div class="filter-section" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
             <select id="verifyPendingFilterRoute" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部线路</option><option>海运普货</option><option>海运超大件</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件</option><option>特快空运普货</option><option>特快空运敏感</option></select>
@@ -4671,12 +4679,6 @@ main > .modal-overlay.show { display: flex !important; }
             </div>
             <button class="btn btn-primary btn-sm" onclick="renderVerifyPending();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
             <button class="btn btn-sm" onclick="resetVerifyPendingFilters();renderVerifyPending();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
-            <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <button class="btn btn-sm btn-primary" onclick="batchAssignVerify()">批量分配</button>
-            <button class="btn btn-sm btn-gray" onclick="resetVerifyAssign()">重置分配</button>
-            <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="verifyAssignCount"></span>
           </div>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyCheckboxes(this)" title="全选"></th><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>线路</th><th>箱数</th><th>国家</th><th>海鸥ID</th><th>集包人</th><th>拣货人</th><th>打包人</th><th>门店</th><th>打包完成时间</th><th>状态</th><th>操作</th></tr></thead><tbody id="verifyPendingList"></tbody></table></div></div>
@@ -4823,6 +4825,10 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="sub-tab-item" onclick="switchReturnStage('processing',this)">处理中</div>
         <div class="sub-tab-item" onclick="switchReturnStage('done',this)">已完成</div>
       </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <button class="btn btn-primary btn-sm" onclick="showOrderReturnCreate()">+ 新增退件</button>
+        <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
+      </div>
       <div class="filter-section" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 0;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">退件类型</span><select id="orderReturnFilterType" onchange="renderOrderReturnList();renderOrderReturnStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>快递单号退件</option><option>XY号整箱退件</option></select></div>
@@ -4832,10 +4838,6 @@ main > .modal-overlay.show { display: flex !important; }
           </div>
           <button class="btn btn-primary btn-sm" onclick="renderOrderReturnList();renderOrderReturnStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetReturnFilters();renderOrderReturnList();renderOrderReturnStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
-          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <button class="btn btn-primary btn-sm" onclick="showOrderReturnCreate()">+ 新增退件</button>
         </div>
       </div>
       <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>退件编号</th><th>退件类型</th><th>快递单号/XY号</th><th>海鸥ID</th><th>退件原因</th><th>备注</th><th>退件时间</th><th>状态</th><th>操作</th></tr></thead><tbody id="orderReturnList"></tbody></table></div></div>
