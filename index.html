@@ -4322,7 +4322,6 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item pack-tab-admin" onclick="switchPackStage('pendingAssign',this)">待分配</div>
           <div class="sub-tab-item" onclick="switchPackStage('pendingPack',this)">待打包</div>
           <div class="sub-tab-item" onclick="switchPackStage('packing',this)">打包中</div>
-          <div class="sub-tab-item" onclick="switchPackStage('pendingDoneAudit',this)">打包审核</div>
           <div class="sub-tab-item" onclick="switchPackStage('packed',this)">审核通过</div>
           <div class="sub-tab-item" onclick="switchPackStage('reject',this)">审核驳回</div>
         </div>
@@ -4353,7 +4352,6 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="sub-tab-bar" style="margin-bottom:12px;">
           <div class="sub-tab-item active" onclick="switchPackMineStage('pendingPack',this)">待打包</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packing',this)">打包中</div>
-          <div class="sub-tab-item" onclick="switchPackMineStage('pendingDoneAudit',this)">打包审核</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packed',this)">审核通过</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('reject',this)">审核驳回</div>
         </div>
@@ -11627,8 +11625,7 @@ function renderOrderPackPool() {
     case 'pendingClaim': list = list.filter(function(o){ return o.status==='待认领'; }); break;
     case 'pendingPack': list = list.filter(function(o){ return o.status==='拣货完成'||o.status==='待打包'; }); break;
     case 'pendingPackAudit': list = list.filter(function(o){ return o.status==='待打包-待审核'; }); break;
-    case 'packing': list = list.filter(function(o){ return o.status==='打包中'; }); break;
-    case 'pendingDoneAudit': list = list.filter(function(o){ return o.status==='打包完成-待审核'; }); break;
+    case 'packing': list = list.filter(function(o){ return o.status==='打包中' || o.status==='打包完成-待审核'; }); break;
     case 'packed': list = list.filter(function(o){ return o.status==='打包完毕'; }); break;
     case 'reject': list = list.filter(function(o){ return o.status==='驳回'; }); break;
     case 'exception': list = list.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source && o.exception.source.indexOf('打包')>=0; }); break;
@@ -12347,8 +12344,7 @@ function renderOrderPackMine() {
     case 'pendingPack': list = orderPackages.filter(function(o){ return o.status==='待分配'||o.status==='待打包'; }); break;
     case 'pendingMyAudit': list = orderPackages.filter(function(o){ return o.status==='打包中'; }); break;
     case 'pendingPackAudit': list = orderPackages.filter(function(o){ return o.status==='待打包-待审核'; }); break;
-    case 'packing': list = orderPackages.filter(function(o){ return o.status==='打包中'; }); break;
-    case 'pendingDoneAudit': list = orderPackages.filter(function(o){ return o.status==='打包完成-待审核'; }); break;
+    case 'packing': list = orderPackages.filter(function(o){ return o.status==='打包中' || o.status==='打包完成-待审核'; }); break;
     case 'packed': list = orderPackages.filter(function(o){ return o.status==='打包完毕'; }); break;
     case 'reject': list = orderPackages.filter(function(o){ return o.status==='驳回'; }); break;
     case 'exception': list = orderPackages.filter(function(o){ return o.status==='异常'&&o.exception&&o.exception.source && o.exception.source.indexOf('打包')>=0; }); break;
