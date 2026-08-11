@@ -4254,6 +4254,7 @@ main > .modal-overlay.show { display: flex !important; }
           </div>
           <button class="btn btn-primary btn-sm" onclick="renderOrderPickPool();renderOrderPickStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetPickPoolFilters();renderOrderPickPool();renderOrderPickStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
+          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
         </div>
         <div style="margin-top:4px;"><button class="btn btn-sm pick-btn-super" style="background:#fff;color:#333;border:1px solid #333;" onclick="batchReleasePick()">重置认领</button></div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllPickCheckboxes(this)" title="全选"></th><th>海鸥订单号</th><th>集包类型</th><th>活动</th><th>进展</th><th>创建人</th><th>拣货人</th><th>创建时间</th><th>认领时间</th><th>完成时间</th><th>待拣时长</th><th>操作</th></tr></thead><tbody id="orderPickPoolList"></tbody></table></div></div>
@@ -4341,6 +4342,7 @@ main > .modal-overlay.show { display: flex !important; }
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">完成时间</span><input type="date" id="orderPackFilterDoneFrom" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><span style="font-size:11px;color:var(--text-muted);margin:0 4px;">至</span><input type="date" id="orderPackFilterDoneTo" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
             <button class="btn btn-primary btn-sm" onclick="renderOrderPackPool();renderOrderPackStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
             <button class="btn btn-sm" onclick="clearPackFilters();renderOrderPackPool();renderOrderPackStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
+            <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
           </div>
           <div style="display:flex;align-items:center;gap:10px;">
             <button class="btn btn-sm pack-btn-manager" onclick="batchAssignPack()">批量分配</button>
@@ -4686,6 +4688,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
           <button class="btn btn-sm btn-primary" onclick="batchAssignVerify()">批量分配</button>
           <button class="btn btn-sm btn-gray" onclick="resetVerifyAssign()">重置分配</button>
+          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
           <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="verifyAssignCount"></span>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyPaidCheckboxes(this)" title="全选"></th><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>门店</th><th>付款确认时间</th><th>状态</th><th>操作</th></tr></thead><tbody id="verifyPaidList"></tbody></table></div></div>
@@ -4702,6 +4705,7 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
           <button class="btn btn-sm btn-gray" onclick="resetVerifyShippingAssign()">重置分配</button>
+          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
           <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="verifyShippingAssignCount"></span>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyShippingCheckboxes(this)" title="全选"></th><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>发货时间</th><th>状态</th><th>操作</th></tr></thead><tbody id="verifyShippingList"></tbody></table></div></div>
@@ -4718,6 +4722,7 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
           <button class="btn btn-sm btn-gray" onclick="resetVerifyDoneAssign()">重置分配</button>
+          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
           <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="verifyDoneAssignCount"></span>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyDoneCheckboxes(this)" title="全选"></th><th>集包编号</th><th>海鸥订单号</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>门店</th><th>完成时间</th><th>状态</th></tr></thead><tbody id="verifyDoneList"></tbody></table></div></div>
@@ -4821,6 +4826,7 @@ main > .modal-overlay.show { display: flex !important; }
           </div>
           <button class="btn btn-primary btn-sm" onclick="renderOrderReturnList();renderOrderReturnStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetReturnFilters();renderOrderReturnList();renderOrderReturnStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
+          <button class="btn btn-sm" onclick="showToast('导出成功！')" style="border:1px solid var(--border);">📥 导出</button>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <button class="btn btn-primary btn-sm" onclick="showOrderReturnCreate()">+ 新增退件</button>
