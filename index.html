@@ -12475,11 +12475,9 @@ function renderPackAuditList() {
         '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button>' :
         '<span class="tag tag-purple">审核中</span>';
     } else if (o.status === '打包完毕') {
-      acts = '<span class="tag tag-green">已通过</span>';
+      acts = '<span class="tag tag-green">审核通过</span>';
     } else if (o.status === '驳回') {
-      acts = (currentRole==='employee') ?
-        '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">'+(o.rejectSource==='待打包驳回'?'重新打包':'重新完成')+'</button>' :
-        '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      acts = '<span class="tag tag-red">审核驳回</span>';
     }
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
     '<td>'+showXy+'</td><td>'+(o.type==='普通'?'常规':o.type)+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'')+'</td>'+
