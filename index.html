@@ -12242,7 +12242,7 @@ function renderOrderPackMine() {
   var list;
   switch (currentPackMineStage) {
     case 'pendingPack': list = orderPackages.filter(function(o){ return o.status==='待分配'||o.status==='待打包'; }); break;
-    case 'pendingMyAudit': list = orderPackages.filter(function(o){ return o.status==='打包待审核'; }); break;
+    case 'pendingMyAudit': list = orderPackages.filter(function(o){ return o.status==='打包中'; }); break;
     case 'pendingPackAudit': list = orderPackages.filter(function(o){ return o.status==='打包待审核'; }); break;
     case 'packing': list = orderPackages.filter(function(o){ return o.status==='打包中'; }); break;
     case 'pendingDoneAudit': list = orderPackages.filter(function(o){ return o.status==='完成待审核'; }); break;
@@ -12259,15 +12259,20 @@ function renderOrderPackMine() {
     var packDone = o.packDoneAt || (o.status==='打包完毕'?o.updatedAt:'');
     var packer = o.packer || o.assignee || '';
     var assignedAt = o.assignedAt || '—';
+    // 待打包审核：员工只读，状态标签覆盖为打包待审核
+    var isPendingMyAudit = currentPackMineStage === 'pendingMyAudit';
+    var statusHtml = isPendingMyAudit ? '<span class="tag tag-orange">打包待审核</span>' : packStatus(o);
     var acts = '';
-    if (o.status==='待分配'||o.status==='待打包') acts = '<button class="btn btn-sm" onclick="startPackMine('+o.id+')">开始打包</button>';
+    if (isPendingMyAudit) {
+      acts = '<span style="font-size:11px;color:var(--text-muted);">--</span>';
+    } else if (o.status==='待分配'||o.status==='待打包') acts = '<button class="btn btn-sm" onclick="startPackMine('+o.id+')">开始打包</button>';
     else if (o.status==='打包待审核') acts = '<span class="tag tag-orange">打包审核中</span>';
     else if (o.status==='打包中') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
     else if (o.status==='完成待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
     else if (o.status==='驳回') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">重新完成</button>';
     else if (o.status==='打包完毕') acts = '<span class="tag tag-green">已完成</span>';
     else acts = '<button class="btn btn-sm" onclick="startPackMine('+o.id+')">开始打包</button>';
-    return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+showXy+'</td><td>'+(o.type||'')+'</td><td>'+packStatus(o)+'</td><td>'+country+'</td><td>'+(o.route||'')+'</td><td>'+packer+'</td><td>'+assignedAt+'</td><td>'+woodenBox+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'+(o.exception?'color:#DC2626;font-weight:500;':'')+'">'+exNote+'</td><td>'+haioStatus+'</td><td>'+packDone+'</td><td nowrap>'+acts+'</td></tr>';
+    return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+showXy+'</td><td>'+(o.type||'')+'</td><td>'+statusHtml+'</td><td>'+country+'</td><td>'+(o.route||'')+'</td><td>'+packer+'</td><td>'+assignedAt+'</td><td>'+woodenBox+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'+(o.exception?'color:#DC2626;font-weight:500;':'')+'">'+exNote+'</td><td>'+haioStatus+'</td><td>'+packDone+'</td><td nowrap>'+acts+'</td></tr>';
   }).join('');
   document.getElementById('orderPackMineList').innerHTML = html || '<tr><td colspan="13" style="text-align:center;color:var(--text-muted);padding:30px;">暂无打包任务</td></tr>';
 }
