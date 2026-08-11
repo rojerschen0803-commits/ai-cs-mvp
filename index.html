@@ -8266,6 +8266,13 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// Close pkg-more menus on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.pkg-more-menu')) {
+    document.querySelectorAll('.pkg-more-menu [id^="pkgMore"]').forEach(function(m){ m.style.display = 'none'; });
+  }
+});
+
 // ========== TAKEOVER / END SESSION ==========
 let sessionIsHuman = false;
 let currentChatName = '陈先生';
@@ -10640,28 +10647,36 @@ function renderOrderPkgList() {
   document.getElementById('orderPkgList').innerHTML = html || '<tr><td colspan="13" style="text-align:center;color:var(--text-muted);padding:30px;">暂无集包数据</td></tr>';
 }
 function orderPkgActions(o) {
-  var acts = '';
+  var btns = [];
   // 催办/取消催办
-  acts += '<button class="btn btn-sm'+(o.urgent?'':' btn-danger')+'" onclick="toggleUrgentOrder('+o.id+')">'+(o.urgent?'取消催办':'催办')+'</button> ';
+  btns.push('<button class="btn btn-sm'+(o.urgent?'':' btn-danger')+'" onclick="toggleUrgentOrder('+o.id+')">'+(o.urgent?'取消催办':'催办')+'</button>');
   // 派单：待开始→二次确认后转待认领进入公海（第一位）
   if (o.status==='待开始') {
-    acts += '<button class="btn btn-sm btn-primary" onclick="confirmStartPick('+o.id+')">派单</button> ';
+    btns.push('<button class="btn btn-sm btn-primary" onclick="confirmStartPick('+o.id+')">派单</button>');
   }
   // 编辑：仅待开始、异常可编辑
   if (o.status==='待开始'||o.status==='异常') {
-    acts += '<button class="btn btn-sm" onclick="editOrderPackage('+o.id+')">编辑</button> ';
+    btns.push('<button class="btn btn-sm" onclick="editOrderPackage('+o.id+')">编辑</button>');
   }
   // 异常展示处理入口
-  if (o.status==='异常') acts += '<button class="btn btn-sm btn-danger" onclick="showOrderExProcess('+o.id+')">处理</button> ';
+  if (o.status==='异常') btns.push('<button class="btn btn-sm btn-danger" onclick="showOrderExProcess('+o.id+')">处理</button>');
   // 异常操作
   else if (['待开始','待认领','拣货中','拣货完成','待分配','打包中','打包完成'].indexOf(o.status)>=0 && (currentRole==='super'||currentRole==='manager')) {
-    acts += '<button class="btn btn-sm btn-danger" onclick="showPkgException('+o.id+')">异常</button> ';
+    btns.push('<button class="btn btn-sm btn-danger" onclick="showPkgException('+o.id+')">异常</button>');
   }
   // 作废：超管对所有非完结工单可作废
   if (currentRole==='super' && o.status!=='已作废' && !o.verifyDoneAt) {
-    acts += '<button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button> ';
+    btns.push('<button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>');
   }
-  return acts;
+  if (btns.length <= 2) return btns.join(' ');
+  var visible = btns.slice(0, 2).join(' ');
+  var hidden = btns.slice(2).join(' ');
+  var uid = 'pkgMore'+o.id;
+  return visible+' <span class="pkg-more-menu" style="position:relative;display:inline-block;">'+
+    '<button class="btn btn-sm" onclick="var m=document.getElementById(\''+uid+'\');m.style.display=m.style.display===\'block\'?\'none\':\'block\';event.stopPropagation();" title="更多">···</button>'+
+    '<span id="'+uid+'" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);padding:4px 0;z-index:100;min-width:80px;white-space:nowrap;">'+
+    hidden.split('</button>').filter(Boolean).map(function(b){ return '<div style="padding:2px 10px;">'+b+'</button></div>'; }).join('')+
+    '</span></span>';
 }
 var currentVoidPkgId = null;
 function voidOrderPackage(id) {
