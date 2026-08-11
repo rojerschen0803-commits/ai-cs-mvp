@@ -12496,7 +12496,7 @@ function renderGoodsAuditList() {
     var acts = '';
     var statusHtml = '';
     if (o.status === '待打包-待审核') {
-      statusHtml = '<span class="tag tag-orange">待审核</span>';
+      statusHtml = '<span class="tag tag-yellow">待审核</span>';
       acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button>';
     } else if (o.status === '打包中') {
       statusHtml = '<span class="tag tag-green">审核通过</span>';
