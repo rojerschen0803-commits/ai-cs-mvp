@@ -9924,6 +9924,7 @@ function seedOrderPackages() {
   seedVerifyFlowData();
   seedVerifyReturnedData();
   seedPackAuditData();
+  seedPackDoneAuditData();
 }
 function seedPackAuditData() {
   // 打包审核演示数据 x10（超管可见）
@@ -9960,6 +9961,46 @@ function seedPackAuditData() {
       links: [], xpd: '', dueDate: '2026-07-'+String(25+i).padStart(2,'0')+'T18:00',
       country: '',
       haioId: 'HIO-'+(60000+i),
+      haioStatus: '已出库',
+      woodenBox: i%3===0?'是':'否'
+    });
+  }
+}
+function seedPackDoneAuditData() {
+  // 打包完成演示数据 x10（完成待审核状态，超管/主管在打包审核tab可见）
+  var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','铁路超大件','特快空运敏感','海运普货','铁路普货','特快空运普货'];
+  var creators = ['小霞','小萌','小张','小李','小王','赵敏'];
+  var packers = ['赵六','阿强','阿明','小周','老陈'];
+  var demands = ['客户要求加固包装','易碎品请轻放','加急处理','防潮包装','需要打木箱','普通包装即可','贵重物品','拍照留存','按标准包装','标注易碎'];
+  for (var i = 0; i < 10; i++) {
+    var day = 15 + i;
+    var xy = 'XY202407' + String(10+i).padStart(2,'0') + String(200+i);
+    orderPackages.push({
+      id: orderPkgNextId++,
+      code: 'JB-202407'+String(10+i).padStart(2,'0')+'-'+String(9000+i).padStart(4,'0'),
+      xy: xy, type: i%3===0?'拼团':'普通', source: i<5?'客服':'门店',
+      route: routes[i], creator: creators[i%6],
+      tracker: i%2===0?'张三':'李四',
+      assignMode: i%2===0?'直接指派':'放入公海',
+      assignee: packers[i%5], status: '完成待审核',
+      demand: demands[i],
+      picker: i%3===0?'小萌':'小霞',
+      pickedAt: '2026-07-'+String(10+i).padStart(2,'0')+' 09:00',
+      packer: packers[i%5],
+      packDoneAt: '2026-07-'+String(10+i).padStart(2,'0')+' 14:00',
+      packCompleteReason: '打包完毕，请审核#'+(i+1),
+      packCompletePhotos: 2 + (i%3),
+      packItems: [
+        {name:'棉质T恤',qty:3+i%2,cat:'普货'},
+        {name:i%2===0?'充电宝':'香水',qty:1,cat:'敏货'},
+        {name:'运动鞋',qty:2,cat:'普货'},
+        {name:i%2===0?'陶瓷餐具':'桌面摆件',qty:1,cat:'普货'}
+      ],
+      createdAt: '2026-07-'+String(10+i).padStart(2,'0')+' 08:00',
+      updatedAt: '2026-07-'+String(10+i).padStart(2,'0')+' 14:00',
+      links: [], xpd: '', dueDate: '2026-07-'+String(18+i).padStart(2,'0')+'T18:00',
+      country: '',
+      haioId: 'HIO-'+(70000+i),
       haioStatus: '已出库',
       woodenBox: i%3===0?'是':'否'
     });
