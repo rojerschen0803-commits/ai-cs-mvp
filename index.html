@@ -10935,6 +10935,39 @@ function showOrderPkgDetail(id) {
     treeHtml += '<div class="drawer-tree-module error"><div style="font-weight:600;">⚠ 异常</div><div style="font-size:10px;margin-top:4px;line-height:1.5;">'+(o.exception?(o.exception.reason||''):'—')+'</div></div>';
   }
 
+  // 预计算打包审核物品的分栏数据（普货/敏货）
+  var defaultItems = [{name:'棉质T恤',qty:2,cat:'普货'},{name:'书籍杂志',qty:5,cat:'普货'},{name:'充电宝',qty:2,cat:'敏货'},{name:'香水×1瓶',qty:1,cat:'敏货'}];
+  var auditItems = o.packItems || defaultItems;
+  var auditGen = []; var auditSen = [];
+  for (var ai = 0; ai < auditItems.length; ai++) {
+    if (auditItems[ai].cat === '普货') auditGen.push(ai);
+    else auditSen.push(ai);
+  }
+  var auditGenHtml = '';
+  for (var gi = 0; gi < auditGen.length; gi++) {
+    var gii = auditGen[gi];
+    var item = auditItems[gii];
+    auditGenHtml +=
+      '<div class="pack-audit-item" draggable="true" ondragstart="packAuditDragStart(event,'+o.id+','+gi+',\'普货\')" ondragend="packAuditDragEnd(event)">'+
+        '<span class="drag-handle">\u22ee\u22ee</span>'+
+        '<span class="pack-audit-item-name" title="'+item.name+'">'+item.name+'</span>'+
+        '<span class="pack-audit-item-qty">'+item.qty+'</span>'+
+        '<span class="pack-audit-item-acts"><span class="act-edit" title="修改" onclick="editPackAuditItem('+o.id+','+gii+')">\u270e</span><span class="act-del" title="删除" onclick="deletePackAuditItem('+o.id+','+gii+')">\u2715</span></span>'+
+      '</div>';
+  }
+  var auditSenHtml = '';
+  for (var si = 0; si < auditSen.length; si++) {
+    var sii = auditSen[si];
+    var sitem = auditItems[sii];
+    auditSenHtml +=
+      '<div class="pack-audit-item" draggable="true" ondragstart="packAuditDragStart(event,'+o.id+','+si+',\'敏货\')" ondragend="packAuditDragEnd(event)">'+
+        '<span class="drag-handle">\u22ee\u22ee</span>'+
+        '<span class="pack-audit-item-name" title="'+sitem.name+'">'+sitem.name+'</span>'+
+        '<span class="pack-audit-item-qty">'+sitem.qty+'</span>'+
+        '<span class="pack-audit-item-acts"><span class="act-edit" title="修改" onclick="editPackAuditItem('+o.id+','+sii+')">\u270e</span><span class="act-del" title="删除" onclick="deletePackAuditItem('+o.id+','+sii+')">\u2715</span></span>'+
+      '</div>';
+  }
+
   document.getElementById('drawerPkgBody').innerHTML =
     '<div>'+treeHtml+'</div>'+
     '<div>'+
@@ -11001,42 +11034,20 @@ function showOrderPkgDetail(id) {
         '</div>'+
         // 物品清单 — 左右分栏：普货 | 敏货（可互相拖拽）
         '<div class="pack-audit-split">'+
-          // 左栏：普货
-          (function(genItems){
-            return '<div class="pack-audit-col general" ondragover="packAuditDragOver(event)" ondrop="packAuditDrop(event,'+o.id+',\'普货\')" ondragleave="packAuditDragLeave(event)">'+
-              '<div class="pack-audit-col-header gen"><span>普货</span><span style="font-size:10px;font-weight:400;">'+genItems.length+'件</span></div>'+
-              '<div class="pack-audit-col-body" id="packAuditGen_'+o.id+'">'+
-                genItems.map(function(item,i){
-                  var gIdx = (o.packItems||[]).indexOf(item);
-                  return '<div class="pack-audit-item" draggable="true" ondragstart="packAuditDragStart(event,'+o.id+','+i+',\'普货\')" ondragend="packAuditDragEnd(event)">'+
-                    '<span class="drag-handle">⋮⋮</span>'+
-                    '<span class="pack-audit-item-name" title="'+item.name+'">'+item.name+'</span>'+
-                    '<span class="pack-audit-item-qty">'+item.qty+'</span>'+
-                    '<span class="pack-audit-item-acts"><span class="act-edit" title="修改" onclick="editPackAuditItem('+o.id+','+gIdx+')">✎</span><span class="act-del" title="删除" onclick="deletePackAuditItem('+o.id+','+gIdx+')">✕</span></span>'+
-                  '</div>';
-                }).join('') || '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:12px 0;">拖拽放入普货</div>'+
-              '</div>'+
-              '<div class="pack-audit-col-footer">普货 · 常规非限制物品</div>'+
-            '</div>';
-          })((o.packItems||[{name:\'棉质T恤\',qty:2,cat:\'普货\'},{name:\'书籍杂志\',qty:5,cat:\'普货\'},{name:\'充电宝\',qty:2,cat:\'敏货\'},{name:\'香水×1瓶\',qty:1,cat:\'敏货\'}]).filter(function(it){return it.cat===\'普货\';}))+
-          // 右栏：敏货
-          (function(senItems){
-            return '<div class="pack-audit-col sensitive" ondragover="packAuditDragOver(event)" ondrop="packAuditDrop(event,'+o.id+',\'敏货\')" ondragleave="packAuditDragLeave(event)">'+
-              '<div class="pack-audit-col-header sen"><span>敏货</span><span style="font-size:10px;font-weight:400;">'+senItems.length+'件</span></div>'+
-              '<div class="pack-audit-col-body" id="packAuditSen_'+o.id+'">'+
-                senItems.map(function(item,i){
-                  var gIdx = (o.packItems||[]).indexOf(item);
-                  return '<div class="pack-audit-item" draggable="true" ondragstart="packAuditDragStart(event,'+o.id+','+i+',\'敏货\')" ondragend="packAuditDragEnd(event)">'+
-                    '<span class="drag-handle">⋮⋮</span>'+
-                    '<span class="pack-audit-item-name" title="'+item.name+'">'+item.name+'</span>'+
-                    '<span class="pack-audit-item-qty">'+item.qty+'</span>'+
-                    '<span class="pack-audit-item-acts"><span class="act-edit" title="修改" onclick="editPackAuditItem('+o.id+','+gIdx+')">✎</span><span class="act-del" title="删除" onclick="deletePackAuditItem('+o.id+','+gIdx+')">✕</span></span>'+
-                  '</div>';
-                }).join('') || '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:12px 0;">拖拽放入敏货</div>'+
-              '</div>'+
-              '<div class="pack-audit-col-footer">敏货 · 含电池/液体/粉末等限制品</div>'+
-            '</div>';
-          })((o.packItems||[{name:\'棉质T恤\',qty:2,cat:\'普货\'},{name:\'书籍杂志\',qty:5,cat:\'普货\'},{name:\'充电宝\',qty:2,cat:\'敏货\'},{name:\'香水×1瓶\',qty:1,cat:\'敏货\'}]).filter(function(it){return it.cat===\'敏货\';}))+
+          '<div class="pack-audit-col general" ondragover="packAuditDragOver(event)" ondrop="packAuditDrop(event,'+o.id+',\'普货\')" ondragleave="packAuditDragLeave(event)">'+
+            '<div class="pack-audit-col-header gen"><span>普货</span><span style="font-size:10px;font-weight:400;">'+auditGen.length+'件</span></div>'+
+            '<div class="pack-audit-col-body" id="packAuditGen_'+o.id+'">'+
+              (auditGenHtml || '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:12px 0;">拖拽放入普货</div>')+
+            '</div>'+
+            '<div class="pack-audit-col-footer">普货 · 常规非限制物品</div>'+
+          '</div>'+
+          '<div class="pack-audit-col sensitive" ondragover="packAuditDragOver(event)" ondrop="packAuditDrop(event,'+o.id+',\'敏货\')" ondragleave="packAuditDragLeave(event)">'+
+            '<div class="pack-audit-col-header sen"><span>敏货</span><span style="font-size:10px;font-weight:400;">'+auditSen.length+'件</span></div>'+
+            '<div class="pack-audit-col-body" id="packAuditSen_'+o.id+'">'+
+              (auditSenHtml || '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:12px 0;">拖拽放入敏货</div>')+
+            '</div>'+
+            '<div class="pack-audit-col-footer">敏货 · 含电池/液体/粉末等限制品</div>'+
+          '</div>'+
         '</div>'+
         // 操作按钮行
         '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">'+
