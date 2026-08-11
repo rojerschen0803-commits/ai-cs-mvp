@@ -10224,7 +10224,7 @@ function seedMorePackData() {
       hasPhoto: status==='打包中'?(Math.random()>0.7?'是':'待上传'):(status==='打包完成'||status==='打包完毕'?'是':''),
       assigner: Math.random()>0.5?creators[Math.floor(Math.random()*creators.length)]:'',
       assignReason: Math.random()>0.5?reasons[Math.floor(Math.random()*reasons.length)]:'',
-      packer: assignee||(Math.random()>0.5?packers[Math.floor(Math.random()*packers.length)]:''),
+      packer: assignee||packers[Math.floor(Math.random()*packers.length)],
       packDoneAt: status==='打包完成'||status==='打包完毕'?createdAt.replace(/(\d{2}):\d{2}:00/,function(m,p){return String(parseInt(p)+5).padStart(2,'0')+':00:00';}):''
     });
   }
