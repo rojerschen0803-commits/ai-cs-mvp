@@ -4319,7 +4319,7 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item" onclick="switchPackStage('packing',this)">打包中</div>
           <div class="sub-tab-item" onclick="switchPackStage('pendingDoneAudit',this)">打包审核</div>
           <div class="sub-tab-item" onclick="switchPackStage('packed',this)">审核通过</div>
-          <div class="sub-tab-item" onclick="switchPackStage('reject',this)">驳回</div>
+          <div class="sub-tab-item" onclick="switchPackStage('reject',this)">审核驳回</div>
           <div class="sub-tab-item" onclick="switchPackStage('exception',this)">异常</div>
           <div class="sub-tab-item" onclick="switchPackStage('void',this)">已作废</div>
         </div>
@@ -4353,6 +4353,7 @@ main > .modal-overlay.show { display: flex !important; }
           <div class="sub-tab-item" onclick="switchPackMineStage('packing',this)">打包中</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('pendingDoneAudit',this)">打包审核</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('packed',this)">审核通过</div>
+          <div class="sub-tab-item" onclick="switchPackMineStage('reject',this)">审核驳回</div>
           <div class="sub-tab-item" onclick="switchPackMineStage('exception',this)">异常</div>
         </div>
         <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>海鸥订单号</th><th>类型</th><th>状态</th><th>国家</th><th>线路</th><th>打包员</th><th>分配时间</th><th>打木箱</th><th>打包要求</th><th>异常说明</th><th>海鸥状态</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="orderPackMineList"></tbody></table></div></div>
@@ -10097,6 +10098,10 @@ function packStatus(o) {
   var s = o.status;
   // 在打包模块，拣货完成 = 待打包
   if (s === '拣货完成') s = '待打包';
+  // 审核驳回区分：待打包驳回 / 打包完成驳回
+  if (s === '驳回') {
+    return '<span class="tag tag-red">'+(o.rejectSource||'驳回')+'</span>';
+  }
   return orderStatusTag(s);
 }
 function orderDisplayXy(o) {
@@ -11896,6 +11901,8 @@ function confirmDrawerAudit(id) {
   if (!reason) { alert('请填写审核理由'); return; }
   if (result === '驳回') {
     o.status = '驳回'; o.auditReason = reason;
+    // 记录驳回来源：有待打包审核驳回 / 打包完成审核驳回
+    o.rejectSource = o.packDoneAt ? '打包完成驳回' : '待打包驳回';
     showToast('已驳回：'+o.code);
   } else {
     o.status = '通过'; o.auditReason = reason;
@@ -12268,7 +12275,7 @@ function renderOrderPackMine() {
     else if (o.status==='打包待审核') acts = '<span class="tag tag-orange">打包审核中</span>';
     else if (o.status==='打包中') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
     else if (o.status==='完成待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
-    else if (o.status==='驳回') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">重新完成</button>';
+    else if (o.status==='驳回') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">'+(o.rejectSource==='待打包驳回'?'重新打包':'重新完成')+'</button>';
     else if (o.status==='打包完毕') acts = '<span class="tag tag-green">已完成</span>';
     else acts = '<button class="btn btn-sm" onclick="startPackMine('+o.id+')">开始打包</button>';
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+showXy+'</td><td>'+(o.type||'')+'</td><td>'+statusHtml+'</td><td>'+country+'</td><td>'+(o.route||'')+'</td><td>'+packer+'</td><td>'+assignedAt+'</td><td>'+woodenBox+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'+(o.exception?'color:#DC2626;font-weight:500;':'')+'">'+exNote+'</td><td>'+haioStatus+'</td><td>'+packDone+'</td><td nowrap>'+acts+'</td></tr>';
