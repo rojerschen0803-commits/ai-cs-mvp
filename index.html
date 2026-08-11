@@ -4679,7 +4679,12 @@ main > .modal-overlay.show { display: flex !important; }
           <button class="btn btn-primary btn-sm" onclick="renderVerifyPaid();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="document.getElementById('verifyPaidFilterRoute').value='';document.getElementById('verifyPaidSearch').value='';renderVerifyPaid();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
         </div>
-        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>门店</th><th>付款确认时间</th><th>状态</th><th>操作</th></tr></thead><tbody id="verifyPaidList"></tbody></table></div></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <button class="btn btn-sm btn-primary" onclick="batchAssignVerify()">批量分配</button>
+          <button class="btn btn-sm btn-gray" onclick="resetVerifyAssign()">重置分配</button>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="verifyAssignCount"></span>
+        </div>
+        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyPaidCheckboxes(this)" title="全选"></th><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>门店</th><th>付款确认时间</th><th>状态</th><th>操作</th></tr></thead><tbody id="verifyPaidList"></tbody></table></div></div>
       </div>
       <div id="verifyShippingPanel" style="display:none;">
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 0;">
@@ -4691,7 +4696,11 @@ main > .modal-overlay.show { display: flex !important; }
           <button class="btn btn-primary btn-sm" onclick="renderVerifyShipping();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="document.getElementById('verifyShippingFilterRoute').value='';document.getElementById('verifyShippingSearch').value='';renderVerifyShipping();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
         </div>
-        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>发货时间</th><th>状态</th><th>操作</th></tr></thead><tbody id="verifyShippingList"></tbody></table></div></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <button class="btn btn-sm btn-gray" onclick="resetVerifyShippingAssign()">重置分配</button>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="verifyShippingAssignCount"></span>
+        </div>
+        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyShippingCheckboxes(this)" title="全选"></th><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>发货时间</th><th>状态</th><th>操作</th></tr></thead><tbody id="verifyShippingList"></tbody></table></div></div>
       </div>
       <div id="verifyDonePanel" style="display:none;">
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 0;">
@@ -4703,7 +4712,11 @@ main > .modal-overlay.show { display: flex !important; }
           <button class="btn btn-primary btn-sm" onclick="renderVerifyDone();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="document.getElementById('verifyDoneFilterRoute').value='';document.getElementById('verifyDoneSearch').value='';renderVerifyDone();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
         </div>
-        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包编号</th><th>海鸥订单号</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>门店</th><th>完成时间</th><th>状态</th></tr></thead><tbody id="verifyDoneList"></tbody></table></div></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <button class="btn btn-sm btn-gray" onclick="resetVerifyDoneAssign()">重置分配</button>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:8px;" id="verifyDoneAssignCount"></span>
+        </div>
+        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyDoneCheckboxes(this)" title="全选"></th><th>集包编号</th><th>海鸥订单号</th><th>线路</th><th>箱数</th><th>金额</th><th>计费重</th><th>备注</th><th>门店</th><th>完成时间</th><th>状态</th></tr></thead><tbody id="verifyDoneList"></tbody></table></div></div>
       </div>
       <div id="verifyReturnedPanel" style="display:none;">
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
@@ -12886,6 +12899,30 @@ function toggleAllVerifyCheckboxes(el) {
   checks.forEach(function(c){ c.checked = el.checked; });
   updateVerifyAssignCount();
 }
+function toggleAllVerifyPaidCheckboxes(el) {
+  document.querySelectorAll('.verify-paid-check').forEach(function(c){ c.checked = el.checked; });
+}
+function toggleAllVerifyShippingCheckboxes(el) {
+  document.querySelectorAll('.verify-paid-check').forEach(function(c){ c.checked = el.checked; });
+}
+function toggleAllVerifyDoneCheckboxes(el) {
+  document.querySelectorAll('.verify-paid-check').forEach(function(c){ c.checked = el.checked; });
+}
+function resetVerifyAssignment(listId) {
+  var checks = document.querySelectorAll('#'+listId+' .verify-paid-check:checked');
+  if (checks.length===0) { alert('请至少勾选一个工单'); return; }
+  if (!confirm('确定重置已选 '+checks.length+' 个工单的分配信息吗？')) return;
+  checks.forEach(function(c){
+    var id = parseInt(c.value);
+    var o = orderPackages.find(function(p){ return p.id===id; });
+    if (o) { o.status = '打包完毕'; o.verifyPaidAt = ''; o.packer = ''; o.assignee = ''; }
+  });
+  renderVerifyPaid(); renderOrderVerifyStats();
+  showToast('已重置分配 '+checks.length+' 个工单');
+}
+function resetVerifyAssign() { resetVerifyAssignment('verifyPaidList'); }
+function resetVerifyShippingAssign() { resetVerifyAssignment('verifyShippingList'); }
+function resetVerifyDoneAssign() { resetVerifyAssignment('verifyDoneList'); }
 function batchAssignVerify() {
   var selected = [];
   document.querySelectorAll('.verify-check:checked').forEach(function(c){ selected.push(parseInt(c.value)); });
@@ -12932,7 +12969,7 @@ function renderVerifyPaid() {
   var html = list.map(function(o){
     var showXy = orderDisplayXy(o);
     var boxCount = o.type==='拼团' ? o.links.length : 1;
-    return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'-')+'</td><td>'+boxCount+'</td>'+
+    return '<tr><td><input type="checkbox" class="verify-paid-check" value="'+o.id+'"></td><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'-')+'</td><td>'+boxCount+'</td>'+
     '<td>'+(o.verifyPayAmount||'')+'</td><td>'+(o.verifyPayWeight||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(o.verifyPayNote||'')+'</td><td style="font-size:11px;">'+(o.storeDept?o.storeDept+'/'+(o.storePerson||''):'—')+'</td>'+
     '<td>'+o.verifyPaidAt+'</td><td><span class="tag tag-yellow">待发货</span></td>'+
     '<td><button class="btn btn-primary btn-sm" onclick="confirmVerifyShip('+o.id+')">确认发货</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-danger" onclick="verifyReturn('+o.id+')">退件</button>'+(currentRole==='super'?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
@@ -12948,7 +12985,7 @@ function renderVerifyShipping() {
   var html = list.map(function(o){
     var showXy = orderDisplayXy(o);
     var boxCount = o.type==='拼团' ? o.links.length : 1;
-    return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'-')+'</td><td>'+boxCount+'</td>'+
+    return '<tr><td><input type="checkbox" class="verify-paid-check" value="'+o.id+'"></td><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'-')+'</td><td>'+boxCount+'</td>'+
     '<td>'+(o.verifyPayAmount||'')+'</td><td>'+(o.verifyPayWeight||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(o.verifyPayNote||'')+'</td><td style="font-size:11px;">'+(o.storeDept?o.storeDept+'/'+(o.storePerson||''):'—')+'</td>'+
     '<td>'+o.verifyShipAt+'</td><td><span class="tag tag-purple">发货中</span></td>'+
     '<td><button class="btn btn-primary btn-sm" onclick="confirmVerifyDone('+o.id+')">确认完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-danger" onclick="verifyReturn('+o.id+')">退件</button>'+(currentRole==='super'?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
@@ -12965,7 +13002,7 @@ function renderVerifyDone() {
   var html = list.map(function(o){
     var showXy = orderDisplayXy(o);
     var boxCount = o.type==='拼团' ? o.links.length : 1;
-    return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'-')+'</td><td>'+boxCount+'</td>'+
+    return '<tr><td><input type="checkbox" class="verify-paid-check" value="'+o.id+'"></td><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'-')+'</td><td>'+boxCount+'</td>'+
     '<td>'+(o.verifyPayAmount||'')+'</td><td>'+(o.verifyPayWeight||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(o.verifyPayNote||'')+'</td><td style="font-size:11px;">'+(o.storeDept?o.storeDept+'/'+(o.storePerson||''):'—')+'</td>'+
     '<td>'+o.verifyDoneAt+'</td><td><span class="tag tag-green">已完成</span></td></tr>';
   }).join('');
