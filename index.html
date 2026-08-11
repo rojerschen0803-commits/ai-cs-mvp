@@ -10195,7 +10195,7 @@ function seedMorePackData() {
 
 // ========== ORDER MANAGEMENT - UTILS ==========
 function orderStatusTag(s) {
-  var m = { '待开始':'<span class="tag tag-orange">待开始</span>', '待认领':'<span class="tag tag-purple">待认领</span>', '待拣货':'<span class="tag tag-blue">待拣货</span>', '拣货中':'<span class="tag tag-yellow">拣货中</span>', '拣货完成':'<span class="tag tag-green">拣货完成</span>', '待分配':'<span class="tag tag-gray">待分配</span>', '待打包':'<span class="tag tag-blue">待打包</span>', '待打包-待审核':'<span class="tag tag-orange">待打包-待审核</span>', '打包中':'<span class="tag tag-yellow">打包中</span>', '打包完成-待审核':'<span class="tag tag-purple">打包完成-待审核</span>', '打包完成':'<span class="tag tag-blue">打包完成</span>', '打包完毕':'<span class="tag tag-green">打包完毕</span>', '异常':'<span class="tag tag-red">异常</span>', '拣货异常':'<span class="tag tag-red">拣货异常</span>', '打包异常':'<span class="tag tag-red">打包异常</span>', '客服异常':'<span class="tag tag-red">客服异常</span>', '已付款':'<span class="tag tag-gray">已付款</span>', '待付款':'<span class="tag tag-blue">待付款</span>', '待发货':'<span class="tag tag-yellow">待发货</span>', '发货中':'<span class="tag tag-purple">发货中</span>', '已完成':'<span class="tag tag-green">已完成</span>', '驳回':'<span class="tag tag-red">驳回</span>', '通过':'<span class="tag tag-green">通过</span>', '退件':'<span class="tag tag-red">退件</span>' };
+  var m = { '待开始':'<span class="tag tag-orange">待开始</span>', '待认领':'<span class="tag tag-purple">待认领</span>', '待拣货':'<span class="tag tag-blue">待拣货</span>', '拣货中':'<span class="tag tag-yellow">拣货中</span>', '拣货完成':'<span class="tag tag-green">拣货完成</span>', '待分配':'<span class="tag tag-gray">待分配</span>', '待打包':'<span class="tag tag-blue">待打包</span>', '待打包-待审核':'<span class="tag tag-orange">待打包-待审核</span>', '打包中':'<span class="tag tag-yellow">打包中</span>', '打包完成-待审核':'<span class="tag tag-purple">打包完成-待审核</span>', '打包完成':'<span class="tag tag-blue">打包完成</span>', '打包完毕':'<span class="tag tag-green">打包完成</span>', '异常':'<span class="tag tag-red">异常</span>', '拣货异常':'<span class="tag tag-red">拣货异常</span>', '打包异常':'<span class="tag tag-red">打包异常</span>', '客服异常':'<span class="tag tag-red">客服异常</span>', '已付款':'<span class="tag tag-gray">已付款</span>', '待付款':'<span class="tag tag-blue">待付款</span>', '待发货':'<span class="tag tag-yellow">待发货</span>', '发货中':'<span class="tag tag-purple">发货中</span>', '已完成':'<span class="tag tag-green">已完成</span>', '驳回':'<span class="tag tag-red">驳回</span>', '通过':'<span class="tag tag-green">通过</span>', '退件':'<span class="tag tag-red">退件</span>' };
   return m[s] || s;
 }
 function orderSourceTag(s) {
@@ -11704,7 +11704,7 @@ function renderOrderPackPool() {
       else if (o.status==='打包中') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
       else if (o.status==='打包完成-待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
       else if (o.status==='驳回') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button>';
-      else if (o.status==='打包完毕') acts = '<span class="tag tag-green">打包完毕</span>';
+      else if (o.status==='打包完毕') acts = '<span class="tag tag-green">打包完成</span>';
       else if (o.void) acts = '';
     }
     // Demo helpers for new fields
@@ -12382,7 +12382,7 @@ function renderOrderPackMine() {
     else if (o.status==='打包中') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
     else if (o.status==='打包完成-待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
     else if (o.status==='驳回') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">'+(o.rejectSource==='待打包驳回'?'重新打包':'重新完成')+'</button>';
-    else if (o.status==='打包完毕') acts = '<span class="tag tag-green">已完成</span>';
+    else if (o.status==='打包完毕') acts = '<span class="tag tag-green">打包完成</span>';
     else acts = '<button class="btn btn-sm" onclick="startPackMine('+o.id+')">开始打包</button>';
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+showXy+'</td><td>'+(o.type||'')+'</td><td>'+statusHtml+'</td><td>'+country+'</td><td>'+(o.route||'')+'</td><td>'+packer+'</td><td>'+assignedAt+'</td><td>'+woodenBox+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(stripHtml(o.demand)||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'+(o.exception?'color:#DC2626;font-weight:500;':'')+'">'+exNote+'</td><td>'+haioStatus+'</td><td>'+packDone+'</td><td nowrap>'+acts+'</td></tr>';
   }).join('');
@@ -12760,7 +12760,7 @@ function renderVerifyAll() {
   var search = (document.getElementById('verifyAllSearch')||{}).value.toLowerCase();
   var list = orderPackages.filter(function(o){ return o.status==='打包完毕'||o.verifyPaidAt||o.verifyShipAt||o.verifyDoneAt||o.status==='退件'; });
   if (search) list = list.filter(function(o){ return (o.xy||'').toLowerCase().indexOf(search)>=0; });
-  var st = { '打包完毕':'<span class="tag tag-green">打包完毕</span>', '待付款':'<span class="tag tag-blue">待付款</span>', '待发货':'<span class="tag tag-yellow">待发货</span>', '发货中':'<span class="tag tag-purple">发货中</span>', '已完成':'<span class="tag tag-green">已完成</span>', '退件':'<span class="tag tag-red">退件</span>' };
+  var st = { '打包完毕':'<span class="tag tag-green">打包完成</span>', '待付款':'<span class="tag tag-blue">待付款</span>', '待发货':'<span class="tag tag-yellow">待发货</span>', '发货中':'<span class="tag tag-purple">发货中</span>', '已完成':'<span class="tag tag-green">已完成</span>', '退件':'<span class="tag tag-red">退件</span>' };
   var html = list.map(function(o){
     var statusText = o.verifyDoneAt?'已完成':o.verifyShipAt?'发货中':o.verifyPaidAt?'待发货':o.status;
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+orderDisplayXy(o)+'</td><td>'+(o.route||'-')+'</td><td>'+(o.type==='拼团'?o.links.length:1)+'</td>'+
