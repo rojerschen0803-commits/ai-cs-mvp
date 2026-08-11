@@ -11678,11 +11678,11 @@ function renderOrderPackPool() {
       if (o.status==='待认领') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='待分配') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包中') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='打包完毕') acts = '<button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='驳回') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      else if (o.status==='打包完毕') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
+      else if (o.status==='驳回') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.void) acts = '<button class="btn btn-sm btn-primary" onclick="restoreOrderPack('+o.id+')">恢复</button>';
     }
     // Manager actions
@@ -11690,11 +11690,11 @@ function renderOrderPackPool() {
       if (o.status==='待认领') acts = '<button class="btn btn-sm btn-primary" onclick="managerClaimPack('+o.id+')">认领</button>';
       else if (o.status==='待分配') acts = '<button class="btn btn-sm btn-primary" onclick="managerAssignPack('+o.id+')">分配</button>';
       else if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='待打包-待审核') acts = '';
+      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
       else if (o.status==='打包中') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='打包完成-待审核') acts = '';
-      else if (o.status==='打包完成') acts = '';
-      else if (o.status==='驳回') acts = '';
+      else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
+      else if (o.status==='打包完成') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
+      else if (o.status==='驳回') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
       else if (o.void) acts = '';
       // Super can void any non-terminated order
       if (currentRole==='super'&&!o.void&&!o.verifyDoneAt) acts += ' <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
@@ -11704,9 +11704,9 @@ function renderOrderPackPool() {
     // Employee: 待打包→打包+完成+异常 | 打包中→完成+异常 | 打包完成→无 | 驳回→完成 | 异常→异常处理中 | 已作废→无
     else {
       if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm btn-primary" onclick="startPackMine('+o.id+')">打包</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='待打包-待审核') acts = '<span class="tag tag-orange">打包审核中</span>';
+      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
       else if (o.status==='打包中') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='打包完成-待审核') acts = '<span class="tag tag-purple">完成审核中</span>';
+      else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
       else if (o.status==='驳回') acts = '<button class="btn btn-success btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button>';
       else if (o.status==='打包完毕') acts = '<span class="tag tag-green">打包完成</span>';
       else if (o.void) acts = '';
@@ -12785,7 +12785,7 @@ function renderVerifyPending() {
     '<td>'+(o.country||'')+'</td><td>'+(o.haioId||'')+'</td><td>'+(o.creator||'')+'</td><td>'+(o.picker||'')+'</td><td>'+(o.packer||'')+'</td>'+
     '<td style="font-size:11px;">'+storeCol+'</td>'+
     '<td>'+o.updatedAt+'</td><td><span class="tag tag-blue">待付款</span></td>'+
-    '<td><button class="btn btn-primary btn-sm" onclick="showVerifyPayModal('+o.id+')">确认付款</button> <button class="btn btn-sm btn-danger" onclick="verifyReturn('+o.id+')">退件</button>'+(currentRole==='super'?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
+    '<td><button class="btn btn-primary btn-sm" onclick="showVerifyPayModal('+o.id+')">确认付款</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-danger" onclick="verifyReturn('+o.id+')">退件</button>'+(currentRole==='super'?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
   }).join('');
   document.getElementById('verifyPendingList').innerHTML = html || '<tr><td colspan="15" style="text-align:center;color:var(--text-muted);padding:30px;">暂无待付款工单</td></tr>';
   updateVerifyAssignCount();
@@ -12849,7 +12849,7 @@ function renderVerifyPaid() {
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'-')+'</td><td>'+boxCount+'</td>'+
     '<td>'+(o.verifyPayAmount||'')+'</td><td>'+(o.verifyPayWeight||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(o.verifyPayNote||'')+'</td><td style="font-size:11px;">'+(o.storeDept?o.storeDept+'/'+(o.storePerson||''):'—')+'</td>'+
     '<td>'+o.verifyPaidAt+'</td><td><span class="tag tag-yellow">待发货</span></td>'+
-    '<td><button class="btn btn-primary btn-sm" onclick="confirmVerifyShip('+o.id+')">确认发货</button> <button class="btn btn-sm btn-danger" onclick="verifyReturn('+o.id+')">退件</button>'+(currentRole==='super'?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
+    '<td><button class="btn btn-primary btn-sm" onclick="confirmVerifyShip('+o.id+')">确认发货</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-danger" onclick="verifyReturn('+o.id+')">退件</button>'+(currentRole==='super'?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
   }).join('');
   document.getElementById('verifyPaidList').innerHTML = html || '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">暂无待发货工单</td></tr>';
 }
@@ -12865,7 +12865,7 @@ function renderVerifyShipping() {
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.route||'-')+'</td><td>'+boxCount+'</td>'+
     '<td>'+(o.verifyPayAmount||'')+'</td><td>'+(o.verifyPayWeight||'')+'</td><td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(o.verifyPayNote||'')+'</td><td style="font-size:11px;">'+(o.storeDept?o.storeDept+'/'+(o.storePerson||''):'—')+'</td>'+
     '<td>'+o.verifyShipAt+'</td><td><span class="tag tag-purple">发货中</span></td>'+
-    '<td><button class="btn btn-primary btn-sm" onclick="confirmVerifyDone('+o.id+')">确认完成</button> <button class="btn btn-sm btn-danger" onclick="verifyReturn('+o.id+')">退件</button>'+(currentRole==='super'?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
+    '<td><button class="btn btn-primary btn-sm" onclick="confirmVerifyDone('+o.id+')">确认完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-danger" onclick="verifyReturn('+o.id+')">退件</button>'+(currentRole==='super'?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
   }).join('');
   document.getElementById('verifyShippingList').innerHTML = html || '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:30px;">暂无发货中工单</td></tr>';
 }
