@@ -9949,6 +9949,7 @@ function seedOrderPackages() {
   seedVerifyReturnedData();
   seedPackAuditData();
   seedPackDoneAuditData();
+  seedPendingPackData();
 }
 function seedPackAuditData() {
   // 打包审核演示数据 x10（超管可见）
@@ -10027,6 +10028,37 @@ function seedPackDoneAuditData() {
       haioId: 'HIO-'+(70000+i),
       haioStatus: '已出库',
       woodenBox: i%3===0?'是':'否'
+    });
+  }
+}
+function seedPendingPackData() {
+  // 待打包演示数据 x10（5条待打包 + 5条待打包-待审核）
+  var routes = ['海运普货','铁路普货','特快空运普货','海运超大件','铁路敏感','铁路超大件','特快空运敏感','海运普货','铁路普货','特快空运普货'];
+  var creators = ['小霞','小萌','小张','小李','小王'];
+  var trackers = ['张三','李四','王五','赵六'];
+  var demands = ['加固包装','易碎品','加急','防潮','普通','贵重','拍照','标准','轻放','标注'];
+  for (var i = 0; i < 10; i++) {
+    var isAudit = i >= 5;
+    var status = isAudit ? '待打包-待审核' : '待打包';
+    var day = 22 + i;
+    var xy = 'XY202407' + String(30+i).padStart(2,'0') + String(300+i);
+    orderPackages.push({
+      id: orderPkgNextId++,
+      code: 'JB-202407'+String(30+i).padStart(2,'0')+'-'+String(7000+i).padStart(4,'0'),
+      xy: xy, type: i%3===0?'拼团':'普通', source: i<5?'客服':'门店',
+      route: routes[i], creator: creators[i%5],
+      tracker: trackers[i%4],
+      assignMode: '放入公海', assignee: '',
+      status: status, demand: demands[i],
+      picker: i%3===0?'小萌':'小霞',
+      pickedAt: isAudit ? '2026-07-'+String(30+i).padStart(2,'0')+' 09:00' : '',
+      packer: '',
+      createdAt: '2026-07-'+String(30+i).padStart(2,'0')+' 08:00',
+      updatedAt: '2026-07-'+String(30+i).padStart(2,'0')+' 08:00',
+      links: [], xpd: '', dueDate: '2026-07-'+String(35+i).padStart(2,'0')+'T18:00',
+      country: '',
+      haioId: 'HIO-'+(80000+i),
+      haioStatus: '已出库'
     });
   }
 }
