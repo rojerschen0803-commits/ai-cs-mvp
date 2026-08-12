@@ -12315,6 +12315,7 @@ function submitPackDoneAudit(id, action) {
   var reasonEl = document.getElementById('packDoneAuditReason_'+id);
   var reason = reasonEl ? reasonEl.value.trim() : '';
   if (!reason) { showToast('请填写审核理由'); return; }
+  if (!confirm('确认审核'+(action==='通过'?'通过':'驳回')+'？\n审核理由：'+reason)) return;
   var o = orderPackages.find(function(p){ return p.id===id; });
   if (!o) return;
   if (action === '通过') {
