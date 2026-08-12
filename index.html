@@ -4451,6 +4451,15 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
     </div></div>
 
+    <!-- 照片预览弹框 -->
+    <div class="modal-overlay" id="photoPreviewModal"><div class="modal" style="width:520px;max-height:75vh;overflow-y:auto;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="margin:0;">照片预览</h3>
+        <button onclick="hidePhotoPreview()" style="border:none;background:none;font-size:18px;color:var(--text-muted);cursor:pointer;">×</button>
+      </div>
+      <div id="photoPreviewGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
+    </div></div>
+
     <!-- 打包审核操作弹框 -->
     <div class="modal-overlay" id="packAuditActionModal" style="z-index:1100;"><div class="modal" style="width:440px;"><h3 id="packAuditActionTitle">操作</h3><div style="margin-bottom:12px;font-size:12px;color:var(--text-secondary);" id="packAuditActionDesc"></div>
     <div id="packAuditActionBody"></div>
@@ -11178,7 +11187,7 @@ function showOrderPkgDetail(id) {
       (o.exception&&o.exception.source&&o.exception.source.indexOf('打包')>=0?('<br><span style="color:#DC2626;">异常时间：'+(o.updatedAt||'').slice(0,16)+'</span>'):'')+
       ((o.packDoneAt||o.status==='打包完成'||o.status==='打包完毕')?('<br>完成时间：'+(o.packDoneAt||o.updatedAt||'')):'')+
       (o.packCompleteReason?('<br>完成理由：'+o.packCompleteReason):'')+
-      (o.packCompletePhotos?('<br>上传图片：'+o.packCompletePhotos+'张'):'')
+      (o.packCompletePhotos?('<br><span style="color:var(--primary);cursor:pointer;text-decoration:underline;" onclick="previewPackPhotos('+o.id+')">上传图片：'+o.packCompletePhotos+'张</span>'):'')
     ):'') },
     { label:'核款', active:isPay||isShip||isDone, done:isShip||isDone, detail: (isPay?('核款人：'+(o.verifyPayer||'')+'<br>核款时间：'+o.verifyPaidAt+'<br>金额：¥'+(o.verifyPayAmount||'')+'<br>计费重：'+(o.verifyPayWeight||'')+' kg<br>备注：'+(o.verifyPayNote||'')):'') },
     { label:'待发货', active:isShip||isDone, done:isDone, detail: (isShip?('发货人：'+(o.verifyShipper||'')+'<br>发货时间：'+o.verifyShipAt+'<br>备注：'+(o.verifyShipNote||'')):'') },
@@ -12486,6 +12495,27 @@ function updateDaiSelCount() {
   var cbs = document.querySelectorAll('.dai-img-cb:checked');
   var els = document.querySelectorAll('[id^="daiSelCount_"]');
   els.forEach(function(el){ el.textContent = '已选'+cbs.length+'项'; });
+}
+// 照片预览
+function previewPackPhotos(oid) {
+  var o = orderPackages.find(function(p){ return p.id===oid; });
+  var count = o ? (o.packCompletePhotos || o.packStartPhotos || 3) : 3;
+  var grid = document.getElementById('photoPreviewGrid');
+  var colors = ['#DBEAFE','#D1FAE5','#FEF3C7','#FEE2E2','#EDE9FE','#E0F2FE','#FCE7F3','#E0E7FF','#FFEDD5'];
+  grid.innerHTML = '';
+  for(var i=0;i<count;i++){
+    grid.innerHTML +=
+      '<div style="aspect-ratio:1;background:'+colors[i%colors.length]+';border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);">'+
+        '<div style="text-align:center;color:#64748B;">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:32px;height:32px;margin:0 auto 4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+          '<div style="font-size:10px;">照片'+(i+1)+'</div>'+
+        '</div>'+
+      '</div>';
+  }
+  document.getElementById('photoPreviewModal').classList.add('show');
+}
+function hidePhotoPreview() {
+  document.getElementById('photoPreviewModal').classList.remove('show');
 }
 function reRunPackAuditAi(oid) {
   var o = orderPackages.find(function(p){ return p.id===oid; });
