@@ -12911,6 +12911,17 @@ function hidePsAiEdit() {
   document.getElementById('psAiEditModal').classList.remove('show');
   psAiEditBackup = null;
 }
+function getPsAiImgGroups() {
+  var imgs = {}, imgOrder = [];
+  for(var ia=0;ia<packStartItems.length;ia++){
+    var img = packStartItems[ia].image || '未分组';
+    if(!imgs[img]){ imgs[img]=[]; imgOrder.push(img); }
+    imgs[img].push(packStartItems[ia]);
+  }
+  var result = {};
+  imgOrder.forEach(function(k){ result[k] = imgs[k]; });
+  return result;
+}
 function addPsAiEditRow() {
   var list = document.getElementById('psAiEditList');
   var row = document.createElement('div');
