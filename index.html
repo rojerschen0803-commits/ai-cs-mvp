@@ -12832,7 +12832,6 @@ function renderPackStartAiList() {
       var row = document.createElement('div');
       row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;'+(ii<iitems.length-1?'border-bottom:1px solid var(--border-light);':'');
       row.innerHTML =
-        '<input type="checkbox" class="ps-ai-item-cb">'+
         '<span style="font-size:11px;color:var(--text);flex:1;">'+it.name+'</span>'+
         '<span style="font-size:10px;color:var(--text-muted);min-width:16px;text-align:center;">'+it.qty+'</span>'+
         '<span style="min-width:36px;text-align:center;"><span class="tag" style="font-size:9px;padding:1px 6px;border-radius:10px;background:'+(isSen?'#FEF2F2':'#ECFDF5')+';color:'+(isSen?'#DC2626':'#10B981')+';border:1px solid '+(isSen?'#FECACA':'#A7F3D0')+';">'+(isSen?'敏货':'普货')+'</span></span>';
@@ -12853,12 +12852,12 @@ function togglePsAiCard(cid) {
 }
 // 全选/取消
 function toggleAllPackStartAiItems(el) {
-  var cbs = document.querySelectorAll('.ps-ai-cb, .ps-ai-item-cb');
+  var cbs = document.querySelectorAll('.ps-ai-cb');
   cbs.forEach(function(c){ c.checked = el.checked; });
   updatePsAiSelCount();
 }
 function updatePsAiSelCount() {
-  var cbs = document.querySelectorAll('.ps-ai-item-cb:checked');
+  var cbs = document.querySelectorAll('.ps-ai-cb:checked');
   var el = document.getElementById('psAiSelCount');
   if (el) el.textContent = '已选'+cbs.length+'项';
 }
