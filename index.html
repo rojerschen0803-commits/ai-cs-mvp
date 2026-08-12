@@ -12452,9 +12452,45 @@ function showDrawerAiEdit(oid) {
   if (!o) return;
   if (!o.packItems || o.packItems.length === 0) { showToast('暂无可修改物品'); return; }
   drawerEditContext = { oid: oid, backup: JSON.parse(JSON.stringify(o.packItems)) };
-  // 临时用packStartItems加载抽屉数据
-  packStartItems = JSON.parse(JSON.stringify(o.packItems));
-  showPsAiEdit();
+  // 获取选中的图片
+  var groups = getDrawerImgGroups(o.packItems);
+  var imgKeys = Object.keys(groups);
+  var idxs = [];
+  cbs.forEach(function(c){ idxs.push(parseInt(c.getAttribute('data-idx'))); });
+  var selectedItems = [];
+  idxs.forEach(function(idx){
+    if (idx < imgKeys.length) {
+      groups[imgKeys[idx]].forEach(function(it){ selectedItems.push(it); });
+    }
+  });
+  document.getElementById('psAiEditCount').textContent = selectedItems.length;
+  var list = document.getElementById('psAiEditList');
+  list.innerHTML = '';
+  selectedItems.forEach(function(it){
+    var isSen = it.cat==='敏货';
+    list.innerHTML +=
+      '<div class="ps-edit-row" style="display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;background:#fff;">'+
+        '<div style="flex:1;"><input type="text" class="ps-edit-name" value="'+it.name+'" style="width:100%;padding:5px 7px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;"></div>'+
+        '<div style="width:42px;"><input type="number" class="ps-edit-qty" value="'+it.qty+'" min="1" style="width:100%;padding:5px 4px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;text-align:center;"></div>'+
+        '<div style="width:56px;"><select class="ps-edit-cat" style="width:100%;padding:5px 2px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;">'+
+          '<option value="普货"'+(it.cat==='普货'?' selected':'')+'>普货</option>'+
+          '<option value="敏货"'+(isSen?' selected':'')+'>敏货</option>'+
+        '</select></div>'+
+        '<span onclick="deletePsAiEditRow(this)" style="color:var(--danger);cursor:pointer;font-size:14px;flex-shrink:0;line-height:1;">×</span>'+
+      '</div>';
+  });
+  document.getElementById('psAiEditModal').classList.add('show');
+}
+function getDrawerImgGroups(items) {
+  var imgs = {}, imgOrder = [];
+  for(var ia=0;ia<items.length;ia++){
+    var img = items[ia].image || '未分组';
+    if(!imgs[img]){ imgs[img]=[]; imgOrder.push(img); }
+    imgs[img].push(items[ia]);
+  }
+  var result = {};
+  imgOrder.forEach(function(k){ result[k] = imgs[k]; });
+  return result;
 }
 // 包装savePsAiEdit以支持抽屉模式
 var _origSavePsAiEdit = null;
