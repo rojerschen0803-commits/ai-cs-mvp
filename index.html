@@ -11355,7 +11355,7 @@ function showOrderPkgDetail(id) {
           '</div>'+
           // 工具栏
           '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">'+
-            '<button class="btn btn-sm" style="font-size:10px;padding:3px 8px;">修改</button>'+
+            '<button class="btn btn-sm" style="font-size:10px;padding:3px 8px;" onclick="showDrawerAiEdit('+o.id+')">修改</button>'+
             '<button class="btn btn-sm" onclick="reRunPackAuditAi('+o.id+')" style="font-size:10px;padding:3px 8px;background:#059669;color:#fff;border-color:#059669;">重新识别</button>'+
             '<span style="font-size:11px;color:var(--text-muted);margin-left:auto;" id="daiSelCount_'+o.id+'">已选0项</span>'+
           '</div>'+
@@ -11365,7 +11365,6 @@ function showOrderPkgDetail(id) {
           // 审核按钮
           '<div style="display:flex;gap:6px;margin-top:10px;">'+
             '<button class="btn btn-sm btn-success" onclick="approvePackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">通过</button>'+
-            '<button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">驳回</button>'+
             '<button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">驳回</button>'+
           '</div>'+
         '</div>';
@@ -12398,6 +12397,85 @@ function toggleDaiImgCard(cid) {
   body.style.display = visible ? 'none' : '';
   if (arrow) arrow.style.transform = visible ? '' : 'rotate(180deg)';
 }
+// 抽屉修改按钮 - 复用psAiEditModal
+var drawerEditContext = null;
+function showDrawerAiEdit(oid) {
+  var cbs = document.querySelectorAll('.dai-img-cb:checked');
+  if (cbs.length === 0) { showToast('请先勾选图片'); return; }
+  var o = orderPackages.find(function(p){ return p.id===oid; });
+  if (!o) return;
+  if (!o.packItems || o.packItems.length === 0) { showToast('暂无可修改物品'); return; }
+  drawerEditContext = { oid: oid, backup: JSON.parse(JSON.stringify(o.packItems)) };
+  // 临时用packStartItems加载抽屉数据
+  packStartItems = JSON.parse(JSON.stringify(o.packItems));
+  showPsAiEdit();
+}
+// 包装savePsAiEdit以支持抽屉模式
+var _origSavePsAiEdit = null;
+function savePsAiEdit() {
+  if (drawerEditContext) {
+    var names = document.querySelectorAll('.ps-edit-name');
+    var qtys = document.querySelectorAll('.ps-edit-qty');
+    var cats = document.querySelectorAll('.ps-edit-cat');
+    var newItems = [];
+    for(var i=0;i<names.length;i++){
+      newItems.push({ name: names[i].value.trim(), qty: parseInt(qtys[i].value)||1, cat: cats[i].value, image: '手动新增' });
+    }
+    var newRows = document.querySelectorAll('.ps-edit-new');
+    var extraItems = [];
+    newRows.forEach(function(r){
+      var n = r.querySelector('.ps-edit-name').value.trim();
+      if (n) extraItems.push({ name: n, qty: parseInt(r.querySelector('.ps-edit-qty').value)||1, cat: r.querySelector('.ps-edit-cat').value, image: '手动新增' });
+    });
+    var o = orderPackages.find(function(p){ return p.id===drawerEditContext.oid; });
+    if (o) {
+      o.packItems = newItems.concat(extraItems);
+      showOrderPkgDetail(drawerEditContext.oid);
+    }
+    drawerEditContext = null;
+    hidePsAiEdit();
+    showToast('已保存修改');
+    return;
+  }
+  // 原始保存逻辑（打包员工弹框用）
+  (function(){
+    var cbs = document.querySelectorAll('.ps-ai-cb:checked');
+    var idxs = [];
+    cbs.forEach(function(c){ idxs.push(parseInt(c.getAttribute('data-idx'))); });
+    var groups = getPsAiImgGroups();
+    var imgKeys = Object.keys(groups);
+    var names = document.querySelectorAll('.ps-edit-name');
+    var qtys = document.querySelectorAll('.ps-edit-qty');
+    var cats = document.querySelectorAll('.ps-edit-cat');
+    var editMap = [];
+    for(var i=0;i<names.length;i++){
+      editMap.push({ name: names[i].value.trim(), qty: parseInt(qtys[i].value)||1, cat: cats[i].value });
+    }
+    var newRows = document.querySelectorAll('.ps-edit-new');
+    var newItems = [];
+    newRows.forEach(function(r){
+      var n = r.querySelector('.ps-edit-name').value.trim();
+      if (n) newItems.push({ name: n, qty: parseInt(r.querySelector('.ps-edit-qty').value)||1, cat: r.querySelector('.ps-edit-cat').value, image: '手动新增' });
+    });
+    var ei = 0;
+    idxs.forEach(function(idx){
+      var imgName = imgKeys[idx];
+      var imgItems = groups[imgName];
+      for(var ii=0;ii<imgItems.length;ii++){
+        if (ei < editMap.length - newItems.length) {
+          imgItems[ii].name = editMap[ei].name;
+          imgItems[ii].qty = editMap[ei].qty;
+          imgItems[ii].cat = editMap[ei].cat;
+          ei++;
+        }
+      }
+    });
+    newItems.forEach(function(it){ packStartItems.push(it); });
+    hidePsAiEdit();
+    renderPackStartAiList();
+    showToast('已保存修改');
+  })();
+}
 // 抽屉AI识别全选
 function toggleAllDaiItems(el) {
   var cbs = document.querySelectorAll('.dai-img-cb');
@@ -12943,54 +13021,6 @@ function deletePsAiEditRow(el) {
   el.parentElement.remove();
   var cnt = document.querySelectorAll('.ps-edit-row').length;
   document.getElementById('psAiEditCount').textContent = cnt;
-}
-function savePsAiEdit() {
-  var cbs = document.querySelectorAll('.ps-ai-cb:checked');
-  var idxs = [];
-  cbs.forEach(function(c){ idxs.push(parseInt(c.getAttribute('data-idx'))); });
-  var groups = getPsAiImgGroups();
-  var imgKeys = Object.keys(groups);
-  // 收集编辑后的值
-  var names = document.querySelectorAll('.ps-edit-name');
-  var qtys = document.querySelectorAll('.ps-edit-qty');
-  var cats = document.querySelectorAll('.ps-edit-cat');
-  var editMap = [];
-  for(var i=0;i<names.length;i++){
-    editMap.push({ name: names[i].value.trim(), qty: parseInt(qtys[i].value)||1, cat: cats[i].value });
-  }
-  // 找出新增行（ps-edit-new）
-  var newRows = document.querySelectorAll('.ps-edit-new');
-  var newItems = [];
-  newRows.forEach(function(r){
-    var n = r.querySelector('.ps-edit-name').value.trim();
-    if (n) {
-      newItems.push({
-        name: n,
-        qty: parseInt(r.querySelector('.ps-edit-qty').value)||1,
-        cat: r.querySelector('.ps-edit-cat').value,
-        image: '手动新增'
-      });
-    }
-  });
-  // 更新现有packStartItems
-  var ei = 0;
-  idxs.forEach(function(idx){
-    var imgName = imgKeys[idx];
-    var imgItems = groups[imgName];
-    for(var ii=0;ii<imgItems.length;ii++){
-      if (ei < editMap.length - newItems.length) {
-        imgItems[ii].name = editMap[ei].name;
-        imgItems[ii].qty = editMap[ei].qty;
-        imgItems[ii].cat = editMap[ei].cat;
-        ei++;
-      }
-    }
-  });
-  // 追加新增物品
-  newItems.forEach(function(it){ packStartItems.push(it); });
-  hidePsAiEdit();
-  renderPackStartAiList();
-  showToast('已保存修改');
 }
 function submitPackStart() {
   var files = document.getElementById('packStartPhotos').files;
