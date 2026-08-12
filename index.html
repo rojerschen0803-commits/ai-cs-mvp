@@ -11378,6 +11378,24 @@ function showOrderPkgDetail(id) {
           '</div>'+
         '</div>';
       })() : '')+
+      // 打包审核区域（打包完成-待审核时，超管/主管可见）
+      (o.status==='打包完成-待审核'&&(currentRole==='super'||currentRole==='manager') ?
+      '<div style="margin-top:12px;">'+
+        '<div style="font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px;">'+
+          '<svg class="ico" style="width:15px;height:15px;color:var(--warning);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'+
+          '打包审核'+
+        '</div>'+
+        '<div style="background:#F9FAFB;border-radius:8px;padding:12px 14px;border:1px solid var(--border);">'+
+          '<div style="margin-bottom:10px;">'+
+            '<label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">审核理由 <span style="color:var(--danger);">*必填</span></label>'+
+            '<textarea id="packDoneAuditReason_'+o.id+'" placeholder="请输入审核理由..." style="width:100%;height:60px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;resize:vertical;"></textarea>'+
+          '</div>'+
+          '<div style="display:flex;gap:8px;">'+
+            '<button class="btn btn-sm btn-success" onclick="submitPackDoneAudit('+o.id+',\'通过\')" style="font-size:10px;padding:4px 12px;">通过</button>'+
+            '<button class="btn btn-sm btn-danger" onclick="submitPackDoneAudit('+o.id+',\'驳回\')" style="font-size:10px;padding:4px 12px;">驳回</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>' : '')+
       // 操作记录 / 日志
       (function(){
         var logs = [];
@@ -12293,6 +12311,25 @@ function rejectPackStartAudit(id) {
   });
 }
 // 审核：完成待审核 → 通过→打包完毕 / 驳回→打包中
+function submitPackDoneAudit(id, action) {
+  var reasonEl = document.getElementById('packDoneAuditReason_'+id);
+  var reason = reasonEl ? reasonEl.value.trim() : '';
+  if (!reason) { showToast('请填写审核理由'); return; }
+  var o = orderPackages.find(function(p){ return p.id===id; });
+  if (!o) return;
+  if (action === '通过') {
+    o.status = '打包完毕';
+    o.packDoneAuditAt = new Date().toISOString().slice(0,16).replace('T',' ');
+  } else {
+    o.status = '驳回';
+    o.packDoneRejectAt = new Date().toISOString().slice(0,16).replace('T',' ');
+  }
+  o.packDoneAuditReason = reason;
+  o.updatedAt = new Date().toISOString().slice(0,16).replace('T',' ');
+  showOrderPkgDetail(id);
+  renderPackAuditList(); renderOrderPackPool(); renderOrderPackStats();
+  showToast('已'+(action==='通过'?'通过':'驳回')+'审核');
+}
 function approvePackDoneAudit(id) {
   if (!confirm('确认通过完成审核？通过后状态变为「打包完毕」')) return;
   var o = orderPackages.find(function(p){ return p.id===id; });
