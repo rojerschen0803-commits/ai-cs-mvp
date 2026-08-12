@@ -11366,6 +11366,7 @@ function showOrderPkgDetail(id) {
           '<div style="display:flex;gap:6px;margin-top:10px;">'+
             '<button class="btn btn-sm btn-success" onclick="approvePackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">通过</button>'+
             '<button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">驳回</button>'+
+            '<button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')" style="font-size:10px;padding:4px 10px;">驳回</button>'+
           '</div>'+
         '</div>';
       })() : '')+
@@ -12647,7 +12648,7 @@ function renderGoodsAuditList() {
     var statusHtml = '';
     if (o.status === '待打包-待审核') {
       statusHtml = '<span class="tag tag-yellow">待审核</span>';
-      acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackStartAudit('+o.id+')">驳回</button>';
+      acts = '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button>';
     } else if (o.status === '打包中') {
       statusHtml = '<span class="tag tag-green">审核通过</span>';
       acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>';
@@ -12700,7 +12701,7 @@ function renderPackAuditList() {
     if (o.status === '打包完成-待审核') {
       statusHtml = '<span class="tag tag-yellow">待审核</span>';
       acts = (currentRole==='super'||currentRole==='manager') ?
-        '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button> <button class="btn btn-sm btn-danger" onclick="rejectPackDoneAudit('+o.id+')">驳回</button>' :
+        '<button class="btn btn-sm btn-success" onclick="showOrderPkgDetail('+o.id+')">审核</button>' :
         '<span class="tag tag-purple">审核中</span>';
     } else if (o.status === '打包完毕') {
       statusHtml = '<span class="tag tag-green">审核通过</span>';
