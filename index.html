@@ -4431,7 +4431,7 @@ main > .modal-overlay.show { display: flex !important; }
           </label>
           <span style="font-size:11px;color:var(--text-muted);" id="psAiSelCount">已选0项</span>
           <button class="btn btn-sm" style="font-size:10px;padding:3px 8px;" onclick="showPsAiEdit()">修改</button>
-          <button class="btn btn-sm" onclick="resetPackStartAi()" style="font-size:10px;padding:3px 8px;background:#059669;color:#fff;border-color:#059669;">重新识别</button>
+          <button class="btn btn-sm" onclick="handlePsAiReIdentify()" style="font-size:10px;padding:3px 8px;background:#059669;color:#fff;border-color:#059669;">重新识别</button>
         </div>
         <!-- 图片卡片列表 -->
         <div id="packStartAiCards" style="max-height:260px;overflow-y:auto;margin-bottom:8px;"></div>
@@ -12884,6 +12884,12 @@ function updatePsAiSelCount() {
   var cbs = document.querySelectorAll('.ps-ai-cb:checked');
   var el = document.getElementById('psAiSelCount');
   if (el) el.textContent = '已选'+cbs.length+'项';
+}
+function handlePsAiReIdentify() {
+  var cbs = document.querySelectorAll('.ps-ai-cb:checked');
+  if (cbs.length === 0) { showToast('请先勾选一张图片'); return; }
+  if (cbs.length > 1) { showToast('重新识别每次仅支持一个图片'); return; }
+  resetPackStartAi();
 }
 function resetPackStartAi() {
   packStartItems = [];
