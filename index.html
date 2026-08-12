@@ -4437,23 +4437,14 @@ main > .modal-overlay.show { display: flex !important; }
     <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-primary btn-sm" onclick="submitPackStart()">提交审核</button></div></div></div>
 
     <!-- AI识别物品修改弹框 -->
-    <div class="modal-overlay" id="psAiEditModal"><div class="modal" style="width:420px;max-height:70vh;overflow-y:auto;">
+    <div class="modal-overlay" id="psAiEditModal"><div class="modal" style="width:420px;max-height:75vh;overflow-y:auto;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
         <h3 style="margin:0;">修改物品</h3>
         <button onclick="hidePsAiEdit()" style="border:none;background:none;font-size:18px;color:var(--text-muted);cursor:pointer;">×</button>
       </div>
       <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">已选 <span id="psAiEditCount" style="color:var(--text);font-weight:600;">0</span> 个物品</div>
-      <div id="psAiEditList" style="margin-bottom:12px;"></div>
-      <!-- 批量修改区 -->
-      <div id="psAiEditBatch" style="display:none;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:12px;">
-        <div style="font-size:11px;font-weight:600;margin-bottom:8px;color:var(--text);">批量修改</div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <div style="flex:1;"><label style="font-size:10px;color:var(--text-muted);display:block;margin-bottom:2px;">物品名称</label><input type="text" id="psAiEditBatchName" placeholder="留空不修改" style="width:100%;padding:5px 7px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;"></div>
-          <div style="width:50px;"><label style="font-size:10px;color:var(--text-muted);display:block;margin-bottom:2px;">数量</label><input type="number" id="psAiEditBatchQty" placeholder="—" min="1" style="width:100%;padding:5px 4px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;text-align:center;"></div>
-          <div style="width:60px;"><label style="font-size:10px;color:var(--text-muted);display:block;margin-bottom:2px;">属性</label><select id="psAiEditBatchCat" style="width:100%;padding:5px 2px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;"><option value="">—</option><option value="普货">普货</option><option value="敏货">敏货</option></select></div>
-        </div>
-        <button class="btn btn-sm btn-primary" onclick="applyPsAiBatchEdit()" style="margin-top:8px;font-size:10px;padding:3px 10px;">应用到已选</button>
-      </div>
+      <div id="psAiEditList" style="margin-bottom:8px;"></div>
+      <button class="btn btn-sm" onclick="addPsAiEditRow()" style="font-size:10px;padding:3px 10px;margin-bottom:12px;">+ 新增</button>
       <div style="display:flex;gap:8px;justify-content:flex-end;">
         <button class="btn btn-sm" onclick="hidePsAiEdit()">取消</button>
         <button class="btn btn-primary btn-sm" onclick="savePsAiEdit()">保存修改</button>
@@ -12887,14 +12878,11 @@ function resetPackStartAi() {
 // 修改物品弹框
 var psAiEditBackup = null;
 function showPsAiEdit() {
-  // 获取勾选的图片索引
   var cbs = document.querySelectorAll('.ps-ai-cb:checked');
   if (cbs.length === 0) { showToast('请先勾选图片'); return; }
   var idxs = [];
   cbs.forEach(function(c){ idxs.push(parseInt(c.getAttribute('data-idx'))); });
-  // 备份当前数据
   psAiEditBackup = JSON.parse(JSON.stringify(packStartItems));
-  // 获取选中的图片组内所有物品
   var selectedItems = [];
   idxs.forEach(function(idx){
     var imgName = Object.keys(getPsAiImgGroups())[idx];
@@ -12904,18 +12892,17 @@ function showPsAiEdit() {
   document.getElementById('psAiEditCount').textContent = selectedItems.length;
   var list = document.getElementById('psAiEditList');
   list.innerHTML = '';
-  var batchEl = document.getElementById('psAiEditBatch');
-  batchEl.style.display = selectedItems.length > 1 ? 'block' : 'none';
   selectedItems.forEach(function(it, i){
     var isSen = it.cat==='敏货';
     list.innerHTML +=
-      '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;background:#fff;">'+
-        '<div style="flex:1;"><input type="text" class="ps-edit-name" data-idx="'+i+'" value="'+it.name+'" style="width:100%;padding:5px 7px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;"></div>'+
-        '<div style="width:42px;"><input type="number" class="ps-edit-qty" data-idx="'+i+'" value="'+it.qty+'" min="1" style="width:100%;padding:5px 4px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;text-align:center;"></div>'+
-        '<div style="width:56px;"><select class="ps-edit-cat" data-idx="'+i+'" style="width:100%;padding:5px 2px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;">'+
+      '<div class="ps-edit-row" style="display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;background:#fff;">'+
+        '<div style="flex:1;"><input type="text" class="ps-edit-name" value="'+it.name+'" style="width:100%;padding:5px 7px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;"></div>'+
+        '<div style="width:42px;"><input type="number" class="ps-edit-qty" value="'+it.qty+'" min="1" style="width:100%;padding:5px 4px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;text-align:center;"></div>'+
+        '<div style="width:56px;"><select class="ps-edit-cat" style="width:100%;padding:5px 2px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;">'+
           '<option value="普货"'+(it.cat==='普货'?' selected':'')+'>普货</option>'+
           '<option value="敏货"'+(isSen?' selected':'')+'>敏货</option>'+
         '</select></div>'+
+        '<span onclick="deletePsAiEditRow(this)" style="color:var(--danger);cursor:pointer;font-size:14px;flex-shrink:0;line-height:1;">×</span>'+
       '</div>';
   });
   document.getElementById('psAiEditModal').classList.add('show');
@@ -12924,31 +12911,26 @@ function hidePsAiEdit() {
   document.getElementById('psAiEditModal').classList.remove('show');
   psAiEditBackup = null;
 }
-function getPsAiImgGroups() {
-  var imgs = {}, imgOrder = [];
-  for(var ia=0;ia<packStartItems.length;ia++){
-    var img = packStartItems[ia].image || '未分组';
-    if(!imgs[img]){ imgs[img]=[]; imgOrder.push(img); }
-    imgs[img].push(packStartItems[ia]);
-  }
-  var result = {};
-  imgOrder.forEach(function(k){ result[k] = imgs[k]; });
-  return result;
+function addPsAiEditRow() {
+  var list = document.getElementById('psAiEditList');
+  var row = document.createElement('div');
+  row.className = 'ps-edit-row ps-edit-new';
+  row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid #93C5FD;border-radius:6px;margin-bottom:6px;background:#F0F9FF;';
+  row.innerHTML =
+    '<div style="flex:1;"><input type="text" class="ps-edit-name" placeholder="物品名称" style="width:100%;padding:5px 7px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;"></div>'+
+    '<div style="width:42px;"><input type="number" class="ps-edit-qty" value="1" min="1" style="width:100%;padding:5px 4px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;text-align:center;"></div>'+
+    '<div style="width:56px;"><select class="ps-edit-cat" style="width:100%;padding:5px 2px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;">'+
+      '<option value="普货">普货</option><option value="敏货">敏货</option>'+
+    '</select></div>'+
+    '<span onclick="deletePsAiEditRow(this)" style="color:var(--danger);cursor:pointer;font-size:14px;flex-shrink:0;line-height:1;">×</span>';
+  list.appendChild(row);
+  var cnt = document.querySelectorAll('.ps-edit-row').length;
+  document.getElementById('psAiEditCount').textContent = cnt;
 }
-function applyPsAiBatchEdit() {
-  var batchName = document.getElementById('psAiEditBatchName').value.trim();
-  var batchQty = parseInt(document.getElementById('psAiEditBatchQty').value) || 0;
-  var batchCat = document.getElementById('psAiEditBatchCat').value;
-  if (!batchName && !batchQty && !batchCat) { showToast('请至少填写一项批量修改'); return; }
-  var names = document.querySelectorAll('.ps-edit-name');
-  var qtys = document.querySelectorAll('.ps-edit-qty');
-  var cats = document.querySelectorAll('.ps-edit-cat');
-  for(var i=0;i<names.length;i++){
-    if (batchName) names[i].value = batchName;
-    if (batchQty > 0) qtys[i].value = batchQty;
-    if (batchCat) cats[i].value = batchCat;
-  }
-  showToast('已应用批量修改');
+function deletePsAiEditRow(el) {
+  el.parentElement.remove();
+  var cnt = document.querySelectorAll('.ps-edit-row').length;
+  document.getElementById('psAiEditCount').textContent = cnt;
 }
 function savePsAiEdit() {
   var cbs = document.querySelectorAll('.ps-ai-cb:checked');
@@ -12964,13 +12946,27 @@ function savePsAiEdit() {
   for(var i=0;i<names.length;i++){
     editMap.push({ name: names[i].value.trim(), qty: parseInt(qtys[i].value)||1, cat: cats[i].value });
   }
-  // 更新packStartItems
+  // 找出新增行（ps-edit-new）
+  var newRows = document.querySelectorAll('.ps-edit-new');
+  var newItems = [];
+  newRows.forEach(function(r){
+    var n = r.querySelector('.ps-edit-name').value.trim();
+    if (n) {
+      newItems.push({
+        name: n,
+        qty: parseInt(r.querySelector('.ps-edit-qty').value)||1,
+        cat: r.querySelector('.ps-edit-cat').value,
+        image: '手动新增'
+      });
+    }
+  });
+  // 更新现有packStartItems
   var ei = 0;
   idxs.forEach(function(idx){
     var imgName = imgKeys[idx];
     var imgItems = groups[imgName];
     for(var ii=0;ii<imgItems.length;ii++){
-      if (ei < editMap.length) {
+      if (ei < editMap.length - newItems.length) {
         imgItems[ii].name = editMap[ei].name;
         imgItems[ii].qty = editMap[ei].qty;
         imgItems[ii].cat = editMap[ei].cat;
@@ -12978,6 +12974,8 @@ function savePsAiEdit() {
       }
     }
   });
+  // 追加新增物品
+  newItems.forEach(function(it){ packStartItems.push(it); });
   hidePsAiEdit();
   renderPackStartAiList();
   showToast('已保存修改');
