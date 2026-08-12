@@ -4437,7 +4437,7 @@ main > .modal-overlay.show { display: flex !important; }
     <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-primary btn-sm" onclick="submitPackStart()">提交审核</button></div></div></div>
 
     <!-- AI识别物品修改弹框 -->
-    <div class="modal-overlay" id="psAiEditModal"><div class="modal" style="width:420px;max-height:75vh;overflow-y:auto;">
+    <div class="modal-overlay" id="psAiEditModal" style="z-index:1100;"><div class="modal" style="width:420px;max-height:75vh;overflow-y:auto;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
         <h3 style="margin:0;">修改物品</h3>
         <button onclick="hidePsAiEdit()" style="border:none;background:none;font-size:18px;color:var(--text-muted);cursor:pointer;">×</button>
