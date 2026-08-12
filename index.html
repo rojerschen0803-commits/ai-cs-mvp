@@ -11307,7 +11307,7 @@ function showOrderPkgDetail(id) {
           var firstOpen = ic===0;
           cardsHtml += '<div style="margin-bottom:6px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff;">';
           cardsHtml += '<div style="display:flex;align-items:center;gap:8px;padding:9px 10px;background:#F8FAFC;cursor:pointer;" onclick="toggleDaiImgCard(\''+cid+'\')">';
-          cardsHtml += '<input type="checkbox" class="dai-img-cb" data-idx="'+ic+'" onclick="event.stopPropagation()">';
+          cardsHtml += '<input type="checkbox" class="dai-img-cb" data-idx="'+ic+'" onclick="event.stopPropagation();setTimeout(updateDaiSelCount,0)">';
           cardsHtml += '<div style="width:30px;height:30px;background:'+iColor+';border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
           cardsHtml += '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:15px;height:15px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
           cardsHtml += '</div>';
@@ -11327,7 +11327,6 @@ function showOrderPkgDetail(id) {
             var it = iitems[ii];
             var isSen = it.cat==='敏货';
             cardsHtml += '<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;'+(ii<iitems.length-1?'border-bottom:1px solid var(--border-light);':'')+'">';
-            cardsHtml += '<input type="checkbox" class="dai-item-cb">';
             cardsHtml += '<span style="font-size:11px;color:var(--text);flex:1;">'+it.name+'</span>';
             cardsHtml += '<span style="font-size:10px;color:var(--text-muted);min-width:18px;text-align:center;">'+it.qty+'</span>';
             cardsHtml += '<span style="min-width:38px;text-align:center;"><span class="tag" style="font-size:9px;padding:1px 6px;border-radius:10px;background:'+(isSen?'#FEF2F2':'#ECFDF5')+';color:'+(isSen?'#DC2626':'#10B981')+';border:1px solid '+(isSen?'#FECACA':'#A7F3D0')+';">'+(isSen?'敏货':'普货')+'</span></span>';
@@ -11340,12 +11339,11 @@ function showOrderPkgDetail(id) {
         var footerHint = remainCards > 0 ? '<div style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:6px;">还有 '+remainCards+' 张图片，向下查看更多</div>' : '';
         return '<div style="margin-top:12px;">'+
           // 标题行
-          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">'+
+          '<div style="display:flex;align-items:center;margin-bottom:8px;">'+
             '<div style="font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;">'+
               '<svg class="ico" style="width:15px;height:15px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'+
               'AI识别物品清单 <span style="font-size:10px;color:var(--text-muted);font-weight:400;">'+totalItems+' 件</span>'+
             '</div>'+
-            '<button class="btn btn-sm" onclick="addPackAuditItem('+o.id+')" style="font-size:10px;padding:4px 8px;">+ 新增物品</button>'+
           '</div>'+
           // 状态条
           '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#ECFDF5;border-radius:6px;margin-bottom:8px;">'+
@@ -11357,13 +11355,9 @@ function showOrderPkgDetail(id) {
           '</div>'+
           // 工具栏
           '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">'+
-            '<label style="font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;">'+
-              '<input type="checkbox" class="dai-select-all-cb" onclick="toggleAllDaiItems(this)"> 全选'+
-            '</label>'+
-            '<span style="font-size:11px;color:var(--text-muted);" id="daiSelCount_'+o.id+'">已选0项</span>'+
             '<button class="btn btn-sm" style="font-size:10px;padding:3px 8px;">修改</button>'+
-            '<button class="btn btn-sm btn-danger" style="font-size:10px;padding:3px 8px;">删除</button>'+
-            '<button class="btn btn-sm" onclick="reRunPackAuditAi('+o.id+')" style="font-size:10px;padding:3px 8px;background:#059669;color:#fff;border-color:#059669;">批量重识别</button>'+
+            '<button class="btn btn-sm" onclick="reRunPackAuditAi('+o.id+')" style="font-size:10px;padding:3px 8px;background:#059669;color:#fff;border-color:#059669;">重新识别</button>'+
+            '<span style="font-size:11px;color:var(--text-muted);margin-left:auto;" id="daiSelCount_'+o.id+'">已选0项</span>'+
           '</div>'+
           // 图片卡片
           '<div style="max-height:320px;overflow-y:auto;">'+cardsHtml+'</div>'+
@@ -12405,8 +12399,14 @@ function toggleDaiImgCard(cid) {
 }
 // 抽屉AI识别全选
 function toggleAllDaiItems(el) {
-  var cbs = document.querySelectorAll('.dai-item-cb, .dai-img-cb');
+  var cbs = document.querySelectorAll('.dai-img-cb');
   cbs.forEach(function(c){ c.checked = el.checked; });
+  updateDaiSelCount();
+}
+function updateDaiSelCount() {
+  var cbs = document.querySelectorAll('.dai-img-cb:checked');
+  var els = document.querySelectorAll('[id^="daiSelCount_"]');
+  els.forEach(function(el){ el.textContent = '已选'+cbs.length+'项'; });
 }
 function reRunPackAuditAi(oid) {
   var o = orderPackages.find(function(p){ return p.id===oid; });
