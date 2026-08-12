@@ -4460,6 +4460,18 @@ main > .modal-overlay.show { display: flex !important; }
       <div id="photoPreviewGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
     </div></div>
 
+    <!-- 通用确认弹框 -->
+    <div class="modal-overlay" id="confirmModal" style="z-index:1200;"><div class="modal" style="width:360px;">
+      <div style="text-align:center;margin-bottom:12px;">
+        <h3 style="margin:0 0 8px;" id="confirmModalTitle">确认操作</h3>
+        <div style="font-size:12px;color:var(--text-secondary);" id="confirmModalMsg"></div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button class="btn btn-sm" onclick="hideConfirmModal()">取消</button>
+        <button class="btn btn-primary btn-sm" id="confirmModalOkBtn">确定</button>
+      </div>
+    </div></div>
+
     <!-- 打包审核操作弹框 -->
     <div class="modal-overlay" id="packAuditActionModal" style="z-index:1100;"><div class="modal" style="width:440px;"><h3 id="packAuditActionTitle">操作</h3><div style="margin-bottom:12px;font-size:12px;color:var(--text-secondary);" id="packAuditActionDesc"></div>
     <div id="packAuditActionBody"></div>
@@ -12315,21 +12327,27 @@ function submitPackDoneAudit(id, action) {
   var reasonEl = document.getElementById('packDoneAuditReason_'+id);
   var reason = reasonEl ? reasonEl.value.trim() : '';
   if (!reason) { showToast('请填写审核理由'); return; }
-  if (!confirm('确认审核'+(action==='通过'?'通过':'驳回')+'？\n审核理由：'+reason)) return;
-  var o = orderPackages.find(function(p){ return p.id===id; });
-  if (!o) return;
-  if (action === '通过') {
-    o.status = '打包完毕';
-    o.packDoneAuditAt = new Date().toISOString().slice(0,16).replace('T',' ');
-  } else {
-    o.status = '驳回';
-    o.packDoneRejectAt = new Date().toISOString().slice(0,16).replace('T',' ');
-  }
-  o.packDoneAuditReason = reason;
-  o.updatedAt = new Date().toISOString().slice(0,16).replace('T',' ');
-  hideOrderPkgDrawer();
-  renderPackAuditList(); renderOrderPackPool(); renderOrderPackStats();
-  showToast('已'+(action==='通过'?'通过':'驳回')+'审核');
+  showConfirmModal(
+    '确认审核'+(action==='通过'?'通过':'驳回'),
+    '审核理由：'+reason,
+    action==='通过'?'#10B981':'#DC2626',
+    function(){
+      var o = orderPackages.find(function(p){ return p.id===id; });
+      if (!o) return;
+      if (action === '通过') {
+        o.status = '打包完毕';
+        o.packDoneAuditAt = new Date().toISOString().slice(0,16).replace('T',' ');
+      } else {
+        o.status = '驳回';
+        o.packDoneRejectAt = new Date().toISOString().slice(0,16).replace('T',' ');
+      }
+      o.packDoneAuditReason = reason;
+      o.updatedAt = new Date().toISOString().slice(0,16).replace('T',' ');
+      hideOrderPkgDrawer();
+      renderPackAuditList(); renderOrderPackPool(); renderOrderPackStats();
+      showToast('已'+(action==='通过'?'通过':'驳回')+'审核');
+    }
+  );
 }
 function approvePackDoneAudit(id) {
   if (!confirm('确认通过完成审核？通过后状态变为「打包完毕」')) return;
@@ -12587,6 +12605,19 @@ function previewPackPhotos(oid) {
       '</div>';
   }
   document.getElementById('photoPreviewModal').classList.add('show');
+}
+// 通用确认弹框
+function showConfirmModal(title, msg, btnColor, onOk) {
+  document.getElementById('confirmModalTitle').textContent = title;
+  document.getElementById('confirmModalMsg').textContent = msg;
+  var okBtn = document.getElementById('confirmModalOkBtn');
+  okBtn.style.background = btnColor;
+  okBtn.style.borderColor = btnColor;
+  okBtn.onclick = function(){ hideConfirmModal(); onOk(); };
+  document.getElementById('confirmModal').classList.add('show');
+}
+function hideConfirmModal() {
+  document.getElementById('confirmModal').classList.remove('show');
 }
 function hidePhotoPreview() {
   document.getElementById('photoPreviewModal').classList.remove('show');
