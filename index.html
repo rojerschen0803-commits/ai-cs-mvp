@@ -47,10 +47,61 @@ body {
   background: var(--bg);
   color: var(--text);
   display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow: hidden;
   font-size: 13px;
   line-height: 1.5;
+}
+
+/* ---------- TOP NAV (一级菜单) ---------- */
+.top-nav {
+  height: 52px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 20px;
+  gap: 8px;
+  z-index: 20;
+}
+.top-nav-brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-right: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.top-nav-items {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.top-nav-item {
+  padding: 6px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.top-nav-item:hover { color: var(--primary); background: var(--bg); }
+.top-nav-item.active { color: var(--primary); background: var(--primary-light, #EEF2FF); font-weight: 600; }
+.top-nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+/* ---------- APP SHELL ---------- */
+.app-shell {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
 }
 
 /* ---------- SIDEBAR ---------- */
@@ -1759,100 +1810,115 @@ main > .modal-overlay.show { display: flex !important; }
 </script></head>
 <body>
 
+<!-- ============ TOP NAV (一级菜单) ============ -->
+<div class="top-nav">
+  <div class="top-nav-brand">
+    <span class="icon" style="display:flex;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+    <span>虾远国际Agent</span>
+  </div>
+  <div class="top-nav-items">
+    <div class="top-nav-item active" data-group="home" onclick="switchTopNav('home', this)">首页</div>
+    <div class="top-nav-item" data-group="jy" onclick="switchTopNav('jy', this)">集运</div>
+    <div class="top-nav-item" data-group="customer" onclick="switchTopNav('customer', this)">客户</div>
+    <div class="top-nav-item" data-group="orca" onclick="switchTopNav('orca', this)">ORCA</div>
+    <div class="top-nav-item" data-group="config" onclick="switchTopNav('config', this)">配置</div>
+  </div>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div class="app-shell">
+
 <!-- ============ SIDEBAR ============ -->
 <aside class="sidebar">
-  <div class="sidebar-logo">
-    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span> <span class="logo-text">虾远国际Agent</span>
-  </div>
 <nav class="sidebar-nav">
-    <div class="nav-item active" data-page="home" onclick="showPage('home')">
+    <div class="nav-item active" data-page="home" data-nav-group="home" onclick="showPage('home')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> <span class="nav-text">首页</span>
     </div>
-    <div class="sidebar-section">渠道</div>
-    <div class="nav-item" data-page="connectorManage" onclick="showPage('connectorManage')">
+    <div class="sidebar-section" data-nav-group="orca">渠道</div>
+    <div class="nav-item" data-page="connectorManage" data-nav-group="orca" onclick="showPage('connectorManage')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v4h4"/><path d="M20 2l-8 8"/><path d="M8 22v-4H4"/><path d="M4 22l8-8"/></svg></span> <span class="nav-text">连接器管理</span>
     </div>
-    <div class="sidebar-section">AI管理</div>
-    <div class="nav-item" data-page="chat" onclick="showPage('chat')">
+    <div class="sidebar-section" data-nav-group="orca">AI管理</div>
+    <div class="nav-item" data-page="chat" data-nav-group="orca" onclick="showPage('chat')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> <span class="nav-text">会话</span>
       <span class="badge">8</span>
     </div>
-    <div class="nav-item" data-page="knowledge" onclick="showPage('knowledge')">
+    <div class="nav-item" data-page="knowledge" data-nav-group="orca" onclick="showPage('knowledge')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="12" y1="7" x2="18" y2="7"/><line x1="12" y1="11" x2="18" y2="11"/></svg></span> <span class="nav-text">知识库</span>
     </div>
-    <div class="nav-item" data-page="assistant" onclick="showPage('assistant')">
+    <div class="nav-item" data-page="assistant" data-nav-group="orca" onclick="showPage('assistant')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10h-10V2z"/><circle cx="12" cy="12" r="3"/></svg></span> <span class="nav-text">AI Agent</span>
     </div>
-    <div class="nav-item" data-page="skill" onclick="showPage('skill')">
+    <div class="nav-item" data-page="skill" data-nav-group="orca" onclick="showPage('skill')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8z"/></svg></span> <span class="nav-text">Skill</span>
     </div>
-    <div class="nav-item" data-page="training" onclick="showPage('training')">
+    <div class="nav-item" data-page="training" data-nav-group="orca" onclick="showPage('training')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><circle cx="12" cy="10" r="2"/><line x1="10" y1="8" x2="10" y2="6"/><line x1="14" y1="8" x2="14" y2="6"/><line x1="8" y1="10" x2="6" y2="10"/><line x1="16" y1="10" x2="18" y2="10"/></svg></span> <span class="nav-text">AI企业训练</span>
       <span class="badge">234</span>
     </div>
-    <div class="nav-item" data-page="trainingExternal" onclick="showPage('trainingExternal')">
+    <div class="nav-item" data-page="trainingExternal" data-nav-group="orca" onclick="showPage('trainingExternal')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span> <span class="nav-text">AI外部训练</span>
     </div>
-    <div class="sidebar-section">客户管理</div>
-    <div class="nav-item" data-page="ticket" onclick="showPage('ticket')">
+    <div class="sidebar-section" data-nav-group="customer">客户管理</div>
+    <div class="nav-item" data-page="ticket" data-nav-group="customer" onclick="showPage('ticket')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span> <span class="nav-text">工单</span><span id="ticketBadge" class="badge" style="display:none;"></span>
     </div>
-    <div class="nav-item" data-page="crm" onclick="showPage('crm')">
+    <div class="nav-item" data-page="crm" data-nav-group="customer" onclick="showPage('crm')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/></svg></span> <span class="nav-text">客户</span>
     </div>
-    <div class="nav-item" data-page="tag" onclick="showPage('tag')">
+    <div class="nav-item" data-page="tag" data-nav-group="customer" onclick="showPage('tag')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span> <span class="nav-text">标签</span>
     </div>
-    <div class="nav-item" data-page="group" onclick="showPage('group')">
+    <div class="nav-item" data-page="group" data-nav-group="customer" onclick="showPage('group')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span> <span class="nav-text">客户组</span>
     </div>
-    <div class="nav-item" data-page="aiTicket" onclick="showPage('aiTicket')">
+    <div class="nav-item" data-page="aiTicket" data-nav-group="customer" onclick="showPage('aiTicket')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><circle cx="12" cy="12" r="3"/></svg></span> <span class="nav-text">AI工单</span>
     </div>
-    <div class="nav-item" data-page="ticketType" onclick="showPage('ticketType')">
+    <div class="nav-item" data-page="ticketType" data-nav-group="customer" onclick="showPage('ticketType')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="12" y2="13"/></svg></span> <span class="nav-text">工单类型</span>
     </div>
-    <div class="nav-item" data-page="dashboard" onclick="showPage('dashboard')">
+    <div class="sidebar-section" data-nav-group="jy">订单管理</div>
+        <div class="nav-item" data-page="dashboard" data-nav-group="jy" onclick="showPage('dashboard')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span> <span class="nav-text">报表</span>
     </div>
-    <div class="sidebar-section">订单管理</div>
-    <div class="nav-item" data-page="orderOverview" onclick="showPage('orderOverview')">
+    <div class="nav-item" data-page="orderOverview" data-nav-group="jy" onclick="showPage('orderOverview')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span> <span class="nav-text">概览</span>
     </div>
-    <div class="nav-item" data-page="orderPackage" onclick="showPage('orderPackage')">
+    <div class="nav-item" data-page="orderPackage" data-nav-group="jy" onclick="showPage('orderPackage')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span> <span class="nav-text">集包</span>
     </div>
-    <div class="nav-item" data-page="orderPick" onclick="showPage('orderPick')">
+    <div class="nav-item" data-page="orderPick" data-nav-group="jy" onclick="showPage('orderPick')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></span> <span class="nav-text">拣货</span>
     </div>
-    <div class="nav-item" data-page="orderPack" onclick="showPage('orderPack')">
+    <div class="nav-item" data-page="orderPack" data-nav-group="jy" onclick="showPage('orderPack')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> <span class="nav-text">打包</span>
     </div>
-    <div class="nav-item nav-super-only" data-page="orderGoodsAudit" onclick="showPage('orderGoodsAudit')">
+    <div class="nav-item nav-super-only" data-page="orderGoodsAudit" data-nav-group="jy" onclick="showPage('orderGoodsAudit')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> <span class="nav-text">包裹审核</span><span class="nav-badge" id="navBadgeGoodsAudit"></span>
     </div>
-    <div class="nav-item nav-super-only" data-page="orderPackAudit" onclick="showPage('orderPackAudit')">
+    <div class="nav-item nav-super-only" data-page="orderPackAudit" data-nav-group="jy" onclick="showPage('orderPackAudit')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">打包审核</span><span class="nav-badge" id="navBadgePackAudit"></span>
     </div>
-    <div class="nav-item" data-page="orderVerify" onclick="showPage('orderVerify')">
+    <div class="nav-item" data-page="orderVerify" data-nav-group="jy" onclick="showPage('orderVerify')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> <span class="nav-text">核款</span><span class="nav-badge" id="navBadgeVerify"></span>
     </div>
-    <div class="nav-item" data-page="orderReturn" onclick="showPage('orderReturn')">
+    <div class="nav-item" data-page="orderReturn" data-nav-group="jy" onclick="showPage('orderReturn')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg></span> <span class="nav-text">退件</span><span class="nav-badge" id="navBadgeReturn"></span>
     </div>
-    <div class="nav-item" data-page="orderException" onclick="showPage('orderException')">
+    <div class="nav-item" data-page="orderException" data-nav-group="jy" onclick="showPage('orderException')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> <span class="nav-text">异常</span><span class="nav-badge" id="navBadgeEx"></span>
     </div>
-    <div class="nav-item" data-page="orderVoid" onclick="showPage('orderVoid')">
+    <div class="nav-item" data-page="orderVoid" data-nav-group="jy" onclick="showPage('orderVoid')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> <span class="nav-text">作废</span><span class="nav-badge" id="navBadgeVoid"></span>
     </div>
-    <div class="sidebar-section">系统管理</div>
-    <div class="nav-item" data-page="team" onclick="showPage('team')">  <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg></span> <span class="nav-text">团队</span>
+    <div class="sidebar-section" data-nav-group="config">系统管理</div>
+    <div class="nav-item" data-page="team" data-nav-group="config" onclick="showPage('team')">  <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg></span> <span class="nav-text">团队</span>
     </div>
-    <div class="nav-item" data-page="updatelog" onclick="showPage('updatelog')">
+    <div class="nav-item" data-page="updatelog" data-nav-group="config" onclick="showPage('updatelog')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span> <span class="nav-text">更新日志</span>
     </div>
-    <div class="nav-item" data-page="settings" onclick="showPage('settings')">
+    <div class="nav-item" data-page="settings" data-nav-group="config" onclick="showPage('settings')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg></span> <span class="nav-text">设置</span>
     </div>
   </nav>
@@ -5104,6 +5170,8 @@ main > .modal-overlay.show { display: flex !important; }
   </div>
 </main>
 
+</div><!-- /app-shell -->
+
 <!-- ====== 集包详情抽屉 ====== -->
 <div class="drawer-overlay" id="orderPkgDrawer" onclick="if(event.target===this)hideOrderPkgDrawer()">
   <div class="drawer-panel">
@@ -5674,6 +5742,9 @@ function switchRole(role, el) {
   }
   renderTicketTabs();
   renderTickets();
+  // 统一应用一级菜单 + 角色权限
+  var activeTop = document.querySelector('.top-nav-item.active');
+  applyNavGroup(activeTop ? activeTop.getAttribute('data-group') : 'home');
   var labels = { super: '超管（全部可见）', manager: '主管（本部门）', employee: '员工（本人指派）' };
   showToast('已切换：' + labels[role]);
 }
@@ -5692,6 +5763,36 @@ function updateNavBadges() {
   setBadge('navBadgeGoodsAudit', goodsAuditCount);
   setBadge('navBadgePackAudit', packAuditCount);
 }
+// ========== 顶部一级菜单切换 ==========
+var topNavDefaultPage = { home:'home', jy:'orderOverview', customer:'ticket', orca:'knowledge', config:'settings' };
+
+function applyNavGroup(group) {
+  var isEmp = (currentRole === 'employee');
+  var items = document.querySelectorAll('.sidebar-nav .nav-item, .sidebar-nav .sidebar-section');
+  items.forEach(function(item){
+    var g = item.getAttribute('data-nav-group');
+    var page = item.getAttribute('data-page');
+    var isSuperOnly = item.classList.contains('nav-super-only');
+    var empHidden = (page && ['tag','ticketType','dashboard','group'].indexOf(page) !== -1);
+    var showByGroup = (!g || g === group);
+    var showByRole = true;
+    if (isSuperOnly && currentRole !== 'super') showByRole = false;
+    if (empHidden && isEmp) showByRole = false;
+    item.style.display = (showByGroup && showByRole) ? '' : 'none';
+  });
+}
+
+function switchTopNav(group, el) {
+  // 顶部一级菜单高亮
+  document.querySelectorAll('.top-nav-item').forEach(function(t){ t.classList.remove('active'); });
+  var target = el || document.querySelector('.top-nav-item[data-group="'+group+'"]');
+  if (target) target.classList.add('active');
+  // 显示对应侧栏菜单
+  applyNavGroup(group);
+  // 跳转到该组默认页面
+  showPage(topNavDefaultPage[group] || 'home');
+}
+
 function showPage(pageId) {
   dismissLogPopup();
   // Save current page for refresh recovery
@@ -5705,6 +5806,14 @@ function showPage(pageId) {
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   var nav = document.querySelector('[data-page=\"'+pageId+'\"]');
   if (nav) nav.classList.add('active');
+  // 同步顶部一级菜单高亮
+  if (nav && nav.getAttribute('data-nav-group')) {
+    var grp = nav.getAttribute('data-nav-group');
+    document.querySelectorAll('.top-nav-item').forEach(function(t){
+      t.classList.toggle('active', t.getAttribute('data-group') === grp);
+    });
+    applyNavGroup(grp);
+  }
   // Update page title
   var titles = { home: '首页', ticket: '工单', crm: '客户', tag: '标签', group: '客户组', aiTicket: 'AI工单', ticketType: '工单类型', dashboard: '报表', orderOverview: '订单概览', orderPackage: '集包管理', orderPick: '拣货管理', orderPack: '打包管理', orderGoodsAudit: '包裹审核', orderPackAudit: '打包审核', orderException: '异常', orderVerify: '核款', orderReturn: '退件', orderVoid: '作废', team: '团队', settings: '设置', updatelog: '更新日志', training: 'AI企业训练', trainingExternal: 'AI外部训练', knowledge: '知识库', assistant: 'AI Agent', chat: '会话', bot: '机器人', skill: 'Skill', connectorManage: '连接器管理' };
   document.getElementById('pageTitle').textContent = titles[pageId] || pageId;
