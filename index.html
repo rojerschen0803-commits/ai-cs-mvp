@@ -1775,7 +1775,7 @@ main > .modal-overlay.show { display: flex !important; }
     </div>
     <div class="sidebar-section">渠道</div>
     <div class="nav-item" data-page="channel" onclick="showPage('channel')">
-      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="1.5" fill="currentColor" stroke="none"/><path d="M8.5 13.5a5 5 0 0 1 7 0"/><path d="M5.5 9.5a9 9 0 0 1 13 0"/></svg></span> <span class="nav-text">渠道</span>
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="1.5" fill="currentColor" stroke="none"/><path d="M8.5 13.5a5 5 0 0 1 7 0"/><path d="M5.5 9.5a9 9 0 0 1 13 0"/></svg></span> <span class="nav-text">AI工具</span>
     </div>
     <div class="sidebar-section">AI管理</div>
     <div class="nav-item" data-page="knowledge" onclick="showPage('knowledge')">
@@ -5709,7 +5709,7 @@ function showPage(pageId) {
   var nav = document.querySelector('[data-page=\"'+pageId+'\"]');
   if (nav) nav.classList.add('active');
   // Update page title
-  var titles = { home: '首页', ticket: '工单', crm: '客户', tag: '标签', group: '客户组', aiTicket: 'AI工单', ticketType: '工单类型', dashboard: '报表', orderOverview: '订单概览', orderPackage: '集包管理', orderPick: '拣货管理', orderPack: '打包管理', orderGoodsAudit: '包裹审核', orderPackAudit: '打包审核', orderException: '异常', orderVerify: '核款', orderReturn: '退件', orderVoid: '作废', team: '团队', settings: '设置', updatelog: '更新日志', training: 'AI企业训练', trainingExternal: 'AI外部训练', knowledge: '知识库', assistant: 'AI助手', chat: '会话', bot: '机器人', channel: '渠道' };
+  var titles = { home: '首页', ticket: '工单', crm: '客户', tag: '标签', group: '客户组', aiTicket: 'AI工单', ticketType: '工单类型', dashboard: '报表', orderOverview: '订单概览', orderPackage: '集包管理', orderPick: '拣货管理', orderPack: '打包管理', orderGoodsAudit: '包裹审核', orderPackAudit: '打包审核', orderException: '异常', orderVerify: '核款', orderReturn: '退件', orderVoid: '作废', team: '团队', settings: '设置', updatelog: '更新日志', training: 'AI企业训练', trainingExternal: 'AI外部训练', knowledge: '知识库', assistant: 'AI助手', chat: '会话', bot: '机器人', channel: 'AI工具' };
   document.getElementById('pageTitle').textContent = titles[pageId] || pageId;
   // Render data
   updateNavBadges();
