@@ -1791,6 +1791,9 @@ main > .modal-overlay.show { display: flex !important; }
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><circle cx="12" cy="10" r="2"/><line x1="10" y1="8" x2="10" y2="6"/><line x1="14" y1="8" x2="14" y2="6"/><line x1="8" y1="10" x2="6" y2="10"/><line x1="16" y1="10" x2="18" y2="10"/></svg></span> <span class="nav-text">AI训练</span>
       <span class="badge">234</span>
     </div>
+    <div class="nav-item" data-page="trainingExternal" onclick="showPage('trainingExternal')">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span> <span class="nav-text">AI外部训练</span>
+    </div>
     <div class="sidebar-section">客户管理</div>
     <div class="nav-item" data-page="ticket" onclick="showPage('ticket')">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span> <span class="nav-text">工单</span><span id="ticketBadge" class="badge" style="display:none;"></span>
@@ -3086,6 +3089,117 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
     </div>
 
+    <!-- ====== PAGE 3b: AI外部训练（独立副本） ====== -->
+    <div class="page fade-in" id="page-trainingExternal">
+      <div class="page-desc-banner">
+        <div class="note-type page-desc" style="display:inline;margin-right:8px;">页面说明</div>
+        AI外部训练中心：独立于内部AI训练的外部训练数据管理，系统自动识别AI回答中的问题，也支持手动添加训练数据，融合外部知识。<br>
+        <strong>角色隔离</strong>：员工提交的部门训练需主管审核通过后生效；主管/超管提交直接生效。<br>
+        <strong>核心逻辑</strong>：训练数据经审核后入库，驱动下一轮外部模型训练与准确率提升。
+      </div>
+
+      <!-- 统计卡片 -->
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-label">待审核</div>
+          <div class="stat-value" id="extPendingCount">8</div>
+          <div class="stat-sub">员工提交待处理</div>
+          <div class="stat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">已生效</div>
+          <div class="stat-value">642</div>
+          <div class="stat-sub">累计训练条目</div>
+          <div class="stat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">模型版本</div>
+          <div class="stat-value">v1.8</div>
+          <div class="stat-sub">当前运行中</div>
+          <div class="stat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a4 4 0 0 1 4 4c0 2-1 3-2 4h-4c-1-1-2-2-2-4a4 4 0 0 1 4-4z"/><path d="M8 12c-2 1-3 3-3 5a3 3 0 0 0 6 0v-5"/><path d="M16 12c2 1 3 3 3 5a3 3 0 0 1-6 0v-5"/><path d="M9 20c.5 2 2.5 3 3 3s2.5-1 3-3"/></svg></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">训练准确率</div>
+          <div class="stat-value">86.7%</div>
+          <div class="stat-sub">较上周 +0.8%</div>
+          <div class="stat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+        </div>
+      </div>
+
+      <!-- 部门Tab -->
+      <div class="dept-tabs" id="extTrainingDeptTabs" style="margin-bottom:12px;">
+        <span class="dept-tab active" onclick="switchExtTrainingDept('all',this)">全部部门</span>
+        <span class="dept-tab" onclick="switchExtTrainingDept('市场-门店团队',this)">市场-门店团队</span>
+        <span class="dept-tab" onclick="switchExtTrainingDept('市场-销售团队',this)">市场-销售团队</span>
+        <span class="dept-tab" onclick="switchExtTrainingDept('运营团队',this)">运营团队</span>
+      </div>
+
+      <!-- 训练子Tab -->
+      <div class="sub-tab-bar" id="extTrainingSubTabBar">
+        <div class="sub-tab-item active" onclick="switchExtTrainingTab('auto', this)">AI自动识别</div>
+        <div class="sub-tab-item" onclick="switchExtTrainingTab('records', this)">训练审核</div>
+      </div>
+
+      <!-- Panel 1: AI自动识别 -->
+      <div class="kb-content-panel active" id="extTrainingAutoPanel">
+        <div class="panel-toolbar">
+          <div class="search-box">
+            <span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+            <input type="text" placeholder="搜索自动识别的问题...">
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="showExtTrainingModal()">+ 添加训练</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>用户输入</th>
+                <th>AI原始回复</th>
+                <th>标准回复</th>
+                <th>置信度</th>
+                <th>问题类型</th>
+                <th style="width:70px;">部门</th>
+                <th style="width:70px;">创建人</th>
+                <th>归类</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="extAutoTrainingBody">
+            </tbody>
+          </table>
+          <div class="table-footer" onclick="showToast('加载更多识别结果')">加载更多识别结果...</div>
+        </div>
+      </div>
+
+      <!-- Panel 2: 训练审核 -->
+      <div class="kb-content-panel" id="extTrainingRecordsPanel">
+        <div class="panel-toolbar">
+          <div class="search-box">
+            <span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+            <input type="text" placeholder="搜索训练记录...">
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table" id="extTrainingRecordsTable">
+            <thead>
+              <tr>
+                <th style="width:22%;">问题</th>
+                <th style="width:26%;">正确答案（摘要）</th>
+                <th style="width:7%;">归类</th>
+                <th style="width:8%;">部门</th>
+                <th style="width:8%;">问题类型</th>
+                <th style="width:8%;">提交人</th>
+                <th style="width:8%;">审核状态</th>
+                <th style="width:14%;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="extTrainingRecordsBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- 添加训练弹框 -->
     <div class="modal-overlay" id="trainingModal">
       <div class="modal" style="width:480px;">
@@ -3140,6 +3254,64 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
           <button class="btn btn-sm" onclick="hideTrainingDetail()">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI外部训练：添加训练弹框 -->
+    <div class="modal-overlay" id="extTrainingModal">
+      <div class="modal" style="width:480px;">
+        <h3>添加外部训练数据</h3>
+        <div style="margin-bottom:10px;">
+          <input type="text" placeholder="用户问题/触发场景" id="extTrainingFormQ" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;outline:none;">
+        </div>
+        <div style="margin-bottom:10px;display:flex;gap:8px;">
+          <select id="extTrainingFormCat" style="flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;outline:none;">
+            <option value="">选择归类</option>
+            <option value="sales">售前</option><option value="service">售后</option>
+            <option value="complaint">客诉</option><option value="logistics">物流</option>
+          </select>
+          <select id="extTrainingFormIssueType" style="flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;outline:none;">
+            <option value="">问题类型</option>
+            <option value="未覆盖国家/线路">未覆盖国家/线路</option>
+            <option value="敏感品规则缺失">敏感品规则缺失</option>
+            <option value="回复太过笼统">回复太过笼统</option>
+            <option value="规则描述不完整">规则描述不完整</option>
+            <option value="报价不准确">报价不准确</option>
+            <option value="时效描述错误">时效描述错误</option>
+            <option value="分类错误">分类错误</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div style="margin-bottom:12px;">
+          <textarea placeholder="标准正确答案 / 训练目标回复" id="extTrainingFormA" style="width:100%;min-height:80px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;outline:none;resize:vertical;font-family:inherit;"></textarea>
+        </div>
+        <span id="extTrainingApprovalHint" style="font-size:11px;color:var(--warning);display:block;margin-bottom:10px;"></span>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn btn-sm" onclick="hideExtTrainingModal()">取消</button>
+          <button class="btn btn-primary btn-sm" onclick="addExtTrainingEntry()">提交训练</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI外部训练：训练详情弹框 -->
+    <div class="modal-overlay" id="extTrainingDetailModal">
+      <div class="modal" style="width:500px;max-height:80vh;overflow-y:auto;">
+        <h3 id="extDetailModalTitle">训练详情</h3>
+        <div style="font-size:12px;line-height:1.8;">
+          <div style="margin-bottom:10px;"><span style="color:var(--text-muted);">问题：</span><strong id="extDetailQ"></strong></div>
+          <div style="margin-bottom:10px;background:var(--bg);padding:10px;border-radius:var(--radius-sm);"><span style="color:var(--text-muted);">正确答案：</span><div id="extDetailA" style="margin-top:4px;"></div></div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <span>归类：<strong id="extDetailCat"></strong></span>
+            <span>部门：<strong id="extDetailDept"></strong></span>
+            <span>问题类型：<strong id="extDetailScope"></strong></span>
+            <span>提交人：<strong id="extDetailSubmitter"></strong></span>
+            <span>提交日期：<strong id="extDetailDate"></strong></span>
+            <span>状态：<strong id="extDetailStatus"></strong></span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
+          <button class="btn btn-sm" onclick="hideExtTrainingDetail()">关闭</button>
         </div>
       </div>
     </div>
@@ -5537,7 +5709,7 @@ function showPage(pageId) {
   var nav = document.querySelector('[data-page=\"'+pageId+'\"]');
   if (nav) nav.classList.add('active');
   // Update page title
-  var titles = { home: '首页', ticket: '工单', crm: '客户', tag: '标签', group: '客户组', aiTicket: 'AI工单', ticketType: '工单类型', dashboard: '报表', orderOverview: '订单概览', orderPackage: '集包管理', orderPick: '拣货管理', orderPack: '打包管理', orderGoodsAudit: '包裹审核', orderPackAudit: '打包审核', orderException: '异常', orderVerify: '核款', orderReturn: '退件', orderVoid: '作废', team: '团队', settings: '设置', updatelog: '更新日志', training: 'AI训练', knowledge: '知识库', assistant: 'AI助手', chat: '会话', bot: '机器人', channel: '渠道' };
+  var titles = { home: '首页', ticket: '工单', crm: '客户', tag: '标签', group: '客户组', aiTicket: 'AI工单', ticketType: '工单类型', dashboard: '报表', orderOverview: '订单概览', orderPackage: '集包管理', orderPick: '拣货管理', orderPack: '打包管理', orderGoodsAudit: '包裹审核', orderPackAudit: '打包审核', orderException: '异常', orderVerify: '核款', orderReturn: '退件', orderVoid: '作废', team: '团队', settings: '设置', updatelog: '更新日志', training: 'AI训练', trainingExternal: 'AI外部训练', knowledge: '知识库', assistant: 'AI助手', chat: '会话', bot: '机器人', channel: '渠道' };
   document.getElementById('pageTitle').textContent = titles[pageId] || pageId;
   // Render data
   updateNavBadges();
@@ -5557,6 +5729,17 @@ function showPage(pageId) {
       subTabs.forEach(function(t, idx) { t.classList.toggle('active', idx === 0); });
     } else {
       renderRecords();
+    }
+  }
+  if (pageId === 'trainingExternal') {
+    renderExtAutoList(); updateExtTrainingStats();
+    if (currentRole === 'employee') {
+      document.getElementById('extTrainingAutoPanel').classList.add('active');
+      document.getElementById('extTrainingRecordsPanel').classList.remove('active');
+      var extSubTabs = document.querySelectorAll('#extTrainingSubTabBar .sub-tab-item');
+      extSubTabs.forEach(function(t, idx) { t.classList.toggle('active', idx === 0); });
+    } else {
+      renderExtRecords();
     }
   }
   if (pageId === 'updatelog') { renderLogList(); }
@@ -8236,6 +8419,244 @@ function deleteTrainingRecord(id) {
   trainingRecords = trainingRecords.filter(r => r.id !== id);
   updateTrainingStats();
   renderRecords();
+  showToast('训练数据已删除');
+}
+
+// ========== AI外部训练（独立副本） ==========
+let extTrainingAutoData = [];
+let extTrainingRecords = [];
+let extTrainingNextId = 1;
+let currentExtTrainingDept = 'all';
+
+function seedExtTrainingData() {
+  extTrainingAutoData = [
+    { id: extTrainingNextId++, input: '寄到英国伦敦怎么收费？', aiReply: '英国线路请咨询客服...', correctReply: '英国属于欧盟外国家，提供经济铁路(时效22-30天)和空运(5-8天)两条线路。请提供货物重量和体积，我帮您精准报价。', confidence: '35%', issueType: '未覆盖国家', cat: 'sales', dept: '市场-门店团队', creator: '外部识别' },
+    { id: extTrainingNextId++, input: '化妆品能寄到西班牙吗？', aiReply: '化妆品属于敏感品，请提供品牌...', correctReply: '化妆品可以寄，属于敏感品。液体类需单独包装并申报，每个包裹限寄3kg以内，请提供品牌和成分表。', confidence: '42%', issueType: '敏感品规则缺失', cat: 'service', dept: '市场-销售团队', creator: '外部识别' },
+    { id: extTrainingNextId++, input: '我的包裹显示已签收但没收到', aiReply: '请自行联系当地快递...', correctReply: '非常抱歉！请提供运单号，我立即查询签收记录。若确认未送达，我们将启动理赔调查，1个工作日内答复。', confidence: '26%', issueType: '回复太过笼统', cat: 'complaint', dept: '运营团队', creator: '外部识别' },
+    { id: extTrainingNextId++, input: '带电产品发货需要什么资料？', aiReply: '带电产品需要提供一些资料...', correctReply: '带电产品（含电池）需提供：1）MSDS报告 2）UN38.3检测报告 3）电池参数表。纯电池类还需提供危险品申报。', confidence: '48%', issueType: '规则描述不完整', cat: 'logistics', dept: '市场-门店团队', creator: '外部识别' },
+  ];
+  extTrainingRecords = [
+    { id: extTrainingNextId++, q: '英国伦敦的线路报价', a: '英国属于欧盟外国家，目前提供经济铁路(时效22-30天)和空运(5-8天)两条线路。请提供货物重量和体积。', cat: 'sales', issueType: '未覆盖国家/线路', dept: '市场-门店团队', submitter: '张三', submitterRole: 'supervisor', status: 'approved', date: '2026-06-15' },
+    { id: extTrainingNextId++, q: '化妆品液体类怎么申报', a: '液体类化妆品需单独包装并申报，每个包裹限寄3kg以内，提供品牌和成分表。', cat: 'service', issueType: '敏感品规则缺失', dept: '市场-销售团队', submitter: '李四', submitterRole: 'employee', status: 'pending', date: '2026-06-16' },
+    { id: extTrainingNextId++, q: '带电产品需要哪些认证文件', a: '带电产品需提供MSDS报告、UN38.3检测报告、电池参数表，纯电池类还需危险品申报。', cat: 'logistics', issueType: '规则描述不完整', dept: '运营团队', submitter: '王五', submitterRole: 'employee', status: 'approved', date: '2026-06-14' },
+    { id: extTrainingNextId++, q: '客户签收争议怎么处理', a: '先查询签收记录和签收底单，若确认未送达启动理赔调查，1个工作日内答复。', cat: 'complaint', issueType: '回复太过笼统', dept: '市场-销售团队', submitter: '赵六', submitterRole: 'employee', status: 'rejected', date: '2026-06-13' },
+  ];
+}
+
+function switchExtTrainingDept(dept, el) {
+  currentExtTrainingDept = dept;
+  document.querySelectorAll('#extTrainingDeptTabs .dept-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderExtAutoList();
+  renderExtRecords();
+  updateExtTrainingStats();
+}
+
+function getExtTrainingDeptFilter(data) {
+  if (currentRole === 'super') {
+    return currentExtTrainingDept === 'all' ? data : data.filter(d => d.dept === currentExtTrainingDept);
+  }
+  return data.filter(d => d.dept === currentDept);
+}
+
+function updateExtTrainingStats() {
+  if (extTrainingRecords.length === 0) seedExtTrainingData();
+  const filteredRecords = getExtTrainingDeptFilter(extTrainingRecords);
+  document.getElementById('extPendingCount').textContent = filteredRecords.filter(r => r.status === 'pending').length;
+}
+
+function switchExtTrainingTab(tab, el) {
+  document.querySelectorAll('#extTrainingSubTabBar .sub-tab-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('extTrainingAutoPanel').classList.toggle('active', tab === 'auto');
+  document.getElementById('extTrainingRecordsPanel').classList.toggle('active', tab === 'records');
+  if (tab === 'auto') renderExtAutoList();
+  if (tab === 'records') renderExtRecords();
+}
+
+function renderExtAutoList() {
+  if (extTrainingAutoData.length === 0) seedExtTrainingData();
+  const tbody = document.getElementById('extAutoTrainingBody');
+  const filtered = getExtTrainingDeptFilter(extTrainingAutoData);
+  tbody.innerHTML = filtered.map((d) =>
+    '<tr>' +
+    '<td>' + d.input + '</td>' +
+    '<td style="color:var(--text-secondary);font-size:12px;">' + (d.aiReply.length > 50 ? d.aiReply.substring(0, 50) + '...' : d.aiReply) + '</td>' +
+    '<td style="color:var(--success);font-size:12px;">' + (d.correctReply ? (d.correctReply.length > 50 ? d.correctReply.substring(0, 50) + '...' : d.correctReply) : '<span style="color:var(--text-muted);">-</span>') + '</td>' +
+    '<td><span class="tag tag-yellow">' + d.confidence + '</span></td>' +
+    '<td style="font-size:12px;">' + d.issueType + '</td>' +
+    '<td><span class="tag tag-blue" style="font-size:10px;">' + (d.dept ? d.dept.substring(0,4) : '-') + '</span></td>' +
+    '<td style="font-size:12px;color:var(--text-secondary);">' + (d.creator || '外部识别') + '</td>' +
+    '<td><select style="padding:2px 4px;border-radius:4px;border:1px solid var(--border);font-size:11px;"><option>售前</option><option>售后</option><option>客诉</option><option>物流</option></select></td>' +
+    '<td style="white-space:nowrap;">' +
+    '<button class="btn btn-sm btn-primary" onclick="addExtFromAuto(' + d.id + ')" style="font-size:10px;">加入训练</button>' +
+    '<button class="btn btn-sm" onclick="showExtAutoDetail(' + d.id + ')" style="font-size:10px;margin-left:2px;">详情</button>' +
+    '<button class="btn btn-sm" onclick="deleteExtAutoItem(' + d.id + ')" style="color:var(--danger);font-size:10px;margin-left:2px;">删除</button>' +
+    '</td></tr>'
+  ).join('');
+}
+
+function showExtAutoDetail(id) {
+  const d = extTrainingAutoData.find(d => d.id === id);
+  if (!d) return;
+  document.getElementById('extDetailQ').textContent = d.input;
+  var detailText = 'AI原始回复：' + d.aiReply;
+  if (d.correctReply) detailText += '\n\n【标准回复】\n' + d.correctReply;
+  detailText += '\n\n置信度：' + d.confidence + '\n问题类型：' + d.issueType;
+  document.getElementById('extDetailA').textContent = detailText;
+  document.getElementById('extDetailCat').textContent = '未分类';
+  document.getElementById('extDetailDept').textContent = d.dept || '外部自动识别';
+  document.getElementById('extDetailScope').textContent = d.issueType || '待确认';
+  document.getElementById('extDetailSubmitter').textContent = d.creator || '外部自动识别';
+  document.getElementById('extDetailDate').textContent = '-';
+  document.getElementById('extDetailStatus').textContent = '待处理';
+  document.getElementById('extDetailModalTitle').textContent = '自动识别详情';
+  document.getElementById('extTrainingDetailModal').classList.add('show');
+}
+
+function deleteExtAutoItem(id) {
+  if (!confirm('确认从识别列表中删除？')) return;
+  extTrainingAutoData = extTrainingAutoData.filter(d => d.id !== id);
+  renderExtAutoList();
+  showToast('已从识别列表移除');
+}
+
+function addExtFromAuto(id) {
+  const d = extTrainingAutoData.find(d => d.id === id);
+  if (!d) return;
+  showExtTrainingModal();
+  document.getElementById('extTrainingFormQ').value = d.input;
+  document.getElementById('extTrainingFormA').value = d.correctReply || '';
+  document.getElementById('extTrainingFormCat').value = d.cat;
+  showToast('已从AI识别导入问题和标准回复，请确认后提交');
+}
+
+function showExtTrainingModal() {
+  document.getElementById('extTrainingFormQ').value = '';
+  document.getElementById('extTrainingFormA').value = '';
+  document.getElementById('extTrainingFormCat').value = '';
+  document.getElementById('extTrainingFormIssueType').value = '';
+  var hintEl = document.getElementById('extTrainingApprovalHint');
+  if (hintEl) {
+    hintEl.textContent = currentRole === 'employee'
+      ? '提示：员工提交后需主管审核方可生效'
+      : '提示：主管/超管提交后直接生效，无需审核';
+  }
+  document.getElementById('extTrainingModal').classList.add('show');
+}
+
+function hideExtTrainingModal() {
+  document.getElementById('extTrainingModal').classList.remove('show');
+}
+
+function addExtTrainingEntry() {
+  const q = document.getElementById('extTrainingFormQ').value.trim();
+  const a = document.getElementById('extTrainingFormA').value.trim();
+  const cat = document.getElementById('extTrainingFormCat').value;
+  const issueType = document.getElementById('extTrainingFormIssueType').value;
+  if (!q || !a) { showToast('问题和正确答案均不能为空'); return; }
+  if (!cat) { showToast('请选择归类'); return; }
+  if (!issueType) { showToast('请选择问题类型'); return; }
+
+  if (extTrainingRecords.length === 0) seedExtTrainingData();
+
+  const needsApproval = currentRole === 'employee';
+  const status = needsApproval ? 'pending' : 'approved';
+
+  extTrainingRecords.push({
+    id: extTrainingNextId++, q, a, cat, issueType,
+    dept: currentDept,
+    submitter: currentRole === 'employee' ? '员工' : '主管',
+    submitterRole: currentRole,
+    status: status,
+    date: new Date().toISOString().split('T')[0]
+  });
+
+  document.getElementById('extTrainingFormQ').value = '';
+  document.getElementById('extTrainingFormA').value = '';
+  document.getElementById('extTrainingFormCat').value = '';
+  document.getElementById('extTrainingFormIssueType').value = '';
+  updateExtTrainingStats();
+  hideExtTrainingModal();
+
+  if (needsApproval) {
+    showToast('训练数据已提交，等待主管审核');
+  } else {
+    showToast('训练数据已直接生效');
+  }
+}
+
+function renderExtRecords() {
+  if (extTrainingRecords.length === 0) seedExtTrainingData();
+  const tbody = document.getElementById('extTrainingRecordsBody');
+  const catLabels = { sales: '售前', service: '售后', complaint: '客诉', logistics: '物流' };
+  const statusLabels = { pending: '待审核', approved: '已生效', rejected: '已驳回', direct: '直接生效' };
+  const statusCls = { pending: 'apv-pending', approved: 'apv-approved', rejected: 'apv-rejected', direct: 'apv-direct' };
+  const filtered = getExtTrainingDeptFilter(extTrainingRecords);
+  tbody.innerHTML = filtered.map(r =>
+    '<tr>' +
+    '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + r.q.replace(/"/g, '&quot;') + '">' + r.q + '</td>' +
+    '<td style="color:var(--text-secondary);font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (r.a.length > 50 ? r.a.substring(0, 50) + '...' : r.a) + '</td>' +
+    '<td><span class="tag tag-blue">' + (catLabels[r.cat] || r.cat) + '</span></td>' +
+    '<td style="font-size:11px;">' + (r.dept ? r.dept.substring(0,4) : '-') + '</td>' +
+    '<td style="font-size:11px;">' + (r.issueType || '-') + '</td>' +
+    '<td style="font-size:12px;">' + r.submitter + '</td>' +
+    '<td><span class="approval-tag ' + (statusCls[r.status] || '') + '">' + (statusLabels[r.status] || r.status) + '</span></td>' +
+    '<td style="white-space:nowrap;">' +
+    (r.status === 'pending' ?
+      (currentRole !== 'employee' ? '<button class="btn btn-sm btn-primary" onclick="approveExtTraining(' + r.id + ')" style="font-size:10px;">通过</button><button class="btn btn-sm" onclick="rejectExtTraining(' + r.id + ')" style="color:var(--danger);font-size:10px;">驳回</button>' : '') +
+      '<button class="btn btn-sm" onclick="showExtTrainingDetail(' + r.id + ')" style="font-size:10px;margin-left:2px;">详情</button><button class="btn btn-sm" onclick="deleteExtTrainingRecord(' + r.id + ')" style="color:var(--danger);font-size:10px;margin-left:2px;">删除</button>' :
+    '<span style="font-size:11px;color:var(--text-muted);">' + r.date + '</span><button class="btn btn-sm" onclick="showExtTrainingDetail(' + r.id + ')" style="font-size:10px;margin-left:4px;">详情</button><button class="btn btn-sm" onclick="deleteExtTrainingRecord(' + r.id + ')" style="color:var(--danger);font-size:10px;margin-left:2px;">删除</button>') +
+    '</td></tr>'
+  ).reverse().join('');
+}
+
+function approveExtTraining(id) {
+  const r = extTrainingRecords.find(r => r.id === id);
+  if (!r) return;
+  r.status = 'approved';
+  updateExtTrainingStats();
+  renderExtRecords();
+  showToast('已审核通过，训练数据生效');
+}
+
+function rejectExtTraining(id) {
+  const r = extTrainingRecords.find(r => r.id === id);
+  if (!r) return;
+  r.status = 'rejected';
+  updateExtTrainingStats();
+  renderExtRecords();
+  showToast('已驳回训练申请');
+}
+
+function showExtTrainingDetail(id) {
+  const r = extTrainingRecords.find(r => r.id === id);
+  if (!r) return;
+  const catLabels = { sales: '售前', service: '售后', complaint: '客诉', logistics: '物流' };
+  const statusLabels = { pending: '待审核', approved: '已生效', rejected: '已驳回' };
+  document.getElementById('extDetailModalTitle').textContent = '训练详情';
+  document.getElementById('extDetailQ').textContent = r.q;
+  document.getElementById('extDetailA').textContent = r.a;
+  document.getElementById('extDetailCat').textContent = catLabels[r.cat] || r.cat;
+  document.getElementById('extDetailDept').textContent = r.dept || '-';
+  document.getElementById('extDetailScope').textContent = r.issueType || '-';
+  document.getElementById('extDetailSubmitter').textContent = r.submitter + (r.submitterRole === 'employee' ? '（员工）' : '（主管）');
+  document.getElementById('extDetailDate').textContent = r.date;
+  document.getElementById('extDetailStatus').textContent = statusLabels[r.status] || r.status;
+  document.getElementById('extTrainingDetailModal').classList.add('show');
+}
+
+function hideExtTrainingDetail() {
+  document.getElementById('extTrainingDetailModal').classList.remove('show');
+}
+
+function deleteExtTrainingRecord(id) {
+  const r = extTrainingRecords.find(r => r.id === id);
+  if (!r) return;
+  if (!confirm('确认删除该条外部训练数据？\n\n问题：' + r.q + '\n\n删除后不可恢复，AI将不再学习此条数据。')) return;
+  extTrainingRecords = extTrainingRecords.filter(r => r.id !== id);
+  updateExtTrainingStats();
+  renderExtRecords();
   showToast('训练数据已删除');
 }
 
