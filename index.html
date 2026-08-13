@@ -10021,17 +10021,11 @@ function seedOrderPackages() {
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240716-0001', xy: 'XY20240716001', type: '普通', source: '客服', route: '铁路普货', creator: '小萌', tracker: '李四', status: '已作废', void: true, voidType: '加货单', voidNewXy: 'XY20240801001', voidSource: '拣货作废', voidOperator: '超管', voidAt: '2026-07-16 14:00', voidReason: '商品损坏,需重新下单', demand: '商品损坏', picker: '小萌', pickedAt: '2026-07-16 11:00', createdAt: '2026-07-16 10:00', updatedAt: '2026-07-16 14:00', links: [], xpd: '', dueDate: '' });
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240718-0002', xy: 'XY20240718002', type: '超大件', source: '仓库', route: '特快空运普货', creator: '仓库小李', tracker: '王五', status: '已作废', void: true, voidType: '修改路线', voidNewXy: 'XY20240802001', voidSource: '打包作废', voidOperator: '超管', voidAt: '2026-07-18 09:15', voidReason: '超重无法运输,改发海运', demand: '超重无法运输', packer: '赵六', packDoneAt: '2026-07-18 08:00', createdAt: '2026-07-17 16:00', updatedAt: '2026-07-18 09:15', links: [], xpd: '', dueDate: '' });
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240719-0003', xy: 'XY20240719003', type: '拼团', source: '客服', route: '铁路敏感', creator: '小霞', tracker: '张三', status: '已作废', void: true, voidType: '客户退仓', voidSource: '核款作废', voidOperator: '超管', voidAt: '2026-07-19 16:00', voidReason: '客户拒收', demand: '客户拒收', picker: '小霞', pickedAt: '2026-07-19 10:00', packer: '赵六', packDoneAt: '2026-07-19 14:00', verifyPayer: '张三', verifyPaidAt: '2026-07-19 15:30', verifyPayAmount: '326', verifyPayWeight: '12.5', haioId: 'HIO-10018', createdAt: '2026-07-19 09:00', updatedAt: '2026-07-19 16:00', links: [], xpd: '', dueDate: '' });
-  // 异常演示数据 x5
+  // 作废演示数据 x5
   var _routes = ['海运普货','海运超大件','铁路普货','铁路敏感','铁路超大件','特快空运普货','特快空运敏感'];
   var _creators = ['小霞','小萌','小张','小李'];
   var _trackers = ['张三','李四','王五','赵六'];
   var _countries = {};
-  var exReasons = ['货不对版', '实物缺失', '货物破损', '面单不清', '打包异常'];
-  var exSources = ['拣货异常','拣货异常','拣货异常','打包异常','打包异常'];
-  for (var ei=0; ei<5; ei++) {
-    orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240708-EX'+(ei+1), xy: 'XY20240708E'+(ei+1), type: '常规', source: '客服', route: _routes[ei%6], creator: _creators[ei%4], tracker: _trackers[ei%6], status: '异常', demand: '', picker: '小萌', pickedAt: '2026-07-08T0'+(ei+1)+':00', createdAt: '2026-07-08T08:00', updatedAt: '2026-07-08T0'+(ei+1)+':30', links: [], xpd: '', dueDate: '2026-07-12T18:00', country: _countries[_routes[ei%6]], haioId: 'HIO-'+(30000+ei), haioStatus: '已出库', exception: { source: exSources[ei], reason: exReasons[ei], note: '演示异常数据#'+(ei+1), fromStatus: ei<3?'拣货中':'打包中' } });
-  }
-  // 作废演示数据 x5
   var voidTypes = ['客户退仓','加货单','修改路线','客户退仓','加货单'];
   for (var vi=0; vi<5; vi++) {
     var vt = voidTypes[vi];
