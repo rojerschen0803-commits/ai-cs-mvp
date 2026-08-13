@@ -10206,11 +10206,30 @@ function seedCsOrderExData() {
     '客服异常': ['客户投诉包裹破损','地址填写错误需核实','客户要求变更收货人','客户联系不上','客户反馈商品缺失'],
     '跟单异常': ['物流轨迹异常延迟','海关查验滞留','目的地派送失败','转运中丢件','清关文件不全']
   };
+  // 异常说明（对应每类原因的详细描述）
+  var exNotes = {
+    '客服异常': ['客户反馈外箱破损，已要求提供开箱视频','面单地址与客户实际地址不一致，需电话核实','客户申请将收货人变更为家属代收','连续3日电话/短信均未联系上客户','客户称少发1件商品，已发起仓库盘点'],
+    '跟单异常': ['连续5天物流无更新，已联系承运商核查','海关查验中，需补交商品申报信息','派送失败2次，收件人电话无人接听','转运途中包裹下落不明，已启动理赔','缺少原产地证明，正在补齐清关文件']
+  };
+  // 处理说明（跟单/超管处理异常时填写的理由）
+  var processNotes = [
+    '已联系客户沟通破损赔付方案，等待客户确认',
+    '已与客户电话核实新地址，重新打印面单',
+    '已按客户要求变更收货人信息，重新派送',
+    '已同步门店协助联系客户，暂挂起处理',
+    '仓库盘点确认少发，已安排补发并同步客户',
+    '已联系承运商加急查询轨迹，预计2个工作日内更新',
+    '已补交申报资料，等待海关放行',
+    '已协调当地网点安排二次派送',
+    '丢件已核实，走承运商理赔通道，同步客户退款',
+    '清关文件已补齐并提交，等待审核'
+  ];
   for (var i = 0; i < 10; i++) {
     var src = sources[i < 5 ? 0 : 1];
+    var idx = i % 5;
     var day = 10 + i;
     var xy = 'XY202407' + String(60+i).padStart(2,'0') + String(500+i);
-    orderPackages.push({
+    var item = {
       id: orderPkgNextId++,
       code: 'JB-202407'+String(60+i).padStart(2,'0')+'-'+String(5000+i).padStart(4,'0'),
       xy: xy, type: i%3===0?'拼团':'普通', source: i<5?'客服':'门店',
@@ -10218,8 +10237,8 @@ function seedCsOrderExData() {
       tracker: trackers[i%4],
       assignMode: '直接指派', assignee: packers[i%5],
       status: '异常',
-      exception: { source: src, reason: reasons[src][i%5], note: '待协调处理#'+(i+1) },
-      demand: reasons[src][i%5],
+      exception: { source: src, reason: reasons[src][idx], note: exNotes[src][idx], fromStatus: i<5?'拣货中':'打包中' },
+      demand: reasons[src][idx],
       picker: i%3===0?'小萌':'小霞',
       packer: packers[i%5],
       createdAt: '2026-07-'+String(10+i).padStart(2,'0')+' 08:00',
@@ -10228,7 +10247,15 @@ function seedCsOrderExData() {
       country: '',
       haioId: 'HIO-'+(40000+i),
       haioStatus: '异常'
-    });
+    };
+    // 部分工单已有一条处理说明演示数据（约一半）
+    if (i % 2 === 0) {
+      item.exProcessNotes = [
+        { note: processNotes[i], action: '异常跟进', at: '2026-07-'+String(61+i).padStart(2,'0')+' 10:30', by: i<5?'客服':'跟单' }
+      ];
+      item.exProcessNote = processNotes[i];
+    }
+    orderPackages.push(item);
   }
 }
 function seedVerifyFlowData() {
