@@ -4677,7 +4677,7 @@ main > .modal-overlay.show { display: flex !important; }
         <button class="btn btn-primary btn-sm" onclick="renderOrderExList();renderOrderExStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
         <button class="btn btn-sm" onclick="resetOrderExFilters();renderOrderExList();renderOrderExStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
       </div>
-      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>海鸥ID</th><th>异常来源</th><th>异常原因</th><th>异常说明</th><th>提交时间</th><th>异常时长</th><th>操作</th></tr></thead><tbody id="orderExList"></tbody></table></div></div>
+      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>集包编号</th><th>海鸥订单号</th><th>活动</th><th>海鸥ID</th><th>异常来源</th><th>异常原因</th><th>异常说明</th><th>处理说明</th><th>提交时间</th><th>异常时长</th><th>操作</th></tr></thead><tbody id="orderExList"></tbody></table></div></div>
     </div>
 
     <!-- 异常处理弹框 -->
@@ -13293,13 +13293,19 @@ function renderOrderExList() {
     var showXy = orderDisplayXy(o);
     var ex = o.exception || {};
     var td = timeDiffLabel(o.updatedAt);
+    var latestProcess = '';
+    if (o.exProcessNotes && o.exProcessNotes.length) {
+      latestProcess = o.exProcessNotes[o.exProcessNotes.length-1].note;
+    } else if (o.exProcessNote) {
+      latestProcess = o.exProcessNote;
+    }
     return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td><td>'+showXy+'</td><td>'+(o.type==='拼团'?'拼团':'常规')+'</td><td>'+(o.haioId||'')+'</td>'+
     '<td><span class="tag tag-red">'+ex.source+'</span></td><td>'+ex.reason+'</td>'+
-    '<td>'+(ex.note||'')+'</td><td>'+o.updatedAt+'</td>'+
+    '<td>'+(ex.note||'')+'</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+latestProcess+'">'+(latestProcess||'—')+'</td><td>'+o.updatedAt+'</td>'+
     '<td'+timeDiffClass(o.updatedAt)+'>'+td+'</td>'+
     '<td><button class="btn btn-primary btn-sm" onclick="showOrderExProcess('+o.id+')">处理</button></td></tr>';
   }).join('');
-  document.getElementById('orderExList').innerHTML = html || '<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:30px;">暂无异常工单</td></tr>';
+  document.getElementById('orderExList').innerHTML = html || '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:30px;">暂无异常工单</td></tr>';
 }
 function showOrderExProcess(id) {
   currentExTask = id;
@@ -13327,6 +13333,8 @@ function confirmOrderEx() {
     if (o.exception) o.exception.bypassed = true;
   }
   o.exProcessNote = note;
+  if (!o.exProcessNotes) o.exProcessNotes = [];
+  o.exProcessNotes.push({ note: note, action: action.value, at: new Date().toISOString().slice(0,16).replace('T',' '), by: currentRole==='super'?'超管':'跟单' });
   o.updatedAt = new Date().toISOString().slice(0,16).replace('T',' ');
   hideOrderExProcess();
   renderOrderExList();
