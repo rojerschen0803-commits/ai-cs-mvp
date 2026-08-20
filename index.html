@@ -43,7 +43,7 @@
   --topbar-h: 48px;
 }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: "Source Han Sans SC", "Source Han Sans CN", "Noto Sans SC", "Noto Sans CJK SC", "思源黑体", "PingFang SC", "Microsoft YaHei", sans-serif;
   background: var(--bg);
   color: var(--text);
   display: flex;
@@ -2373,12 +2373,12 @@ main > .modal-overlay.show { display: flex !important; }
     </div>
     <div class="nav-item sub" data-page="orderVoid" data-nav-group="jy" onclick="showPage('orderVoid')"> <span class="nav-text">作废</span><span class="nav-badge" id="navBadgeVoid"></span>
     </div>
-    <div class="nav-group-title" data-nav-group="jy" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">审核管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+    <div class="nav-group-title nav-not-employee" data-nav-group="jy" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">审核管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub nav-super-only" data-page="orderGoodsAudit" data-nav-group="jy" onclick="showPage('orderGoodsAudit')"> <span class="nav-text">包裹审核</span><span class="nav-badge" id="navBadgeGoodsAudit"></span>
     </div>
     <div class="nav-item sub nav-super-only" data-page="orderPackAudit" data-nav-group="jy" onclick="showPage('orderPackAudit')"> <span class="nav-text">打包审核</span><span class="nav-badge" id="navBadgePackAudit"></span>
     </div>
-    <div class="nav-item sub" data-page="orderQc" data-nav-group="jy" onclick="showPage('orderQc')"> <span class="nav-text">质检审核</span><span class="nav-badge" id="navBadgeQc"></span>
+    <div class="nav-item sub nav-not-employee" data-page="orderQc" data-nav-group="jy" onclick="showPage('orderQc')"> <span class="nav-text">质检审核</span><span class="nav-badge" id="navBadgeQc"></span>
     </div>
     <div class="nav-group-title" data-nav-group="config" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/></svg></span> <span class="nav-text">AI配置</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub" data-page="knowledge" data-nav-group="config" onclick="showPage('knowledge')"> <span class="nav-text">内部知识库</span>
@@ -2418,24 +2418,24 @@ main > .modal-overlay.show { display: flex !important; }
       <div style="display:flex;gap:12px;margin-bottom:12px;align-items:stretch;">
         <div class="dashboard-chart" style="flex:1;padding:6px 12px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 3px;">
-            <h4 style="display:flex;align-items:center;gap:6px;margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>总数据</h4>
+            <h4 style="display:flex;align-items:center;gap:6px;margin:0;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>总数据</h4>
             <select id="homeTotalRange" onchange="showToast('已切换时间范围：' + this.options[this.selectedIndex].text)" style="padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;background:var(--card);color:var(--text);cursor:pointer;"><option value="all">全部时间</option><option value="today">今日</option><option value="7d">近7日</option><option value="30d">近30日</option></select>
           </div>
           <div id="homeTotalData" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;"></div>
         </div>
         <div class="dashboard-chart" style="flex:0 0 460px;padding:6px 12px;">
-          <h4 style="display:flex;align-items:center;gap:6px;margin:0 0 3px;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>常用功能</h4>
+          <h4 style="display:flex;align-items:center;gap:6px;margin:0 0 3px;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>常用功能</h4>
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;" id="homeQuickActions"></div>
         </div>
       </div>
       <!-- 第二行：各阶段分布 + 各阶段完成趋势 -->
       <div style="display:flex;gap:12px;margin-bottom:12px;">
         <div class="dashboard-chart" style="flex:0.8;padding:12px;">
-          <h4 style="margin:0 0 8px;">各阶段分布</h4>
+          <h4 style="display:flex;align-items:center;gap:6px;margin:0 0 8px;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>各阶段分布</h4>
           <canvas id="homeStagePieChart" style="width:100%;height:230px;"></canvas>
         </div>
         <div class="dashboard-chart" style="flex:1.2;padding:12px;">
-          <h4 style="margin:0 0 8px;">各阶段完成趋势</h4>
+          <h4 style="display:flex;align-items:center;gap:6px;margin:0 0 8px;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>各阶段完成趋势</h4>
           <canvas id="homeTrendChart" style="width:100%;height:230px;"></canvas>
           <div id="trendTooltip" style="position:fixed;display:none;background:rgba(30,30,40,0.9);color:#fff;padding:5px 9px;border-radius:5px;font-size:11px;pointer-events:none;white-space:nowrap;z-index:1000;line-height:1.4;"></div>
         </div>
@@ -2443,12 +2443,12 @@ main > .modal-overlay.show { display: flex !important; }
       <!-- 第三行：工单分布 + AI工单趋势 -->
       <div style="display:flex;gap:12px;margin-bottom:12px;">
         <div class="dashboard-chart" style="flex:0.8;padding:12px;">
-          <h4 style="margin:0 0 8px;">工单分布</h4>
+          <h4 style="display:flex;align-items:center;gap:6px;margin:0 0 8px;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>工单分布</h4>
           <canvas id="ticketPieChart" style="width:100%;height:230px;"></canvas>
         </div>
         <div class="dashboard-chart" style="flex:1.2;padding:12px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 8px;">
-            <h4 style="margin:0;">AI工单趋势</h4>
+            <h4 style="display:flex;align-items:center;gap:6px;margin:0;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>AI工单趋势</h4>
             <span style="font-size:10px;color:var(--text-muted);">近14日</span>
           </div>
           <canvas id="aiTicketTrendChart" style="width:100%;height:230px;"></canvas>
@@ -2458,12 +2458,12 @@ main > .modal-overlay.show { display: flex !important; }
       <!-- 第四行：最近工单动态 + 各阶段员工完成概览 -->
       <div style="display:flex;gap:12px;">
         <div class="dashboard-chart" style="flex:0.8;padding:12px;">
-          <h4 style="margin:0 0 8px;">最近工单动态</h4>
+          <h4 style="display:flex;align-items:center;gap:6px;margin:0 0 8px;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>最近工单动态</h4>
           <div style="font-size:11px;" id="homeRecentTickets">加载中...</div>
         </div>
         <div class="dashboard-chart" style="flex:1.2;padding:12px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 8px;">
-            <h4 style="margin:0;">各阶段员工完成概览</h4>
+            <h4 style="display:flex;align-items:center;gap:6px;margin:0;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>各阶段员工完成概览</h4>
             <div style="display:flex;gap:4px;" id="stageTabs"></div>
           </div>
           <canvas id="homeStageChart" style="width:100%;height:230px;"></canvas>
@@ -5479,7 +5479,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 0;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">进展状态</span><select id="orderPkgFilterStatus" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>待开始</option><option>待认领</option><option>拣货中</option><option>拣货完成</option><option>待打包</option><option>打包中</option><option>打包完成</option><option>打包完毕</option><option>异常</option><option>已付款</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">线路</span><select id="orderPkgFilterRoute" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPkgFilterType" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>拼团</option><option>超大件</option><option>分单</option><option>门店</option><option>仓库</option></select></div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPkgFilterType" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>超大件</option><option>分单</option><option>加货</option><option>派力仓</option><option>混合仓</option><option>变更</option><option>门店</option><option>清源仓</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">活动</span><select id="orderPkgFilterActivity" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>拼团</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">客户要求</span><input type="text" id="orderPkgSearchDemand" placeholder="模糊检索" style="width:110px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">创建时间</span><input type="date" id="orderPkgFilterDateFrom" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><span style="font-size:11px;color:var(--text-muted);margin:0 4px;">至</span><input type="date" id="orderPkgFilterDateTo" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
@@ -5504,27 +5504,28 @@ main > .modal-overlay.show { display: flex !important; }
 
     <!-- 新建集包弹框 -->
     <div class="modal-overlay" id="orderPkgCreateModal">
-      <div class="modal" style="width:640px;">
+      <div class="modal" style="width:800px;">
         <h3>新建集包</h3>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包类型 <span style="color:var(--danger);">*</span></label><select id="orderPkgType" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgTypeChange()"><option value="">请选择</option><option value="常规">常规</option><option value="超大件">超大件</option><option value="分单">分单</option><option value="加货">加货</option><option value="新仓">新仓</option><option value="变更">变更</option><option value="门店">门店</option><option value="仓库">仓库</option></select></div>
+        <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包类型 <span style="color:var(--danger);">*</span></label><select id="orderPkgType" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgTypeChange()"><option value="">请选择</option><option value="常规">常规</option><option value="超大件">超大件</option><option value="分单">分单</option><option value="加货">加货</option><option value="派力仓">派力仓</option><option value="混合仓">混合仓</option><option value="变更">变更</option><option value="门店">门店</option><option value="清源仓">清源仓</option></select></div>
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包活动 <span style="color:var(--danger);">*</span></label><select id="orderPkgActivity" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgActivityChange()"><option value="常规">常规</option><option value="拼团">拼团</option></select></div>
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">线路 <span style="color:var(--danger);">*</span></label><select id="orderPkgRoute" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择</option><option>海运普货</option><option>海运超大件</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
+        </div>
+        <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
           <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;white-space:nowrap;">国家</label><input type="text" id="orderPkgCountry" placeholder="如 德国" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;" id="orderPkgHaioIdRow">
           <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;white-space:nowrap;">海鸥客户ID</label><input type="text" id="orderPkgHaioId" placeholder="如 HIO-10001" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">是否加急</label><select id="orderPkgUrgent" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgUrgentChange()"><option value="否">否</option><option value="是">是</option></select></div>
+        </div>
+        <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">截止时间</label><input type="datetime-local" id="orderPkgDue" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div style="flex:1;"><label id="orderPkgQtyLabel" style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">清源仓包裹数 <span style="color:var(--danger);">*</span></label><input type="number" id="orderPkgQty" placeholder="请输入数量" step="1" min="1" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div style="flex:1;" id="orderPkgXyCell"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥订单号(XY) <span style="color:var(--danger);">*</span></label><input type="text" id="orderPkgXy" placeholder="如 XY20240703001" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         </div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新仓超大件</label><select id="orderPkgXcLarge" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgXcLargeChange()"><option value="否">否</option><option value="是">是</option></select></div>
-          <div style="flex:1;display:none;" id="orderPkgXcQtyWrap"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新仓包裹数 <span style="color:var(--danger);">*</span></label><input type="number" id="orderPkgXcQty" placeholder="请输入新仓包裹数" step="1" min="1" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+        <div id="orderPkgXcQtyWrap" style="display:none;margin-bottom:10px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">派力仓包裹数 <span style="color:var(--danger);">*</span></label>
+          <input type="number" id="orderPkgXcQty" placeholder="请输入派力仓包裹数" step="1" min="1" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
         </div>
+        <div id="orderPkgXpdField" style="margin-bottom:10px;display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">关联拼团订单(XYPD) <span style="color:var(--danger);">*</span></label><input type="text" id="orderPkgXpd" placeholder="请输入拼团订单 XYPD 号，如 XYPD20240703001" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         <div id="orderPkgUrgentReasonRow" style="margin-bottom:10px;display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">催办理由 <span style="color:var(--text-muted);">(选填)</span></label><textarea id="orderPkgUrgentReason" placeholder="请输入催办理由..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:60px;"></textarea></div>
         <div id="orderPkgStoreRow" style="display:none;margin-bottom:10px;">
           <div style="display:flex;gap:8px;">
@@ -5532,8 +5533,6 @@ main > .modal-overlay.show { display: flex !important; }
             <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">门店人员 <span style="color:var(--danger);">*</span></label><select id="orderPkgStorePerson" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">先选部门</option></select></div>
           </div>
         </div>
-        <div id="orderPkgXyField" style="margin-bottom:10px;"><div style="display:flex;gap:8px;"><div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥订单号(XY) <span style="color:var(--danger);">*</span></label><input type="text" id="orderPkgXy" placeholder="如 XY20240703001" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div><div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">包裹数量 <span style="color:var(--danger);">*</span></label><input type="number" id="orderPkgQty" placeholder="请输入数量" step="1" min="1" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div></div></div>
-        <div id="orderPkgXpdField" style="margin-bottom:10px;display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">关联拼团订单(XYPD) <span style="color:var(--danger);">*</span></label><input type="text" id="orderPkgXpd" placeholder="请输入拼团订单 XYPD 号，如 XYPD20240703001" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">客户要求</label>
           <div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
             <div style="display:flex;gap:2px;padding:4px 6px;background:#F9FAFB;border-bottom:1px solid var(--border);">
@@ -5548,10 +5547,14 @@ main > .modal-overlay.show { display: flex !important; }
               placeholder="客户特殊要求..." data-placeholder="客户特殊要求..."></div>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 12px;background:#F9FAFB;border-radius:6px;border:1px solid var(--border-light);margin-bottom:8px;">
+        <div id="orderPkgDispatchRow" style="display:flex;align-items:center;gap:8px;padding:6px 12px;background:#F9FAFB;border-radius:6px;border:1px solid var(--border-light);margin-bottom:8px;">
           <input type="checkbox" id="orderPkgDispatch" style="width:15px;height:15px;">
           <label for="orderPkgDispatch" style="font-size:12px;cursor:pointer;">派单拣货</label>
           <span style="font-size:10px;color:var(--text-muted);">勾选后直接进入拣货公海</span>
+        </div>
+        <div id="orderPkgDispatchTip" style="display:none;align-items:center;gap:6px;padding:8px 12px;background:#EFF6FF;border-radius:6px;border:1px solid #BFDBFE;margin-bottom:8px;font-size:12px;color:#1D4ED8;">
+          <svg class="ico" style="width:14px;height:14px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span id="orderPkgDispatchTipText"></span>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hideOrderPkgCreate()">取消</button><button class="btn btn-primary btn-sm" onclick="createOrderPackage()">创建集包</button></div>
       </div>
@@ -5591,8 +5594,8 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="modal" style="width:440px;">
         <h3>作废订单</h3>
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;" id="pkgVoidInfo"></div>
-        <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废类型 <span style="color:var(--danger);">*</span></label><select id="pkgVoidType" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onVoidTypeChange()"><option value="">请选择作废类型</option><option value="客户退仓">客户退仓</option><option value="加货单">加货单</option><option value="修改路线">修改路线</option></select></div>
-        <div style="margin-bottom:12px;" id="pkgVoidNewXyGroup" style="display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新XY订单号 <span style="color:var(--danger);">*</span></label><input type="text" id="pkgVoidNewXy" placeholder="请输入关联的新XY订单号" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+        <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废类型 <span style="color:var(--danger);">*</span></label><select id="pkgVoidType" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onVoidTypeChange()"><option value="">请选择作废类型</option><option value="客户退仓">客户退仓</option><option value="加货单">加货单</option><option value="修改路线">修改路线</option><option value="重量变化">重量变化</option></select></div>
+        <div style="margin-bottom:12px;" id="pkgVoidNewXyGroup" style="display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">关联XY订单号 <span style="color:var(--danger);">*</span></label><input type="text" id="pkgVoidNewXy" placeholder="请输入关联的XY订单号" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废理由 <span style="color:var(--danger);">*</span></label><textarea id="pkgVoidReason" placeholder="请填写作废理由..." style="width:100%;height:80px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hidePkgVoid()">取消</button><button class="btn btn-danger btn-sm" onclick="confirmPkgVoid()">确认作废</button></div>
       </div>
@@ -5615,6 +5618,15 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;" id="packReleaseInfo"></div>
         <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">重置理由 <span style="color:var(--danger);">*必填</span></label><textarea id="packReleaseReason" placeholder="请输入重置理由..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hidePackReleaseModal()">取消</button><button class="btn btn-primary btn-sm btn-danger" onclick="confirmPackRelease()">确认重置</button></div>
+      </div>
+    </div>
+
+    <!-- 认领确认弹框 -->
+    <div class="modal-overlay" id="claimPickModal">
+      <div class="modal" style="width:440px;">
+        <h3>确认认领</h3>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;line-height:1.7;" id="claimPickInfo"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hideClaimPick()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmClaimPick()">确认认领</button></div>
       </div>
     </div>
 
@@ -5651,6 +5663,7 @@ main > .modal-overlay.show { display: flex !important; }
 
     <!-- 拣货完成弹框 -->
     <div class="modal-overlay" id="orderPickCompleteModal"><div class="modal" style="width:480px;"><h3>完成拣货</h3><div style="margin-bottom:8px;font-size:12px;color:var(--text-secondary);" id="orderPickCompleteInfo"></div>
+    <div style="display:none;margin-bottom:10px;padding:8px 12px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;font-size:12px;color:#1D4ED8;line-height:1.6;" id="orderPickMixTip"></div>
     <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">拣货单照片 <span style="color:var(--danger);">*必传</span></label>
       <label for="orderPickOrderFile" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:12px;cursor:pointer;color:var(--text-muted);font-size:12px;">
         <svg class="ico" style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>点击上传拣货单照片
@@ -5708,7 +5721,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="filter-section" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:10px 0;">
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">线路</span><select id="orderPackFilterRoute" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
-            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPackFilterType" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>超大件</option><option>加货</option><option>新仓</option><option>变更</option><option>门店</option><option>仓库</option><option>分单</option></select></div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPackFilterType" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>超大件</option><option>加货</option><option>派力仓</option><option>混合仓</option><option>变更</option><option>门店</option><option>清源仓</option><option>分单</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">活动</span><select id="orderPackFilterActivity" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>拼团</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">进展状态</span><select id="orderPackFilterStatus" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>待认领</option><option>待分配</option><option>待打包</option><option>打包中</option><option>打包完成</option><option>通过</option><option>驳回</option><option>异常</option><option>已作废</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">分包负责人</span><input type="text" id="orderPackFilterSubLead" placeholder="输入姓名" style="width:95px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
@@ -5728,6 +5741,7 @@ main > .modal-overlay.show { display: flex !important; }
 
     <!-- 打包完成弹框 -->
     <div class="modal-overlay" id="orderPackCompleteModal"><div class="modal" style="width:480px;"><h3>完成打包</h3><div style="margin-bottom:8px;font-size:12px;color:var(--text-secondary);" id="orderPackCompleteInfo"></div>
+    <div style="display:none;margin-bottom:10px;padding:8px 12px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;font-size:12px;color:#1D4ED8;line-height:1.6;" id="orderPackCompleteMixTip"></div>
     <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">完成理由 <span style="color:var(--danger);">*</span></label><textarea id="orderPackCompleteReason" placeholder="请简要描述完成情况..." style="width:100%;height:70px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;"></textarea></div>
     <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">上传图片 <span style="color:var(--danger);">*</span></label>
       <label for="orderPackCompletePhotos" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--text-muted);font-size:12px;">
@@ -5737,10 +5751,10 @@ main > .modal-overlay.show { display: flex !important; }
       <input type="file" id="orderPackCompletePhotos" accept="image/*" multiple style="display:none;" onchange="onPackCompletePhotoChange(event)">
       <div id="orderPackCompletePhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
     </div>
-    <div id="orderPackCompleteXcArea" style="display:none;margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新仓超大件图片（二次核对）<span style="color:var(--danger);">*</span></label>
+    <div id="orderPackCompleteXcArea" style="display:none;margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">派力仓打包图片<span style="color:var(--danger);">*</span></label>
       <label for="orderPackCompleteXcPhotos" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--text-muted);font-size:12px;">
         <svg class="ico" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        点击上传新仓超大件核对照片
+        点击上传派力仓打包图片
       </label>
       <input type="file" id="orderPackCompleteXcPhotos" accept="image/*" multiple style="display:none;" onchange="onPackCompleteXcPhotoChange(event)">
       <div id="orderPackCompleteXcPhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
@@ -5749,7 +5763,8 @@ main > .modal-overlay.show { display: flex !important; }
 
     <!-- 开始打包弹框 -->
     <div class="modal-overlay" id="packStartModal"><div class="modal" style="width:520px;max-height:80vh;overflow-y:auto;"><h3>开始打包</h3><div style="margin-bottom:8px;font-size:12px;color:var(--text-secondary);" id="packStartInfo"></div>
-    <div id="packStartSingleArea" style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">拆包图片 <span style="color:var(--danger);">*</span></label>
+    <div style="display:none;margin-bottom:10px;padding:8px 12px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;font-size:12px;color:#1D4ED8;line-height:1.6;" id="packStartMixTip"></div>
+    <div id="packStartSingleArea" style="margin-bottom:12px;"><label id="packStartSingleLabel" style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">拆包图片 <span style="color:var(--danger);">*</span></label>
       <label for="packStartPhotos" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--text-muted);font-size:12px;">
         <svg class="ico" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
         点击上传拆包照片
@@ -5757,11 +5772,11 @@ main > .modal-overlay.show { display: flex !important; }
       <input type="file" id="packStartPhotos" accept="image/*" multiple style="display:none;" onchange="onPackStartPhotoChange(event)">
       <div id="packStartPhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
     </div>
-    <!-- 新仓超大件：二次核对图片 -->
-    <div id="packStartXcArea" style="display:none;margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新仓超大件图片（二次核对）<span style="color:var(--danger);">*</span></label>
+    <!-- 派力仓包裹：二次核对图片 -->
+    <div id="packStartXcArea" style="display:none;margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">派力仓包裹图片<span style="color:var(--danger);">*</span></label>
       <label for="packStartXcPhotos" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--text-muted);font-size:12px;">
         <svg class="ico" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        点击上传新仓超大件核对照片
+        点击上传派力仓包裹核对照片
       </label>
       <input type="file" id="packStartXcPhotos" accept="image/*" multiple style="display:none;" onchange="onPackStartXcPhotoChange(event)">
       <div id="packStartXcPhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
@@ -5802,7 +5817,7 @@ main > .modal-overlay.show { display: flex !important; }
 
       </div>
     </div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-sm" onclick="savePackStartDraft()" title="临时保存，稍后可继续">保存</button><button class="btn btn-primary btn-sm" onclick="submitPackStart()">提交审核</button></div></div></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-sm" onclick="savePackStartDraft()" title="临时保存，稍后可继续">保存</button><button class="btn btn-sm" id="packStartAiBtn" onclick="triggerPackStartAi()" style="display:inline-flex;align-items:center;gap:5px;"><svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>AI识别</button><button class="btn btn-primary btn-sm" onclick="submitPackStart()">提交审核</button></div></div></div>
 
     <!-- 拼团第二步 AI 识别分析弹框 -->
     <div class="modal-overlay" id="packAiAnalyzeModal" style="z-index:1150;"><div class="modal" style="width:620px;max-height:86vh;overflow-y:auto;">
@@ -5979,10 +5994,10 @@ main > .modal-overlay.show { display: flex !important; }
       <h3>作废打包工单</h3>
       <div style="margin-bottom:8px;font-size:12px;color:var(--text-secondary);" id="voidPackInfo"></div>
       <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废类型 <span style="color:var(--danger);">*</span></label>
-      <select id="voidPackType" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;margin-bottom:10px;" onchange="onVoidPackTypeChange()"><option value="">请选择作废类型</option><option value="客户退仓">客户退仓</option><option value="加货单">加货单</option><option value="修改路线">修改路线</option></select>
+      <select id="voidPackType" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;margin-bottom:10px;" onchange="onVoidPackTypeChange()"><option value="">请选择作废类型</option><option value="客户退仓">客户退仓</option><option value="加货单">加货单</option><option value="修改路线">修改路线</option><option value="重量变化">重量变化</option></select>
       <div id="voidPackNewXyGroup" style="display:none;margin-bottom:10px;">
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新XY订单号 <span style="color:var(--danger);">*</span></label>
-        <input type="text" id="voidPackNewXy" placeholder="请输入关联的新XY订单号" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
+        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">关联XY订单号 <span style="color:var(--danger);">*</span></label>
+        <input type="text" id="voidPackNewXy" placeholder="请输入关联的XY订单号" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
       </div>
       <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">作废理由 <span style="color:var(--danger);">*</span></label>
       <textarea id="voidPackReason" placeholder="请填写作废理由..." style="width:100%;height:80px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;margin-bottom:12px;"></textarea>
@@ -6337,7 +6352,7 @@ main > .modal-overlay.show { display: flex !important; }
         <button class="btn btn-primary btn-sm" onclick="renderOrderVoidList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
         <button class="btn btn-sm" onclick="resetVoidFilters();renderOrderVoidList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> 重置</button>
       </div>
-      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>作废订单号</th><th>作废类型</th><th>新订单号</th><th>集包号</th><th>类型</th><th>活动</th><th>线路</th><th>作废环节</th><th>作废操作人</th><th>作废时间</th><th>操作</th></tr></thead><tbody id="orderVoidList"></tbody></table></div></div>
+      <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>作废订单号</th><th>作废类型</th><th>关联订单号</th><th>集包号</th><th>类型</th><th>活动</th><th>线路</th><th>作废环节</th><th>作废操作人</th><th>作废时间</th><th>操作</th></tr></thead><tbody id="orderVoidList"></tbody></table></div></div>
     </div>
 
 <!-- ====== ORDER: 退件 ====== -->
@@ -7519,11 +7534,13 @@ function applyNavGroup(group) {
     var g = item.getAttribute('data-nav-group');
     var page = item.getAttribute('data-page');
     var isSuperOnly = item.classList.contains('nav-super-only');
+    var isNotEmployee = item.classList.contains('nav-not-employee');
     var empHidden = (page && ['tag','dashboard','group'].indexOf(page) !== -1);
     var showByGroup = (!g || g === group);
     var showByRole = true;
     if (isSuperOnly && currentRole !== 'super') showByRole = false;
     if (empHidden && isEmp) showByRole = false;
+    if (isNotEmployee && isEmp) showByRole = false;
     var show = (showByGroup && showByRole);
     // 展开收起：三级菜单若所属二级标题已收起，则隐藏
     if (show && item.classList.contains('nav-item')) {
@@ -10104,7 +10121,7 @@ const pageAnnotations = {
     sections: [
       { type: 'desc', label: '页面说明', items: ['集包管理是订单全链路起点，客服在此创建工单。系统根据集包类型自动决定是否进入拣货/打包环节'] },
       { type: 'interaction', label: '新建/编辑', items: [
-        '集包类型：常规/拼团/超大件/分单/门店/仓库；拼团需XYPD号+关联1-5个XY号',
+        '集包类型：常规/拼团/超大件/分单/门店/清源仓；拼团需XYPD号+关联1-5个XY号',
         '初始状态逻辑：分单→待分配(跳过拣货)；门店→打包完毕(跳过拣货+打包)；派单→待认领；其他→待开始',
         '跟单人自动分配：美线/日韩→李四；中东/非洲→王五；其他→张三'
       ]},
@@ -12726,9 +12743,9 @@ function roundRectPath(c, x, y, w, h, r) {
 }
 function drawLegendChips(c, items, w, y) {
   // items: [{name, color, active}]，返回点击区域 [{x,y,w,h,si}]
-  var fontSize = 11;
-  c.font = fontSize + 'px -apple-system, "PingFang SC", sans-serif';
-  var chipH = 22, dotR = 4, sidePad = 9, textGap = 6, gap = 6;
+  var fontSize = 12;
+  c.font = fontSize + 'px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
+  var chipH = 24, dotR = 4, sidePad = 9, textGap = 6, gap = 6;
   var widths = items.map(function(it){ return c.measureText(it.name).width + sidePad * 2 + dotR * 2 + textGap; });
   var totalW = widths.reduce(function(a, b){ return a + b; }, 0) + gap * (items.length - 1);
   var x = (totalW <= w - 16) ? Math.max(8, (w - totalW) / 2) : 8;
@@ -12769,11 +12786,14 @@ var pieSegments = [
 function drawTicketPie() {
   var ctx = document.getElementById('ticketPieChart');
   if (!ctx) return;
-  var pw = ctx.parentElement.offsetWidth;
+  var pw = ctx.clientWidth;
   if (pw < 50) { setTimeout(drawTicketPie, 200); return; }
-  var w = pw - 20, h = 230;
-  ctx.width = w; ctx.height = h;
+  var w = pw, h = 230;
+  var dpr = window.devicePixelRatio || 1;
+  ctx.width = w * dpr; ctx.height = h * dpr;
+  ctx.style.width = '100%'; ctx.style.height = h + 'px';
   var c = ctx.getContext('2d');
+  c.scale(dpr, dpr);
   c.clearRect(0, 0, w, h);
 
   var counts = [
@@ -12837,7 +12857,7 @@ function drawTicketPie() {
       var tx = cx + Math.cos(mid) * (innerR + outerR) * 0.5;
       var ty = cy + Math.sin(mid) * (innerR + outerR) * 0.5;
       c.fillStyle = '#fff';
-      c.font = 'bold 11px sans-serif';
+      c.font = 'bold 11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
       c.textAlign = 'center';
       c.textBaseline = 'middle';
       c.fillText(pct+'%', tx, ty);
@@ -12860,16 +12880,17 @@ function drawTicketPie() {
 
   // Center text
   c.fillStyle = '#1e293b';
-  c.font = 'bold 18px -apple-system, "PingFang SC", sans-serif';
+  c.font = 'bold 18px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
   c.textAlign = 'center'; c.textBaseline = 'middle';
   c.fillText(total, cx, cy - 5);
   c.fillStyle = '#64748b';
-  c.font = '11px -apple-system, "PingFang SC", sans-serif';
+  c.font = '11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
   c.fillText('工单总数', cx, cy + 12);
 
-  // Legend - right side with colored dots and percentage bars
+  // 图例（右侧，左右结构：圆点+名称 左，数值+百分比 右）
   var lx = cx + outerR + 34;
-  var legendH = counts.filter(function(v){ return v>0; }).length * 26;
+  var legendRight = w - 12;
+  var legendH = counts.filter(function(v){ return v>0; }).length * 28;
   var ly = cy - legendH/2 + 8;
   c.textBaseline = 'middle';
 
@@ -12877,20 +12898,21 @@ function drawTicketPie() {
     if (counts[i] <= 0) return;
     var pct = Math.round(counts[i]/total*100);
 
-    // Color dot
+    // 圆点
     c.beginPath(); c.arc(lx + 5, ly, 5, 0, Math.PI*2);
     c.fillStyle = s.color; c.fill();
     c.strokeStyle = 'rgba(0,0,0,0.1)'; c.lineWidth = 1; c.stroke();
 
-    // Name
-    c.fillStyle = '#334155'; c.font = 'bold 11px -apple-system, "PingFang SC", sans-serif'; c.textAlign = 'left';
-    c.fillText(s.name, lx + 15, ly - 2);
+    // 名称（左）
+    c.fillStyle = '#334155'; c.font = 'bold 11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign = 'left';
+    c.fillText(s.name, lx + 16, ly);
 
-    // Count and percentage
-    c.fillStyle = '#64748b'; c.font = '11px -apple-system, "PingFang SC", sans-serif';
-    c.fillText(counts[i]+'单  '+pct+'%', lx + 15, ly + 12);
+    // 数值 + 百分比（紧跟名称后）
+    var nameW = c.measureText(s.name).width;
+    c.fillStyle = '#64748b'; c.font = '11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign = 'left';
+    c.fillText(counts[i]+'单 · '+pct+'%', lx + 16 + nameW + 12, ly);
 
-    ly += 26;
+    ly += 28;
   });
 
   // Hover tooltip via title attribute
@@ -12922,11 +12944,14 @@ var stagePieSegments = [
 function drawStagePie() {
   var ctx = document.getElementById('homeStagePieChart');
   if (!ctx) return;
-  var pw = ctx.parentElement.offsetWidth;
+  var pw = ctx.clientWidth;
   if (pw < 50) { setTimeout(drawStagePie, 200); return; }
-  var w = pw - 20, h = 230;
-  ctx.width = w; ctx.height = h;
+  var w = pw, h = 230;
+  var dpr = window.devicePixelRatio || 1;
+  ctx.width = w * dpr; ctx.height = h * dpr;
+  ctx.style.width = '100%'; ctx.style.height = h + 'px';
   var c = ctx.getContext('2d');
+  c.scale(dpr, dpr);
   c.clearRect(0, 0, w, h);
 
   var counts = [
@@ -12963,7 +12988,7 @@ function drawStagePie() {
     if (slice > 0.32) {
       var mid = angle + slice/2;
       c.fillStyle = '#fff';
-      c.font = 'bold 11px sans-serif';
+      c.font = 'bold 11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
       c.textAlign = 'center'; c.textBaseline = 'middle';
       c.fillText(pct+'%', cx + Math.cos(mid)*(innerR+outerR)*0.5, cy + Math.sin(mid)*(innerR+outerR)*0.5);
     }
@@ -12972,24 +12997,31 @@ function drawStagePie() {
 
   c.beginPath(); c.arc(cx, cy, innerR, 0, Math.PI*2);
   c.fillStyle = '#fff'; c.fill();
-  c.fillStyle = '#1e293b'; c.font = 'bold 18px -apple-system, "PingFang SC", sans-serif';
+  c.fillStyle = '#1e293b'; c.font = 'bold 18px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
   c.textAlign = 'center'; c.textBaseline = 'middle';
   c.fillText(total, cx, cy - 5);
-  c.fillStyle = '#64748b'; c.font = '11px -apple-system, "PingFang SC", sans-serif';
+  c.fillStyle = '#64748b'; c.font = '11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
   c.fillText('订单总数', cx, cy + 12);
 
   var lx = cx + outerR + 36;
-  var ly = cy - (counts.filter(function(v){ return v>0; }).length * 26) / 2 + 10;
+  var legendRight = w - 12;
+  var ly = cy - (counts.filter(function(v){ return v>0; }).length * 28) / 2 + 10;
+  c.textBaseline = 'middle';
   counts.forEach(function(v, i){
     if (v <= 0) return;
     var pct = Math.round(v/total*100);
+    // 圆点
     c.beginPath(); c.arc(lx + 5, ly, 5, 0, Math.PI*2);
     c.fillStyle = stagePieSegments[i].color; c.fill();
-    c.fillStyle = '#334155'; c.font = 'bold 11px -apple-system, "PingFang SC", sans-serif'; c.textAlign = 'left';
-    c.fillText(stagePieSegments[i].name, lx + 15, ly - 2);
-    c.fillStyle = '#64748b'; c.font = '11px -apple-system, "PingFang SC", sans-serif';
-    c.fillText(v+'单  '+pct+'%', lx + 15, ly + 12);
-    ly += 26;
+    c.strokeStyle = 'rgba(0,0,0,0.1)'; c.lineWidth = 1; c.stroke();
+    // 名称（左）
+    c.fillStyle = '#334155'; c.font = 'bold 11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign = 'left';
+    c.fillText(stagePieSegments[i].name, lx + 16, ly);
+    // 数值 + 百分比（紧跟名称后）
+    var nameW = c.measureText(stagePieSegments[i].name).width;
+    c.fillStyle = '#64748b'; c.font = '11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign = 'left';
+    c.fillText(v+'单 · '+pct+'%', lx + 16 + nameW + 12, ly);
+    ly += 28;
   });
 }
 
@@ -13087,11 +13119,12 @@ function renderHomeOrderStats() {
   window.drawHomeTrendChart = function() {
     var ctx = document.getElementById('homeTrendChart');
     if (!ctx) return;
-    var w = ctx.parentElement.offsetWidth - 20, h = 230;
+    var h = 230;
+    var w = ctx.clientWidth || (ctx.parentElement.clientWidth - 24);
     if (w < 100) w = 500;
     var dpr = window.devicePixelRatio || 1;
     ctx.width = w * dpr; ctx.height = h * dpr;
-    ctx.style.width = w + 'px'; ctx.style.height = h + 'px';
+    ctx.style.width = '100%'; ctx.style.height = h + 'px';
     ctx.style.cursor = 'default';
     var c = ctx.getContext('2d');
     c.scale(dpr, dpr);
@@ -13136,7 +13169,7 @@ function renderHomeOrderStats() {
     for(var g=0;g<=max;g+=Math.ceil(max/4)||1){
       var gy = h-32-(g/max)*(h-60);
       c.strokeStyle='#E5E7EB'; c.lineWidth=0.5; c.beginPath(); c.moveTo(40,gy); c.lineTo(w-12,gy); c.stroke();
-      c.fillStyle='#94a3b8'; c.font='11px sans-serif'; c.textAlign='right'; c.fillText(g,37,gy+3);
+      c.fillStyle='#94a3b8'; c.font='11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign='right'; c.fillText(g,37,gy+3);
     }
     var stepX = dayCount > 1 ? (w-55)/(dayCount-1) : (w-55);
     var trendPoints = [];
@@ -13152,7 +13185,7 @@ function renderHomeOrderStats() {
     days.forEach(function(d,i){
       if (i % labelStep !== 0 && i !== dayCount-1) return;
       var px = 45 + i * stepX;
-      c.fillStyle='#94a3b8'; c.font='10px sans-serif'; c.textAlign='center';
+      c.fillStyle='#94a3b8'; c.font='10px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign='center';
       c.fillText((d.slice(5).replace('-','/')), px, h-4);
     });
     trendLegendRects = drawLegendChips(c, trendSeries.map(function(s, si){ return { name:s.name, color:s.color, active:trendVisibility[si] }; }), w);
@@ -13256,11 +13289,11 @@ function renderHomeOrderStats() {
     var cvs = document.getElementById('homeStageChart');
     if (!cvs) return;
     var ss = stageSeries[currentStageIdx];
-    var pw = cvs.parentElement.offsetWidth - 28, ph = 230;
+    var pw = cvs.clientWidth, ph = 230;
     if (pw < 300) pw = 500;
     var dpr = window.devicePixelRatio || 1;
     cvs.width = pw * dpr; cvs.height = ph * dpr;
-    cvs.style.width = pw + 'px'; cvs.style.height = ph + 'px';
+    cvs.style.width = '100%'; cvs.style.height = ph + 'px';
     var c = cvs.getContext('2d');
     c.scale(dpr, dpr);
     c.clearRect(0, 0, pw, ph);
@@ -13304,7 +13337,7 @@ function renderHomeOrderStats() {
     for (var g = 0; g <= max; g += Math.max(1, Math.ceil(max / 4))) {
       var gy = chartT + chartH - (g / max) * chartH;
       c.strokeStyle = '#E5E7EB'; c.lineWidth = 0.5; c.beginPath(); c.moveTo(chartL, gy); c.lineTo(chartL + chartW, gy); c.stroke();
-      c.fillStyle = '#94a3b8'; c.font = '11px sans-serif'; c.textAlign = 'right'; c.fillText(g, chartL - 6, gy + 3);
+      c.fillStyle = '#94a3b8'; c.font = '11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign = 'right'; c.fillText(g, chartL - 6, gy + 3);
     }
 
     // Bars
@@ -13316,10 +13349,10 @@ function renderHomeOrderStats() {
       c.fillStyle = grad;
       c.fillRect(x, chartT + chartH - barH, barW, barH);
       // Value label
-      c.fillStyle = '#6B7280'; c.font = '10px sans-serif'; c.textAlign = 'center';
+      c.fillStyle = '#6B7280'; c.font = '10px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign = 'center';
       c.fillText(v || '', x + barW / 2, chartT + chartH - barH - 4);
       // Name label
-      c.fillStyle = '#4B5563'; c.font = '10px sans-serif';
+      c.fillStyle = '#4B5563'; c.font = '10px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
       c.save();
       c.translate(x + barW / 2, chartT + chartH + 14);
       c.rotate(-0.5);
@@ -13365,6 +13398,8 @@ function renderHomePage() {
   setTimeout(function(){ drawTicketPie(); }, 300);
   // AI工单趋势图
   setTimeout(function(){ drawAiTicketTrendChart(); }, 250);
+  // 各阶段完成趋势图
+  setTimeout(function(){ drawHomeTrendChart(); }, 200);
 }
 
 // ===== 首页 AI工单趋势图 =====
@@ -13372,11 +13407,12 @@ var aiTrendVisibility = [];
 window.drawAiTicketTrendChart = function() {
   var cv = document.getElementById('aiTicketTrendChart');
   if (!cv) return;
-  var w = cv.parentElement.offsetWidth - 20, h = 230;
+  var h = 230;
+  var w = cv.clientWidth || (cv.parentElement.clientWidth - 24);
   if (w < 100) w = 600;
   var dpr = window.devicePixelRatio || 1;
   cv.width = w * dpr; cv.height = h * dpr;
-  cv.style.width = w + 'px'; cv.style.height = h + 'px';
+  cv.style.width = '100%'; cv.style.height = h + 'px';
   var c = cv.getContext('2d');
   c.scale(dpr, dpr);
   c.clearRect(0, 0, w, h);
@@ -13401,7 +13437,7 @@ window.drawAiTicketTrendChart = function() {
   series.forEach(function(s){ s.data.forEach(function(v){ if(v>max) max=v; }); });
   if (max < 10) max = 10;
 
-  var padL = 34, padR = 14, padT = 30, padB = 26;
+  var padL = 45, padR = 14, padT = 30, padB = 26;
   var plotW = w - padL - padR;
   var plotH = h - padT - padB;
 
@@ -13411,9 +13447,9 @@ window.drawAiTicketTrendChart = function() {
     var val = Math.round(max * g / gridLines);
     var gy = padT + plotH - (g / gridLines) * plotH;
     c.strokeStyle = '#E5E7EB'; c.lineWidth = 0.5;
-    c.beginPath(); c.moveTo(padL, gy); c.lineTo(w - padR, gy); c.stroke();
-    c.fillStyle = '#94a3b8'; c.font = '11px sans-serif'; c.textAlign = 'right';
-    c.fillText(String(val), padL - 6, gy + 3);
+    c.beginPath(); c.moveTo(40, gy); c.lineTo(w - padR, gy); c.stroke();
+    c.fillStyle = '#94a3b8'; c.font = '11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign = 'right';
+    c.fillText(String(val), 37, gy + 3);
   }
 
   // 折线 + 数据点（跳过隐藏系列，收集悬浮点）
@@ -13442,7 +13478,7 @@ window.drawAiTicketTrendChart = function() {
   labels.forEach(function(lb, i) {
     if (i % 2 !== 0 && i !== labels.length - 1) return;
     var px = padL + i * stepX;
-    c.fillStyle = '#94a3b8'; c.font = '10px sans-serif'; c.textAlign = 'center';
+    c.fillStyle = '#94a3b8'; c.font = '10px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; c.textAlign = 'center';
     c.fillText(lb, px, h - 8);
   });
 
@@ -13636,15 +13672,15 @@ var _countries = {
 function seedOrderPackages() {
   orderPackages = [
     { id: orderPkgNextId++, code: 'JB-20240701-0001', xy: 'XY20240701001', type: '普通', source: '客服', route: '海运普货', creator: '小霞', tracker: '张三', assignMode: '放入公海', assignee: '', status: '待认领', demand: '加固包装，易碎品', picker: '', pickedAt: '', createdAt: '2026-07-01 09:00', updatedAt: '2026-07-01 09:00', links: [], xpd: '', dueDate: '2026-07-04T18:00' },
-    { id: orderPkgNextId++, code: 'JB-20240701-0002', xy: 'XY20240701003', xpd: 'XYPD20240701001', type: '拼团', source: '客服', route: '铁路普货', creator: '小萌', tracker: '李四', assignMode: '直接指派', assignee: '小霞', status: '拣货中', demand: '拼团·易碎品加固', picker: '小霞', pickedAt: '2026-07-01 10:00', createdAt: '2026-07-01 09:30', updatedAt: '2026-07-01 10:00', links: [], dueDate: '2026-07-04T18:00' },
-    { id: orderPkgNextId++, code: 'JB-20240701-0002A', xy: 'XY20240701004', xpd: 'XYPD20240701001', type: '拼团', source: '客服', route: '铁路普货', creator: '小张', tracker: '王五', assignMode: '直接指派', assignee: '小霞', status: '拣货完成', demand: '拼团·注意不要漏件', picker: '小霞', pickedAt: '2026-07-01 11:00', createdAt: '2026-07-01 09:35', updatedAt: '2026-07-01 11:00', links: [], dueDate: '2026-07-04T18:00' },
+    { id: orderPkgNextId++, code: 'JB-20240701-0002', xy: 'XY20240701003', xpd: 'XYPD20240701001', type: '拼团', source: '客服', route: '铁路普货', creator: '小萌', tracker: '李四', assignMode: '直接指派', assignee: '小霞', status: '拣货中', demand: '拼团·易碎品加固', picker: '小霞', claimedAt: '2026-07-01 09:50', pickedAt: '2026-07-01 10:00', createdAt: '2026-07-01 09:30', updatedAt: '2026-07-01 10:00', links: [], dueDate: '2026-07-04T18:00' },
+    { id: orderPkgNextId++, code: 'JB-20240701-0002A', xy: 'XY20240701004', xpd: 'XYPD20240701001', type: '拼团', source: '客服', route: '铁路普货', creator: '小张', tracker: '王五', assignMode: '直接指派', assignee: '小霞', status: '拣货完成', demand: '拼团·注意不要漏件', picker: '小霞', claimedAt: '2026-07-01 10:00', pickedAt: '2026-07-01 11:00', createdAt: '2026-07-01 09:35', updatedAt: '2026-07-01 11:00', links: [], dueDate: '2026-07-04T18:00' },
     { id: orderPkgNextId++, code: 'JB-20240701-0002B', xy: 'XY20240701005', xpd: 'XYPD20240701001', type: '拼团', source: '门店', route: '铁路敏感', creator: '门店小张', tracker: '张三', assignMode: '直接指派', assignee: '赵六', status: '待打包', demand: '拼团·合并打包', picker: '小萌', pickedAt: '2026-07-01 12:00', createdAt: '2026-07-01 09:40', updatedAt: '2026-07-01 12:00', links: [], dueDate: '2026-07-04T18:00' },
     { id: orderPkgNextId++, code: 'JB-20240701-0003', xy: 'XY20240701008', type: '普通', source: '门店', route: '铁路敏感', creator: '门店小张', tracker: '张三', assignMode: '直接指派', assignee: '赵六', status: '打包中', auditReason: '物品信息与订单一致，同意打包', auditAt: '2026-07-01 10:25', demand: '门店集包，跳过拣货', picker: '-', pickedAt: '-', createdAt: '2026-07-01 10:00', updatedAt: '2026-07-01 10:30', links: [], xpd: '', dueDate: '2026-07-04T18:00', packItems: [{name:'保温杯',qty:2,cat:'普货',image:'IMG_101.jpg'},{name:'陶瓷餐具',qty:4,cat:'普货',image:'IMG_101.jpg'},{name:'手机壳',qty:6,cat:'普货',image:'IMG_102.jpg'},{name:'化妆品小样',qty:3,cat:'敏货',image:'IMG_102.jpg'}] },
     { id: orderPkgNextId++, code: 'JB-20240701-0004', xy: 'XY20240701002', type: '普通', source: '客服', route: '海运普货', creator: '小霞', tracker: '张三', assignMode: '放入公海', assignee: '', status: '待认领', demand: '', picker: '', pickedAt: '', createdAt: '2026-07-01 11:00', updatedAt: '2026-07-01 11:00', links: [], xpd: '', dueDate: '2026-07-04T18:00' },
-    { id: orderPkgNextId++, code: 'JB-20240701-0005', xy: 'XY20240630001', type: '普通', source: '客服', route: '铁路超大件', creator: '小萌', tracker: '王五', assignMode: '放入公海', assignee: '', status: '拣货完成', demand: '普通日用品', picker: '小萌', pickedAt: '2026-07-01 14:00', createdAt: '2026-06-30 15:00', updatedAt: '2026-07-01 14:00', links: [], xpd: '', dueDate: '2026-07-03T18:00' },
+    { id: orderPkgNextId++, code: 'JB-20240701-0005', xy: 'XY20240630001', type: '普通', source: '客服', route: '铁路超大件', creator: '小萌', tracker: '王五', assignMode: '放入公海', assignee: '', status: '拣货完成', demand: '普通日用品', picker: '小萌', claimedAt: '2026-07-01 09:30', pickedAt: '2026-07-01 14:00', createdAt: '2026-06-30 15:00', updatedAt: '2026-07-01 14:00', links: [], xpd: '', dueDate: '2026-07-03T18:00' },
     { id: orderPkgNextId++, code: 'JB-20240630-0001', xy: 'XY20240630002', type: '普通', source: '仓库', route: '铁路普货', creator: '仓库小李', tracker: '李四', assignMode: '直接指派', assignee: '赵六', status: '打包完成', demand: '仓库集包，直接打包完毕', picker: '-', pickedAt: '-', createdAt: '2026-06-30 10:00', updatedAt: '2026-06-30 15:00', links: [], xpd: '', dueDate: '2026-07-03T18:00' },
     { id: orderPkgNextId++, code: 'JB-20240628-0001', xy: 'XY20240628001', type: '普通', source: '客服', route: '铁路敏感', creator: '小萌', tracker: '王五', assignMode: '放入公海', assignee: '', status: '已付款', demand: '', picker: '小霞', pickedAt: '2026-06-28 11:00', createdAt: '2026-06-28 09:00', updatedAt: '2026-06-28 16:00', links: [], xpd: '', dueDate: '2026-07-01T18:00' },
-    { id: orderPkgNextId++, code: 'JB-20240701-0006', xy: 'XY20240703001', type: '普通', source: '客服', route: '特快空运普货', creator: '小霞', tracker: '张三', assignMode: '放入公海', assignee: '', status: '拣货完成', demand: '', picker: '赵六', pickedAt: '2026-07-02 14:00', createdAt: '2026-07-02 09:00', updatedAt: '2026-07-02 14:00', links: [], xpd: '', dueDate: '2026-07-05T18:00' },
+    { id: orderPkgNextId++, code: 'JB-20240701-0006', xy: 'XY20240703001', type: '普通', source: '客服', route: '特快空运普货', creator: '小霞', tracker: '张三', assignMode: '放入公海', assignee: '', status: '拣货完成', demand: '', picker: '赵六', claimedAt: '2026-07-02 10:00', pickedAt: '2026-07-02 14:00', createdAt: '2026-07-02 09:00', updatedAt: '2026-07-02 14:00', links: [], xpd: '', dueDate: '2026-07-05T18:00' },
     { id: orderPkgNextId++, code: 'JB-20240702-0001', xy: 'XY20240702001', xpd: 'XYPD20240702001', type: '拼团', source: '客服', route: '海运普货', creator: '小萌', tracker: '李四', assignMode: '直接指派', assignee: '小霞', status: '打包完毕', demand: '拼团·海运普货', picker: '小霞', pickedAt: '2026-07-02 10:00', createdAt: '2026-07-02 08:00', updatedAt: '2026-07-02 15:00', links: [], dueDate: '2026-07-05T18:00' },
     { id: orderPkgNextId++, code: 'JB-20240702-0001A', xy: 'XY20240702002', xpd: 'XYPD20240702001', type: '拼团', source: '客服', route: '海运普货', creator: '小张', tracker: '张三', assignMode: '直接指派', assignee: '阿强', status: '打包中', auditReason: '拼团物品无误，同意打包', auditAt: '2026-07-02 13:50', demand: '', picker: '小萌', pickedAt: '2026-07-02 10:30', createdAt: '2026-07-02 08:10', updatedAt: '2026-07-02 14:00', links: [], dueDate: '2026-07-05T18:00', packItems: [{name:'棉质T恤',qty:3,cat:'普货',image:'IMG_201.jpg'},{name:'运动鞋',qty:2,cat:'普货',image:'IMG_201.jpg'},{name:'书籍杂志',qty:5,cat:'普货',image:'IMG_202.jpg'},{name:'数据线',qty:4,cat:'普货',image:'IMG_202.jpg'}] },
     { id: orderPkgNextId++, code: 'JB-20240702-0001B', xy: 'XY20240702003', xpd: 'XYPD20240702001', type: '拼团', source: '门店', route: '铁路普货', creator: '门店小张', tracker: '王五', assignMode: '直接指派', assignee: '阿明', status: '打包完毕', demand: '拼团·合并打包', picker: '小霞', pickedAt: '2026-07-02 11:00', createdAt: '2026-07-02 08:20', updatedAt: '2026-07-02 15:30', links: [], dueDate: '2026-07-05T18:00' },
@@ -13656,7 +13692,7 @@ function seedOrderPackages() {
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240705-0003', xy: 'XY20240705003', type: '分单', source: '客服', route: '铁路敏感', creator: '小霞', tracker: '张三', assignMode: '放入公海', assignee: '', status: '待分配', demand: '多个包裹合并，直接打包', picker: '', pickedAt: '', createdAt: '2026-07-05 08:30', updatedAt: '2026-07-05 08:30', links: [], xpd: '', dueDate: '2026-07-08T18:00' });
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240705-0004', xy: 'XY20240705004', type: '分单', source: '门店', route: '海运普货', creator: '门店小张', tracker: '张三', assignMode: '直接指派', assignee: '阿强', status: '打包完毕', packer: '阿强', demand: '分单已完成打包', picker: '', pickedAt: '', createdAt: '2026-07-04 14:00', updatedAt: '2026-07-04 16:00', links: [], xpd: '', dueDate: '2026-07-07T18:00' });
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240705-0005', xy: 'XY20240705005', type: '门店', source: '门店', route: '铁路普货', creator: '门店小刘', tracker: '李四', assignMode: '直接指派', assignee: '阿明', status: '打包完毕', packer: '阿明', demand: '', picker: '', pickedAt: '', createdAt: '2026-07-05 15:00', updatedAt: '2026-07-05 15:00', links: [], xpd: '', dueDate: '2026-07-08T18:00' });
-  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240705-0006', xy: 'XY20240705006', type: '仓库', source: '仓库', route: '铁路超大件', creator: '仓库小李', tracker: '王五', assignMode: '放入公海', assignee: '', status: '待开始', demand: '仓库出货，常规流程', picker: '', pickedAt: '', createdAt: '2026-07-05 16:00', updatedAt: '2026-07-05 16:00', links: [], xpd: '', dueDate: '2026-07-08T18:00' });
+  orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240705-0006', xy: 'XY20240705006', type: '清源仓', source: '仓库', route: '铁路超大件', creator: '仓库小李', tracker: '王五', assignMode: '放入公海', assignee: '', status: '待开始', demand: '仓库出货，常规流程', picker: '', pickedAt: '', createdAt: '2026-07-05 16:00', updatedAt: '2026-07-05 16:00', links: [], xpd: '', dueDate: '2026-07-08T18:00' });
   orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240707-0001', xy: 'XY20240707001', type: '常规', source: '客服', route: '铁路敏感', creator: '小霞', tracker: '张三', subLead: '张三', claimedBy: '张三', claimedAt: '2026-07-07 14:00', packer: '赵六', assignee: '赵六', assignedAt: '2026-07-07 14:30', status: '驳回', packDoneAt: '2026-07-07 15:00', packCompleteReason: '打包完毕待审核', packCompletePhotos: 2, auditReason: '照片不清晰，需重新拍摄上传', auditAt: '2026-07-07 15:10', demand: '客户要求加固包装', woodenBox: '是', haioStatus: '已出库', pickedAt: '2026-07-07 13:00', createdAt: '2026-07-07 12:00', updatedAt: '2026-07-07 15:10', links: [], xpd: '', dueDate: '2026-07-10T18:00' });
   // 作废演示数据已移至 VOID_DEMO_ROWS（仅供作废页展示，不计入集包列表进展列）
   // 通过演示数据 x5
@@ -13671,6 +13707,176 @@ function seedOrderPackages() {
   seedPendingPackData();
   seedGoodsRejectData();
   seedCsOrderExData();
+  // 混合仓演示数据 x5（倒序 unshift，保证排在最前）
+  var mxItems = [
+    { code: 'JB-20240818-MX1', xy: 'XY20240818001', route: '海运普货', creator: '小霞', tracker: '张三', assignMode: '放入公海', assignee: '', status: '待分配', demand: '混合仓：清源仓+派力仓合并发货', qty: 12, xcQty: 5, country: '德国', haioId: 'HIO-51001', day: '18', time: '09:30' },
+    { code: 'JB-20240817-MX2', xy: 'XY20240817002', route: '铁路普货', creator: '小萌', tracker: '李四', assignMode: '直接指派', assignee: '赵六', subLead: '张三', status: '打包中', demand: '混合仓，派力仓包裹单独装箱', qty: 8, xcQty: 3, packer: '赵六', country: '法国', haioId: 'HIO-51002', day: '17', time: '14:00' },
+    { code: 'JB-20240816-MX3', xy: 'XY20240816003', route: '特快空运普货', creator: '门店小张', tracker: '张三', assignMode: '直接指派', assignee: '阿强', status: '打包完成', demand: '混合仓，加急处理', qty: 15, xcQty: 6, packer: '阿强', packStartAt: '2026-08-16 10:00', packStartReason: '混合仓开始打包，拆包核对', packStartPhotos: 3, packDoneAt: '2026-08-16 16:00', packCompleteReason: '打包完成', packCompletePhotos: 3, country: '西班牙', haioId: 'HIO-51003', day: '16', time: '16:00' },
+    { code: 'JB-20240815-MX4', xy: 'XY20240815004', route: '铁路敏感', creator: '小霞', tracker: '王五', assignMode: '直接指派', assignee: '赵六', status: '打包完毕', demand: '混合仓，敏感货单独包装', qty: 10, xcQty: 4, packer: '赵六', packStartAt: '2026-08-15 10:00', packStartReason: '混合仓开始打包', packStartPhotos: 3, packDoneAt: '2026-08-15 15:00', packCompleteReason: '混合仓打包完毕', packCompletePhotos: 4, auditReason: '混合仓物品无误，同意打包', auditAt: '2026-08-15 15:30', country: '意大利', haioId: 'HIO-51004', day: '15', time: '15:30' },
+    { code: 'JB-20240814-MX5', xy: 'XY20240814005', route: '海运超大件', creator: '小萌', tracker: '张三', assignMode: '直接指派', assignee: '阿强', status: '已付款', demand: '混合仓，超大件木箱加固', qty: 6, xcQty: 2, packer: '阿强', packDoneAt: '2026-08-14 14:00', verifyPayer: '张三', verifyPaidAt: '2026-08-14 16:00', verifyPayAmount: '486', verifyPayWeight: '22.5', country: '英国', haioId: 'HIO-51005', day: '14', time: '16:00' }
+  ];
+  for (var mi = mxItems.length - 1; mi >= 0; mi--) {
+    var m = mxItems[mi];
+    orderPackages.unshift({
+      id: orderPkgNextId++,
+      code: m.code,
+      xy: m.xy,
+      type: '混合仓',
+      source: '客服',
+      route: m.route,
+      creator: m.creator,
+      tracker: m.tracker,
+      assignMode: m.assignMode,
+      assignee: m.assignee,
+      subLead: m.subLead || '',
+      status: m.status,
+      demand: m.demand,
+      qty: m.qty,
+      xcLarge: '是',
+      xcQty: m.xcQty,
+      picker: '',
+      pickedAt: '',
+      packer: m.packer || '',
+      packStartAt: m.packStartAt || '',
+      packStartReason: m.packStartReason || '',
+      packStartPhotos: m.packStartPhotos || 0,
+      packDoneAt: m.packDoneAt || '',
+      packCompleteReason: m.packCompleteReason || '',
+      packCompletePhotos: m.packCompletePhotos || 0,
+      auditReason: m.auditReason || '',
+      auditAt: m.auditAt || '',
+      verifyPayer: m.verifyPayer || '',
+      verifyPaidAt: m.verifyPaidAt || '',
+      verifyPayAmount: m.verifyPayAmount || '',
+      verifyPayWeight: m.verifyPayWeight || '',
+      createdAt: '2026-08-' + m.day + ' 08:00',
+      updatedAt: '2026-08-' + m.day + ' ' + m.time,
+      links: [],
+      xpd: '',
+      dueDate: '2026-08-23T18:00',
+      country: m.country,
+      haioId: m.haioId
+    });
+  }
+  // 拣货中演示数据 x5（含1条混合仓）
+  var pickingItems = [
+    { code:'JB-20240819-MX6', xy:'XY20240819006', type:'混合仓', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'小霞', demand:'混合仓拣货，分仓核对', qty:10, xcQty:4, country:'德国', haioId:'HIO-51006', claimedAt:'2026-08-19 09:30' },
+    { code:'JB-20240819-P1', xy:'XY20240819007', type:'普通', route:'铁路普货', creator:'小萌', tracker:'李四', assignee:'小萌', demand:'易碎品，轻拿轻放', qty:8, xcQty:0, country:'法国', haioId:'HIO-51007', claimedAt:'2026-08-19 10:00' },
+    { code:'JB-20240819-P2', xy:'XY20240819008', type:'拼团', route:'特快空运普货', creator:'小张', tracker:'王五', assignee:'赵六', demand:'拼团拣货，合并打包', qty:12, xcQty:0, country:'西班牙', haioId:'HIO-51008', claimedAt:'2026-08-19 10:30' },
+    { code:'JB-20240819-P3', xy:'XY20240819009', type:'超大件', route:'铁路超大件', creator:'仓库小李', tracker:'张三', assignee:'阿强', demand:'大件需叉车配合', qty:5, xcQty:0, country:'意大利', haioId:'HIO-51009', claimedAt:'2026-08-19 11:00' },
+    { code:'JB-20240819-P4', xy:'XY20240819010', type:'加货', route:'海运普货', creator:'小霞', tracker:'李四', assignee:'小霞', demand:'加货拣货，核对清单', qty:7, xcQty:0, country:'英国', haioId:'HIO-51010', claimedAt:'2026-08-19 11:30' }
+  ];
+  pickingItems.forEach(function(it){
+    orderPackages.push({
+      id: orderPkgNextId++,
+      code: it.code,
+      xy: it.xy,
+      xpd: it.type==='拼团' ? 'XYPD20240819001' : '',
+      type: it.type,
+      source: '客服',
+      route: it.route,
+      creator: it.creator,
+      tracker: it.tracker,
+      assignMode: '直接指派',
+      assignee: it.assignee,
+      status: '拣货中',
+      demand: it.demand,
+      qty: it.qty,
+      xcLarge: it.type==='混合仓' ? '是' : '',
+      xcQty: it.xcQty || 0,
+      picker: it.assignee,
+      claimedAt: it.claimedAt,
+      pickedAt: '',
+      createdAt: '2026-08-19 09:00',
+      updatedAt: it.claimedAt,
+      links: [],
+      dueDate: '2026-08-23T18:00',
+      country: it.country,
+      haioId: it.haioId
+    });
+  });
+  // 审核混合仓演示数据 x3：包裹审核（待打包-待审核）、打包审核（打包完成-待审核）、质检审核（打包完毕）
+  orderPackages.push({
+    id: orderPkgNextId++, code: 'JB-20240819-MX7', xy: 'XY20240819011',
+    type: '混合仓', source: '客服', route: '海运普货', creator: '小霞', tracker: '张三',
+    assignMode: '直接指派', assignee: '赵六', status: '待打包-待审核',
+    demand: '混合仓待审核，分仓核对', qty: 12, xcLarge: '是', xcQty: 5,
+    picker: '小萌', pickedAt: '2026-08-19 10:00', packer: '赵六',
+    packStartReason: '待审核#混合仓', packStartPhotos: 3,
+    packItems: [
+      {name:'棉质T恤',qty:3,cat:'普货',image:'IMG_MX7_1.jpg'},
+      {name:'充电宝',qty:1,cat:'敏货',image:'IMG_MX7_1.jpg'},
+      {name:'运动鞋',qty:2,cat:'普货',image:'IMG_MX7_2.jpg'},
+      {name:'书籍杂志',qty:4,cat:'普货',image:'IMG_MX7_2.jpg'}
+    ],
+    createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 10:00',
+    links: [], xpd: '', dueDate: '2026-08-23T18:00',
+    country: '德国', haioId: 'HIO-51011', haioStatus: '已出库', woodenBox: '否'
+  });
+  orderPackages.push({
+    id: orderPkgNextId++, code: 'JB-20240818-MX8', xy: 'XY20240818012',
+    type: '混合仓', source: '客服', route: '铁路普货', creator: '小萌', tracker: '李四',
+    assignMode: '直接指派', assignee: '阿强', status: '打包完成-待审核',
+    demand: '混合仓打包完成，待审核', qty: 10, xcLarge: '是', xcQty: 4,
+    picker: '小霞', pickedAt: '2026-08-18 09:00', packer: '阿强',
+    packStartAt: '2026-08-18 10:00', packStartReason: '混合仓开始打包，拆包核对', packStartPhotos: 3,
+    packDoneAt: '2026-08-18 14:00', packCompleteReason: '混合仓打包完毕，请审核', packCompletePhotos: 3,
+    packItems: [
+      {name:'羽绒服',qty:2,cat:'普货',image:'IMG_MX8_1.jpg'},
+      {name:'香水',qty:1,cat:'敏货',image:'IMG_MX8_1.jpg'},
+      {name:'家居收纳盒',qty:3,cat:'普货',image:'IMG_MX8_2.jpg'},
+      {name:'蓝牙耳机',qty:1,cat:'敏货',image:'IMG_MX8_2.jpg'}
+    ],
+    createdAt: '2026-08-18 08:00', updatedAt: '2026-08-18 14:00',
+    links: [], xpd: '', dueDate: '2026-08-22T18:00',
+    country: '法国', haioId: 'HIO-51012', haioStatus: '已出库', woodenBox: '否'
+  });
+  orderPackages.push({
+    id: orderPkgNextId++, code: 'JB-20240817-MX9', xy: 'XY20240817013',
+    type: '混合仓', source: '客服', route: '特快空运普货', creator: '小张', tracker: '王五',
+    assignMode: '直接指派', assignee: '阿明', status: '打包完毕',
+    demand: '混合仓打包完毕，待质检', qty: 8, xcLarge: '是', xcQty: 3,
+    picker: '小萌', pickedAt: '2026-08-17 09:00', packer: '阿明',
+    packDoneAt: '2026-08-17 14:00', packCompleteReason: '打包完毕', packCompletePhotos: 4,
+    auditReason: '混合仓物品无误，同意打包', auditAt: '2026-08-17 15:00',
+    createdAt: '2026-08-17 08:00', updatedAt: '2026-08-17 15:00',
+    links: [], xpd: '', dueDate: '2026-08-21T18:00',
+    country: '西班牙', haioId: 'HIO-51013', haioStatus: '已出库', woodenBox: '是'
+  });
+  // 打包-待打包演示数据：混合仓 x1
+  orderPackages.push({
+    id: orderPkgNextId++, code: 'JB-20240819-MX10', xy: 'XY20240819014',
+    type: '混合仓', source: '客服', route: '海运普货', creator: '小霞', tracker: '张三',
+    assignMode: '直接指派', assignee: '赵六', status: '待打包',
+    demand: '混合仓待打包，分仓处理', qty: 9, xcLarge: '是', xcQty: 3,
+    picker: '小萌', pickedAt: '2026-08-19 10:00', packer: '赵六',
+    createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 10:00',
+    links: [], xpd: '', dueDate: '2026-08-23T18:00',
+    country: '德国', haioId: 'HIO-51014', haioStatus: '已出库'
+  });
+  balancePackageTypes();
+}
+// 订单类型均衡：把"普通/常规"类订单贪心重分配为 9 种集包类型，使列表"类型"列分布大致一致
+function balancePackageTypes() {
+  // 1. 削减"拼团"订单到 10 条（保留各环节演示），其余改为"普通"并清理拼团字段
+  var tuanList = orderPackages.filter(function(o){ return o.type==='拼团'; });
+  tuanList.forEach(function(o, i){
+    if (i >= 10) { o.type = '普通'; o.xpd = ''; o.links = []; o.linkDemands = null; o.linkHaioIds = null; o.linkBoxes = null; }
+  });
+  // 2. 9 种"列表类型"（拼团/普通/常规 统一显示为"常规"）
+  var listTypes = ['常规','超大件','分单','加货','派力仓','混合仓','变更','门店','清源仓'];
+  function shown(o){ return (o.type==='拼团'||o.type==='普通'||o.type==='常规') ? '常规' : o.type; }
+  function count(t){ return orderPackages.filter(function(o){ return shown(o)===t; }).length; }
+  // 3. 把可重分配订单（普通/常规）逐条分给当前数量最少的类型，实现均衡
+  var candidates = orderPackages.filter(function(o){ return o.type==='普通' || o.type==='常规'; });
+  candidates.forEach(function(o){
+    var minT = null, minC = Infinity;
+    listTypes.forEach(function(t){
+      var c = count(t);
+      if (c < minC) { minC = c; minT = t; }
+    });
+    o.type = (minT === '常规') ? '普通' : minT;
+  });
 }
 function seedPackAuditData() {
   // 打包审核演示数据 x10（超管可见）
@@ -13733,6 +13939,9 @@ function seedPackDoneAuditData() {
       picker: i%3===0?'小萌':'小霞',
       pickedAt: '2026-07-'+String(10+i).padStart(2,'0')+' 09:00',
       packer: packers[i%5],
+      packStartAt: '2026-07-'+String(10+i).padStart(2,'0')+' 10:00',
+      packStartReason: '开始打包，拆包核对#'+(i+1),
+      packStartPhotos: 2 + (i%2),
       packDoneAt: '2026-07-'+String(10+i).padStart(2,'0')+' 14:00',
       packCompleteReason: '打包完毕，请审核#'+(i+1),
       packCompletePhotos: 2 + (i%3),
@@ -13938,26 +14147,52 @@ function seedVerifyFlowData() {
       var m = Math.floor(Math.random()*60);
       var createdAt = '2026-06-'+String(day).padStart(2,'0')+' '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':00';
       var xy = 'XY2026'+String(Math.floor(Math.random()*12)+1).padStart(2,'0')+String(Math.floor(Math.random()*28)+1).padStart(2,'0')+String(Math.floor(Math.random()*900)+100);
-      var paidAt = '2026-06-'+String(day+2).padStart(2,'0')+' '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':00';
-      var shipAt = '2026-06-'+String(day+4).padStart(2,'0')+' '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':00';
-      var doneAt = '2026-06-'+String(day+6).padStart(2,'0')+' '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':00';
+      var picker = creators[Math.floor(Math.random()*creators.length)];
+      var packer = packers[Math.floor(Math.random()*packers.length)];
+      function tt(dd, hh, mm){ return '2026-06-'+String(day+dd).padStart(2,'0')+' '+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00'; }
+      var pickClaimAt = tt(0, h+1, 0);
+      var pickDoneAt = tt(0, h+1, 30);
+      var packClaimAt = tt(0, h+2, 0);
+      var assignedAt = tt(0, h+2, 30);
+      var packStartAt = tt(0, h+3, 0);
+      var auditAt = tt(0, h+3, 30);
+      var packDoneAt = tt(0, h+4, 30);
+      var packDoneAuditAt = tt(0, h+5, 30);
+      var qcTime = tt(0, h+6, 30);
+      var paidAt = tt(2, h, m);
+      var shipAt = tt(4, h, m);
+      var doneAt = tt(6, h, m);
       var pkg = {
         id: orderPkgNextId++, code: 'JB-202606'+String(day).padStart(2,'0')+'-'+String(orderPkgNextId).padStart(4,'0'),
         xy: xy, type: '普通', source: Math.random()>0.5?'客服':'门店',
         route: route, creator: creators[Math.floor(Math.random()*creators.length)],
         tracker: trackers[Math.floor(Math.random()*trackers.length)],
-        assignMode: '直接指派', assignee: packers[Math.floor(Math.random()*packers.length)], status: '打包完毕',
-        demand: '', picker: creators[Math.floor(Math.random()*creators.length)],
-        packer: packers[Math.floor(Math.random()*packers.length)],
-        pickedAt: createdAt, createdAt: createdAt,
+        assignMode: '直接指派', assignee: packer, status: '打包完毕',
+        demand: '', picker: picker,
+        packer: packer,
+        claimedAt: pickClaimAt, pickedAt: pickDoneAt, createdAt: createdAt,
+        claimedBy: '张三', packClaimAt: packClaimAt, assignedAt: assignedAt,
+        packStartAt: packStartAt, packStartReason: '开始打包，AI识别拆包', packStartPhotos: 3,
+        packItems: [
+          {name:'棉质T恤',qty:2,cat:'普货',image:'IMG_9001.jpg'},
+          {name:'书籍杂志',qty:5,cat:'普货',image:'IMG_9001.jpg'},
+          {name:'充电宝',qty:1,cat:'敏货',image:'IMG_9002.jpg'},
+          {name:'运动鞋',qty:2,cat:'普货',image:'IMG_9002.jpg'}
+        ],
+        auditAt: auditAt, auditReason: '物品信息与订单一致，同意打包',
+        packDoneAt: packDoneAt, packCompleteReason: '打包完毕', packCompletePhotos: 3,
+        packDoneAuditAt: packDoneAuditAt, packDoneAuditReason: '打包复核通过',
+        qcTime: qcTime, qcPerson: '质检员·小美', qcStatus: '合格',
         updatedAt: doneAt, links: [], xpd: '', dueDate: '2026-07-10T18:00',
         country: countries[route],
         haioId: 'HIO-'+(20000+orderPkgNextId),
         haioStatus: '已签收',
+        verifyPayer: '门店小张',
         verifyPaidAt: paidAt,
         verifyPayAmount: (Math.random()*500+100).toFixed(2),
         verifyPayWeight: (Math.random()*50+5).toFixed(2),
-        verifyPayNote: Math.random()>0.5?'国际运费已结':''
+        verifyPayNote: Math.random()>0.5?'国际运费已结':'',
+        verifyShipper: '发货员·小刘', verifyCompleter: '跟单·小王'
       };
       if (stage.key==='shipping'||stage.key==='done') pkg.verifyShipAt = shipAt;
       if (stage.key==='done') pkg.verifyDoneAt = doneAt;
@@ -14304,9 +14539,9 @@ function renderOverviewCharts() {
           ctx.fillStyle = grad;
           roundTopRect(ctx, x, y, barW, bh, 4);
           if (i===hi) { ctx.strokeStyle = colors[i]; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.rect(x-1.5, y-1.5, barW+3, bh+3); ctx.stroke(); }
-          ctx.fillStyle = '#475569'; ctx.font = '600 11px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillStyle = '#475569'; ctx.font = '600 11px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; ctx.textAlign = 'center';
           ctx.fillText(v, x+barW/2, y-6);
-          ctx.fillStyle = '#94A3B8'; ctx.font = '10px sans-serif';
+          ctx.fillStyle = '#94A3B8'; ctx.font = '10px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif';
           ctx.fillText(s, x+barW/2, ch-7);
         });
       }
@@ -14357,7 +14592,7 @@ function renderOverviewCharts() {
         pts.forEach(function(p,i){
           tc.fillStyle='#14795B'; tc.beginPath(); tc.arc(p.x,p.y,3,0,Math.PI*2); tc.fill();
           tc.fillStyle='#fff'; tc.beginPath(); tc.arc(p.x,p.y,1.3,0,Math.PI*2); tc.fill();
-          tc.fillStyle='#64748B'; tc.font='9px sans-serif'; tc.textAlign='center';
+          tc.fillStyle='#64748B'; tc.font='9px "Source Han Sans SC", "Noto Sans SC", "思源黑体", sans-serif'; tc.textAlign='center';
           tc.fillText(p.value, p.x, p.y-9);
           tc.fillText(p.label.slice(5), p.x, th-8);
         });
@@ -14491,8 +14726,10 @@ function renderOrderPkgList() {
     }
     if (filterStatus && o.status!==filterStatus) return false;
     if (filterRoute && o.route!==filterRoute) return false;
-    var ft = filterType==='常规' ? '普通' : filterType;
-    if (filterType && o.type!==ft) return false;
+    if (filterType) {
+      var sType = (o.type==='拼团'||o.type==='普通'||o.type==='常规') ? '常规' : o.type;
+      if (sType !== filterType) return false;
+    }
     var filterActivity = document.getElementById('orderPkgFilterActivity')?document.getElementById('orderPkgFilterActivity').value:'';
     if (filterActivity==='常规' && o.type==='拼团') return false;
     if (filterActivity==='拼团' && o.type!=='拼团') return false;
@@ -14582,15 +14819,15 @@ function voidOrderPackage(id) {
 function hidePkgVoid() { document.getElementById('pkgVoidModal').classList.remove('show'); currentVoidPkgId = null; }
 function onVoidTypeChange() {
   var t = document.getElementById('pkgVoidType').value;
-  var needXy = (t === '加货单' || t === '修改路线');
+  var needXy = (t === '加货单' || t === '修改路线' || t === '重量变化');
   document.getElementById('pkgVoidNewXyGroup').style.display = needXy ? 'block' : 'none';
 }
 function confirmPkgVoid() {
   var voidType = document.getElementById('pkgVoidType').value;
   if (!voidType) { alert('请选择作废类型'); return; }
-  var needXy = (voidType === '加货单' || voidType === '修改路线');
+  var needXy = (voidType === '加货单' || voidType === '修改路线' || voidType === '重量变化');
   var newXy = document.getElementById('pkgVoidNewXy').value.trim();
-  if (needXy && !newXy) { alert('加货单/修改路线必须填写新XY订单号'); return; }
+  if (needXy && !newXy) { alert('加货单/修改路线/重量变化必须填写关联XY订单号'); return; }
   var reason = document.getElementById('pkgVoidReason').value.trim();
   if (!reason) { alert('请填写作废理由'); return; }
   var o = orderPackages.find(function(p){ return p.id===currentVoidPkgId; });
@@ -14626,16 +14863,16 @@ function renderOrderVoidList() {
       var xy = orderXyCellHtml(entry);
       if (idx === 0) {
         return '<tr>'+
-        '<td>'+xy+'</td>'+
+        '<td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+xy+'</td>'+
         '<td rowspan="'+n+'">'+(o.voidType?'<span class="tag tag-gray">'+o.voidType+'</span>':'<span class="tag tag-gray">-</span>')+'</td>'+
-        '<td rowspan="'+n+'">'+(o.voidNewXy?'<span style="color:var(--text);font-weight:500;">'+o.voidNewXy+'</span>':'')+'</td>'+
+        '<td rowspan="'+n+'">'+(o.voidNewXy?'<span style="color:var(--primary);font-weight:500;cursor:pointer;text-decoration:underline;" onclick="openRelatedOrder(\''+o.voidNewXy+'\')">'+o.voidNewXy+'</span>':'')+'</td>'+
         '<td rowspan="'+n+'" style="color:var(--text);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.code+'</td>'+
         '<td rowspan="'+n+'">'+((o.type==='拼团'||o.type==='普通')?'常规':o.type)+'</td><td rowspan="'+n+'">'+(o.type==='拼团'?'拼团':'常规')+'</td><td rowspan="'+n+'">'+(o.route||'')+'</td>'+
         '<td rowspan="'+n+'"><span class="tag tag-gray">'+(o.voidSource||'')+'</span></td>'+
         '<td rowspan="'+n+'">'+(o.voidOperator||'')+'</td><td rowspan="'+n+'">'+(o.voidAt||'')+'</td>'+
         '<td rowspan="'+n+'" style="white-space:nowrap;"><button class="btn btn-sm btn-primary" onclick="restoreFromVoid('+o.id+')">恢复</button> <button class="btn btn-sm btn-danger" onclick="deleteFromVoid('+o.id+')">删除</button></td></tr>';
       }
-      return '<tr><td>'+xy+'</td></tr>';
+      return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+xy+'</td></tr>';
     });
   }).join('');
   document.getElementById('orderVoidList').innerHTML = html || '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:30px;">暂无作废工单</td></tr>';
@@ -14764,17 +15001,18 @@ function editOrderPackage(id) {
     var c = children[i];
     if (c.tagName==='H3') continue; // 标题保留
     var html = c.outerHTML||c.innerHTML||'';
-    var isRoute = html.indexOf('orderPkgRoute')>=0;
-    var isFlexRow = html.indexOf('orderPkgHaioId')>=0 || html.indexOf('orderPkgCountry')>=0;
     var isEditor = html.indexOf('orderPkgEditor')>=0;
-    var isDue = html.indexOf('orderPkgDue')>=0;
     var isBtnRow = c.tagName==='DIV' && html.indexOf('hideOrderPkgCreate')>=0;
-    if (isRoute||isEditor||isDue||isBtnRow) { c.style.display = ''; continue; }
-    if (isFlexRow) {
-      // 国籍/海鸥ID 那一行：显示但隐藏海鸥ID子元素
-      c.style.display = '';
-      var haioCh = c.querySelector('#orderPkgHaioId');
-      if (haioCh) haioCh.parentElement.style.display = 'none';
+    if (isEditor || isBtnRow) { c.style.display = ''; continue; }
+    // 三列行：仅保留 线路/国家/截止时间，隐藏同行其他字段
+    if (c.classList && c.classList.contains('pkg-row3')) {
+      c.style.display = 'flex';
+      for (var j=0; j<c.children.length; j++) {
+        var f = c.children[j];
+        var fh = f.outerHTML||f.innerHTML||'';
+        var keep = fh.indexOf('orderPkgRoute')>=0 || fh.indexOf('orderPkgCountry')>=0 || fh.indexOf('orderPkgDue')>=0;
+        f.style.display = keep ? '' : 'none';
+      }
       continue;
     }
     c.style.display = 'none';
@@ -14810,13 +15048,11 @@ function showOrderPkgCreate() {
   for (var i=0; i<modal.children.length; i++) { 
     var c = modal.children[i];
     if (c.tagName==='H3') continue;
-    // 两列flex行恢复display:flex，其余恢复空
-    var html = c.outerHTML||c.innerHTML||'';
-    var isFlexRow = html.indexOf('orderPkgType')>=0 || html.indexOf('orderPkgHaioId')>=0 || html.indexOf('orderPkgUrgent')>=0;
-    c.style.display = isFlexRow ? 'flex' : '';
+    // 三列flex行恢复display:flex，其余恢复空
+    c.style.display = (c.classList && c.classList.contains('pkg-row3')) ? 'flex' : '';
   }
   document.getElementById('orderPkgCreateModal').classList.add('show');
-  document.getElementById('orderPkgType').value='';
+  document.getElementById('orderPkgType').value='常规';
   document.getElementById('orderPkgActivity').value='常规';
   document.getElementById('orderPkgRoute').value='';
   document.getElementById('orderPkgHaioId').value='';
@@ -14824,34 +15060,86 @@ function showOrderPkgCreate() {
   document.getElementById('orderPkgUrgent').value='否';
   document.getElementById('orderPkgUrgentReason').value='';
   document.getElementById('orderPkgUrgentReasonRow').style.display='none';
-  document.getElementById('orderPkgXcLarge').value='否';
   document.getElementById('orderPkgXcQty').value='';
-  document.getElementById('orderPkgXcQtyWrap').style.display='none';
+  arrangePkgMixField(false);
+  var _qtyLbl = document.getElementById('orderPkgQtyLabel');
+  if (_qtyLbl) _qtyLbl.innerHTML = '清源仓包裹数 <span style="color:var(--danger);">*</span>';
   document.getElementById('orderPkgXy').value=''; document.getElementById('orderPkgXpd').value=''; document.getElementById('orderPkgQty').value='';
   document.getElementById('orderPkgEditor').innerHTML = '';
   document.getElementById('orderPkgDue').value='';
   document.getElementById('orderPkgDispatch').checked=false;
+  document.getElementById('orderPkgDispatchRow').style.display='flex';
+  document.getElementById('orderPkgDispatchTip').style.display='none';
   document.getElementById('orderPkgXpdField').style.display='none';
   document.getElementById('orderPkgStoreRow').style.display='none';
-  document.getElementById('orderPkgXyField').style.display='block';
   document.getElementById('orderPkgStoreDept').value='';
   document.getElementById('orderPkgStorePerson').innerHTML='<option value="">先选部门</option>';
-  document.getElementById('orderPkgHaioIdRow').style.display='';
 }
 function hideOrderPkgCreate() { document.getElementById('orderPkgCreateModal').classList.remove('show'); resetOrderPkgSaveBtn(); }
+var _pkgMixArranged = false;
+function arrangePkgMixField(isMix) {
+  var xyCell = document.getElementById('orderPkgXyCell');
+  var xcWrap = document.getElementById('orderPkgXcQtyWrap');
+  if (!xyCell || !xcWrap) return;
+  if (isMix && !_pkgMixArranged) {
+    // 混合仓：海鸥订单号移到派力仓包裹数之后，派力仓包裹数进入行3第三列
+    var row3 = xyCell.parentElement;
+    var xcParent = xcWrap.parentElement;
+    var xcNext = xcWrap.nextSibling;
+    xcParent.insertBefore(xyCell, xcNext);
+    row3.appendChild(xcWrap);
+    xcWrap.style.display = '';
+    xcWrap.style.flex = '1';
+    xcWrap.style.minWidth = '0';
+    xcWrap.style.marginBottom = '0';
+    xyCell.style.flex = '';
+    xyCell.style.marginBottom = '10px';
+    _pkgMixArranged = true;
+  } else if (!isMix && _pkgMixArranged) {
+    // 恢复：派力仓包裹数移回海鸥订单号之前，海鸥订单号移回行3
+    var r3 = xcWrap.parentElement;
+    var xyParent = xyCell.parentElement;
+    var xyNext = xyCell.nextSibling;
+    xyParent.insertBefore(xcWrap, xyNext);
+    r3.appendChild(xyCell);
+    xcWrap.style.display = 'none';
+    xcWrap.style.flex = '';
+    xcWrap.style.minWidth = '';
+    xcWrap.style.marginBottom = '10px';
+    xyCell.style.flex = '1';
+    xyCell.style.marginBottom = '0';
+    _pkgMixArranged = false;
+  } else if (isMix) {
+    xcWrap.style.display = '';
+  } else {
+    xcWrap.style.display = 'none';
+  }
+}
 function onOrderPkgTypeChange() {
   var v = document.getElementById('orderPkgType').value;
   var isStore = v==='门店';
   document.getElementById('orderPkgStoreRow').style.display = isStore ? '' : 'none';
   if (!isStore) { document.getElementById('orderPkgStoreDept').value=''; document.getElementById('orderPkgStorePerson').innerHTML='<option value="">先选部门</option>'; }
+  // 派力仓类型时，清源仓包裹数 label 改为派力仓包裹数
+  var qtyLabel = document.getElementById('orderPkgQtyLabel');
+  if (qtyLabel) qtyLabel.innerHTML = (v==='派力仓' ? '派力仓包裹数' : '清源仓包裹数') + ' <span style="color:var(--danger);">*</span>';
+  // 混合仓时：派力仓包裹数进入行3第三列，海鸥订单号移到行3之后
+  var isMix = v==='混合仓';
+  arrangePkgMixField(isMix);
+  if (!isMix) document.getElementById('orderPkgXcQty').value='';
+  // 分单/门店/清源仓/派力仓/变更：跳过拣货，复选框改为提示
+  var skipPickTypes = ['分单','门店','清源仓','派力仓','变更'];
+  var isSkip = skipPickTypes.indexOf(v) >= 0;
+  document.getElementById('orderPkgDispatchRow').style.display = isSkip ? 'none' : 'flex';
+  var tip = document.getElementById('orderPkgDispatchTip');
+  tip.style.display = isSkip ? 'flex' : 'none';
+  if (isSkip) document.getElementById('orderPkgDispatchTipText').textContent = v + '类型创建后跳过拣货，直接进入打包环节！';
 }
 function onOrderPkgActivityChange() {
   var v = document.getElementById('orderPkgActivity').value;
   var isTuan = v==='拼团';
   // 拼团与常规一样填「海鸥订单号(XY)」，仅多一个「关联拼团订单(XYPD)」字段
   document.getElementById('orderPkgXpdField').style.display = isTuan ? 'block' : 'none';
-  document.getElementById('orderPkgXyField').style.display = 'block';
-  document.getElementById('orderPkgHaioIdRow').style.display = '';
 }
 function onOrderPkgDeptChange() {
   var dept = document.getElementById('orderPkgStoreDept').value;
@@ -14865,11 +15153,6 @@ function onOrderPkgUrgentChange() {
   var v = document.getElementById('orderPkgUrgent').value;
   document.getElementById('orderPkgUrgentReasonRow').style.display = v==='是' ? '' : 'none';
 }
-function onOrderPkgXcLargeChange() {
-  var v = document.getElementById('orderPkgXcLarge').value;
-  document.getElementById('orderPkgXcQtyWrap').style.display = v==='是' ? '' : 'none';
-  if (v !== '是') document.getElementById('orderPkgXcQty').value = '';
-}
 function createOrderPackage() {
   var type = document.getElementById('orderPkgType').value;
   var activity = document.getElementById('orderPkgActivity').value;
@@ -14881,11 +15164,11 @@ function createOrderPackage() {
   var haioId = document.getElementById('orderPkgHaioId').value;
   var country = document.getElementById('orderPkgCountry').value;
   var isUrgent = document.getElementById('orderPkgUrgent').value;
-  var xcLarge = document.getElementById('orderPkgXcLarge').value;
+  var xcLarge = (finalType === '混合仓') ? '是' : '否';
   var xcQty = 0;
-  if (xcLarge === '是') {
+  if (finalType === '混合仓') {
     xcQty = parseInt(document.getElementById('orderPkgXcQty').value) || 0;
-    if (!xcQty || xcQty < 1) { alert('请填写新仓包裹数'); return; }
+    if (!xcQty || xcQty < 1) { alert('请填写派力仓包裹数'); return; }
   }
   var source = '客服';
   var storeDept = '', storePerson = '';
@@ -14906,7 +15189,7 @@ function createOrderPackage() {
   }
   var links = [], linkDemands = [], linkHaioIds = [], linkBoxes = [];
   var qty = parseInt(document.getElementById('orderPkgQty').value) || 0;
-  if (!qty || qty < 1) { alert('请填写包裹数量'); return; }
+  if (!qty || qty < 1) { alert('请填写清源仓包裹数'); return; }
   var demand = document.getElementById('orderPkgEditor').innerHTML.trim();
   var due = document.getElementById('orderPkgDue').value;
   var dispatch = document.getElementById('orderPkgDispatch').checked;
@@ -14937,7 +15220,7 @@ function createOrderPackage() {
   }
 
   var initialStatus = '待开始';
-  if (finalType==='分单'||finalType==='新仓'||finalType==='变更') initialStatus = '待分配';
+  if (finalType==='分单'||finalType==='派力仓'||finalType==='混合仓'||finalType==='清源仓'||finalType==='变更') initialStatus = '待分配';
   else if (finalType==='门店') initialStatus = '打包完毕';
   else if (dispatch) initialStatus = '待认领';
   var assignMode = dispatch ? '放入公海' : '';
@@ -14972,7 +15255,8 @@ var PKG_INFO_ICONS = {
   scale: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M3 6l4 12h10l4-12"/><path d="M7 6v12M17 6v12"/></svg>',
   truck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-  tag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>'
+  tag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
+  void: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
 };
 function pkgInfoItem(key, label, value) {
   var svg = PKG_INFO_ICONS[key] || PKG_INFO_ICONS.id;
@@ -14980,6 +15264,19 @@ function pkgInfoItem(key, label, value) {
     '<span class="pkg-info-text"><span class="pkg-info-label">'+label+'</span><span class="pkg-info-value">'+(value||'—')+'</span></span></div>';
 }
 
+// 点击关联订单号跳转到对应订单详情页
+function openRelatedOrder(xy) {
+  if (!xy) return;
+  var target = null;
+  if (typeof orderPackages !== 'undefined') target = orderPackages.find(function(p){ return p.xy===xy || (p.voidNewXy && p.voidNewXy===xy); });
+  if (!target && typeof VOID_DEMO_ROWS !== 'undefined') target = VOID_DEMO_ROWS.find(function(p){ return p.xy===xy; });
+  if (!target && typeof EX_DEMO_ROWS !== 'undefined') target = EX_DEMO_ROWS.find(function(p){ return p.xy===xy; });
+  if (target) {
+    showOrderPkgDetail(target.id);
+  } else {
+    showToast('未找到关联订单：'+xy);
+  }
+}
 function showOrderPkgDetail(id) {
   var o = orderPackages.find(function(p){ return p.id===id; });
   if (!o && typeof VOID_DEMO_ROWS !== 'undefined') o = VOID_DEMO_ROWS.find(function(p){ return p.id===id; });
@@ -15037,12 +15334,14 @@ function showOrderPkgDetail(id) {
   var isShip = !!(o.verifyShipAt);
   var isDone = !!(o.verifyDoneAt);
   var isEx = o.status==='异常';
+  var isQcDone = !!(o.qcTime) || o.qcStatus==='合格' || o.qcStatus==='不合格';
 
   // 流转记录时间轴：各阶段图标 + 时间节点
   var stageMeta = {
     '集包':   { icon:'<path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>', color:'#0891B2' },
     '拣货':   { icon:'<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="3" y1="12" x2="21" y2="12"/>', color:'#0EA5E9' },
     '打包':   { icon:'<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>', color:'#14795B' },
+    '质检':   { icon:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>', color:'#0891B2' },
     '核款':   { icon:'<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/>', color:'#7C3AED' },
     '待发货': { icon:'<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>', color:'#EA580C' },
     '发货':   { icon:'<path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9Z"/>', color:'#16A34A' }
@@ -15072,6 +15371,7 @@ function showOrderPkgDetail(id) {
       (o.packCompleteReason?('<br>完成理由：'+o.packCompleteReason):'')+
       (o.packCompletePhotos?('<br><span style="color:var(--primary);cursor:pointer;text-decoration:underline;" onclick="previewPackPhotos('+o.id+')">上传图片：'+o.packCompletePhotos+'张</span>'):'')
     ):'') },
+    { label:'质检', active:isQcDone||isPay||isShip||isDone, done:isPay||isShip||isDone, time:o.qcTime, detail: (isQcDone?('质检人：'+(o.qcPerson||'')+'<br>质检时间：'+(o.qcTime||'')+'<br>质检结果：'+(o.qcStatus||'')+(o.qcStatus==='不合格'&&o.qcReason?('<br>原因：'+o.qcReason):'')):'') },
     { label:'核款', active:isPay||isShip||isDone, done:isShip||isDone, time:o.verifyPaidAt, detail: (isPay?('核款人：'+(o.verifyPayer||'')+'<br>核款时间：'+o.verifyPaidAt+'<br>金额：¥'+(o.verifyPayAmount||'')+'<br>计费重：'+(o.verifyPayWeight||'')+' kg<br>备注：'+(o.verifyPayNote||'')):'') },
     { label:'待发货', active:isShip||isDone, done:isDone, time:o.verifyShipAt, detail: (isShip?('发货人：'+(o.verifyShipper||'')+'<br>发货时间：'+o.verifyShipAt+'<br>备注：'+(o.verifyShipNote||'')):'') },
     { label:'发货', active:isDone, done:isDone, time:o.verifyDoneAt, detail: (isDone?('完成人：'+(o.verifyCompleter||'')+'<br>完成时间：'+(o.verifyDoneAt||'')+'<br>备注：'+(o.verifyDoneNote||'')):'') }
@@ -15151,9 +15451,9 @@ function showOrderPkgDetail(id) {
         '<div style="display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap;">'+
           '<span class="pkg-top-xy" title="'+showXy+'">'+showXy+'</span>'+
           (o.void && o.voidNewXy ?
-            '<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:#F3F4F6;border:1px solid var(--border);border-radius:12px;font-size:11px;color:var(--text-muted);font-weight:500;white-space:nowrap;flex-shrink:0;" title="关联新订单：'+(o.voidType?o.voidType+' ':'')+o.voidNewXy+'">'+
+            '<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:12px;font-size:11px;color:var(--primary);font-weight:600;white-space:nowrap;flex-shrink:0;cursor:pointer;" title="点击查看关联订单：'+(o.voidType?o.voidType+' ':'')+o.voidNewXy+'" onclick="openRelatedOrder(\''+o.voidNewXy+'\')">'+
               '<svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>'+
-              '关联新订单 '+o.voidNewXy+
+              '关联订单 '+o.voidNewXy+
             '</span>' : '')+
         '</div>'+
         orderStatusTag(o.status)+
@@ -15167,8 +15467,9 @@ function showOrderPkgDetail(id) {
           pkgInfoItem('route','线路',o.route)+
           pkgInfoItem('type','集包类型','<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#ECFDF5;color:#14795B;font-size:11px;font-weight:600;line-height:1.6;">'+showType+'</span>')+
           pkgInfoItem('tag','集包活动','<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#F3F4F6;color:#111827;font-size:11px;font-weight:600;line-height:1.6;">'+(o.type==='拼团'?'拼团':'常规')+'</span>')+
-          pkgInfoItem('box','包裹数量',o.qty||'—')+
-          (o.xcLarge==='是' ? pkgInfoItem('truck','新仓超大件','是 · '+(o.xcQty||'')+' 件') : '')+
+          (o.void ? pkgInfoItem('void','作废类型','<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#FEF2F2;color:#DC2626;font-size:11px;font-weight:600;line-height:1.6;">'+(o.voidType||'—')+'</span>') : '')+
+          pkgInfoItem('box','清源仓包裹数',o.qty||'—')+
+          (o.xcLarge==='是' ? pkgInfoItem('truck','派力仓包裹数',(o.xcQty||'')+' 件') : '')+
           (o.xpd ?
             '<div class="pkg-info-item" style="align-items:flex-start;">'+
               '<span class="pkg-info-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>'+
@@ -15199,7 +15500,7 @@ function showOrderPkgDetail(id) {
         '</div>'+
         (o.type==='拼团'&&o.links.length ? '<div class="pkg-basic-extra">关联XY号：'+o.links.map(function(l,i){ var b=(o.linkBoxes&&o.linkBoxes[i])?o.linkBoxes[i]+'箱':''; return l+b; }).join(', ')+'</div>' : '')+
         (isEx&&o.exception ? '<div class="pkg-basic-extra" style="border-top:1px dashed var(--border);color:#991B1B;">异常信息：来源 '+(o.exception.source||'')+' | 原因 '+(o.exception.reason||'')+(o.exception.note?(' | 说明 '+o.exception.note):'')+'</div>' : '')+
-        (o.void ? '<div class="pkg-basic-extra" style="border-top:1px dashed var(--border);">作废信息：类型 '+(o.voidType||'—')+' | 理由 '+(o.voidReason||'—')+'</div>' : '')+
+        (o.void ? '<div class="pkg-basic-extra" style="border-top:1px dashed var(--border);">作废理由：'+(o.voidReason||'—')+'</div>' : '')+
       '</div>'+
       // 详情 Tab 结构（默认客户要求）
       '<div class="sub-tab-bar" id="pkgDetailTabBar" style="margin:18px 0 12px;">'+
@@ -15416,21 +15717,34 @@ function showOrderPkgDetail(id) {
       (function(){
         var logs = [];
         if (o.createdAt) logs.push({time: o.createdAt, op: '创建集包', who: o.creator||'—', icon:'create', iconColor:'#14795B'});
-        if (o.picker && !o.pickedAt) logs.push({time: o.updatedAt||'', op: '拣货认领', who: o.picker, icon:'assign', iconColor:'#14795B'});
+        if (o.picker && (o.claimedAt || !o.pickedAt)) logs.push({time: o.claimedAt || o.updatedAt || '', op: '拣货认领', who: o.picker, icon:'assign', iconColor:'#14795B'});
         if (o.pickedAt) { var pickNote = o.pickNote || o.demand || '商品已核对，数量无误，包装完好'; logs.push({time: o.pickedAt, op: '拣货完成', who: o.picker||'—', icon:'pick', iconColor:'#14795B', hasPhotos:true, extra:'完成数量：'+(o.pickQty||(Math.floor(Math.random()*10)+3))+'件 | 备注：'+pickNote}); }
-        if (o.packDoneAt) logs.push({time: o.packDoneAt, op: '打包完成', who: o.packer||'—', icon:'pack', iconColor:'#D97706'});
-        if (o.verifyPaidAt) logs.push({time: o.verifyPaidAt, op: '核款确认', who: o.verifyPayer||'超管', icon:'verify', iconColor:'#7C3AED'});
-        if (o.exception) logs.push({time: o.updatedAt||'', op: '标记异常', who: o.exception.source||'—', icon:'warn', iconColor:'#DC2626', detail: o.exception.reason||''});
+        if (o.claimedBy) logs.push({time: o.packClaimAt || o.claimedAt || o.updatedAt || '', op: '打包认领', who: o.claimedBy || o.subLead || '—', icon:'assign', iconColor:'#14795B'});
+        if (o.assignedAt) logs.push({time: o.assignedAt, op: '分配打包', who: o.subLead || o.claimedBy || '—', icon:'assign', iconColor:'#14795B', extra:'打包员：'+(o.assignee || o.packer || '—')});
+        if (o.packStartPhotos || o.packStartReason || o.packStartAt) { logs.push({time: o.packStartAt || o.updatedAt || '', op: '开始打包', who: o.packer || o.assignee || '—', icon:'packstart', iconColor:'#D97706', hasPhotos:true, extra:'拆包照片：'+(o.packStartPhotos||0)+'张'}); }
+        if (o.auditAt) { var goodsRej = o.rejectSource === '待打包驳回'; logs.push({time: o.auditAt, op: goodsRej ? '包裹审核驳回' : '包裹审核通过', who: '审核主管', icon: goodsRej?'warn':'verify', iconColor: goodsRej?'#DC2626':'#14795B', extra: o.auditReason || ''}); }
+        if (o.packDoneAt) { var pdExtra = '完成照片：'+(o.packCompletePhotos||0)+'张'+(o.xcLarge==='是' ? ' | 清源仓 '+(o.qty!=null?o.qty:'—')+' 件 · 派力仓 '+(o.xcQty!=null?o.xcQty:'—')+' 件' : ''); logs.push({time: o.packDoneAt, op: '打包完成', who: o.packer||'—', icon:'pack', iconColor:'#D97706', hasPhotos:true, extra: pdExtra, xcLarge: o.xcLarge==='是'}); }
+        if (o.packDoneAuditAt) logs.push({time: o.packDoneAuditAt, op: '打包审核通过', who: '跟单', icon:'verify', iconColor:'#7C3AED', extra: o.packDoneAuditReason || ''});
+        if (o.packDoneRejectAt) logs.push({time: o.packDoneRejectAt, op: '打包审核驳回', who: '跟单', icon:'warn', iconColor:'#DC2626', extra: o.packDoneAuditReason || ''});
+        if (o.qcTime) logs.push({time: o.qcTime, op: (o.qcStatus==='不合格'?'质检不合格':'质检合格'), who: o.qcPerson||'质检员', icon:'qc', iconColor:'#0891B2', extra: (o.qcStatus==='不合格'?o.qcReason:'')});
+        if (o.verifyPaidAt) logs.push({time: o.verifyPaidAt, op: '核款确认', who: o.verifyPayer||'门店', icon:'verify', iconColor:'#7C3AED', extra:'金额：¥'+(o.verifyPayAmount||'—')+' · 计费重：'+(o.verifyPayWeight||'—')+' kg'});
+        if (o.verifyShipAt) logs.push({time: o.verifyShipAt, op: '发货', who: o.verifyShipper||'—', icon:'ship', iconColor:'#16A34A'});
+        if (o.verifyDoneAt) logs.push({time: o.verifyDoneAt, op: '完成签收', who: o.verifyCompleter||'—', icon:'ship', iconColor:'#16A34A'});
+        if (o.exception) logs.push({time: o.exceptionAt || o.updatedAt || '', op: '标记异常', who: o.exception.source||'—', icon:'warn', iconColor:'#DC2626', detail: o.exception.reason||''});
         if (o.void) logs.push({time: o.voidAt||'', op: '作废', who: o.voidOperator||'—', icon:'void', iconColor:'#9CA3AF'});
+        logs.sort(function(a,b){ return String(a.time||'') < String(b.time||'') ? -1 : 1; });
         if (!logs.length) return '';
         var icons = {
           create: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
           assign: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="12" cy="8" r="4"/><path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/></svg>',
           pick: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>',
           pack: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+          packstart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
           verify: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><polyline points="20 6 9 17 4 12"/></svg>',
           warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
-          void: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+          void: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+          qc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+          ship: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>'
         };
         var html = '<div data-sec="log" style="margin-top:12px;">'+
           '<div style="font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px;">'+
@@ -15450,30 +15764,69 @@ function showOrderPkgDetail(id) {
               '</div>'+
               '<div style="font-size:11px;color:var(--text-secondary);">操作人：'+l.who+(l.detail?' | 原因：'+l.detail:'')+(l.extra?' | '+l.extra:'')+'</div>';
           if (l.hasPhotos) {
-            // 拣货单照片行（演示3张）
-            html += '<div style="margin-top:6px;">'+
-              '<div style="font-size:10px;color:#14795B;font-weight:500;margin-bottom:4px;">📋 拣货单照片</div>'+
-              '<div style="display:flex;gap:6px;overflow-x:auto;">';
-            var pickListDemos = ['#D1FAE5','#A7F3D0','#6EE7B7'];
-            pickListDemos.forEach(function(bg, pi){
-              html += '<div style="flex:0 0 80px;height:70px;background:'+bg+';border:1px solid #34D399;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#14795B;">'+
-                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-bottom:2px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
-                '<span>清单照片'+(pi+1)+'</span>'+
-              '</div>';
-            });
-            html += '</div></div>';
-            // 拣货完成照片行（演示2张）
-            html += '<div style="margin-top:6px;">'+
-              '<div style="font-size:10px;color:#14795B;font-weight:500;margin-bottom:4px;">📸 拣货完成照片</div>'+
-              '<div style="display:flex;gap:6px;overflow-x:auto;">';
-            var pickDoneDemos = ['#D1FAE5','#A7F3D0'];
-            pickDoneDemos.forEach(function(bg, pi){
-              html += '<div style="flex:0 0 80px;height:70px;background:'+bg+';border:1px solid #34D399;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#14795B;">'+
-                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-bottom:2px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'+
-                '<span>完成照片'+(pi+1)+'</span>'+
-              '</div>';
-            });
-            html += '</div></div>';
+            if (l.op === '开始打包') {
+              html += '<div style="margin-top:6px;">'+
+                '<div style="font-size:10px;color:#D97706;font-weight:500;margin-bottom:4px;">拆包照片</div>'+
+                '<div style="display:flex;gap:6px;overflow-x:auto;">';
+              var psDemos = ['#FEF3C7','#FDE68A','#FCD34D'];
+              psDemos.forEach(function(bg, pi){
+                html += '<div style="flex:0 0 80px;height:70px;background:'+bg+';border:1px solid #F59E0B;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#B45309;">'+
+                  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-bottom:2px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+                  '<span>拆包照片'+(pi+1)+'</span>'+
+                '</div>';
+              });
+              html += '</div></div>';
+            } else if (l.op === '打包完成') {
+              html += '<div style="margin-top:6px;">'+
+                '<div style="font-size:10px;color:#D97706;font-weight:500;margin-bottom:4px;">打包完成照片</div>'+
+                '<div style="display:flex;gap:6px;overflow-x:auto;">';
+              var pcDemos = ['#FEF3C7','#FDE68A','#FCD34D'];
+              pcDemos.forEach(function(bg, pi){
+                html += '<div style="flex:0 0 80px;height:70px;background:'+bg+';border:1px solid #F59E0B;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#B45309;">'+
+                  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-bottom:2px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'+
+                  '<span>完成照片'+(pi+1)+'</span>'+
+                '</div>';
+              });
+              html += '</div></div>';
+              if (l.xcLarge) {
+                html += '<div style="margin-top:6px;">'+
+                  '<div style="font-size:10px;color:#EA580C;font-weight:500;margin-bottom:4px;">派力仓打包图片</div>'+
+                  '<div style="display:flex;gap:6px;overflow-x:auto;">';
+                var pxDemos = ['#FFEDD5','#FED7AA','#FDBA74'];
+                pxDemos.forEach(function(bg, pi){
+                  html += '<div style="flex:0 0 80px;height:70px;background:'+bg+';border:1px solid #EA580C;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#9A3412;">'+
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-bottom:2px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+                    '<span>派力仓'+(pi+1)+'</span>'+
+                  '</div>';
+                });
+                html += '</div></div>';
+              }
+            } else {
+              // 拣货单照片行（演示3张）
+              html += '<div style="margin-top:6px;">'+
+                '<div style="font-size:10px;color:#14795B;font-weight:500;margin-bottom:4px;">拣货单照片</div>'+
+                '<div style="display:flex;gap:6px;overflow-x:auto;">';
+              var pickListDemos = ['#D1FAE5','#A7F3D0','#6EE7B7'];
+              pickListDemos.forEach(function(bg, pi){
+                html += '<div style="flex:0 0 80px;height:70px;background:'+bg+';border:1px solid #34D399;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#14795B;">'+
+                  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-bottom:2px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+                  '<span>清单照片'+(pi+1)+'</span>'+
+                '</div>';
+              });
+              html += '</div></div>';
+              // 拣货完成照片行（演示2张）
+              html += '<div style="margin-top:6px;">'+
+                '<div style="font-size:10px;color:#14795B;font-weight:500;margin-bottom:4px;">拣货完成照片</div>'+
+                '<div style="display:flex;gap:6px;overflow-x:auto;">';
+              var pickDoneDemos = ['#D1FAE5','#A7F3D0'];
+              pickDoneDemos.forEach(function(bg, pi){
+                html += '<div style="flex:0 0 80px;height:70px;background:'+bg+';border:1px solid #34D399;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#14795B;">'+
+                  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-bottom:2px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'+
+                  '<span>完成照片'+(pi+1)+'</span>'+
+                '</div>';
+              });
+              html += '</div></div>';
+            }
           }
           html += '</div></div>';
         });
@@ -15841,6 +16194,7 @@ function renderOrderPickPool() {
         '<td rowspan="'+n+'">'+(o.pickedAt||'')+'</td>'+
         '<td rowspan="'+n+'"'+timeDiffClass(o.createdAt)+'>'+td+'</td>'+
         '<td rowspan="'+n+'" style="white-space:nowrap;">'+(o.status==='待认领' ? '<button class="btn btn-primary btn-sm" onclick="claimOrderPick('+o.id+')">认领</button>' : '')+
+        (o.status==='拣货中' ? '<button class="btn btn-primary btn-sm" onclick="showOrderPickComplete('+o.id+')">完成</button>' : '')+
         (currentRole==='super'&&!o.void&&!o.verifyDoneAt?' <button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>':'')+'</td></tr>';
       }
       return '<tr><td style="color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+xy+'</td></tr>';
@@ -15913,11 +16267,21 @@ function abandonOrderPick(id) {
   showToast('已弃拣，退回公海：'+o.code);
 }
 
+var currentClaimPickId = null;
 function claimOrderPick(id) {
+  currentClaimPickId = id;
   var o = orderPackages.find(function(p){ return p.id===id; });
   if (!o) return;
-  o.status = '拣货中'; o.picker = '小萌'; o.pickedAt = new Date().toISOString().slice(0,16).replace('T',' ');
-  o.updatedAt = o.pickedAt;
+  document.getElementById('claimPickInfo').innerHTML = '确认认领该集包工单？<br><br><b>集包号：</b>'+o.code+'<br><b>海鸥订单号：</b>'+orderPlainXy(o);
+  document.getElementById('claimPickModal').classList.add('show');
+}
+function hideClaimPick() { document.getElementById('claimPickModal').classList.remove('show'); currentClaimPickId = null; }
+function confirmClaimPick() {
+  var o = orderPackages.find(function(p){ return p.id===currentClaimPickId; });
+  if (!o) return;
+  o.status = '拣货中'; o.picker = '小萌'; o.claimedAt = new Date().toISOString().slice(0,16).replace('T',' ');
+  o.updatedAt = o.claimedAt;
+  hideClaimPick();
   renderOrderPickPool(); renderOrderPickStats();
   showToast('已认领工单：'+o.code);
 }
@@ -15926,6 +16290,13 @@ function showOrderPickComplete(id) {
   document.getElementById('orderPickCompleteModal').classList.add('show');
   var o = orderPackages.find(function(p){ return p.id===id; });
   document.getElementById('orderPickCompleteInfo').textContent = '集包编号: '+(o?o.code:'');
+  var mixTip = document.getElementById('orderPickMixTip');
+  if (o && o.type==='混合仓') {
+    mixTip.style.display = '';
+    mixTip.textContent = '当前订单为混合仓，有'+(o.qty||0)+'个包裹在清源仓，有'+(o.xcQty||0)+'个包裹在派力仓！';
+  } else {
+    mixTip.style.display = 'none';
+  }
   document.getElementById('orderPickResult').value = '';
   document.getElementById('orderPickQty').value = '';
   document.getElementById('orderPickOrderFile').value = '';
@@ -16049,7 +16420,7 @@ function renderOrderQcList() {
     var st = o.qcStatus || '待质检';
     var stTag = st==='合格' ? '<span class="tag tag-green">合格</span>' : (st==='不合格' ? '<span class="tag tag-red">不合格</span>' : '<span class="tag tag-yellow">待质检</span>');
     var act = (st==='待质检'||st==='不合格')
-      ? '<button class="btn btn-sm btn-primary" onclick="showOrderQc('+o.id+')">开始质检</button>'
+      ? '<button class="btn btn-sm btn-primary" onclick="showOrderQc('+o.id+')">质检</button>'
       : '<button class="btn btn-sm" onclick="showOrderQc('+o.id+')">查看</button>';
     return orderExpandRows(o, function(entry, idx, n){
       var xy = orderXyCellHtml(entry);
@@ -17688,15 +18059,15 @@ function voidOrderPack(id) {
 function hideVoidPack() { document.getElementById('voidPackModal').classList.remove('show'); currentVoidPackId = null; }
 function onVoidPackTypeChange() {
   var t = document.getElementById('voidPackType').value;
-  var needXy = (t === '加货单' || t === '修改路线');
+  var needXy = (t === '加货单' || t === '修改路线' || t === '重量变化');
   document.getElementById('voidPackNewXyGroup').style.display = needXy ? 'block' : 'none';
 }
 function confirmVoidPack() {
   var voidType = document.getElementById('voidPackType').value;
   if (!voidType) { alert('请选择作废类型'); return; }
-  var needXy = (voidType === '加货单' || voidType === '修改路线');
+  var needXy = (voidType === '加货单' || voidType === '修改路线' || voidType === '重量变化');
   var newXy = document.getElementById('voidPackNewXy').value.trim();
-  if (needXy && !newXy) { alert('加货单/修改路线必须填写新XY订单号'); return; }
+  if (needXy && !newXy) { alert('加货单/修改路线/重量变化必须填写关联XY订单号'); return; }
   var reason = document.getElementById('voidPackReason').value.trim();
   if (!reason) { alert('请填写作废理由'); return; }
   var o = orderPackages.find(function(p){ return p.id===currentVoidPackId; });
@@ -17915,13 +18286,22 @@ function resetPackAuditFilter() {
 function startPackMine(id) {
   currentPackStartId = id;
   var o = orderPackages.find(function(p){ return p.id===id; });
-  document.getElementById('packStartInfo').textContent = '集包编号：'+(o?o.code:'');
+  document.getElementById('packStartInfo').textContent = '海鸥订单号：'+(o?(o.xy||''):'');
+  var mixTip = document.getElementById('packStartMixTip');
+  if (o && o.xcLarge === '是') {
+    mixTip.style.display = '';
+    mixTip.textContent = '当前订单为混合仓，打包员注意检查清源仓和派力仓包裹';
+  } else {
+    mixTip.style.display = 'none';
+  }
   document.getElementById('packStartPhotoPreview').innerHTML = '';
   document.getElementById('packStartPhotos').value = '';
   document.getElementById('packStartAiArea').style.display = 'none';
   document.getElementById('packStartAiScanning').style.display = 'none';
   document.getElementById('packStartAiResult').style.display = 'none';
   document.getElementById('packStartAiCards').innerHTML = '';
+  var aiBtn = document.getElementById('packStartAiBtn');
+  if (aiBtn) aiBtn.style.display = '';
   var xcArea = document.getElementById('packStartXcArea');
   if (xcArea) {
     var isXc = o && o.xcLarge === '是';
@@ -17938,11 +18318,14 @@ function startPackMine(id) {
   if (isTuan) {
     if (singleArea) singleArea.style.display = 'none';
     if (tuanArea) tuanArea.style.display = 'block';
+    if (aiBtn) aiBtn.style.display = 'none';
     renderPackStartTuanList(o.links);
     o.links.forEach(function(xy, idx){ renderPackStartTuanPreview(idx); });
   } else {
     if (singleArea) singleArea.style.display = 'block';
     if (tuanArea) tuanArea.style.display = 'none';
+    var singleLabel = document.getElementById('packStartSingleLabel');
+    if (singleLabel) singleLabel.innerHTML = (o && o.xcLarge === '是') ? '清源仓包裹图片 <span style="color:var(--danger);">*</span>' : '拆包图片 <span style="color:var(--danger);">*</span>';
     renderPackStartPhotoPreview();
   }
 }
@@ -18021,7 +18404,6 @@ var packStartItems = [];
 function hidePackStart() { document.getElementById('packStartModal').classList.remove('show'); currentPackStartId = null; }
 function onPackStartPhotoChange(e) {
   renderPackStartPhotoPreview();
-  if (e.target.files.length > 0) { triggerPackStartAi(); }
 }
 function onPackStartXcPhotoChange(e) {
   var files = e.target.files;
@@ -18078,24 +18460,42 @@ function removeDraftPhoto(ni) {
   renderPackStartPhotoPreview();
 }
 function triggerPackStartAi() {
+  var aiBtn = document.getElementById('packStartAiBtn');
+  if (aiBtn) aiBtn.style.display = 'none';
   document.getElementById('packStartAiArea').style.display = 'block';
   document.getElementById('packStartAiScanning').style.display = 'block';
   document.getElementById('packStartAiResult').style.display = 'none';
   document.getElementById('packStartAiCards').innerHTML = '';
   packStartItems = [];
+  var cur = orderPackages.find(function(p){ return p.id===currentPackStartId; });
+  var isXc = cur && cur.xcLarge === '是';
   setTimeout(function(){
     document.getElementById('packStartAiScanning').style.display = 'none';
     document.getElementById('packStartAiResult').style.display = 'block';
-    packStartItems = [
-      { name:'棉质T恤', qty:2, cat:'普货', image:'IMG_001.jpg' },
-      { name:'书籍杂志', qty:5, cat:'普货', image:'IMG_001.jpg' },
-      { name:'充电宝', qty:1, cat:'敏货', image:'IMG_001.jpg' },
-      { name:'陶瓷餐具', qty:1, cat:'普货', image:'IMG_002.jpg' },
-      { name:'香水', qty:2, cat:'敏货', image:'IMG_002.jpg' },
-      { name:'运动鞋', qty:3, cat:'普货', image:'IMG_002.jpg' },
-      { name:'桌面摆件', qty:1, cat:'普货', image:'IMG_003.jpg' },
-      { name:'数据线', qty:10, cat:'普货', image:'IMG_003.jpg' }
-    ];
+    if (isXc) {
+      // 混合仓：清源仓 + 派力仓 分别识别
+      packStartItems = [
+        { name:'棉质T恤', qty:2, cat:'普货', image:'IMG_001.jpg', source:'清源仓' },
+        { name:'书籍杂志', qty:5, cat:'普货', image:'IMG_001.jpg', source:'清源仓' },
+        { name:'充电宝', qty:1, cat:'敏货', image:'IMG_002.jpg', source:'清源仓' },
+        { name:'陶瓷餐具', qty:1, cat:'普货', image:'IMG_002.jpg', source:'清源仓' },
+        { name:'香水', qty:2, cat:'敏货', image:'IMG_003.jpg', source:'派力仓' },
+        { name:'运动鞋', qty:3, cat:'普货', image:'IMG_003.jpg', source:'派力仓' },
+        { name:'桌面摆件', qty:1, cat:'普货', image:'IMG_004.jpg', source:'派力仓' },
+        { name:'数据线', qty:10, cat:'普货', image:'IMG_004.jpg', source:'派力仓' }
+      ];
+    } else {
+      packStartItems = [
+        { name:'棉质T恤', qty:2, cat:'普货', image:'IMG_001.jpg' },
+        { name:'书籍杂志', qty:5, cat:'普货', image:'IMG_001.jpg' },
+        { name:'充电宝', qty:1, cat:'敏货', image:'IMG_001.jpg' },
+        { name:'陶瓷餐具', qty:1, cat:'普货', image:'IMG_002.jpg' },
+        { name:'香水', qty:2, cat:'敏货', image:'IMG_002.jpg' },
+        { name:'运动鞋', qty:3, cat:'普货', image:'IMG_002.jpg' },
+        { name:'桌面摆件', qty:1, cat:'普货', image:'IMG_003.jpg' },
+        { name:'数据线', qty:10, cat:'普货', image:'IMG_003.jpg' }
+      ];
+    }
     renderPackStartAiList();
   }, 1500);
 }
@@ -18126,6 +18526,8 @@ function renderPackStartAiList() {
     var iColor = imgColors[ic % imgColors.length];
     var cid = 'psAi'+ic;
     var firstOpen = ic===0;
+    var groupSource = iitems[0] && iitems[0].source ? iitems[0].source : '';
+    var sourceTag = groupSource ? '<span style="font-size:9px;padding:1px 6px;border-radius:10px;margin-left:6px;background:'+(groupSource==='派力仓'?'#FFEDD5':'#ECFDF5')+';color:'+(groupSource==='派力仓'?'#EA580C':'#14795B')+';border:1px solid '+(groupSource==='派力仓'?'#FED7AA':'#A7F3D0')+';">'+groupSource+'</span>' : '';
     // 卡片容器
     var card = document.createElement('div');
     card.style.cssText = 'margin-bottom:6px;border:1px solid var(--border);border-radius:8px;overflow:hidden;';
@@ -18139,7 +18541,7 @@ function renderPackStartAiList() {
         '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:15px;height:15px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
       '</div>'+
       '<div style="flex:1;min-width:0;">'+
-        '<div style="font-size:11px;font-weight:600;color:var(--text);">'+iname+'</div>'+
+        '<div style="font-size:11px;font-weight:600;color:var(--text);">'+iname+sourceTag+'</div>'+
         '<div style="font-size:9px;color:var(--text-muted);">识别 '+icount+' 个物品</div>'+
       '</div>'+
       '<span style="font-size:9px;color:var(--text-muted);">'+icount+' 项</span>'+
@@ -18329,6 +18731,7 @@ function submitPackStart() {
   o.status = '待打包-待审核';
   o.packStartReason = document.getElementById('packStartInfo').textContent || '';
   o.packStartPhotos = photosCount;
+  o.packStartAt = new Date().toISOString().slice(0,16).replace('T',' ');
   o.packItems = packStartItems.slice();
   o.packDraft = null; // 提交后清除草稿
   o.updatedAt = new Date().toISOString().slice(0,16).replace('T',' ');
@@ -18617,7 +19020,14 @@ function closePackAiAnalyze() {
 function showOrderPackComplete(id) {
   currentPackTask = id;
   var o = orderPackages.find(function(p){ return p.id===id; });
-  document.getElementById('orderPackCompleteInfo').textContent = '集包编号: '+(o?o.code:'');
+  document.getElementById('orderPackCompleteInfo').textContent = '海鸥订单号：'+(o?(o.xy||''):'');
+  var cMixTip = document.getElementById('orderPackCompleteMixTip');
+  if (o && o.xcLarge === '是') {
+    cMixTip.style.display = '';
+    cMixTip.textContent = '当前订单为混合仓，打包员注意检查清源仓和派力仓包裹';
+  } else {
+    cMixTip.style.display = 'none';
+  }
   document.getElementById('orderPackCompleteReason').value = '';
   document.getElementById('orderPackCompletePhotoPreview').innerHTML = '';
   document.getElementById('orderPackCompletePhotos').value = '';
@@ -18663,7 +19073,7 @@ function confirmOrderPack() {
   if (!o) return;
   if (o.xcLarge==='是') {
     var xcFiles = document.getElementById('orderPackCompleteXcPhotos').files;
-    if (!xcFiles || xcFiles.length===0) { alert('新仓超大件订单请上传新仓超大件核对照片'); return; }
+    if (!xcFiles || xcFiles.length===0) { alert('派力仓包裹订单请上传派力仓打包图片'); return; }
     o.packCompleteXcPhotos = xcFiles.length;
   }
   o.status = '打包完成-待审核';
