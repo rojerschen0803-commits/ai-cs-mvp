@@ -5521,6 +5521,10 @@ main > .modal-overlay.show { display: flex !important; }
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">是否加急</label><select id="orderPkgUrgent" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgUrgentChange()"><option value="否">否</option><option value="是">是</option></select></div>
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">截止时间</label><input type="datetime-local" id="orderPkgDue" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         </div>
+        <div style="display:flex;gap:8px;margin-bottom:10px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新仓超大件</label><select id="orderPkgXcLarge" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgXcLargeChange()"><option value="否">否</option><option value="是">是</option></select></div>
+          <div style="flex:1;display:none;" id="orderPkgXcQtyWrap"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新仓包裹数 <span style="color:var(--danger);">*</span></label><input type="number" id="orderPkgXcQty" placeholder="请输入新仓包裹数" step="1" min="1" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+        </div>
         <div id="orderPkgUrgentReasonRow" style="margin-bottom:10px;display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">催办理由 <span style="color:var(--text-muted);">(选填)</span></label><textarea id="orderPkgUrgentReason" placeholder="请输入催办理由..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:60px;"></textarea></div>
         <div id="orderPkgStoreRow" style="display:none;margin-bottom:10px;">
           <div style="display:flex;gap:8px;">
@@ -5733,6 +5737,14 @@ main > .modal-overlay.show { display: flex !important; }
       <input type="file" id="orderPackCompletePhotos" accept="image/*" multiple style="display:none;" onchange="onPackCompletePhotoChange(event)">
       <div id="orderPackCompletePhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
     </div>
+    <div id="orderPackCompleteXcArea" style="display:none;margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新仓超大件图片（二次核对）<span style="color:var(--danger);">*</span></label>
+      <label for="orderPackCompleteXcPhotos" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--text-muted);font-size:12px;">
+        <svg class="ico" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        点击上传新仓超大件核对照片
+      </label>
+      <input type="file" id="orderPackCompleteXcPhotos" accept="image/*" multiple style="display:none;" onchange="onPackCompleteXcPhotoChange(event)">
+      <div id="orderPackCompleteXcPhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
+    </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hideOrderPackComplete()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmOrderPack()">确认完成</button></div></div></div>
 
     <!-- 开始打包弹框 -->
@@ -5744,6 +5756,15 @@ main > .modal-overlay.show { display: flex !important; }
       </label>
       <input type="file" id="packStartPhotos" accept="image/*" multiple style="display:none;" onchange="onPackStartPhotoChange(event)">
       <div id="packStartPhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
+    </div>
+    <!-- 新仓超大件：二次核对图片 -->
+    <div id="packStartXcArea" style="display:none;margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">新仓超大件图片（二次核对）<span style="color:var(--danger);">*</span></label>
+      <label for="packStartXcPhotos" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--text-muted);font-size:12px;">
+        <svg class="ico" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        点击上传新仓超大件核对照片
+      </label>
+      <input type="file" id="packStartXcPhotos" accept="image/*" multiple style="display:none;" onchange="onPackStartXcPhotoChange(event)">
+      <div id="packStartXcPhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
     </div>
     <!-- 拼团订单：按 XY 号分别上传拆包图片 -->
     <div id="packStartTuanArea" style="display:none;margin-bottom:12px;">
@@ -13099,12 +13120,12 @@ function renderHomeOrderStats() {
       return days.map(function(d){ return countOnDay(d, s); });
     });
 
-    // Check all zero and use demo fallback
+    // Check all zero and use demo fallback（demo 循环填充，保证 14 天均有波动）
     var allZero = allData.every(function(arr){ return arr.reduce(function(a,b){ return a+b; },0)===0; });
     allData = trendSeries.map(function(s, si){
       return days.map(function(d, i){
         var v = countOnDay(d, s);
-        return v || (allZero ? s.demo[Math.min(i, s.demo.length-1)] : 0);
+        return v || (allZero ? s.demo[i % s.demo.length] : 0);
       });
     });
 
@@ -13237,8 +13258,11 @@ function renderHomeOrderStats() {
     var ss = stageSeries[currentStageIdx];
     var pw = cvs.parentElement.offsetWidth - 28, ph = 230;
     if (pw < 300) pw = 500;
-    cvs.width = pw; cvs.height = ph;
+    var dpr = window.devicePixelRatio || 1;
+    cvs.width = pw * dpr; cvs.height = ph * dpr;
+    cvs.style.width = pw + 'px'; cvs.style.height = ph + 'px';
     var c = cvs.getContext('2d');
+    c.scale(dpr, dpr);
     c.clearRect(0, 0, pw, ph);
 
     var staffVals = {};
@@ -13280,7 +13304,7 @@ function renderHomeOrderStats() {
     for (var g = 0; g <= max; g += Math.max(1, Math.ceil(max / 4))) {
       var gy = chartT + chartH - (g / max) * chartH;
       c.strokeStyle = '#E5E7EB'; c.lineWidth = 0.5; c.beginPath(); c.moveTo(chartL, gy); c.lineTo(chartL + chartW, gy); c.stroke();
-      c.fillStyle = '#94a3b8'; c.font = '9px sans-serif'; c.textAlign = 'right'; c.fillText(g, chartL - 6, gy + 3);
+      c.fillStyle = '#94a3b8'; c.font = '11px sans-serif'; c.textAlign = 'right'; c.fillText(g, chartL - 6, gy + 3);
     }
 
     // Bars
@@ -13292,10 +13316,10 @@ function renderHomeOrderStats() {
       c.fillStyle = grad;
       c.fillRect(x, chartT + chartH - barH, barW, barH);
       // Value label
-      c.fillStyle = '#6B7280'; c.font = '9px sans-serif'; c.textAlign = 'center';
+      c.fillStyle = '#6B7280'; c.font = '10px sans-serif'; c.textAlign = 'center';
       c.fillText(v || '', x + barW / 2, chartT + chartH - barH - 4);
       // Name label
-      c.fillStyle = '#4B5563'; c.font = '9px sans-serif';
+      c.fillStyle = '#4B5563'; c.font = '10px sans-serif';
       c.save();
       c.translate(x + barW / 2, chartT + chartH + 14);
       c.rotate(-0.5);
@@ -14800,6 +14824,9 @@ function showOrderPkgCreate() {
   document.getElementById('orderPkgUrgent').value='否';
   document.getElementById('orderPkgUrgentReason').value='';
   document.getElementById('orderPkgUrgentReasonRow').style.display='none';
+  document.getElementById('orderPkgXcLarge').value='否';
+  document.getElementById('orderPkgXcQty').value='';
+  document.getElementById('orderPkgXcQtyWrap').style.display='none';
   document.getElementById('orderPkgXy').value=''; document.getElementById('orderPkgXpd').value=''; document.getElementById('orderPkgQty').value='';
   document.getElementById('orderPkgEditor').innerHTML = '';
   document.getElementById('orderPkgDue').value='';
@@ -14838,6 +14865,11 @@ function onOrderPkgUrgentChange() {
   var v = document.getElementById('orderPkgUrgent').value;
   document.getElementById('orderPkgUrgentReasonRow').style.display = v==='是' ? '' : 'none';
 }
+function onOrderPkgXcLargeChange() {
+  var v = document.getElementById('orderPkgXcLarge').value;
+  document.getElementById('orderPkgXcQtyWrap').style.display = v==='是' ? '' : 'none';
+  if (v !== '是') document.getElementById('orderPkgXcQty').value = '';
+}
 function createOrderPackage() {
   var type = document.getElementById('orderPkgType').value;
   var activity = document.getElementById('orderPkgActivity').value;
@@ -14849,6 +14881,12 @@ function createOrderPackage() {
   var haioId = document.getElementById('orderPkgHaioId').value;
   var country = document.getElementById('orderPkgCountry').value;
   var isUrgent = document.getElementById('orderPkgUrgent').value;
+  var xcLarge = document.getElementById('orderPkgXcLarge').value;
+  var xcQty = 0;
+  if (xcLarge === '是') {
+    xcQty = parseInt(document.getElementById('orderPkgXcQty').value) || 0;
+    if (!xcQty || xcQty < 1) { alert('请填写新仓包裹数'); return; }
+  }
   var source = '客服';
   var storeDept = '', storePerson = '';
   if (finalType === '门店') {
@@ -14889,6 +14927,7 @@ function createOrderPackage() {
       pkg.demand = demand; pkg.dueDate = due;
       pkg.tracker = tracker; pkg.source = source;
       pkg.storeDept = storeDept; pkg.storePerson = storePerson; pkg.qty = qty;
+      pkg.xcLarge = xcLarge; pkg.xcQty = xcQty;
       pkg.updatedAt = nowStr;
     }
     hideOrderPkgCreate();
@@ -14911,7 +14950,7 @@ function createOrderPackage() {
     links: links, linkDemands: linkDemands||[], linkHaioIds: linkHaioIds||[], linkBoxes: linkBoxes||[], xpd: xpd || '', dueDate: due,
     haioId: haioId, country: country, urgent: isUrgent==='是',
     urgentReason: isUrgent==='是' ? document.getElementById('orderPkgUrgentReason').value.trim() : '',
-    storeDept: storeDept, storePerson: storePerson, qty: qty
+    storeDept: storeDept, storePerson: storePerson, qty: qty, xcLarge: xcLarge, xcQty: xcQty
   };
   orderPackages.unshift(pkg);
   hideOrderPkgCreate();
@@ -15129,6 +15168,7 @@ function showOrderPkgDetail(id) {
           pkgInfoItem('type','集包类型','<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#ECFDF5;color:#14795B;font-size:11px;font-weight:600;line-height:1.6;">'+showType+'</span>')+
           pkgInfoItem('tag','集包活动','<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#F3F4F6;color:#111827;font-size:11px;font-weight:600;line-height:1.6;">'+(o.type==='拼团'?'拼团':'常规')+'</span>')+
           pkgInfoItem('box','包裹数量',o.qty||'—')+
+          (o.xcLarge==='是' ? pkgInfoItem('truck','新仓超大件','是 · '+(o.xcQty||'')+' 件') : '')+
           (o.xpd ?
             '<div class="pkg-info-item" style="align-items:flex-start;">'+
               '<span class="pkg-info-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>'+
@@ -17882,6 +17922,13 @@ function startPackMine(id) {
   document.getElementById('packStartAiScanning').style.display = 'none';
   document.getElementById('packStartAiResult').style.display = 'none';
   document.getElementById('packStartAiCards').innerHTML = '';
+  var xcArea = document.getElementById('packStartXcArea');
+  if (xcArea) {
+    var isXc = o && o.xcLarge === '是';
+    xcArea.style.display = isXc ? '' : 'none';
+    document.getElementById('packStartXcPhotoPreview').innerHTML = '';
+    document.getElementById('packStartXcPhotos').value = '';
+  }
   document.getElementById('packStartModal').classList.add('show');
   packStartItems = [];
   // 拼团订单：按 XY 号分别上传拆包图片；普通订单：单个上传
@@ -17975,6 +18022,19 @@ function hidePackStart() { document.getElementById('packStartModal').classList.r
 function onPackStartPhotoChange(e) {
   renderPackStartPhotoPreview();
   if (e.target.files.length > 0) { triggerPackStartAi(); }
+}
+function onPackStartXcPhotoChange(e) {
+  var files = e.target.files;
+  var preview = document.getElementById('packStartXcPhotoPreview');
+  preview.innerHTML = '';
+  for (var i=0; i<files.length; i++) {
+    var f = files[i];
+    var size = f.size<1024?'<1KB':f.size<1048576?(f.size/1024).toFixed(1)+'KB':(f.size/1048576).toFixed(1)+'MB';
+    var chip = document.createElement('span');
+    chip.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:#FFF7ED;border-radius:12px;font-size:11px;color:#EA580C;';
+    chip.innerHTML = '<svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> '+f.name+' ('+size+')';
+    preview.appendChild(chip);
+  }
 }
 function renderPackStartPhotoPreview() {
   var input = document.getElementById('packStartPhotos');
@@ -18561,6 +18621,9 @@ function showOrderPackComplete(id) {
   document.getElementById('orderPackCompleteReason').value = '';
   document.getElementById('orderPackCompletePhotoPreview').innerHTML = '';
   document.getElementById('orderPackCompletePhotos').value = '';
+  document.getElementById('orderPackCompleteXcPhotoPreview').innerHTML = '';
+  document.getElementById('orderPackCompleteXcPhotos').value = '';
+  document.getElementById('orderPackCompleteXcArea').style.display = (o && o.xcLarge==='是') ? '' : 'none';
   document.getElementById('orderPackCompleteModal').classList.add('show');
 }
 function hideOrderPackComplete() { document.getElementById('orderPackCompleteModal').classList.remove('show'); currentPackTask = null; }
@@ -18577,6 +18640,19 @@ function onPackCompletePhotoChange(e) {
     preview.appendChild(chip);
   }
 }
+function onPackCompleteXcPhotoChange(e) {
+  var files = e.target.files;
+  var preview = document.getElementById('orderPackCompleteXcPhotoPreview');
+  preview.innerHTML = '';
+  for (var i=0; i<files.length; i++) {
+    var f = files[i];
+    var size = f.size<1024?'<1KB':f.size<1048576?(f.size/1024).toFixed(1)+'KB':(f.size/1048576).toFixed(1)+'MB';
+    var chip = document.createElement('span');
+    chip.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:#FFF7ED;border-radius:12px;font-size:11px;color:#EA580C;';
+    chip.innerHTML = '<svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> '+f.name+' ('+size+')';
+    preview.appendChild(chip);
+  }
+}
 function confirmOrderPack() {
   if (!currentPackTask) return;
   var reason = document.getElementById('orderPackCompleteReason').value.trim();
@@ -18585,6 +18661,11 @@ function confirmOrderPack() {
   if (!files || files.length===0) { alert('请至少上传一张完成照片'); return; }
   var o = orderPackages.find(function(p){ return p.id===currentPackTask; });
   if (!o) return;
+  if (o.xcLarge==='是') {
+    var xcFiles = document.getElementById('orderPackCompleteXcPhotos').files;
+    if (!xcFiles || xcFiles.length===0) { alert('新仓超大件订单请上传新仓超大件核对照片'); return; }
+    o.packCompleteXcPhotos = xcFiles.length;
+  }
   o.status = '打包完成-待审核';
   o.packDoneAt = new Date().toISOString().slice(0,16).replace('T',' ');
   o.packCompleteReason = reason;
