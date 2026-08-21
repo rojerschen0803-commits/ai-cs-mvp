@@ -603,6 +603,14 @@ body {
 }
 .toggle-switch input:checked + .toggle-slider { background: var(--primary); }
 .toggle-switch input:checked + .toggle-slider::after { transform: translateX(18px); }
+.info-tip { position: relative; cursor: help; color: #9CA3AF; display: inline-flex; align-items: center; flex-shrink: 0; }
+.info-tip .info-tip-pop {
+  position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%);
+  background: rgba(30,30,40,0.92); color: #fff; padding: 6px 10px; border-radius: 6px;
+  font-size: 12px; white-space: nowrap; display: none; z-index: 1000; line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); pointer-events: none;
+}
+.info-tip:hover .info-tip-pop { display: block; }
 
 /* ---------- ROBOT TAB IN MODAL ---------- */
 #robotConfigModal .tab-bar { display: flex; gap: 4px; border-bottom: 2px solid var(--border-light); }
@@ -5315,19 +5323,38 @@ main > .modal-overlay.show { display: flex !important; }
       <!-- 分配设置面板 -->
       <div id="aiTicketConfigAssignPanel" style="display:none;">
         <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;box-shadow:var(--shadow-sm);max-width:920px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <h3 style="font-size:15px;margin:0;">分配人员与权重</h3>
-            <div style="display:flex;gap:8px;">
-              <button class="btn btn-sm" onclick="averageAiTicketAssignees()">平均分配</button>
-              <button class="btn btn-primary btn-sm" onclick="showAiTicketAssigneeModal()">+ 新建分配人员</button>
+          <!-- 工单分配模块 -->
+          <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--border-light);">
+            <h3 style="font-size:15px;margin:0 0 14px;">工单分配</h3>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:13px;font-weight:500;">优先回头客</span>
+                <label class="toggle-switch" style="width:40px;height:22px;"><input type="checkbox" id="aiTicketReturnCustomerToggle" checked onchange="toggleAiTicketReturnCustomer(this.checked)"><span class="toggle-slider"></span></label>
+                <span class="info-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span class="info-tip-pop">客户优先匹配分配接待过的门店</span></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:13px;font-weight:500;">自动按权重分配</span>
+                <label class="toggle-switch" style="width:40px;height:22px;"><input type="checkbox" id="aiTicketAutoAssignToggle" checked onchange="toggleAiTicketAutoAssign(this.checked)"><span class="toggle-slider"></span></label>
+                <span class="info-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span class="info-tip-pop">按照权重配置的比例分配接待门店，权重越高分配越多</span></span>
+              </div>
             </div>
           </div>
-          <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">AI 识别工单将按各人员权重比例自动分配，权重之和建议为 100%。修改后需点击「保存」方可生效。</div>
-          <div class="data-table-wrap">
-            <table class="data-table">
-              <thead><tr><th>人员</th><th>部门</th><th>分配权重</th><th>启用状态</th><th>操作</th></tr></thead>
-              <tbody id="aiTicketAssigneeList"></tbody>
-            </table>
+          <!-- 分配人员与权重（自动按权重分配开启时显示） -->
+          <div id="aiTicketAssignWeightsArea">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <h3 style="font-size:15px;margin:0;">分配人员与权重</h3>
+              <div style="display:flex;gap:8px;" id="aiTicketAssignActions">
+                <button class="btn btn-sm" onclick="averageAiTicketAssignees()">平均分配</button>
+                <button class="btn btn-primary btn-sm" onclick="showAiTicketAssigneeModal()">+ 新建分配人员</button>
+              </div>
+            </div>
+            <div id="aiTicketAssignHint" style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">AI 识别工单将按各人员权重比例自动分配，权重之和为 100%</div>
+            <div class="data-table-wrap" id="aiTicketAssignTableWrap">
+              <table class="data-table">
+                <thead><tr><th>人员</th><th>部门</th><th>分配权重</th><th>启用状态</th><th>操作</th></tr></thead>
+                <tbody id="aiTicketAssigneeList"></tbody>
+              </table>
+            </div>
           </div>
           <div style="display:flex;justify-content:flex-end;margin-top:16px;">
             <button class="btn btn-primary" onclick="saveAiTicketAssignees()">保存</button>
@@ -12501,6 +12528,8 @@ let aiTicketAssignees = [
 ];
 let savedAiTicketAssignees = [];
 let editingAiTicketAssigneeIndex = -1;
+let aiTicketAutoAssignEnabled = true; // 自动分配总开关
+let aiTicketReturnCustomerEnabled = true; // 优先回头客开关
 
 function switchAiTicketConfigTab(tab, el) {
   document.querySelectorAll('#page-aiTicketConfig .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
@@ -12509,7 +12538,23 @@ function switchAiTicketConfigTab(tab, el) {
   var ap = document.getElementById('aiTicketConfigAssignPanel');
   if (tp) tp.style.display = (tab === 'timeout') ? '' : 'none';
   if (ap) ap.style.display = (tab === 'assign') ? '' : 'none';
-  if (tab === 'assign') renderAiTicketAssignees();
+  if (tab === 'assign') { renderAiTicketAssignees(); applyAiTicketAssignEnabledState(); }
+}
+
+// 自动按权重分配开关
+function toggleAiTicketAutoAssign(checked) {
+  aiTicketAutoAssignEnabled = checked;
+  applyAiTicketAssignEnabledState();
+  showToast('自动按权重分配已' + (checked ? '开启' : '关闭') + '（需保存后生效）');
+}
+// 优先回头客开关
+function toggleAiTicketReturnCustomer(checked) {
+  aiTicketReturnCustomerEnabled = checked;
+  showToast('优先回头客已' + (checked ? '开启' : '关闭') + '（需保存后生效）');
+}
+function applyAiTicketAssignEnabledState() {
+  var area = document.getElementById('aiTicketAssignWeightsArea');
+  if (area) area.style.display = aiTicketAutoAssignEnabled ? '' : 'none';
 }
 
 function getAiTicketTotalWeight() {
@@ -12553,6 +12598,11 @@ function averageAiTicketAssignees() {
 }
 
 function saveAiTicketAssignees() {
+  if (!aiTicketAutoAssignEnabled) {
+    savedAiTicketAssignees = JSON.parse(JSON.stringify(aiTicketAssignees));
+    showToast('自动按权重分配已关闭，设置已保存');
+    return;
+  }
   var enabled = aiTicketAssignees.filter(function(a){ return a.enabled !== false; });
   var total = enabled.reduce(function(s, a){ return s + (a.weight || 0); }, 0);
   if (total !== 100) {
