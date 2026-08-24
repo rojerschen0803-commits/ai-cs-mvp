@@ -5414,7 +5414,7 @@ main > .modal-overlay.show { display: flex !important; }
             <div id="aiTicketAssignHint" style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">AI 识别工单将按各人员权重比例自动分配，权重之和为 100%</div>
             <div class="data-table-wrap" id="aiTicketAssignTableWrap">
               <table class="data-table">
-                <thead><tr><th>人员</th><th>部门</th><th>分配权重</th><th>排班</th><th>启用状态</th></tr></thead>
+                <thead><tr><th>人员</th><th>部门</th><th>分配权重</th><th>排班</th><th>启用状态</th><th>操作</th></tr></thead>
                 <tbody id="aiTicketAssigneeList"></tbody>
               </table>
             </div>
@@ -12837,8 +12837,9 @@ function renderAiTicketAssignees() {
       '<td style="width:22%;"><div style="display:flex;align-items:center;gap:10px;"><div style="flex:1;height:10px;background:var(--bg);border-radius:5px;overflow:hidden;"><div style="width:' + Math.min(w, 100) + '%;height:100%;background:linear-gradient(to right,#14795B,#34D399);border-radius:5px;"></div></div><span style="font-weight:600;color:var(--primary);min-width:42px;">' + w + '%</span></div></td>' +
       '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (a.scheduled !== false ? 'checked' : '') + ' onchange="toggleAiTicketSchedule(' + i + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
       '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (!disabled ? 'checked' : '') + ' onchange="toggleAiTicketAssignee(' + i + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
+      '<td style="white-space:nowrap;"><button class="btn btn-sm" onclick="editAiTicketAssignee(' + i + ')" style="font-size:10px;">编辑</button></td>' +
     '</tr>';
-  }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px;">暂无分配人员</td></tr>';
+  }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">暂无分配人员</td></tr>';
 }
 
 function toggleAiTicketAssignee(index, checked) {
@@ -12889,9 +12890,12 @@ function showAiTicketAssigneeModal() {
   document.getElementById('aiTicketAssigneeModalTitle').textContent = '新建分配人员';
   document.getElementById('aiTicketAssigneeName').value = '';
   document.getElementById('aiTicketAssigneeDept').value = '市场-门店团队';
+  document.getElementById('aiTicketAssigneeName').disabled = false;
+  document.getElementById('aiTicketAssigneeDept').disabled = false;
   document.getElementById('aiTicketAssigneeWeight').value = 10;
   document.getElementById('aiTicketAssigneeSchedule').checked = true;
-  document.getElementById('aiTicketWeightHint').textContent = '当前已分配权重合计：' + getAiTicketTotalWeight() + '%';
+  var total = getAiTicketTotalWeight();
+  document.getElementById('aiTicketWeightHint').textContent = '剩余可分配权重：' + (100 - total) + '%';
   document.getElementById('aiTicketAssigneeModal').classList.add('show');
 }
 
@@ -12907,9 +12911,12 @@ function editAiTicketAssignee(index) {
   document.getElementById('aiTicketAssigneeModalTitle').textContent = '编辑分配人员';
   document.getElementById('aiTicketAssigneeName').value = a.name;
   document.getElementById('aiTicketAssigneeDept').value = a.dept || '市场-门店团队';
+  document.getElementById('aiTicketAssigneeName').disabled = true;
+  document.getElementById('aiTicketAssigneeDept').disabled = true;
   document.getElementById('aiTicketAssigneeWeight').value = a.weight;
   document.getElementById('aiTicketAssigneeSchedule').checked = a.scheduled !== false;
-  document.getElementById('aiTicketWeightHint').textContent = '当前已分配权重合计：' + getAiTicketTotalWeight() + '%';
+  var others = aiTicketAssignees.reduce(function(s, a, i){ return (i === index) ? s : s + (a.weight || 0); }, 0);
+  document.getElementById('aiTicketWeightHint').textContent = '剩余可分配权重：' + (100 - others) + '%（其他人员已占 ' + others + '%）';
   document.getElementById('aiTicketAssigneeModal').classList.add('show');
 }
 
