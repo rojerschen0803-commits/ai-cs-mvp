@@ -2444,7 +2444,7 @@ main > .modal-overlay.show { display: flex !important; }
             <h4 style="display:flex;align-items:center;gap:6px;margin:0;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>总数据</h4>
             <select id="homeTotalRange" onchange="showToast('已切换时间范围：' + this.options[this.selectedIndex].text)" style="padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;background:var(--card);color:var(--text);cursor:pointer;"><option value="all">全部时间</option><option value="today">今日</option><option value="7d">近7日</option><option value="30d">近30日</option></select>
           </div>
-          <div id="homeTotalData" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;"></div>
+          <div id="homeTotalData" style="display:grid;grid-template-columns:repeat(9,1fr);gap:8px;"></div>
         </div>
         <div class="dashboard-chart" style="flex:0 0 460px;padding:6px 12px;">
           <h4 style="display:flex;align-items:center;gap:6px;margin:0 0 3px;color:#111827;"><svg viewBox="0 0 24 24" fill="none" stroke="#14795B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>常用功能</h4>
@@ -5409,13 +5409,12 @@ main > .modal-overlay.show { display: flex !important; }
               <h3 style="font-size:15px;margin:0;">分配人员与权重</h3>
               <div style="display:flex;gap:8px;" id="aiTicketAssignActions">
                 <button class="btn btn-sm" onclick="averageAiTicketAssignees()">平均分配</button>
-                <button class="btn btn-primary btn-sm" onclick="showAiTicketAssigneeModal()">+ 新建分配人员</button>
               </div>
             </div>
             <div id="aiTicketAssignHint" style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">AI 识别工单将按各人员权重比例自动分配，权重之和为 100%</div>
             <div class="data-table-wrap" id="aiTicketAssignTableWrap">
               <table class="data-table">
-                <thead><tr><th>人员</th><th>部门</th><th>分配权重</th><th>启用状态</th><th>操作</th></tr></thead>
+                <thead><tr><th>人员</th><th>部门</th><th>分配权重</th><th>排班</th><th>启用状态</th></tr></thead>
                 <tbody id="aiTicketAssigneeList"></tbody>
               </table>
             </div>
@@ -5440,6 +5439,10 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="margin-bottom:16px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">分配权重（%） <span style="color:var(--danger);">*</span></label>
           <div style="display:flex;align-items:center;gap:8px;"><input type="number" id="aiTicketAssigneeWeight" min="1" max="100" value="10" style="flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"><span style="font-size:12px;color:var(--text-muted);">%</span></div>
           <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" id="aiTicketWeightHint"></div>
+        </div>
+        <div style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-size:12px;font-weight:600;">排班</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">开启后该人员在排班（当班）时才参与工单分配</div></div>
+          <label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" id="aiTicketAssigneeSchedule" checked><span class="toggle-slider"></span></label>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button class="btn btn-sm" onclick="hideAiTicketAssigneeModal()">取消</button>
@@ -12783,9 +12786,9 @@ function saveAiTicketConfig() {
 
 // ===== AI工单分配设置 =====
 let aiTicketAssignees = [
-  { name: '张三', dept: '市场-门店团队', weight: 40, enabled: true },
-  { name: '小霞', dept: '市场-门店团队', weight: 30, enabled: true },
-  { name: '王五', dept: '市场-销售团队', weight: 30, enabled: true },
+  { name: '张三', dept: '市场-门店团队', weight: 40, enabled: true, scheduled: true },
+  { name: '小霞', dept: '市场-门店团队', weight: 30, enabled: true, scheduled: true },
+  { name: '王五', dept: '市场-销售团队', weight: 30, enabled: true, scheduled: true },
 ];
 let savedAiTicketAssignees = [];
 let editingAiTicketAssigneeIndex = -1;
@@ -12832,10 +12835,10 @@ function renderAiTicketAssignees() {
       '<td style="font-weight:500;">' + a.name + '</td>' +
       '<td>' + (a.dept || '-') + '</td>' +
       '<td style="width:22%;"><div style="display:flex;align-items:center;gap:10px;"><div style="flex:1;height:10px;background:var(--bg);border-radius:5px;overflow:hidden;"><div style="width:' + Math.min(w, 100) + '%;height:100%;background:linear-gradient(to right,#14795B,#34D399);border-radius:5px;"></div></div><span style="font-weight:600;color:var(--primary);min-width:42px;">' + w + '%</span></div></td>' +
+      '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (a.scheduled !== false ? 'checked' : '') + ' onchange="toggleAiTicketSchedule(' + i + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
       '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (!disabled ? 'checked' : '') + ' onchange="toggleAiTicketAssignee(' + i + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
-      '<td style="white-space:nowrap;"><button class="btn btn-sm" onclick="editAiTicketAssignee(' + i + ')" style="font-size:10px;">编辑</button></td>' +
     '</tr>';
-  }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px;">暂无分配人员，点击右上角「新建分配人员」添加</td></tr>';
+  }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px;">暂无分配人员</td></tr>';
 }
 
 function toggleAiTicketAssignee(index, checked) {
@@ -12844,6 +12847,14 @@ function toggleAiTicketAssignee(index, checked) {
   a.enabled = checked;
   renderAiTicketAssignees();
   showToast('「' + a.name + '」已' + (checked ? '启用' : '关闭') + '（需保存后生效）');
+}
+
+function toggleAiTicketSchedule(index, checked) {
+  var a = aiTicketAssignees[index];
+  if (!a) return;
+  a.scheduled = checked;
+  renderAiTicketAssignees();
+  showToast('「' + a.name + '」' + (checked ? '已加入排班' : '已移出排班') + '（需保存后生效）');
 }
 
 function averageAiTicketAssignees() {
@@ -12879,6 +12890,7 @@ function showAiTicketAssigneeModal() {
   document.getElementById('aiTicketAssigneeName').value = '';
   document.getElementById('aiTicketAssigneeDept').value = '市场-门店团队';
   document.getElementById('aiTicketAssigneeWeight').value = 10;
+  document.getElementById('aiTicketAssigneeSchedule').checked = true;
   document.getElementById('aiTicketWeightHint').textContent = '当前已分配权重合计：' + getAiTicketTotalWeight() + '%';
   document.getElementById('aiTicketAssigneeModal').classList.add('show');
 }
@@ -12896,6 +12908,7 @@ function editAiTicketAssignee(index) {
   document.getElementById('aiTicketAssigneeName').value = a.name;
   document.getElementById('aiTicketAssigneeDept').value = a.dept || '市场-门店团队';
   document.getElementById('aiTicketAssigneeWeight').value = a.weight;
+  document.getElementById('aiTicketAssigneeSchedule').checked = a.scheduled !== false;
   document.getElementById('aiTicketWeightHint').textContent = '当前已分配权重合计：' + getAiTicketTotalWeight() + '%';
   document.getElementById('aiTicketAssigneeModal').classList.add('show');
 }
@@ -12904,6 +12917,7 @@ function saveAiTicketAssignee() {
   var name = document.getElementById('aiTicketAssigneeName').value;
   var dept = document.getElementById('aiTicketAssigneeDept').value;
   var weight = parseInt(document.getElementById('aiTicketAssigneeWeight').value, 10);
+  var scheduled = document.getElementById('aiTicketAssigneeSchedule').checked;
   if (!name) { showToast('请选择人员'); return; }
   if (isNaN(weight) || weight < 1 || weight > 100) { showToast('请输入 1–100 之间的权重'); return; }
   if (editingAiTicketAssigneeIndex >= 0) {
@@ -12915,12 +12929,13 @@ function saveAiTicketAssignee() {
     aiTicketAssignees[editingAiTicketAssigneeIndex].name = name;
     aiTicketAssignees[editingAiTicketAssigneeIndex].dept = dept;
     aiTicketAssignees[editingAiTicketAssigneeIndex].weight = weight;
+    aiTicketAssignees[editingAiTicketAssigneeIndex].scheduled = scheduled;
     showToast('已更新：' + name + ' 权重 ' + weight + '%（需保存后生效）');
   } else {
     if (aiTicketAssignees.some(function(a){ return a.name === name; })) { showToast('该人员已在分配列表中'); return; }
     var total = getAiTicketTotalWeight();
     if (total + weight > 100) { showToast('权重之和不能超过 100%，当前已分配 ' + total + '%'); return; }
-    aiTicketAssignees.push({ name: name, dept: dept, weight: weight, enabled: true });
+    aiTicketAssignees.push({ name: name, dept: dept, weight: weight, enabled: true, scheduled: scheduled });
     showToast('已新建分配人员：' + name + ' 权重 ' + weight + '%（需保存后生效）');
   }
   hideAiTicketAssigneeModal();
@@ -13378,16 +13393,21 @@ function renderHomeOrderStats() {
   var exc = orderPackages.filter(function(o){ return o.status==='异常'; }).length + (typeof EX_DEMO_ROWS!=='undefined'?EX_DEMO_ROWS.length:0);
   var returnsCnt = (orderReturns||[]).length;
   var aiPending = aiTickets.filter(function(t){ return t.status==='pending'; }).length;
+  if (!crmData.length && typeof seedCRM === 'function') seedCRM();
+  var crmCount = crmData.length;
+  var voidCount = orderPackages.filter(function(o){ return o.void; }).length + (typeof VOID_DEMO_ROWS!=='undefined'?VOID_DEMO_ROWS.length:0);
 
   // 总数据
   var totalStats = [
     { l:'待挑入工单', v:aiPending, c:'#F59E0B', bg:'#FFFBEB', ico:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>' },
+    { l:'客户数', v:crmCount, c:'#16A34A', bg:'#ECFDF5', ico:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
     { l:'订单总数', v:total, c:'#6B7280', bg:'#F3F4F6', ico:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>' },
     { l:'集包数', v:pkgDone, c:'#EA580C', bg:'#FFF7ED', ico:'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>' },
     { l:'拣货数', v:pickDone, c:'#14795B', bg:'#ECFDF5', ico:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>' },
     { l:'打包数', v:packDone, c:'#D97706', bg:'#FEF3C7', ico:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M12 9v12"/>' },
     { l:'异常数', v:exc, c:'#DC2626', bg:'#FEF2F2', ico:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>' },
-    { l:'退件数', v:returnsCnt, c:'#6366F1', bg:'#EEF2FF', ico:'<polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/>' }
+    { l:'退件数', v:returnsCnt, c:'#6366F1', bg:'#EEF2FF', ico:'<polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/>' },
+    { l:'作废数', v:voidCount, c:'#6B7280', bg:'#F3F4F6', ico:'<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>' }
   ];
   document.getElementById('homeTotalData').innerHTML = totalStats.map(function(s){
     return '<div style="background:'+s.bg+';border:1px solid '+(s.c+'30')+';border-radius:8px;padding:7px 9px;text-align:left;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;" onmouseover="this.style.transform=\'translateY(-1px)\';this.style.boxShadow=\'0 3px 10px '+(s.c+'26')+'\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">'+
