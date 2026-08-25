@@ -398,6 +398,7 @@ body {
 .tag-pill.green { background: #F0FDF4; color: #16A34A; }
 .tag-pill.gray { background: #F3F4F6; color: #6B7280; }
 .tag-pill.purple { background: #F3E8FF; color: #7C3AED; }
+.tag-pill.yellow { background: #FEF3C7; color: #D97706; }
 /* Action button colors */
 .btn-green { background: #16A34A; color: #fff; border-color: #16A34A; }
 .btn-green:hover { background: #15803D; }
@@ -2507,7 +2508,7 @@ main > .modal-overlay.show { display: flex !important; }
 
       <div class="ticket-filter-bar filter-section">
         <select id="ticketFilterDept" onchange="onTicketDeptChange()" style="padding:6px 8px;border:1px solid var(--primary);border-radius:6px;font-size:11px;outline:none;color:var(--primary);font-weight:600;"><option value="all">全部部门</option><option value="市场-门店团队">市场-门店团队</option><option value="市场-销售团队">市场-销售团队</option><option value="运营团队">运营团队</option></select>
-        <select id="ticketFilterSourceType" class="ticket-col-super"><option value="">全部</option><option>人工工单</option><option>AI工单</option></select>
+        <select id="ticketFilterSourceType" class="ticket-col-super" onchange="filterTickets()"><option value="">创建类型</option><option>人工工单</option><option>AI工单</option></select>
         <select id="ticketFilterType"><option value="">工单类型</option><option>售前报价</option><option>售中跟进</option><option>售后客诉</option><option>物流查询</option></select>
         <select id="ticketFilterStatus"><option value="">进展状态</option><option>待处理</option><option>跟进中</option><option>已完成</option><option>已关闭</option></select>
         <select id="ticketFilterPriority"><option value="">优先级</option><option>严重</option><option>紧急</option><option>普通</option></select>
@@ -8214,7 +8215,7 @@ function renderTicketRows(list) {
     return '<tr style=\"'+rowBg+'\">'+
     '<td><input type=\"checkbox\" onclick=\"event.stopPropagation();var set=window._selTickets||new Set();window._selTickets=set;this.checked?set.add('+t.id+'):set.delete('+t.id+');updateBatchBar();\" style=\"margin:0;\"></td>'+
     '<td style=\"font-size:12px;\"><a href=\"javascript:void(0)\" onclick=\"event.stopPropagation();showTicketDetailModal('+t.id+')\" style=\"color:var(--primary);text-decoration:none;font-weight:500;\">'+urgedTag+t.code+'</a></td>'+
-    '<td style=\"font-size:10px;\" class=\"ticket-col-super\"><span class=\"tag-pill '+(t.sourceType==='AI工单'?'purple':'blue')+'\">'+(t.sourceType||'人工工单')+'</span></td>'+
+    '<td style=\"font-size:10px;\" class=\"ticket-col-super\"><span class=\"tag-pill '+(t.sourceType==='AI工单'?'yellow':'blue')+'\">'+(t.sourceType||'人工工单')+'</span></td>'+
     '<td style=\"font-size:11px;\">'+(t.customerId||'')+'</td>'+
     '<td style=\"font-size:11px;color:var(--text-secondary);\">'+(t.haioId||'-')+'</td>'+
     '<td style=\"font-size:11px;\">'+t.type+'</td>'+
