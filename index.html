@@ -8306,8 +8306,8 @@ function getWarningHtml(t) {
     var absMs = Math.abs(diffMs);
     var days = Math.floor(absMs / (1000*60*60*24));
     var hours = Math.floor((absMs % (1000*60*60*24)) / (1000*60*60));
-    var text = days > 0 ? '超' + days + '天' + hours + 'h' : '超' + hours + 'h';
-    return '<button class="btn btn-sm" style="background:#B91C1C;color:#fff;border:none;font-size:10px;padding:2px 10px;border-radius:4px;cursor:default;text-align:center;white-space:nowrap;min-width:60px;">' + text + '</button>';
+    var text = days > 0 ? days + '天' + hours + 'h' : hours + 'h';
+    return '<button class="btn btn-sm" title="已经超时' + text + '" style="background:#B91C1C;color:#fff;border:none;font-size:10px;padding:2px 10px;border-radius:4px;cursor:help;text-align:center;white-space:nowrap;min-width:60px;">已超时</button>';
   }
 }
 
@@ -8317,17 +8317,7 @@ function renderTicketRows(list) {
   tbody.innerHTML = list.map(function(t){
     var sc = t.status==='待处理'?'var(--warning)':t.status==='跟进中'?'var(--primary)':t.status==='已完成'?'var(--success)':'var(--text-muted)';
     var urged = t.urged || false;
-    var actions = '';
-    var urgeBtn = urged
-      ? '<button class=\"btn btn-sm\" onclick=\"event.stopPropagation();cancelUrgeTicket('+t.id+')\" style=\"font-size:10px;padding:2px 8px;color:var(--text-muted);border-color:var(--border);\">取消催办</button>'
-      : '<button class=\"btn btn-sm\" onclick=\"event.stopPropagation();urgeTicket('+t.id+')\" style=\"font-size:10px;padding:2px 8px;background:var(--danger);color:#fff;border:none;\">催办</button>';
-    if (t.status==='已完成'||t.status==='已关闭') {
-      actions = '<button class=\"btn btn-sm btn-green\" onclick=\"event.stopPropagation();reopenTicket('+t.id+')\" style=\"font-size:10px;padding:2px 8px;\">激活</button>';
-    } else if (t.status==='待处理') {
-      actions = '<button class=\"btn btn-sm\" onclick=\"event.stopPropagation();showTicketEditModal('+t.id+')\" style=\"font-size:10px;padding:2px 8px;\">编辑</button> <button class=\"btn btn-sm\" onclick=\"event.stopPropagation();startProcess('+t.id+')\" style=\"font-size:10px;padding:2px 8px;background:#F59E0B;color:#fff;border:none;\">跟进</button> <button class=\"btn btn-sm btn-gray\" onclick=\"event.stopPropagation();closeTicket('+t.id+')\" style=\"font-size:10px;padding:2px 8px;\">关闭</button> '+urgeBtn;
-    } else {
-      actions = '<button class=\"btn btn-sm\" onclick=\"event.stopPropagation();showTicketEditModal('+t.id+')\" style=\"font-size:10px;padding:2px 8px;\">编辑</button> <button class=\"btn btn-sm btn-primary\" onclick=\"event.stopPropagation();completeTicket('+t.id+')\" style=\"font-size:10px;padding:2px 8px;\">完成</button> <button class=\"btn btn-sm btn-gray\" onclick=\"event.stopPropagation();closeTicket('+t.id+')\" style=\"font-size:10px;padding:2px 8px;\">关闭</button> '+urgeBtn;
-    }
+    var actions = buildTicketActionsHtml(t);
     var urgedTag = urged ? '<span class=\"tag-pill red\" style=\"margin-right:4px;\">催办</span>' : '';
     var rowBg = urged ? 'background:#FFF0F0;' : '';
     return '<tr style=\"'+rowBg+'\">'+
@@ -8349,6 +8339,61 @@ function renderTicketRows(list) {
     '<td style=\"white-space:nowrap;\">'+actions+'</td></tr>';
   }).join('');
 }
+
+function buildTicketActionsHtml(t) {
+  var items = [];
+  if (t.status==='已完成'||t.status==='已关闭') {
+    items.push({label:'激活', fn:'reopenTicket', solid:true});
+  } else if (t.status==='待处理') {
+    items.push({label:'编辑', fn:'showTicketEditModal'});
+    items.push({label:'跟进', fn:'startProcess'});
+    items.push({label:'关闭', fn:'closeTicket'});
+  } else {
+    items.push({label:'编辑', fn:'showTicketEditModal'});
+    items.push({label:'完成', fn:'completeTicket'});
+    items.push({label:'关闭', fn:'closeTicket'});
+  }
+  if (t.status!=='已完成'&&t.status!=='已关闭') {
+    items.push(t.urged ? {label:'取消催办', fn:'cancelUrgeTicket'} : {label:'催办', fn:'urgeTicket', color:'var(--danger)'});
+  }
+  // 前两个按钮固定显示（白底黑字）
+  var visible = items.slice(0, 2);
+  var more = items.slice(2);
+  var html = visible.map(function(it){
+    var st = 'font-size:10px;padding:2px 8px;vertical-align:middle;';
+    if (it.solid) st += 'background:var(--primary);color:#fff;border-color:#fff;';
+    else if (it.color) st += 'color:'+it.color+';';
+    return '<button class="btn btn-sm" onclick="event.stopPropagation();'+it.fn+'('+t.id+')" style="'+st+'">'+it.label+'</button>';
+  }).join(' ');
+  // 第三个及之后：折叠为带边框的「···」图标，点击展开
+  if (more.length > 0) {
+    var menuHtml = more.map(function(it){
+      return '<button class="btn btn-sm" onclick="event.stopPropagation();hideTicketActions();'+it.fn+'('+t.id+')" style="display:block;width:100%;text-align:left;border:none;background:transparent;font-size:11px;padding:6px 12px;border-radius:6px;white-space:nowrap;'+(it.color?'color:'+it.color+';':'color:var(--text);')+'">'+it.label+'</button>';
+    }).join('');
+    html += ' <div class="td-actions" style="position:relative;display:inline-block;vertical-align:middle;">'+
+      '<button class="btn btn-sm" onclick="event.stopPropagation();toggleTicketActions('+t.id+')" title="更多操作" style="padding:2px 8px;color:var(--text-secondary);vertical-align:middle;">'+
+        '<svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;display:block;"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>'+
+      '</button>'+
+      '<div class="ticket-actions-menu" id="ticketActionsMenu_'+t.id+'" style="display:none;position:absolute;right:0;top:calc(100% + 4px);z-index:40;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-md);padding:4px;min-width:92px;">'+
+        menuHtml+
+      '</div>'+
+    '</div>';
+  }
+  return html;
+}
+
+function toggleTicketActions(id) {
+  var menu = document.getElementById('ticketActionsMenu_'+id);
+  var isOpen = menu && menu.style.display === 'block';
+  hideTicketActions();
+  if (menu && !isOpen) menu.style.display = 'block';
+}
+function hideTicketActions() {
+  document.querySelectorAll('.ticket-actions-menu').forEach(function(m){ m.style.display='none'; });
+}
+document.addEventListener('click', function(e){
+  if (!e.target.closest('.td-actions')) hideTicketActions();
+});
 
 // ===== BATCH =====
 function updateBatchBar() {
@@ -15390,7 +15435,7 @@ function orderPkgActions(o) {
   return visible+' <span class="pkg-more-menu" style="position:relative;display:inline-block;">'+
     '<button class="btn btn-sm" onclick="var m=document.getElementById(\''+uid+'\');m.style.display=m.style.display===\'block\'?\'none\':\'block\';event.stopPropagation();" title="更多">···</button>'+
     '<span id="'+uid+'" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);padding:4px 0;z-index:100;min-width:80px;white-space:nowrap;">'+
-    hidden.split('</button>').filter(Boolean).map(function(b){ return '<div style="padding:2px 10px;">'+b+'</button></div>'; }).join('')+
+    hidden.split('</button>').filter(Boolean).map(function(b){ return '<div style="padding:0;">'+b.replace('<button', '<button style="display:block;width:100%;text-align:left;border:none;background:transparent;font-size:11px;padding:6px 12px;border-radius:6px;color:var(--text);"')+'</button></div>'; }).join('')+
     '</span></span>';
 }
 var currentVoidPkgId = null;
@@ -17765,7 +17810,7 @@ function wrapMoreActions(actsHtml, uid) {
   var parts = actsHtml.split('</button>').filter(Boolean);
   if (parts.length <= 2) return actsHtml;
   var visible = parts.slice(0, 2).map(function(p){ return p+'</button>'; }).join(' ');
-  var hidden = parts.slice(2).map(function(p){ return '<div style="padding:2px 10px;">'+p+'</button></div>'; }).join('');
+  var hidden = parts.slice(2).map(function(p){ return '<div style="padding:0;">'+p.replace('<button', '<button style="display:block;width:100%;text-align:left;border:none;background:transparent;font-size:11px;padding:6px 12px;border-radius:6px;color:var(--text);"')+'</button></div>'; }).join('');
   return visible+' <span class="pkg-more-menu" style="position:relative;display:inline-block;">'+
     '<button class="btn btn-sm" onclick="var m=document.getElementById(\''+uid+'\');m.style.display=m.style.display===\'block\'?\'none\':\'block\';event.stopPropagation();" title="更多">···</button>'+
     '<span id="'+uid+'" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);padding:4px 0;z-index:100;min-width:80px;white-space:nowrap;">'+hidden+'</span></span>';
@@ -17834,7 +17879,7 @@ function renderOrderPackPool() {
       else if (o.status==='打包中') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
       else if (o.status==='打包完毕') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button>';
-      else if (o.status==='驳回') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <span class="pkg-more-menu" style="position:relative;display:inline-block;"><button class="btn btn-sm" onclick="var m=document.getElementById(\'pkMore'+o.id+'\');m.style.display=m.style.display===\'block\'?\'none\':\'block\';event.stopPropagation();" title="更多">···</button><span id="pkMore'+o.id+'" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);padding:4px 0;z-index:100;min-width:80px;white-space:nowrap;"><div style="padding:2px 10px;"><button class="btn btn-sm btn-gray" onclick="voidOrderPack('+o.id+')">作废</button></div></span></span>';
+      else if (o.status==='驳回') acts = '<button class="btn btn-sm" onclick="showPackEdit('+o.id+')">编辑</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button> <span class="pkg-more-menu" style="position:relative;display:inline-block;"><button class="btn btn-sm" onclick="var m=document.getElementById(\'pkMore'+o.id+'\');m.style.display=m.style.display===\'block\'?\'none\':\'block\';event.stopPropagation();" title="更多">···</button><span id="pkMore'+o.id+'" style="display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);padding:4px 0;z-index:100;min-width:80px;white-space:nowrap;"><div style="padding:0;"><button class="btn btn-sm" style="display:block;width:100%;text-align:left;border:none;background:transparent;font-size:11px;padding:6px 12px;border-radius:6px;color:var(--text);" onclick="voidOrderPack('+o.id+')">作废</button></div></span></span>';
       else if (o.void) acts = '<button class="btn btn-sm btn-primary" onclick="restoreOrderPack('+o.id+')">恢复</button>';
     }
     // Manager actions
@@ -19808,7 +19853,7 @@ function renderOrderExList() {
         '<td rowspan="'+n+'">'+(o.exSubmitter||'—')+'</td><td rowspan="'+n+'"><span class="tag tag-red">'+ex.source+'</span></td><td rowspan="'+n+'">'+ex.reason+'</td>'+
         '<td rowspan="'+n+'">'+(ex.note||'')+'</td><td rowspan="'+n+'" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+latestProcess+'">'+(latestProcess||'—')+'</td><td rowspan="'+n+'">'+(o.createdAt||'')+'</td><td rowspan="'+n+'">'+o.updatedAt+'</td>'+
         '<td rowspan="'+n+'"'+timeDiffClass(o.updatedAt)+'>'+td+'</td>'+
-        '<td rowspan="'+n+'"><button class="btn btn-sm" onclick="showOrderExEdit('+o.id+')">编辑</button> <button class="btn btn-primary btn-sm" onclick="showOrderExProcess('+o.id+')">处理</button></td></tr>';
+        '<td rowspan="'+n+'" style="white-space:nowrap;"><button class="btn btn-primary btn-sm" onclick="showOrderExProcess('+o.id+')">处理</button> <button class="btn btn-sm" onclick="showOrderExEdit('+o.id+')">编辑</button></td></tr>';
       }
       return '<tr><td style="font-weight:600;color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+xy+'</td></tr>';
     });
