@@ -17078,7 +17078,7 @@ function showOrderPkgDetail(id) {
     '<div id="pkgFlowWrap">'+
       flowSubTabs+
       '<div class="pkg-flow-sub" data-flowsub="flowLog" style="display:block;">'+treeHtml+'</div>'+
-      '<div class="pkg-flow-sub" data-flowsub="splitLog" style="display:none;">'+splitLogBox+(o.packItems&&o.packItems.length?buildReadonlyAiItemsHtml(o):'')+'</div>'+
+      '<div class="pkg-flow-sub" data-flowsub="splitLog" style="display:none;">'+splitLogBox+(o.packItems&&o.packItems.length?buildReadonlyAiItemsHtml(o,'分单物品清单'):'')+'</div>'+
       '<div class="pkg-flow-sub" data-flowsub="mergeLog" style="display:none;"></div>'+
     '</div>'+
     '<div id="pkgMainContent">'+
@@ -17439,7 +17439,7 @@ function showOrderPkgDetail(id) {
           '</div>';
           // 追加只读 AI 物品清单（不可编辑/重新识别）：加货订单已合单、或非加货带加货记录的集包订单有 packItems 时展示
           if (o.packItems && o.packItems.length && (o.status === '已合单' || o.type !== '加货')) {
-            html += '<div data-sec="mergeLog">'+buildReadonlyAiItemsHtml(o)+'</div>';
+            html += '<div data-sec="mergeLog">'+buildReadonlyAiItemsHtml(o,'加货物品清单')+'</div>';
           }
         }
         return html;
@@ -17583,18 +17583,15 @@ function buildXyGroupedLogs(wrapId, logs, defaultXy, emptyText, iconSvg) {
   }
   var html = '<div id="'+wrapId+'" style="background:#F9FAFB;border-radius:8px;padding:8px 14px;border:1px solid var(--border);">';
   if (groups.length > 1) {
-    // 「全部」+ 各 XY 号
-    html += '<div class="sub-tab-bar" id="'+wrapId+'Bar" style="margin:0 0 8px;background:#fff;padding:4px;">'+
-      '<span class="sub-tab-item active" style="padding:4px 12px;font-size:12px;" onclick="switchXyLogTab(\''+wrapId+'\',0,this)">全部</span>';
+    // 各 XY 号 tab
+    html += '<div class="sub-tab-bar" id="'+wrapId+'Bar" style="margin:0 0 8px;background:#fff;padding:4px;">';
     groups.forEach(function(g, gi){
-      html += '<span class="sub-tab-item" style="padding:4px 12px;font-size:12px;" onclick="switchXyLogTab(\''+wrapId+'\','+(gi+1)+',this)">'+g.xy+'</span>';
+      html += '<span class="sub-tab-item'+(gi===0?' active':'')+'" style="padding:4px 12px;font-size:12px;" onclick="switchXyLogTab(\''+wrapId+'\','+gi+',this)">'+g.xy+'</span>';
     });
     html += '</div>';
-    // 全部面板（所有记录）
-    html += '<div class="xy-log-panel" data-xyidx="0" style="display:block;">'+renderLogs(list)+'</div>';
     // 各 XY 面板
     groups.forEach(function(g, gi){
-      html += '<div class="xy-log-panel" data-xyidx="'+(gi+1)+'" style="display:none;">'+renderLogs(g.logs)+'</div>';
+      html += '<div class="xy-log-panel" data-xyidx="'+gi+'" style="'+(gi===0?'display:block;':'display:none;')+'">'+renderLogs(g.logs)+'</div>';
     });
   } else {
     html += renderLogs(groups[0].logs);
@@ -17611,7 +17608,7 @@ function switchXyLogTab(wrapId, idx, el) {
   if (el) el.classList.add('active');
 }
 // 只读 AI 识别物品清单（不可编辑/重新识别）：样式与包裹清单 AI识别物品清单一致（图片组卡片 + 物品/品牌/数量/属性）
-function buildReadonlyAiItemsHtml(o) {
+function buildReadonlyAiItemsHtml(o, title) {
   var mi = (o && o.packItems) || [];
   if (!mi.length) return '';
   var oid = o ? o.id : 'x';
@@ -17620,7 +17617,7 @@ function buildReadonlyAiItemsHtml(o) {
   var html = '<div style="margin-top:14px;">'+
     '<div style="font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px;">'+
       '<svg class="ico" style="width:15px;height:15px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'+
-      'AI识别物品清单'+
+      (title || 'AI识别物品清单')+
     '</div>'+
     '<div style="display:flex;align-items:center;gap:10px;font-size:11px;color:var(--text-secondary);margin-bottom:8px;">'+
       '<span>识别总数 <b style="color:var(--text);">'+miTotal+'</b></span>'+
@@ -17747,6 +17744,19 @@ function renderPkgCatAiItems(o, cat, xy) {
     var hasSrc = orderItems.some(function(it){ return it.srcType === '分单' || it.srcType === '加货'; });
     if (hasSrc) {
       items = orderItems; // 主单 + 分单 + 加货 全部
+      // 华侨包/超大件 分类筛选
+      if (xy === '华侨包') {
+        items = items.filter(function(it){ return (it.pkgCat || getItemPkgCat(it.name)) === '华侨包'; });
+      } else if (xy === '超大件') {
+        items = items.filter(function(it){ return (it.pkgCat || getItemPkgCat(it.name)) === '超大件'; });
+      }
+      // 货品属性 下拉筛选（普货/敏货）
+      var attr = pkgCatAiAttr[o.id] || '全部';
+      if (attr === '普货') {
+        items = items.filter(function(it){ return it.cat === '普货'; });
+      } else if (attr === '敏货') {
+        items = items.filter(function(it){ return it.cat === '敏货'; });
+      }
     } else {
       // 全部 = 订单物品 + 超大件 mock 数据（按名称去重）
       var merged2 = orderItems.concat(getMockBigItems());
@@ -17907,6 +17917,7 @@ function buildCatTabbedAiItems(o) {
 }
 var pkgCatAiActive = {};
 var pkgCatAiXy = {};
+var pkgCatAiAttr = {};
 function pkgAiXyList(o, srcType) {
   var seen = {};
   var list = [];
@@ -17918,21 +17929,51 @@ function pkgAiXyList(o, srcType) {
 function renderPkgCatAiXyBar(o, cat) {
   var bar = document.getElementById('pkgCatAiXyBar_'+o.id);
   if (!bar) return;
-  var srcType = (cat === '分单' || cat === '加货') ? cat : '';
-  var xys = srcType ? pkgAiXyList(o, srcType) : [];
-  if (!xys.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
   var cur = pkgCatAiXy[o.id] || '全部';
-  var opts = ['全部'].concat(xys);
+  function tab(opt) {
+    return '<div onclick="switchPkgCatAiXy('+o.id+',\''+opt+'\')" style="padding:2px 10px;border-radius:5px;cursor:pointer;font-size:10px;font-weight:600;white-space:nowrap;'+(opt===cur?'background:#173D5B;color:#fff;':'background:var(--card);color:var(--text-secondary);border:1px solid var(--border);')+'">'+opt+'</div>';
+  }
+  var html = '';
+  if (cat === '分单' || cat === '加货') {
+    var xys = pkgAiXyList(o, cat);
+    if (!xys.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+    var opts = ['全部'].concat(xys);
+    html = opts.map(tab).join('');
+  } else if (cat === '全部') {
+    // 分单/加货型订单：全部 tab 下 分类 + 货品属性 两个下拉筛选（文字标签 + 下拉框）
+    var hasSrc = (o.packItems || []).some(function(it){ return it.srcType === '分单' || it.srcType === '加货'; });
+    if (!hasSrc) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+    var selStyle = 'padding:2px 8px;border:1px solid var(--border);border-radius:5px;font-size:10px;font-weight:600;color:var(--text-secondary);outline:none;background:var(--card);cursor:pointer;';
+    var lblStyle = 'font-size:10px;color:var(--text-muted);white-space:nowrap;';
+    html += '<span style="'+lblStyle+'">分类</span>'+
+      '<select onchange="switchPkgCatAiXy('+o.id+',this.value)" style="'+selStyle+'">'+
+        '<option value="全部"'+(cur==='全部'?' selected':'')+'>全部</option>'+
+        '<option value="华侨包"'+(cur==='华侨包'?' selected':'')+'>华侨包</option>'+
+        '<option value="超大件"'+(cur==='超大件'?' selected':'')+'>超大件</option>'+
+      '</select>';
+    var attr = pkgCatAiAttr[o.id] || '全部';
+    html += '<span style="'+lblStyle+'">物品属性</span>'+
+      '<select onchange="switchPkgCatAiAttr('+o.id+',this.value)" style="'+selStyle+'">'+
+        '<option value="全部"'+(attr==='全部'?' selected':'')+'>全部</option>'+
+        '<option value="普货"'+(attr==='普货'?' selected':'')+'>普货</option>'+
+        '<option value="敏货"'+(attr==='敏货'?' selected':'')+'>敏货</option>'+
+      '</select>';
+  } else {
+    bar.innerHTML = ''; bar.style.display = 'none'; return;
+  }
   bar.style.display = 'flex';
-  bar.innerHTML = opts.map(function(xy){
-    return '<div onclick="switchPkgCatAiXy('+o.id+',\''+xy+'\')" style="padding:2px 10px;border-radius:5px;cursor:pointer;font-size:10px;font-weight:600;white-space:nowrap;'+(xy===cur?'background:#173D5B;color:#fff;':'background:var(--card);color:var(--text-secondary);border:1px solid var(--border);')+'">'+xy+'</div>';
-  }).join('');
+  bar.innerHTML = html;
+}
+function switchPkgCatAiAttr(id, attr) {
+  pkgCatAiAttr[id] = attr;
+  renderPkgCatAiContent(id, pkgCatAiActive[id] || '全部');
 }
 function switchPkgCatAiTab(id, cat) {
   var o = orderPackages.find(function(p){ return p.id===id; });
   var cats = o ? pkgAiTabSet(o) : ['全部','华侨包','超大件'];
   pkgCatAiActive[id] = cat;
   pkgCatAiXy[id] = '全部';
+  pkgCatAiAttr[id] = '全部';
   cats.forEach(function(c, i){
     var t = document.getElementById('pkgCatAiTab_'+id+'_'+i);
     if (t) t.style.cssText = 'padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap;'+(c===cat?'background:var(--primary);color:#fff;':'background:var(--card);color:var(--text-secondary);border:1px solid var(--border);');
