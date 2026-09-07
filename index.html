@@ -5760,7 +5760,25 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">报备名称</label><input type="text" id="aiReportName" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"></div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">数据源</label><input type="text" id="aiReportDataSource" placeholder="如：每天查海鸥预报包裹列表" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"></div>
-        <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">配置时间</label><select id="aiReportTimeType" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:var(--card);"><option>单次提醒</option><option>每天定时提醒</option><option>周期提醒</option><option>月提醒</option><option>年提醒</option></select></div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;">自动化</label>
+          <div style="display:flex;gap:18px;">
+            <label style="font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;"><input type="radio" name="aiReportAutomation" value="node" onchange="onAutomationTypeChange('aiReport')" style="cursor:pointer;"> 节点触发</label>
+            <label style="font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;"><input type="radio" name="aiReportAutomation" value="cycle" onchange="onAutomationTypeChange('aiReport')" style="cursor:pointer;"> 周期发送</label>
+          </div>
+        </div>
+        <div id="aiReportCycleWrap" style="display:none;margin-bottom:12px;padding:10px;background:#F8FAFC;border:1px solid var(--border-light);border-radius:8px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;">周期配置</label>
+          <select id="aiReportFreq" onchange="onAutomationFreqChange('aiReport')" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:var(--card);margin-bottom:8px;">
+            <option value="once">单次发送</option>
+            <option value="daily">每天定时发送</option>
+            <option value="period">周期发送</option>
+            <option value="weekly">周发送</option>
+            <option value="monthly">月发送</option>
+            <option value="yearly">年发送</option>
+          </select>
+          <div id="aiReportTimeConfig"></div>
+        </div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">周期方法</label><input type="text" id="aiReportSchedule" placeholder="如：每天 15:00 检查，查到新数据才发送" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"></div>
         <div style="margin-bottom:6px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">内容模板</label><textarea id="aiReportContent" placeholder="请输入通知内容模板，支持变量占位" style="width:100%;height:110px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;resize:vertical;line-height:1.6;"></textarea></div>
         <div style="font-size:11px;color:var(--text-muted);background:#F8FAFC;border:1px solid var(--border-light);border-radius:8px;padding:8px 10px;line-height:1.7;margin-bottom:14px;">可用变量：<b style="color:var(--primary);">{{日期}}</b>、<b style="color:var(--primary);">{{客户ID}}</b>、<b style="color:var(--primary);">{{海鸥ID}}</b>、<b style="color:var(--primary);">{{包裹数}}</b>、<b style="color:var(--primary);">{{快递单号}}</b>、<b style="color:var(--primary);">{{查询网址}}</b>、<b style="color:var(--primary);">{{尾程单号}}</b></div>
@@ -5837,6 +5855,25 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">活动名称</label><input type="text" id="aiMarketingName" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"></div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">目标客户</label><input type="text" id="aiMarketingAudience" placeholder="如：首次入库的新客户" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"></div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;">自动化</label>
+          <div style="display:flex;gap:18px;">
+            <label style="font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;"><input type="radio" name="aiMarketingAutomation" value="node" onchange="onAutomationTypeChange('aiMarketing')" style="cursor:pointer;"> 节点触发</label>
+            <label style="font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;"><input type="radio" name="aiMarketingAutomation" value="cycle" onchange="onAutomationTypeChange('aiMarketing')" style="cursor:pointer;"> 周期发送</label>
+          </div>
+        </div>
+        <div id="aiMarketingCycleWrap" style="display:none;margin-bottom:12px;padding:10px;background:#F8FAFC;border:1px solid var(--border-light);border-radius:8px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:6px;">周期配置</label>
+          <select id="aiMarketingFreq" onchange="onAutomationFreqChange('aiMarketing')" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:var(--card);margin-bottom:8px;">
+            <option value="once">单次发送</option>
+            <option value="daily">每天定时发送</option>
+            <option value="period">周期发送</option>
+            <option value="weekly">周发送</option>
+            <option value="monthly">月发送</option>
+            <option value="yearly">年发送</option>
+          </select>
+          <div id="aiMarketingTimeConfig"></div>
+        </div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">触发规则</label><input type="text" id="aiMarketingSchedule" placeholder="如：每天 10:00 检查一次" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"></div>
         <div style="margin-bottom:6px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">内容模板</label><textarea id="aiMarketingContent" placeholder="请输入营销内容模板，支持变量占位" style="width:100%;height:110px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;resize:vertical;line-height:1.6;"></textarea></div>
         <div style="font-size:11px;color:var(--text-muted);background:#F8FAFC;border:1px solid var(--border-light);border-radius:8px;padding:8px 10px;line-height:1.7;margin-bottom:14px;">可用变量：<b style="color:var(--primary);">{{日期}}</b>、<b style="color:var(--primary);">{{客户ID}}</b>、<b style="color:var(--primary);">{{海鸥ID}}</b>、<b style="color:var(--primary);">{{订单号}}</b>、<b style="color:var(--primary);">{{优惠码}}</b></div>
@@ -22932,25 +22969,25 @@ var aiReportConfigs = [
   { id: 1, name: '通知入库快递', icon: 'inbox', color: '#173D5B', enabled: true,
     dataSource: '每天查海鸥预报包裹列表',
     schedule: '每天 15:00 检查一次，查到新入库包裹才发送',
-    timeType: '每天定时提醒',
+    automation: { type:'cycle', freq:'daily', time:'15:00' },
     content: '您好，{{日期}}ID{{客户ID}}入库了{{包裹数}}个包裹 {{快递单号}}',
     sentToday: 3, sentTotal: 128 },
   { id: 2, name: '通知包裹出库', icon: 'outbox', color: '#0EA5E9', enabled: true,
     dataSource: '遴选当天的轨迹',
     schedule: '每 1 小时检索一次，查到即发；只发一次；晚上 22:00 - 次日 09:00 不发送',
-    timeType: '单次提醒',
+    automation: { type:'node' },
     content: '您好，您的货物已经从仓库发出了，后续您可以用下面这个单号到我提供给您的网址上查询 {{快递单号}} {{查询网址}}',
     sentToday: 2, sentTotal: 96 },
   { id: 3, name: '物流定时提醒', icon: 'route', color: '#F59E0B', enabled: true,
     dataSource: '路途中的订单，每天查一遍',
     schedule: '每天 15:00 检查；间隔 10 天发一次；包裹上网后停止发送',
-    timeType: '周期提醒',
+    automation: { type:'cycle', freq:'period', interval:10, time:'15:00' },
     content: '您好，您的包裹目前已经抵达俄罗斯，目前物流状态正常，还有一些是在中途的，您可以用下面这个单号到我提供给您的网址上查询 {{快递单号}} {{查询网址}}',
     sentToday: 5, sentTotal: 210 },
   { id: 4, name: '通知已上网包裹', icon: 'online', color: '#16A34A', enabled: true,
     dataSource: '1 小时检测物流轨迹尾程（首次尾程有数据即推送，或 17track API 查询）',
     schedule: '每 1 小时检测一次；只发一次；晚上 22:00 - 次日 09:00 不发送',
-    timeType: '单次提醒',
+    automation: { type:'node' },
     content: '您的{{快递单号}}包裹已上网，您可以通过下面的这个尾程单号，到我给您提供的网址进行查询 {{尾程单号}} {{查询网址}}',
     sentToday: 4, sentTotal: 156 }
 ];
@@ -23010,7 +23047,7 @@ function newAiReportConfig() {
   document.getElementById('aiReportName').value = '';
   document.getElementById('aiReportDataSource').value = '';
   document.getElementById('aiReportSchedule').value = '';
-  document.getElementById('aiReportTimeType').value = '单次提醒';
+  fillAutomationForm('aiReport', { type:'node' });
   document.getElementById('aiReportContent').value = '';
   renderAiReportIconPicker();
   renderAiReportColorPicker();
@@ -23040,7 +23077,7 @@ function renderAiReportConfigs() {
         '<button class="btn btn-sm" onclick="deleteAiReportConfig('+c.id+')" style="flex-shrink:0;color:#DC2626;border-color:#FECACA;">删除</button>'+
       '</div>'+
       '<div style="display:flex;flex-direction:column;gap:10px;">'+
-        '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">配置时间</span><span class="tag" style="font-size:11px;padding:1px 8px;border-radius:6px;background:#EFF6FF;color:#173D5B;">'+(c.timeType || '单次提醒')+'</span></div>'+
+        '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">自动化</span><span class="tag" style="font-size:11px;padding:1px 8px;border-radius:6px;background:#EFF6FF;color:#173D5B;">'+automationDesc(c.automation)+'</span></div>'+
         '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">数据源</span><span style="font-size:12px;color:var(--text-secondary);line-height:1.7;">'+c.dataSource+'</span></div>'+
         '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">周期方法</span><span style="font-size:12px;color:var(--text-secondary);line-height:1.7;">'+c.schedule+'</span></div>'+
         '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">内容模板</span><div style="flex:1;font-size:12px;color:var(--text);background:#F8FAFC;border:1px solid var(--border-light);border-radius:8px;padding:8px 10px;line-height:1.7;word-break:break-all;">'+c.content+'</div></div>'+
@@ -23084,7 +23121,7 @@ function editAiReportConfig(id) {
   document.getElementById('aiReportName').value = c.name;
   document.getElementById('aiReportDataSource').value = c.dataSource;
   document.getElementById('aiReportSchedule').value = c.schedule;
-  document.getElementById('aiReportTimeType').value = c.timeType || '单次提醒';
+  fillAutomationForm('aiReport', c.automation);
   document.getElementById('aiReportContent').value = c.content;
   renderAiReportIconPicker();
   renderAiReportColorPicker();
@@ -23099,12 +23136,12 @@ function saveAiReportConfig() {
   var name = document.getElementById('aiReportName').value.trim();
   var dataSource = document.getElementById('aiReportDataSource').value.trim();
   var schedule = document.getElementById('aiReportSchedule').value.trim();
-  var timeType = document.getElementById('aiReportTimeType') ? document.getElementById('aiReportTimeType').value : '单次提醒';
+  var automation = collectAutomation('aiReport');
   var content = document.getElementById('aiReportContent').value.trim();
   if (!name || !dataSource || !schedule || !content) { alert('报备名称、数据源、周期方法、内容模板不能为空'); return; }
   if (editingAiReportId === -1) {
     var maxId = aiReportConfigs.length ? Math.max.apply(null, aiReportConfigs.map(function(x){ return x.id; })) : 0;
-    aiReportConfigs.push({ id: maxId + 1, name: name, icon: newAiReportIcon, color: newAiReportColor, enabled: true, dataSource: dataSource, schedule: schedule, timeType: timeType, content: content, sentToday: 0, sentTotal: 0 });
+    aiReportConfigs.push({ id: maxId + 1, name: name, icon: newAiReportIcon, color: newAiReportColor, enabled: true, dataSource: dataSource, schedule: schedule, automation: automation, content: content, sentToday: 0, sentTotal: 0 });
     hideAiReportConfig();
     renderAiReportConfigs();
     showToast('已新建报备配置：' + name);
@@ -23114,7 +23151,7 @@ function saveAiReportConfig() {
     c.name = name;
     c.dataSource = dataSource;
     c.schedule = schedule;
-    c.timeType = timeType;
+    c.automation = automation;
     c.content = content;
     c.icon = newAiReportIcon;
     c.color = newAiReportColor;
@@ -23161,15 +23198,19 @@ var aiMarketingIcons = {
 var aiMarketingConfigs = [
   { id: 1, name: '新客首单关怀', icon: 'megaphone', color: '#173D5B', enabled: true,
     audience: '首次入库的新客户', schedule: '客户首单入库后 2 小时内触发一次',
+    automation: { type:'node' },
     content: '您好，{{客户ID}}，感谢您的信任！首次使用满 100 减 10，输入优惠码 NEW10 即可使用。', sentToday: 5, sentTotal: 342 },
   { id: 2, name: '复购满额促销', icon: 'gift', color: '#0EA5E9', enabled: true,
     audience: '累计发货满 5 单的老客户', schedule: '每天 10:00 检查一次，满足条件即发',
+    automation: { type:'cycle', freq:'daily', time:'10:00' },
     content: '您好，{{客户ID}}，您已是我们的老客户，本月满 500 减 50 活动进行中，点击参与。', sentToday: 3, sentTotal: 187 },
   { id: 3, name: '流失客户召回', icon: 'heart', color: '#F59E0B', enabled: true,
     audience: '30 天未下单的历史客户', schedule: '每天 14:00 检查一次，30 天未下单触发',
+    automation: { type:'cycle', freq:'daily', time:'14:00' },
     content: '您好，{{客户ID}}，好久不见！回来下单即赠运费券一张，期待再次为您服务。', sentToday: 2, sentTotal: 96 },
   { id: 4, name: '节假日问候', icon: 'star', color: '#16A34A', enabled: false,
     audience: '全部客户（按标签筛选）', schedule: '节假日 09:00 发送一次',
+    automation: { type:'cycle', freq:'yearly', month:1, day:1, time:'09:00' },
     content: '{{客户ID}}您好，祝您节日快乐！活动期间运费 8 折优惠，欢迎咨询。', sentToday: 0, sentTotal: 540 }
 ];
 var aiMarketingRecords = [
@@ -23233,6 +23274,7 @@ function newAiMarketingConfig() {
   document.getElementById('aiMarketingName').value = '';
   document.getElementById('aiMarketingAudience').value = '';
   document.getElementById('aiMarketingSchedule').value = '';
+  fillAutomationForm('aiMarketing', { type:'node' });
   document.getElementById('aiMarketingContent').value = '';
   renderAiMarketingIconPicker();
   renderAiMarketingColorPicker();
@@ -23256,6 +23298,7 @@ function renderAiMarketingConfigs() {
         '<button class="btn btn-sm" onclick="deleteAiMarketingConfig('+c.id+')" style="flex-shrink:0;color:#DC2626;border-color:#FECACA;">删除</button>'+
       '</div>'+
       '<div style="display:flex;flex-direction:column;gap:10px;">'+
+        '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">自动化</span><span class="tag" style="font-size:11px;padding:1px 8px;border-radius:6px;background:#EFF6FF;color:#173D5B;">'+automationDesc(c.automation)+'</span></div>'+
         '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">目标客户</span><span style="font-size:12px;color:var(--text-secondary);line-height:1.7;">'+c.audience+'</span></div>'+
         '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">触发规则</span><span style="font-size:12px;color:var(--text-secondary);line-height:1.7;">'+c.schedule+'</span></div>'+
         '<div style="display:flex;gap:8px;align-items:flex-start;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;width:56px;line-height:1.7;">内容模板</span><div style="flex:1;font-size:12px;color:var(--text);background:#F8FAFC;border:1px solid var(--border-light);border-radius:8px;padding:8px 10px;line-height:1.7;word-break:break-all;">'+c.content+'</div></div>'+
@@ -23299,6 +23342,7 @@ function editAiMarketingConfig(id) {
   document.getElementById('aiMarketingName').value = c.name;
   document.getElementById('aiMarketingAudience').value = c.audience;
   document.getElementById('aiMarketingSchedule').value = c.schedule;
+  fillAutomationForm('aiMarketing', c.automation);
   document.getElementById('aiMarketingContent').value = c.content;
   renderAiMarketingIconPicker();
   renderAiMarketingColorPicker();
@@ -23313,11 +23357,12 @@ function saveAiMarketingConfig() {
   var name = document.getElementById('aiMarketingName').value.trim();
   var audience = document.getElementById('aiMarketingAudience').value.trim();
   var schedule = document.getElementById('aiMarketingSchedule').value.trim();
+  var automation = collectAutomation('aiMarketing');
   var content = document.getElementById('aiMarketingContent').value.trim();
   if (!name || !audience || !schedule || !content) { alert('活动名称、目标客户、触发规则、内容模板不能为空'); return; }
   if (editingAiMarketingId === -1) {
     var maxId = aiMarketingConfigs.length ? Math.max.apply(null, aiMarketingConfigs.map(function(x){ return x.id; })) : 0;
-    aiMarketingConfigs.push({ id: maxId + 1, name: name, icon: newAiMarketingIcon, color: newAiMarketingColor, enabled: true, audience: audience, schedule: schedule, content: content, sentToday: 0, sentTotal: 0 });
+    aiMarketingConfigs.push({ id: maxId + 1, name: name, icon: newAiMarketingIcon, color: newAiMarketingColor, enabled: true, audience: audience, schedule: schedule, automation: automation, content: content, sentToday: 0, sentTotal: 0 });
     hideAiMarketingConfig();
     renderAiMarketingConfigs();
     showToast('已新建营销配置：' + name);
@@ -23327,6 +23372,7 @@ function saveAiMarketingConfig() {
     c.name = name;
     c.audience = audience;
     c.schedule = schedule;
+    c.automation = automation;
     c.content = content;
     c.icon = newAiMarketingIcon;
     c.color = newAiMarketingColor;
@@ -23360,6 +23406,154 @@ function renderAiMarketingRecords() {
   document.getElementById('aiMarketingRecordList').innerHTML = html || '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px;">暂无发送记录</td></tr>';
   var countEl = document.getElementById('aiMarketingRecordCount');
   if (countEl) countEl.textContent = aiMarketingRecords.length;
+}
+
+// ========== 自动化配置（AI报备 / AI主动营销 共用） ==========
+function automationDesc(a) {
+  if (!a) return '—';
+  if (a.type === 'node') return '节点触发';
+  switch (a.freq) {
+    case 'once': return '单次发送 · ' + (a.date || '') + (a.time ? ' ' + a.time : '');
+    case 'daily': return '每天定时发送 · ' + (a.time || '未设置');
+    case 'period': return '周期发送 · 每 ' + (a.interval || 1) + ' 天' + (a.time ? ' ' + a.time : '');
+    case 'weekly': {
+      var wds = (a.weekdays && a.weekdays.length) ? a.weekdays : (a.weekday ? [a.weekday] : []);
+      var names = wds.map(function(w){ return automationWeekdayShort(w); });
+      return '周发送 · 每周' + (names.length ? names.join('、') : '未选择') + (a.time ? ' ' + a.time : '');
+    }
+    case 'monthly': return '月发送 · 每月 ' + (a.day || 1) + ' 号' + (a.time ? ' ' + a.time : '');
+    case 'yearly': return '年发送 · 每年 ' + (a.month || 1) + ' 月 ' + (a.day || 1) + ' 日' + (a.time ? ' ' + a.time : '');
+    default: return '周期发送';
+  }
+}
+function automationRadioName(prefix) {
+  return prefix === 'aiReport' ? 'aiReportAutomation' : 'aiMarketingAutomation';
+}
+function setAutomationRadio(prefix, type) {
+  var radios = document.getElementsByName(automationRadioName(prefix));
+  for (var i = 0; i < radios.length; i++) {
+    if (radios[i].value === type) { radios[i].checked = true; break; }
+  }
+}
+function getAutomationType(prefix) {
+  var radios = document.getElementsByName(automationRadioName(prefix));
+  for (var i = 0; i < radios.length; i++) { if (radios[i].checked) return radios[i].value; }
+  return 'cycle';
+}
+function getAutomationFreq(prefix) {
+  var sel = document.getElementById(prefix + 'Freq');
+  return sel ? sel.value : 'once';
+}
+function automationMonthOptions() {
+  var s = '';
+  for (var m = 1; m <= 12; m++) s += '<option value="'+m+'">'+m+'</option>';
+  return s;
+}
+function automationWeekdayOptions() {
+  var days = ['周一','周二','周三','周四','周五','周六','周日'];
+  var s = '';
+  for (var i = 0; i < days.length; i++) s += '<option value="'+(i+1)+'">'+days[i]+'</option>';
+  return s;
+}
+function automationWeekdayName(w) {
+  var days = ['周一','周二','周三','周四','周五','周六','周日'];
+  var n = parseInt(w, 10);
+  if (!n || n < 1 || n > 7) return '周一';
+  return days[n - 1];
+}
+function automationWeekdayShort(w) {
+  var days = ['一','二','三','四','五','六','日'];
+  var n = parseInt(w, 10);
+  if (!n || n < 1 || n > 7) return '一';
+  return days[n - 1];
+}
+function automationWeekdayCheckboxes(prefix, selected) {
+  var days = ['周一','周二','周三','周四','周五','周六','周日'];
+  var sel = selected || [];
+  var s = '';
+  for (var i = 0; i < days.length; i++) {
+    var v = i + 1;
+    var checked = sel.indexOf(v) >= 0 || sel.indexOf(String(v)) >= 0;
+    s += '<label style="display:inline-flex;align-items:center;gap:3px;cursor:pointer;padding:4px 8px;border:1px solid '+(checked?'var(--primary)':'var(--border)')+';border-radius:6px;font-size:12px;margin:0 6px 6px 0;'+(checked?'background:#EFF6FF;color:var(--primary);':'')+'"><input type="checkbox" class="'+prefix+'AutoWeekday" value="'+v+'"'+(checked?' checked':'')+' style="margin:0;">'+days[i]+'</label>';
+  }
+  return s;
+}
+function renderAutomationTime(prefix) {
+  var wrap2 = document.getElementById(prefix + 'TimeConfig');
+  if (!wrap2) return;
+  var freq = getAutomationFreq(prefix);
+  var inputStyle = 'padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;';
+  var s = '';
+  if (freq === 'once') {
+    s = '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">选择具体日期时间</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;"><input type="date" id="'+prefix+'AutoDate" style="flex:1;'+inputStyle+'"> <input type="time" id="'+prefix+'AutoTime" style="flex:1;'+inputStyle+'"></div>';
+  } else if (freq === 'daily') {
+    s = '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">每天触发时间</div>' +
+        '<input type="time" id="'+prefix+'AutoTime" style="width:100%;'+inputStyle+'">';
+  } else if (freq === 'period') {
+    s = '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">每隔 N 天触发一次</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;">每</span><input type="number" id="'+prefix+'AutoInterval" min="1" value="1" style="width:70px;'+inputStyle+'"><span style="font-size:12px;">天</span><span style="font-size:12px;margin-left:6px;">时间</span><input type="time" id="'+prefix+'AutoTime" style="flex:1;'+inputStyle+'"></div>';
+  } else if (freq === 'weekly') {
+    s = '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">每周星期（可多选）</div>' +
+        '<div style="display:flex;flex-wrap:wrap;">'+automationWeekdayCheckboxes(prefix, [])+'</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;margin-top:4px;"><span style="font-size:12px;">时间</span><input type="time" id="'+prefix+'AutoTime" style="flex:1;'+inputStyle+'"></div>';
+  } else if (freq === 'monthly') {
+    s = '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">每月固定日期触发</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;">每月</span><input type="number" id="'+prefix+'AutoDay" min="1" max="31" value="1" style="width:70px;'+inputStyle+'"><span style="font-size:12px;">号</span><span style="font-size:12px;margin-left:6px;">时间</span><input type="time" id="'+prefix+'AutoTime" style="flex:1;'+inputStyle+'"></div>';
+  } else if (freq === 'yearly') {
+    s = '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">每年固定日期触发</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;"><span style="font-size:12px;">每年</span><select id="'+prefix+'AutoMonth" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;">'+automationMonthOptions()+'</select><span style="font-size:12px;">月</span><input type="number" id="'+prefix+'AutoDay" min="1" max="31" value="1" style="width:60px;'+inputStyle+'"><span style="font-size:12px;">日</span><span style="font-size:12px;margin-left:6px;">时间</span><input type="time" id="'+prefix+'AutoTime" style="flex:1;'+inputStyle+'"></div>';
+  }
+  wrap2.innerHTML = s;
+}
+function fillAutomationForm(prefix, auto) {
+  auto = auto || { type: 'node' };
+  setAutomationRadio(prefix, auto.type || 'node');
+  var freqSel = document.getElementById(prefix + 'Freq');
+  if (freqSel && auto.freq) freqSel.value = auto.freq;
+  var wrap = document.getElementById(prefix + 'CycleWrap');
+  if (wrap) wrap.style.display = (auto.type === 'cycle') ? '' : 'none';
+  renderAutomationTime(prefix);
+  var setVal = function(id, v){ var el = document.getElementById(id); if (el && v !== undefined && v !== null && v !== '') el.value = v; };
+  setVal(prefix + 'AutoDate', auto.date);
+  setVal(prefix + 'AutoTime', auto.time);
+  setVal(prefix + 'AutoInterval', auto.interval);
+  setVal(prefix + 'AutoDay', auto.day);
+  setVal(prefix + 'AutoMonth', auto.month);
+  // weekly 多选回填
+  var wds = (auto.weekdays && auto.weekdays.length) ? auto.weekdays : (auto.weekday ? [auto.weekday] : []);
+  document.querySelectorAll('input.' + prefix + 'AutoWeekday').forEach(function(cb){
+    cb.checked = (wds.indexOf(parseInt(cb.value, 10)) >= 0);
+  });
+}
+function onAutomationTypeChange(prefix) {
+  var type = getAutomationType(prefix);
+  var wrap = document.getElementById(prefix + 'CycleWrap');
+  if (wrap) wrap.style.display = (type === 'cycle') ? '' : 'none';
+  if (type === 'cycle') renderAutomationTime(prefix);
+}
+function onAutomationFreqChange(prefix) {
+  renderAutomationTime(prefix);
+}
+function collectAutomation(prefix) {
+  var type = getAutomationType(prefix);
+  var auto = { type: type };
+  if (type === 'node') return auto;
+  var freq = getAutomationFreq(prefix);
+  auto.freq = freq;
+  var getVal = function(id){ var el = document.getElementById(id); return el ? el.value : ''; };
+  if (freq === 'once') { auto.date = getVal(prefix + 'AutoDate'); auto.time = getVal(prefix + 'AutoTime'); }
+  else if (freq === 'daily') { auto.time = getVal(prefix + 'AutoTime'); }
+  else if (freq === 'period') { auto.interval = parseInt(getVal(prefix + 'AutoInterval') || '1', 10); auto.time = getVal(prefix + 'AutoTime'); }
+  else if (freq === 'weekly') {
+    var wds2 = [];
+    document.querySelectorAll('input.' + prefix + 'AutoWeekday:checked').forEach(function(cb){ wds2.push(parseInt(cb.value, 10)); });
+    auto.weekdays = wds2;
+    auto.time = getVal(prefix + 'AutoTime');
+  }
+  else if (freq === 'monthly') { auto.day = parseInt(getVal(prefix + 'AutoDay') || '1', 10); auto.time = getVal(prefix + 'AutoTime'); }
+  else if (freq === 'yearly') { auto.month = parseInt(getVal(prefix + 'AutoMonth') || '1', 10); auto.day = parseInt(getVal(prefix + 'AutoDay') || '1', 10); auto.time = getVal(prefix + 'AutoTime'); }
+  return auto;
 }
 
 // ========== 黑名单（AI报备 / AI主动营销 共用） ==========
