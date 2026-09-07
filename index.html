@@ -5416,7 +5416,7 @@ main > .modal-overlay.show { display: flex !important; }
             </div>
             <div class="data-table-wrap" style="flex:1;overflow:auto;border-radius:8px;">
               <table class="data-table">
-                <thead><tr><th>成员</th><th>角色</th><th>状态</th><th>本月登录</th><th>评分</th><th>启用</th><th>操作</th></tr></thead>
+                <thead><tr><th>成员</th><th>角色</th><th>门店</th><th>状态</th><th>本月登录</th><th>评分</th><th>启用</th><th>操作</th></tr></thead>
                 <tbody id="teamMemberBody"></tbody>
               </table>
             </div>
@@ -5649,38 +5649,50 @@ main > .modal-overlay.show { display: flex !important; }
       <!-- 分配设置面板 -->
       <div id="aiTicketConfigAssignPanel" style="display:none;">
         <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;box-shadow:var(--shadow-sm);max-width:920px;">
-          <!-- 工单分配模块 -->
-          <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--border-light);">
-            <h3 style="font-size:15px;margin:0 0 14px;">工单分配</h3>
-            <div style="display:flex;flex-direction:column;gap:14px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <span style="font-size:13px;font-weight:500;">优先回头客</span>
-                <label class="toggle-switch" style="width:40px;height:22px;"><input type="checkbox" id="aiTicketReturnCustomerToggle" checked onchange="toggleAiTicketReturnCustomer(this.checked)"><span class="toggle-slider"></span></label>
-                <span class="info-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span class="info-tip-pop">客户优先匹配分配接待过的门店</span></span>
-              </div>
-              <div style="display:flex;align-items:center;gap:10px;">
-                <span style="font-size:13px;font-weight:500;">自动按权重分配</span>
-                <label class="toggle-switch" style="width:40px;height:22px;"><input type="checkbox" id="aiTicketAutoAssignToggle" checked onchange="toggleAiTicketAutoAssign(this.checked)"><span class="toggle-slider"></span></label>
-                <span class="info-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span class="info-tip-pop">按照权重配置的比例分配接待门店，权重越高分配越多</span></span>
-              </div>
-            </div>
-          </div>
-          <!-- 分配人员与权重（自动按权重分配开启时显示） -->
-          <div id="aiTicketAssignWeightsArea">
+          <!-- 分配人员 -->
+          <div style="margin-bottom:24px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <h3 style="font-size:15px;margin:0;">分配人员与权重</h3>
-              <div style="display:flex;gap:8px;" id="aiTicketAssignActions">
-                <button class="btn btn-sm" onclick="averageAiTicketAssignees()">平均分配</button>
-              </div>
+              <h3 style="font-size:15px;margin:0;">分配人员</h3>
             </div>
-            <div id="aiTicketAssignHint" style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">AI 识别工单将按各人员权重比例自动分配，权重之和为 100%</div>
-            <div class="data-table-wrap" id="aiTicketAssignTableWrap">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">默认优先分配企业微信客户群内门店成员处理AI工单</div>
+            <div class="data-table-wrap">
               <table class="data-table">
-                <thead><tr><th>人员</th><th>部门</th><th>分配权重</th><th>排班</th><th>启用状态</th><th>操作</th></tr></thead>
+                <thead><tr><th>人员</th><th>部门</th><th>门店</th><th>排班</th><th>启用状态</th><th>操作</th></tr></thead>
                 <tbody id="aiTicketAssigneeList"></tbody>
               </table>
             </div>
           </div>
+
+          <!-- 临替岗位 -->
+          <div style="margin-bottom:24px;padding-top:18px;border-top:1px solid var(--border-light);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <h3 style="font-size:15px;margin:0;">临替岗位</h3>
+              <button class="btn btn-sm" onclick="showAiTicketSubstituteModal()">+ 新增临替</button>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">门店轮休离岗时，由替补人员接替其工单分配</div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>替补人员</th><th>排班</th><th>启用状态</th><th>操作</th></tr></thead>
+                <tbody id="aiTicketSubstituteList"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 托底岗位 -->
+          <div style="margin-bottom:24px;padding-top:18px;border-top:1px solid var(--border-light);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <h3 style="font-size:15px;margin:0;">托底岗位</h3>
+              <button class="btn btn-sm" onclick="showAiTicketFallbackModal()">+ 新增托底</button>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">工单无人认领时，由托底人员兜底处理</div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>托底人员</th><th>启用状态</th><th>操作</th></tr></thead>
+                <tbody id="aiTicketFallbackList"></tbody>
+              </table>
+            </div>
+          </div>
+
           <div style="display:flex;justify-content:flex-end;margin-top:16px;">
             <button class="btn btn-primary" onclick="saveAiTicketAssignees()">保存</button>
           </div>
@@ -5962,11 +5974,10 @@ main > .modal-overlay.show { display: flex !important; }
           <select id="aiTicketAssigneeName" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"><option value="">请选择人员</option><option>张三</option><option>李四</option><option>王五</option><option>小霞</option><option>小萌</option><option>赵六</option></select>
         </div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">部门 <span style="color:var(--danger);">*</span></label>
-          <select id="aiTicketAssigneeDept" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"><option>市场-门店团队</option><option>市场-销售团队</option><option>运营团队</option></select>
+          <select id="aiTicketAssigneeDept" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"><option>门店团队</option><option>市场-门店团队</option><option>市场-销售团队</option><option>运营团队</option></select>
         </div>
-        <div style="margin-bottom:16px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">分配权重（%） <span style="color:var(--danger);">*</span></label>
-          <div style="display:flex;align-items:center;gap:8px;"><input type="number" id="aiTicketAssigneeWeight" min="1" max="100" value="10" style="flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"><span style="font-size:12px;color:var(--text-muted);">%</span></div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" id="aiTicketWeightHint"></div>
+        <div style="margin-bottom:16px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">门店</label>
+          <input type="text" id="aiTicketAssigneeStore" placeholder="如：马鞍山店" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;">
         </div>
         <div style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">
           <div><div style="font-size:12px;font-weight:600;">排班</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">开启后该人员在排班（当班）时才参与工单分配</div></div>
@@ -5975,6 +5986,34 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button class="btn btn-sm" onclick="hideAiTicketAssigneeModal()">取消</button>
           <button class="btn btn-primary btn-sm" onclick="saveAiTicketAssignee()">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新增临替岗位弹框 -->
+    <div class="modal-overlay" id="aiTicketSubstituteModal">
+      <div class="modal" style="width:420px;">
+        <h3>新增临替岗位</h3>
+        <div style="margin-bottom:16px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">替补人员 <span style="color:var(--danger);">*</span></label>
+          <select id="aiTicketSubstituteName" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"><option value="">请选择人员</option><option>张三</option><option>李四</option><option>王五</option><option>小霞</option><option>小萌</option><option>赵六</option></select>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn btn-sm" onclick="hideAiTicketSubstituteModal()">取消</button>
+          <button class="btn btn-primary btn-sm" onclick="saveAiTicketSubstitute()">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新增托底岗位弹框 -->
+    <div class="modal-overlay" id="aiTicketFallbackModal">
+      <div class="modal" style="width:420px;">
+        <h3>新增托底岗位</h3>
+        <div style="margin-bottom:16px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">托底人员 <span style="color:var(--danger);">*</span></label>
+          <select id="aiTicketFallbackName" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"><option value="">请选择人员</option><option>张三</option><option>李四</option><option>王五</option><option>小霞</option><option>小萌</option><option>赵六</option></select>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn btn-sm" onclick="hideAiTicketFallbackModal()">取消</button>
+          <button class="btn btn-primary btn-sm" onclick="saveAiTicketFallback()">保存</button>
         </div>
       </div>
     </div>
@@ -12032,7 +12071,8 @@ var teamDepts = [
   { id: 1, name: '客服一部' },
   { id: 2, name: '客服二部' },
   { id: 3, name: '客服三部' },
-  { id: 4, name: '培训部' }
+  { id: 4, name: '培训部' },
+  { id: 5, name: '门店团队' }
 ];
 var teamMembers = [
   { id: 1, name: '张三', dept: 1, role: '管理员', online: true, login: 32, score: '4.8', enabled: true, me: true },
@@ -12046,7 +12086,10 @@ var teamMembers = [
   { id: 9, name: '郑十一', dept: 3, role: '查看者', online: false, login: 8, score: '4.0', enabled: true },
   { id: 10, name: '王十二', dept: 4, role: '训练员', online: true, login: 16, score: '4.4', enabled: true },
   { id: 11, name: '冯十三', dept: 4, role: '查看者', online: true, login: 5, score: '3.9', enabled: false },
-  { id: 12, name: '陈十四', dept: 1, role: '坐席', online: true, login: 30, score: '4.7', enabled: true }
+  { id: 12, name: '陈十四', dept: 1, role: '坐席', online: true, login: 30, score: '4.7', enabled: true },
+  { id: 13, name: '小霞', dept: 5, role: '坐席', online: true, login: 26, score: '4.6', enabled: true, store: '马鞍山店' },
+  { id: 14, name: '小萌', dept: 5, role: '坐席', online: true, login: 21, score: '4.5', enabled: true, store: '罗马店' },
+  { id: 15, name: '阿强', dept: 5, role: '训练员', online: false, login: 12, score: '4.3', enabled: true, store: '柏林店' }
 ];
 var teamRoles = [
   { name: '管理员', desc: '拥有全部权限，可管理团队与系统配置', color: 'blue' },
@@ -12061,8 +12104,8 @@ var teamRolePermissions = {
   '训练员': ['查看对话列表','标注训练数据','管理知识库'],
   '查看者': ['查看对话列表','查看效果分析']
 };
-var teamDeptNextId = 5;
-var teamMemberNextId = 13;
+var teamDeptNextId = 6;
+var teamMemberNextId = 16;
 var currentTeamDept = 1;
 var currentTeamRole = '管理员';
 var currentEditMember = null;
@@ -12096,6 +12139,7 @@ function renderTeamMembers() {
     body.innerHTML += '<tr>'+
       '<td><b>'+m.name+'</b>'+(m.me?' <span style="font-size:11px;color:var(--text-muted);">(你)</span>':'')+'</td>'+
       '<td><span class="tag tag-'+tagColor+'">'+m.role+'</span></td>'+
+      '<td>'+(m.store || '—')+'</td>'+
       '<td><span class="status-dot '+(m.online?'online':'offline')+'"></span>'+(m.online?'在线':'离线')+'</td>'+
       '<td>'+m.login+'次</td>'+
       '<td>'+m.score+' ★</td>'+
@@ -12104,7 +12148,7 @@ function renderTeamMembers() {
       '</tr>';
   });
   if (members.length === 0) {
-    body.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px;">暂无成员</td></tr>';
+    body.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px;">暂无成员</td></tr>';
   }
 }
 function renderTeamRoleList() {
@@ -14054,9 +14098,16 @@ function saveQcConfig() {
 
 // ===== AI工单分配设置 =====
 let aiTicketAssignees = [
-  { name: '张三', dept: '市场-门店团队', weight: 40, enabled: true, scheduled: true },
-  { name: '小霞', dept: '市场-门店团队', weight: 30, enabled: true, scheduled: true },
-  { name: '王五', dept: '市场-销售团队', weight: 30, enabled: true, scheduled: true },
+  { name: '廖晓杰', dept: '门店团队', store: '宝幢街店', enabled: true, scheduled: true },
+  { name: '冯甜甜', dept: '门店团队', store: '温州鹿城店', enabled: true, scheduled: true },
+  { name: '林达', dept: '门店团队', store: '福州南站店', enabled: true, scheduled: true },
+  { name: '彭笑微', dept: '门店团队', store: '马鞍山路店', enabled: true, scheduled: true },
+  { name: '李旭伟', dept: '门店团队', store: '水南店', enabled: true, scheduled: true },
+  { name: '叶杰斐', dept: '门店团队', store: '滨江国际店', enabled: true, scheduled: true },
+  { name: '余炜恒', dept: '门店团队', store: '福清龙田店', enabled: true, scheduled: true },
+  { name: '张景滔', dept: '门店团队', store: '瑞安莘塍店', enabled: true, scheduled: true },
+  { name: '周伟', dept: '门店团队', store: '油竹店', enabled: true, scheduled: true },
+  { name: '朱汉清', dept: '门店团队', store: '文成店', enabled: true, scheduled: true },
 ];
 let savedAiTicketAssignees = [];
 let editingAiTicketAssigneeIndex = -1;
@@ -14070,7 +14121,7 @@ function switchAiTicketConfigTab(tab, el) {
   var ap = document.getElementById('aiTicketConfigAssignPanel');
   if (tp) tp.style.display = (tab === 'timeout') ? '' : 'none';
   if (ap) ap.style.display = (tab === 'assign') ? '' : 'none';
-  if (tab === 'assign') { renderAiTicketAssignees(); applyAiTicketAssignEnabledState(); }
+  if (tab === 'assign') { renderAiTicketAssignees(); renderAiTicketSubstitutes(); renderAiTicketFallbacks(); applyAiTicketAssignEnabledState(); }
 }
 
 // 自动按权重分配开关
@@ -14097,12 +14148,11 @@ function renderAiTicketAssignees() {
   var tbody = document.getElementById('aiTicketAssigneeList');
   if (!tbody) return;
   tbody.innerHTML = aiTicketAssignees.map(function(a, i){
-    var w = a.weight || 0;
     var disabled = (a.enabled === false);
     return '<tr style="' + (disabled ? 'opacity:0.55;' : '') + '">' +
       '<td style="font-weight:500;">' + a.name + '</td>' +
       '<td>' + (a.dept || '-') + '</td>' +
-      '<td style="width:22%;"><div style="display:flex;align-items:center;gap:10px;"><div style="flex:1;height:10px;background:var(--bg);border-radius:5px;overflow:hidden;"><div style="width:' + Math.min(w, 100) + '%;height:100%;background:linear-gradient(to right,#173D5B,#31B9D0);border-radius:5px;"></div></div><span style="font-weight:600;color:var(--primary);min-width:42px;">' + w + '%</span></div></td>' +
+      '<td>' + (a.store || '—') + '</td>' +
       '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (a.scheduled !== false ? 'checked' : '') + ' onchange="toggleAiTicketSchedule(' + i + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
       '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (!disabled ? 'checked' : '') + ' onchange="toggleAiTicketAssignee(' + i + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
       '<td style="white-space:nowrap;"><button class="btn btn-sm" onclick="editAiTicketAssignee(' + i + ')" style="font-size:10px;">编辑</button></td>' +
@@ -14139,16 +14189,6 @@ function averageAiTicketAssignees() {
 }
 
 function saveAiTicketAssignees() {
-  if (!aiTicketAutoAssignEnabled) {
-    savedAiTicketAssignees = JSON.parse(JSON.stringify(aiTicketAssignees));
-    showToast('自动按权重分配已关闭，设置已保存');
-    return;
-  }
-  var enabled = aiTicketAssignees.filter(function(a){ return a.enabled !== false; });
-  var total = enabled.reduce(function(s, a){ return s + (a.weight || 0); }, 0);
-  if (total !== 100) {
-    if (!confirm('当前启用人员的权重合计为 ' + total + '%（建议 100%），确定保存吗？')) return;
-  }
   savedAiTicketAssignees = JSON.parse(JSON.stringify(aiTicketAssignees));
   showToast('分配设置已保存并生效');
 }
@@ -14160,10 +14200,8 @@ function showAiTicketAssigneeModal() {
   document.getElementById('aiTicketAssigneeDept').value = '市场-门店团队';
   document.getElementById('aiTicketAssigneeName').disabled = false;
   document.getElementById('aiTicketAssigneeDept').disabled = false;
-  document.getElementById('aiTicketAssigneeWeight').value = 10;
+  document.getElementById('aiTicketAssigneeStore').value = '';
   document.getElementById('aiTicketAssigneeSchedule').checked = true;
-  var total = getAiTicketTotalWeight();
-  document.getElementById('aiTicketWeightHint').textContent = '剩余可分配权重：' + (100 - total) + '%';
   document.getElementById('aiTicketAssigneeModal').classList.add('show');
 }
 
@@ -14181,40 +14219,134 @@ function editAiTicketAssignee(index) {
   document.getElementById('aiTicketAssigneeDept').value = a.dept || '市场-门店团队';
   document.getElementById('aiTicketAssigneeName').disabled = true;
   document.getElementById('aiTicketAssigneeDept').disabled = true;
-  document.getElementById('aiTicketAssigneeWeight').value = a.weight;
+  document.getElementById('aiTicketAssigneeStore').value = a.store || '';
   document.getElementById('aiTicketAssigneeSchedule').checked = a.scheduled !== false;
-  var others = aiTicketAssignees.reduce(function(s, a, i){ return (i === index) ? s : s + (a.weight || 0); }, 0);
-  document.getElementById('aiTicketWeightHint').textContent = '剩余可分配权重：' + (100 - others) + '%（其他人员已占 ' + others + '%）';
   document.getElementById('aiTicketAssigneeModal').classList.add('show');
 }
 
 function saveAiTicketAssignee() {
   var name = document.getElementById('aiTicketAssigneeName').value;
   var dept = document.getElementById('aiTicketAssigneeDept').value;
-  var weight = parseInt(document.getElementById('aiTicketAssigneeWeight').value, 10);
+  var store = document.getElementById('aiTicketAssigneeStore').value.trim();
   var scheduled = document.getElementById('aiTicketAssigneeSchedule').checked;
   if (!name) { showToast('请选择人员'); return; }
-  if (isNaN(weight) || weight < 1 || weight > 100) { showToast('请输入 1–100 之间的权重'); return; }
   if (editingAiTicketAssigneeIndex >= 0) {
-    var others = aiTicketAssignees.reduce(function(s, a, i){ return (i === editingAiTicketAssigneeIndex) ? s : s + (a.weight || 0); }, 0);
-    if (others + weight > 100) { showToast('权重之和不能超过 100%，当前其他人员已占 ' + others + '%'); return; }
     for (var i = 0; i < aiTicketAssignees.length; i++) {
       if (i !== editingAiTicketAssigneeIndex && aiTicketAssignees[i].name === name) { showToast('该人员已在分配列表中'); return; }
     }
     aiTicketAssignees[editingAiTicketAssigneeIndex].name = name;
     aiTicketAssignees[editingAiTicketAssigneeIndex].dept = dept;
-    aiTicketAssignees[editingAiTicketAssigneeIndex].weight = weight;
+    aiTicketAssignees[editingAiTicketAssigneeIndex].store = store;
     aiTicketAssignees[editingAiTicketAssigneeIndex].scheduled = scheduled;
-    showToast('已更新：' + name + ' 权重 ' + weight + '%（需保存后生效）');
+    showToast('已更新：' + name + '（需保存后生效）');
   } else {
     if (aiTicketAssignees.some(function(a){ return a.name === name; })) { showToast('该人员已在分配列表中'); return; }
-    var total = getAiTicketTotalWeight();
-    if (total + weight > 100) { showToast('权重之和不能超过 100%，当前已分配 ' + total + '%'); return; }
-    aiTicketAssignees.push({ name: name, dept: dept, weight: weight, enabled: true, scheduled: scheduled });
-    showToast('已新建分配人员：' + name + ' 权重 ' + weight + '%（需保存后生效）');
+    aiTicketAssignees.push({ name: name, dept: dept, store: store, enabled: true, scheduled: scheduled });
+    showToast('已新建分配人员：' + name + '（需保存后生效）');
   }
   hideAiTicketAssigneeModal();
   renderAiTicketAssignees();
+}
+
+// ===== AI工单 临替岗位 / 托底岗位 =====
+let aiTicketSubstitutes = [
+  { id: 1, name: '李四', enabled: true, scheduled: true },
+  { id: 2, name: '赵六', enabled: true, scheduled: true },
+];
+let aiTicketFallbacks = [
+  { id: 1, name: '王五', enabled: true },
+];
+let aiTicketSubstituteNextId = 3;
+let aiTicketFallbackNextId = 2;
+
+function renderAiTicketSubstitutes() {
+  var tbody = document.getElementById('aiTicketSubstituteList');
+  if (!tbody) return;
+  tbody.innerHTML = aiTicketSubstitutes.map(function(s){
+    var disabled = (s.enabled === false);
+    return '<tr style="' + (disabled ? 'opacity:0.55;' : '') + '">' +
+      '<td style="font-weight:500;">' + s.name + '</td>' +
+      '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (s.scheduled !== false ? 'checked' : '') + ' onchange="toggleAiTicketSubstituteSchedule(' + s.id + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
+      '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (!disabled ? 'checked' : '') + ' onchange="toggleAiTicketSubstitute(' + s.id + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
+      '<td><button class="btn btn-sm" onclick="deleteAiTicketSubstitute(' + s.id + ')" style="font-size:10px;color:#DC2626;border-color:#FECACA;">删除</button></td>' +
+    '</tr>';
+  }).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:24px;">暂无临替岗位</td></tr>';
+}
+function renderAiTicketFallbacks() {
+  var tbody = document.getElementById('aiTicketFallbackList');
+  if (!tbody) return;
+  tbody.innerHTML = aiTicketFallbacks.map(function(f){
+    var disabled = (f.enabled === false);
+    return '<tr style="' + (disabled ? 'opacity:0.55;' : '') + '">' +
+      '<td style="font-weight:500;">' + f.name + '</td>' +
+      '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (!disabled ? 'checked' : '') + ' onchange="toggleAiTicketFallback(' + f.id + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
+      '<td><button class="btn btn-sm" onclick="deleteAiTicketFallback(' + f.id + ')" style="font-size:10px;color:#DC2626;border-color:#FECACA;">删除</button></td>' +
+    '</tr>';
+  }).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:24px;">暂无托底岗位</td></tr>';
+}
+function toggleAiTicketSubstitute(id, checked) {
+  var s = aiTicketSubstitutes.find(function(x){ return x.id === id; });
+  if (!s) return;
+  s.enabled = checked;
+  renderAiTicketSubstitutes();
+}
+function toggleAiTicketSubstituteSchedule(id, checked) {
+  var s = aiTicketSubstitutes.find(function(x){ return x.id === id; });
+  if (!s) return;
+  s.scheduled = checked;
+  renderAiTicketSubstitutes();
+}
+function toggleAiTicketFallback(id, checked) {
+  var f = aiTicketFallbacks.find(function(x){ return x.id === id; });
+  if (!f) return;
+  f.enabled = checked;
+  renderAiTicketFallbacks();
+}
+function deleteAiTicketSubstitute(id) {
+  var idx = aiTicketSubstitutes.findIndex(function(x){ return x.id === id; });
+  if (idx < 0) return;
+  aiTicketSubstitutes.splice(idx, 1);
+  renderAiTicketSubstitutes();
+  showToast('已删除临替岗位');
+}
+function deleteAiTicketFallback(id) {
+  var idx = aiTicketFallbacks.findIndex(function(x){ return x.id === id; });
+  if (idx < 0) return;
+  aiTicketFallbacks.splice(idx, 1);
+  renderAiTicketFallbacks();
+  showToast('已删除托底岗位');
+}
+function showAiTicketSubstituteModal() {
+  document.getElementById('aiTicketSubstituteName').value = '';
+  document.getElementById('aiTicketSubstituteModal').classList.add('show');
+}
+function hideAiTicketSubstituteModal() {
+  document.getElementById('aiTicketSubstituteModal').classList.remove('show');
+}
+function saveAiTicketSubstitute() {
+  var name = document.getElementById('aiTicketSubstituteName').value;
+  if (!name) { showToast('请选择替补人员'); return; }
+  if (aiTicketSubstitutes.some(function(s){ return s.name === name; })) { showToast('该人员已在临替岗位中'); return; }
+  aiTicketSubstitutes.push({ id: aiTicketSubstituteNextId++, name: name, enabled: true, scheduled: true });
+  hideAiTicketSubstituteModal();
+  renderAiTicketSubstitutes();
+  showToast('已新增临替岗位：' + name);
+}
+function showAiTicketFallbackModal() {
+  document.getElementById('aiTicketFallbackName').value = '';
+  document.getElementById('aiTicketFallbackModal').classList.add('show');
+}
+function hideAiTicketFallbackModal() {
+  document.getElementById('aiTicketFallbackModal').classList.remove('show');
+}
+function saveAiTicketFallback() {
+  var name = document.getElementById('aiTicketFallbackName').value;
+  if (!name) { showToast('请选择托底人员'); return; }
+  if (aiTicketFallbacks.some(function(f){ return f.name === name; })) { showToast('该人员已在托底岗位中'); return; }
+  aiTicketFallbacks.push({ id: aiTicketFallbackNextId++, name: name, enabled: true });
+  hideAiTicketFallbackModal();
+  renderAiTicketFallbacks();
+  showToast('已新增托底岗位：' + name);
 }
 
 
