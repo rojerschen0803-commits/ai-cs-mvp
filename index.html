@@ -12224,11 +12224,6 @@ function renderStoreDetail() {
       '<div style="width:40px;height:40px;border-radius:10px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg></div>' +
       '<div><div style="font-size:16px;font-weight:600;">' + s.name + '</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">门店成员与今日排班</div></div>' +
     '</div>' +
-    '<div class="stat-cards" style="grid-template-columns:repeat(3,1fr);margin-bottom:20px;">' +
-      '<div class="stat-card"><div class="stat-label">工单数量</div><div class="stat-value" style="color:var(--primary);">' + s.tickets + '</div></div>' +
-      '<div class="stat-card"><div class="stat-label">客户数量</div><div class="stat-value" style="color:#0EA5E9;">' + s.customers + '</div></div>' +
-      '<div class="stat-card"><div class="stat-label">门店成员</div><div class="stat-value" style="color:var(--success);">' + s.members.length + '</div></div>' +
-    '</div>' +
     '<div style="font-size:13px;font-weight:600;margin-bottom:10px;">门店成员排班</div>' +
     '<div class="data-table-wrap"><table class="data-table"><thead><tr><th>成员</th><th>今日排班</th><th>分配接待</th></tr></thead><tbody>' + memberRows + '</tbody></table></div>';
 }
