@@ -2539,6 +2539,8 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="nav-group-title" data-nav-group="config" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> <span class="nav-text">团队</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub" data-page="team" data-nav-group="config" onclick="showPage('team')"> <span class="nav-text">团队列表</span>
     </div>
+    <div class="nav-item sub" data-page="store" data-nav-group="config" onclick="showPage('store')"> <span class="nav-text">门店列表</span>
+    </div>
     <div class="nav-item sub" data-page="teamSchedule" data-nav-group="config" onclick="showPage('teamSchedule')"> <span class="nav-text">排班</span>
     </div>
     <div class="nav-group-title" data-nav-group="config" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> <span class="nav-text">系统管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
@@ -5443,6 +5445,29 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
     </div>
 
+    <!-- ====== PAGE: 门店列表 ====== -->
+    <div class="page fade-in" id="page-store">
+      <div class="page-desc-banner">
+        <div class="desc-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg> 页面说明：门店列表</div>
+        展示各门店的 <strong>门店成员</strong>、<strong>排班情况</strong>、<strong>工单数量</strong> 与 <strong>客户数量</strong>。
+      </div>
+
+      <div style="display:flex;gap:16px;height:calc(100vh - 240px);min-height:440px;">
+        <!-- 左侧：门店列表 -->
+        <div style="width:280px;flex-shrink:0;background:var(--card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:12px;display:flex;flex-direction:column;">
+          <div style="font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
+            <span>门店列表</span>
+            <span style="font-size:11px;color:var(--text-muted);" id="storeTotalLabel"></span>
+          </div>
+          <div id="storeListBox" style="flex:1;overflow-y:auto;"></div>
+        </div>
+        <!-- 右侧：门店详情 -->
+        <div style="flex:1;background:var(--card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:16px;display:flex;flex-direction:column;min-width:0;overflow-y:auto;">
+          <div id="storeDetailBox"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- ====== PAGE: 排班管理 ====== -->
     <div class="page fade-in" id="page-teamSchedule">
       <div class="page-desc-banner">
@@ -5657,7 +5682,7 @@ main > .modal-overlay.show { display: flex !important; }
             <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">默认优先分配企业微信客户群内门店成员处理AI工单</div>
             <div class="data-table-wrap">
               <table class="data-table">
-                <thead><tr><th>门店</th><th>人员</th><th>部门</th><th>排班</th><th>启用状态</th><th>操作</th></tr></thead>
+                <thead><tr><th>人员</th><th>门店</th><th>部门</th><th>排班</th><th>启用状态</th><th>操作</th></tr></thead>
                 <tbody id="aiTicketAssigneeList"></tbody>
               </table>
             </div>
@@ -8264,6 +8289,7 @@ var breadcrumbMap = {
   orderException:     { lv1:'jy', lv2:'订单管理', lv3:'异常' },
   orderVoid:          { lv1:'jy', lv2:'订单管理', lv3:'作废' },
   team:               { lv1:'config', lv2:'团队', lv3:'团队列表' },
+  store:              { lv1:'config', lv2:'团队', lv3:'门店列表' },
   teamSchedule:       { lv1:'config', lv2:'团队', lv3:'排班' },
   aiTicketConfig:     { lv1:'config', lv2:'系统管理', lv3:'AI工单配置' },
   qcConfig:           { lv1:'config', lv2:'系统管理', lv3:'质检配置' },
@@ -8523,6 +8549,7 @@ function showPage(pageId) {
   if (pageId === 'attrTraining') { renderAttrTraining(); }
   if (pageId === 'updatelog') { renderLogList(); }
   if (pageId === 'team') { renderTeamDeptList(); renderTeamMembers(); }
+  if (pageId === 'store') { renderStoreList(); }
   if (pageId === 'teamSchedule') { renderTeamSchedule(); }
   if (pageId === 'home') { renderHomePage(); }
   if (pageId === 'assistant') { renderAgentCategoryTabs(); renderAgentQuickTasks(); }
@@ -12110,6 +12137,85 @@ var currentTeamDept = 1;
 var currentTeamRole = '管理员';
 var currentEditMember = null;
 
+// ===== 门店列表 =====
+var storeList = [
+  { id: 1, name: '宝幢街店', tickets: 42, customers: 38, members: [
+    { name: '廖晓杰', shift: '早班', accept: '是' }, { name: '陈小兰', shift: '晚班', accept: '是' }
+  ]},
+  { id: 2, name: '温州鹿城店', tickets: 35, customers: 31, members: [
+    { name: '冯甜甜', shift: '早班', accept: '是' }
+  ]},
+  { id: 3, name: '福州南站店', tickets: 28, customers: 25, members: [
+    { name: '林达', shift: '晚班', accept: '是' }, { name: '郑晓峰', shift: '早班', accept: '否' }
+  ]},
+  { id: 4, name: '马鞍山路店', tickets: 46, customers: 41, members: [
+    { name: '彭笑微', shift: '早班', accept: '是' }
+  ]},
+  { id: 5, name: '水南店', tickets: 22, customers: 20, members: [
+    { name: '李旭伟', shift: '晚班', accept: '是' }
+  ]},
+  { id: 6, name: '滨江国际店', tickets: 38, customers: 34, members: [
+    { name: '叶杰斐', shift: '早班', accept: '是' }, { name: '吴丽华', shift: '晚班', accept: '否' }
+  ]},
+  { id: 7, name: '福清龙田店', tickets: 19, customers: 17, members: [
+    { name: '余炜恒', shift: '早班', accept: '是' }
+  ]},
+  { id: 8, name: '瑞安莘塍店', tickets: 25, customers: 22, members: [
+    { name: '张景滔', shift: '晚班', accept: '是' }
+  ]},
+  { id: 9, name: '油竹店', tickets: 31, customers: 28, members: [
+    { name: '周伟', shift: '早班', accept: '是' }
+  ]},
+  { id: 10, name: '文成店', tickets: 16, customers: 14, members: [
+    { name: '朱汉清', shift: '晚班', accept: '是' }
+  ]}
+];
+var currentStore = 1;
+var storeIconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg>';
+
+function renderStoreList() {
+  var box = document.getElementById('storeListBox');
+  var label = document.getElementById('storeTotalLabel');
+  if (label) label.textContent = '共 ' + storeList.length + ' 家';
+  if (!box) return;
+  box.innerHTML = storeList.map(function(s){
+    var active = s.id === currentStore;
+    return '<div onclick="selectStore(' + s.id + ')" style="display:flex;align-items:center;gap:8px;padding:10px;border-radius:8px;cursor:pointer;margin-bottom:4px;' + (active ? 'background:var(--primary-light);color:var(--primary);font-weight:600;' : 'color:var(--text-secondary);') + '">' +
+      storeIconSvg +
+      '<span style="flex:1;font-size:13px;">' + s.name + '</span>' +
+      '<span style="font-size:11px;color:var(--text-muted);">' + s.members.length + '人</span>' +
+    '</div>';
+  }).join('');
+  renderStoreDetail();
+}
+function selectStore(id) {
+  currentStore = id;
+  renderStoreList();
+}
+function renderStoreDetail() {
+  var box = document.getElementById('storeDetailBox');
+  if (!box) return;
+  var s = storeList.find(function(x){ return x.id === currentStore; });
+  if (!s) { box.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:60px;">请选择门店</div>'; return; }
+  var shiftTag = { '早班':'<span class="tag" style="background:#E7F3FB;color:#173D5B;">早班</span>', '晚班':'<span class="tag" style="background:#FEF3C7;color:#B45309;">晚班</span>', '休息':'<span class="tag tag-gray">休息</span>' };
+  var acceptTag = { '是':'<span class="tag tag-green">是</span>', '否':'<span class="tag tag-gray">否</span>' };
+  var memberRows = s.members.map(function(m){
+    return '<tr><td style="font-weight:500;">' + m.name + '</td><td>' + (shiftTag[m.shift] || m.shift) + '</td><td>' + (acceptTag[m.accept] || m.accept || '—') + '</td></tr>';
+  }).join('');
+  box.innerHTML =
+    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">' +
+      '<div style="width:40px;height:40px;border-radius:10px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg></div>' +
+      '<div><div style="font-size:16px;font-weight:600;">' + s.name + '</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">门店成员与今日排班</div></div>' +
+    '</div>' +
+    '<div class="stat-cards" style="grid-template-columns:repeat(3,1fr);margin-bottom:20px;">' +
+      '<div class="stat-card"><div class="stat-label">工单数量</div><div class="stat-value" style="color:var(--primary);">' + s.tickets + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">客户数量</div><div class="stat-value" style="color:#0EA5E9;">' + s.customers + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">门店成员</div><div class="stat-value" style="color:var(--success);">' + s.members.length + '</div></div>' +
+    '</div>' +
+    '<div style="font-size:13px;font-weight:600;margin-bottom:10px;">门店成员排班</div>' +
+    '<div class="data-table-wrap"><table class="data-table"><thead><tr><th>成员</th><th>今日排班</th><th>分配接待</th></tr></thead><tbody>' + memberRows + '</tbody></table></div>';
+}
+
 function renderTeamDeptList() {
   var list = document.getElementById('teamDeptList');
   if (!list) return;
@@ -14150,8 +14256,8 @@ function renderAiTicketAssignees() {
   tbody.innerHTML = aiTicketAssignees.map(function(a, i){
     var disabled = (a.enabled === false);
     return '<tr style="' + (disabled ? 'opacity:0.55;' : '') + '">' +
-      '<td>' + (a.store || '—') + '</td>' +
       '<td style="font-weight:500;">' + a.name + '</td>' +
+      '<td>' + (a.store || '—') + '</td>' +
       '<td>' + (a.dept || '-') + '</td>' +
       '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (a.scheduled !== false ? 'checked' : '') + ' onchange="toggleAiTicketSchedule(' + i + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
       '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (!disabled ? 'checked' : '') + ' onchange="toggleAiTicketAssignee(' + i + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
