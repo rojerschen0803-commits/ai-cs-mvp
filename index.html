@@ -2539,7 +2539,9 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="nav-group-title" data-nav-group="config" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> <span class="nav-text">团队</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub" data-page="team" data-nav-group="config" onclick="showPage('team')"> <span class="nav-text">团队列表</span>
     </div>
-    <div class="nav-item sub" data-page="store" data-nav-group="config" onclick="showPage('store')"> <span class="nav-text">门店列表</span>
+    <div class="nav-item sub" data-page="store" data-nav-group="config" onclick="showPage('store')"> <span class="nav-text">国内门店</span>
+    </div>
+    <div class="nav-item sub" data-page="storeOverseas" data-nav-group="config" onclick="showPage('storeOverseas')"> <span class="nav-text">海外门店</span>
     </div>
     <div class="nav-item sub" data-page="teamSchedule" data-nav-group="config" onclick="showPage('teamSchedule')"> <span class="nav-text">排班</span>
     </div>
@@ -5448,8 +5450,8 @@ main > .modal-overlay.show { display: flex !important; }
     <!-- ====== PAGE: 门店列表 ====== -->
     <div class="page fade-in" id="page-store">
       <div class="page-desc-banner">
-        <div class="desc-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg> 页面说明：门店列表</div>
-        展示各门店的 <strong>门店成员</strong>、<strong>排班情况</strong>、<strong>工单数量</strong> 与 <strong>客户数量</strong>。
+        <div class="desc-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg> 页面说明：国内门店</div>
+        展示国内各门店的 <strong>门店成员</strong> 与 <strong>排班情况</strong>。
       </div>
 
       <div style="display:flex;gap:16px;height:calc(100vh - 240px);min-height:440px;">
@@ -5464,6 +5466,29 @@ main > .modal-overlay.show { display: flex !important; }
         <!-- 右侧：门店详情 -->
         <div style="flex:1;background:var(--card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:16px;display:flex;flex-direction:column;min-width:0;overflow-y:auto;">
           <div id="storeDetailBox"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== PAGE: 海外门店 ====== -->
+    <div class="page fade-in" id="page-storeOverseas">
+      <div class="page-desc-banner">
+        <div class="desc-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg> 页面说明：海外门店</div>
+        展示海外各门店的 <strong>门店成员</strong> 与 <strong>排班情况</strong>。
+      </div>
+
+      <div style="display:flex;gap:16px;height:calc(100vh - 240px);min-height:440px;">
+        <!-- 左侧：门店列表 -->
+        <div style="width:280px;flex-shrink:0;background:var(--card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:12px;display:flex;flex-direction:column;">
+          <div style="font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
+            <span>门店列表</span>
+            <span style="font-size:11px;color:var(--text-muted);" id="overseasStoreTotalLabel"></span>
+          </div>
+          <div id="overseasStoreListBox" style="flex:1;overflow-y:auto;"></div>
+        </div>
+        <!-- 右侧：门店详情 -->
+        <div style="flex:1;background:var(--card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:16px;display:flex;flex-direction:column;min-width:0;overflow-y:auto;">
+          <div id="overseasStoreDetailBox"></div>
         </div>
       </div>
     </div>
@@ -5679,7 +5704,11 @@ main > .modal-overlay.show { display: flex !important; }
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
               <h3 style="font-size:15px;margin:0;">分配人员</h3>
             </div>
-            <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">默认优先分配企业微信客户群内门店成员处理AI工单</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">默认优先分配企业微信客户群内门店成员处理AI工单</div>
+            <div class="sub-tab-bar" style="margin-bottom:12px;" id="aiTicketRegionBar">
+              <div class="sub-tab-item active" onclick="switchAiTicketRegion('domestic', this)">国内门店</div>
+              <div class="sub-tab-item" onclick="switchAiTicketRegion('overseas', this)">海外门店</div>
+            </div>
             <div class="data-table-wrap">
               <table class="data-table">
                 <thead><tr><th>门店</th><th>人员</th><th>部门</th><th>排班</th><th>启用状态</th></tr></thead>
@@ -5699,21 +5728,6 @@ main > .modal-overlay.show { display: flex !important; }
               <table class="data-table">
                 <thead><tr><th>替补人员</th><th>排班</th><th>启用状态</th><th>操作</th></tr></thead>
                 <tbody id="aiTicketSubstituteList"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- 托底岗位 -->
-          <div style="margin-bottom:24px;padding-top:18px;border-top:1px solid var(--border-light);">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <h3 style="font-size:15px;margin:0;">托底岗位</h3>
-              <button class="btn btn-sm" onclick="showAiTicketFallbackModal()">+ 新增托底</button>
-            </div>
-            <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">工单无人认领时，由托底人员兜底处理</div>
-            <div class="data-table-wrap">
-              <table class="data-table">
-                <thead><tr><th>托底人员</th><th>启用状态</th><th>操作</th></tr></thead>
-                <tbody id="aiTicketFallbackList"></tbody>
               </table>
             </div>
           </div>
@@ -6042,20 +6056,6 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="display:flex;gap:8px;justify-content:flex-end;">
           <button class="btn btn-sm" onclick="hideAiTicketSubstituteModal()">取消</button>
           <button class="btn btn-primary btn-sm" onclick="saveAiTicketSubstitute()">保存</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 新增托底岗位弹框 -->
-    <div class="modal-overlay" id="aiTicketFallbackModal">
-      <div class="modal" style="width:420px;">
-        <h3>新增托底岗位</h3>
-        <div style="margin-bottom:16px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">托底人员 <span style="color:var(--danger);">*</span></label>
-          <select id="aiTicketFallbackName" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;"><option value="">请选择人员</option><option>张三</option><option>李四</option><option>王五</option><option>小霞</option><option>小萌</option><option>赵六</option></select>
-        </div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <button class="btn btn-sm" onclick="hideAiTicketFallbackModal()">取消</button>
-          <button class="btn btn-primary btn-sm" onclick="saveAiTicketFallback()">保存</button>
         </div>
       </div>
     </div>
@@ -8306,7 +8306,8 @@ var breadcrumbMap = {
   orderException:     { lv1:'jy', lv2:'订单管理', lv3:'异常' },
   orderVoid:          { lv1:'jy', lv2:'订单管理', lv3:'作废' },
   team:               { lv1:'config', lv2:'团队', lv3:'团队列表' },
-  store:              { lv1:'config', lv2:'团队', lv3:'门店列表' },
+  store:              { lv1:'config', lv2:'团队', lv3:'国内门店' },
+  storeOverseas:      { lv1:'config', lv2:'团队', lv3:'海外门店' },
   teamSchedule:       { lv1:'config', lv2:'团队', lv3:'排班' },
   aiTicketConfig:     { lv1:'config', lv2:'系统管理', lv3:'AI工单配置' },
   qcConfig:           { lv1:'config', lv2:'系统管理', lv3:'质检配置' },
@@ -8566,7 +8567,8 @@ function showPage(pageId) {
   if (pageId === 'attrTraining') { renderAttrTraining(); }
   if (pageId === 'updatelog') { renderLogList(); }
   if (pageId === 'team') { renderTeamDeptList(); renderTeamMembers(); }
-  if (pageId === 'store') { renderStoreList(); }
+  if (pageId === 'store') { setStoreRegion('domestic'); renderStoreList(); }
+  if (pageId === 'storeOverseas') { setStoreRegion('overseas'); renderStoreList(); }
   if (pageId === 'teamSchedule') { renderTeamSchedule(); }
   if (pageId === 'home') { renderHomePage(); }
   if (pageId === 'assistant') { renderAgentCategoryTabs(); renderAgentQuickTasks(); }
@@ -12188,15 +12190,28 @@ var storeList = [
   ]}
 ];
 var currentStore = 1;
+var currentStoreOverseas = 1;
+var storeOverseasList = [
+  { id: 1, name: '巴塞罗纳', members: [{ name: 'Isabel', shift: '早班', accept: '是' }] },
+  { id: 2, name: '巴塞店', members: [{ name: '灵灵灵', shift: '早班', accept: '是' }] }
+];
+var storeActive = { list: storeList, current: currentStore, listBox: 'storeListBox', detailBox: 'storeDetailBox', total: 'storeTotalLabel' };
 var storeIconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg>';
 
+function setStoreRegion(region) {
+  if (region === 'overseas') {
+    storeActive = { list: storeOverseasList, current: currentStoreOverseas, listBox: 'overseasStoreListBox', detailBox: 'overseasStoreDetailBox', total: 'overseasStoreTotalLabel' };
+  } else {
+    storeActive = { list: storeList, current: currentStore, listBox: 'storeListBox', detailBox: 'storeDetailBox', total: 'storeTotalLabel' };
+  }
+}
 function renderStoreList() {
-  var box = document.getElementById('storeListBox');
-  var label = document.getElementById('storeTotalLabel');
-  if (label) label.textContent = '共 ' + storeList.length + ' 家';
+  var box = document.getElementById(storeActive.listBox);
+  var label = document.getElementById(storeActive.total);
+  if (label) label.textContent = '共 ' + storeActive.list.length + ' 家';
   if (!box) return;
-  box.innerHTML = storeList.map(function(s){
-    var active = s.id === currentStore;
+  box.innerHTML = storeActive.list.map(function(s){
+    var active = s.id === storeActive.current;
     return '<div onclick="selectStore(' + s.id + ')" style="display:flex;align-items:center;gap:8px;padding:10px;border-radius:8px;cursor:pointer;margin-bottom:4px;' + (active ? 'background:var(--primary-light);color:var(--primary);font-weight:600;' : 'color:var(--text-secondary);') + '">' +
       storeIconSvg +
       '<span style="flex:1;font-size:13px;">' + s.name + '</span>' +
@@ -12206,13 +12221,14 @@ function renderStoreList() {
   renderStoreDetail();
 }
 function selectStore(id) {
-  currentStore = id;
+  storeActive.current = id;
+  if (storeActive.list === storeList) { currentStore = id; } else { currentStoreOverseas = id; }
   renderStoreList();
 }
 function renderStoreDetail() {
-  var box = document.getElementById('storeDetailBox');
+  var box = document.getElementById(storeActive.detailBox);
   if (!box) return;
-  var s = storeList.find(function(x){ return x.id === currentStore; });
+  var s = storeActive.list.find(function(x){ return x.id === storeActive.current; });
   if (!s) { box.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:60px;">请选择门店</div>'; return; }
   var shiftTag = { '早班':'<span class="tag" style="background:#E7F3FB;color:#173D5B;">早班</span>', '晚班':'<span class="tag" style="background:#FEF3C7;color:#B45309;">晚班</span>', '休息':'<span class="tag tag-gray">休息</span>' };
   var acceptTag = { '是':'<span class="tag tag-green">是</span>', '否':'<span class="tag tag-gray">否</span>' };
@@ -14227,6 +14243,21 @@ let aiTicketAssignees = [
   { name: '周伟', dept: '门店团队', store: '油竹店', enabled: true, scheduled: true },
   { name: '朱汉清', dept: '门店团队', store: '文成店', enabled: true, scheduled: true },
 ];
+let aiTicketAssigneesOverseas = [
+  { name: 'Isabel', dept: '门店团队', store: '巴塞罗纳', enabled: true, scheduled: true },
+  { name: '灵灵灵', dept: '门店团队', store: '巴塞店', enabled: true, scheduled: true },
+];
+let currentAiTicketRegion = 'domestic';
+function getActiveAiTicketAssignees() {
+  return currentAiTicketRegion === 'overseas' ? aiTicketAssigneesOverseas : aiTicketAssignees;
+}
+function switchAiTicketRegion(region, el) {
+  currentAiTicketRegion = region;
+  var bar = document.getElementById('aiTicketRegionBar');
+  if (bar) bar.querySelectorAll('.sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  renderAiTicketAssignees();
+}
 let savedAiTicketAssignees = [];
 let editingAiTicketAssigneeIndex = -1;
 let aiTicketAutoAssignEnabled = true; // 自动分配总开关
@@ -14239,7 +14270,7 @@ function switchAiTicketConfigTab(tab, el) {
   var ap = document.getElementById('aiTicketConfigAssignPanel');
   if (tp) tp.style.display = (tab === 'timeout') ? '' : 'none';
   if (ap) ap.style.display = (tab === 'assign') ? '' : 'none';
-  if (tab === 'assign') { renderAiTicketAssignees(); renderAiTicketSubstitutes(); renderAiTicketFallbacks(); applyAiTicketAssignEnabledState(); }
+  if (tab === 'assign') { renderAiTicketAssignees(); renderAiTicketSubstitutes(); applyAiTicketAssignEnabledState(); }
 }
 
 // 自动按权重分配开关
@@ -14265,7 +14296,8 @@ function getAiTicketTotalWeight() {
 function renderAiTicketAssignees() {
   var tbody = document.getElementById('aiTicketAssigneeList');
   if (!tbody) return;
-  tbody.innerHTML = aiTicketAssignees.map(function(a, i){
+  var list = getActiveAiTicketAssignees();
+  tbody.innerHTML = list.map(function(a, i){
     var disabled = (a.enabled === false);
     return '<tr style="' + (disabled ? 'opacity:0.55;' : '') + '">' +
       '<td>' + (a.store || '—') + '</td>' +
@@ -14278,17 +14310,17 @@ function renderAiTicketAssignees() {
 }
 
 function toggleAiTicketAssignee(index, checked) {
-  var a = aiTicketAssignees[index];
+  var a = getActiveAiTicketAssignees()[index];
   if (!a) return;
   a.enabled = checked;
   renderAiTicketAssignees();
   showToast('「' + a.name + '」已' + (checked ? '启用' : '关闭') + '（需保存后生效）');
 }
 
-var aiTicketReplaceOptions = ['廖晓杰','冯甜甜','林达','彭笑微','李旭伟','叶杰斐','余炜恒','张景滔','周伟','朱汉清','陈小兰','吴丽华','郑晓峰'];
+var aiTicketReplaceOptions = ['廖晓杰','冯甜甜','林达','彭笑微','李旭伟','叶杰斐','余炜恒','张景滔','周伟','朱汉清','陈小兰','吴丽华','郑晓峰','Isabel','灵灵灵'];
 var replacingAiTicketIndex = -1;
 function replaceAiTicketAssignee(index) {
-  var a = aiTicketAssignees[index];
+  var a = getActiveAiTicketAssignees()[index];
   if (!a) return;
   replacingAiTicketIndex = index;
   document.getElementById('aiTicketReplaceCurrent').textContent = a.name;
@@ -14303,9 +14335,10 @@ function hideAiTicketReplaceModal() {
 function saveAiTicketReplace() {
   var name = document.getElementById('aiTicketReplaceSelect').value;
   if (!name) { showToast('请选择人员'); return; }
-  var a = aiTicketAssignees[replacingAiTicketIndex];
+  var list = getActiveAiTicketAssignees();
+  var a = list[replacingAiTicketIndex];
   if (!a) return;
-  if (aiTicketAssignees.some(function(x){ return x.name === name; })) { showToast('该人员已在分配列表中'); return; }
+  if (list.some(function(x){ return x.name === name; })) { showToast('该人员已在分配列表中'); return; }
   a.name = name;
   hideAiTicketReplaceModal();
   renderAiTicketAssignees();
@@ -14313,7 +14346,7 @@ function saveAiTicketReplace() {
 }
 
 function toggleAiTicketSchedule(index, checked) {
-  var a = aiTicketAssignees[index];
+  var a = getActiveAiTicketAssignees()[index];
   if (!a) return;
   a.scheduled = checked;
   renderAiTicketAssignees();
@@ -14397,11 +14430,7 @@ let aiTicketSubstitutes = [
   { id: 1, name: '李四', enabled: true, scheduled: true },
   { id: 2, name: '赵六', enabled: true, scheduled: true },
 ];
-let aiTicketFallbacks = [
-  { id: 1, name: '王五', enabled: true },
-];
 let aiTicketSubstituteNextId = 3;
-let aiTicketFallbackNextId = 2;
 
 function renderAiTicketSubstitutes() {
   var tbody = document.getElementById('aiTicketSubstituteList');
@@ -14416,18 +14445,6 @@ function renderAiTicketSubstitutes() {
     '</tr>';
   }).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:24px;">暂无临替岗位</td></tr>';
 }
-function renderAiTicketFallbacks() {
-  var tbody = document.getElementById('aiTicketFallbackList');
-  if (!tbody) return;
-  tbody.innerHTML = aiTicketFallbacks.map(function(f){
-    var disabled = (f.enabled === false);
-    return '<tr style="' + (disabled ? 'opacity:0.55;' : '') + '">' +
-      '<td style="font-weight:500;">' + f.name + '</td>' +
-      '<td><label class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox" ' + (!disabled ? 'checked' : '') + ' onchange="toggleAiTicketFallback(' + f.id + ', this.checked)"><span class="toggle-slider"></span></label></td>' +
-      '<td><button class="btn btn-sm" onclick="deleteAiTicketFallback(' + f.id + ')" style="font-size:10px;color:#DC2626;border-color:#FECACA;">删除</button></td>' +
-    '</tr>';
-  }).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:24px;">暂无托底岗位</td></tr>';
-}
 function toggleAiTicketSubstitute(id, checked) {
   var s = aiTicketSubstitutes.find(function(x){ return x.id === id; });
   if (!s) return;
@@ -14440,25 +14457,12 @@ function toggleAiTicketSubstituteSchedule(id, checked) {
   s.scheduled = checked;
   renderAiTicketSubstitutes();
 }
-function toggleAiTicketFallback(id, checked) {
-  var f = aiTicketFallbacks.find(function(x){ return x.id === id; });
-  if (!f) return;
-  f.enabled = checked;
-  renderAiTicketFallbacks();
-}
 function deleteAiTicketSubstitute(id) {
   var idx = aiTicketSubstitutes.findIndex(function(x){ return x.id === id; });
   if (idx < 0) return;
   aiTicketSubstitutes.splice(idx, 1);
   renderAiTicketSubstitutes();
   showToast('已删除临替岗位');
-}
-function deleteAiTicketFallback(id) {
-  var idx = aiTicketFallbacks.findIndex(function(x){ return x.id === id; });
-  if (idx < 0) return;
-  aiTicketFallbacks.splice(idx, 1);
-  renderAiTicketFallbacks();
-  showToast('已删除托底岗位');
 }
 function showAiTicketSubstituteModal() {
   document.getElementById('aiTicketSubstituteName').value = '';
@@ -14475,22 +14479,6 @@ function saveAiTicketSubstitute() {
   hideAiTicketSubstituteModal();
   renderAiTicketSubstitutes();
   showToast('已新增临替岗位：' + name);
-}
-function showAiTicketFallbackModal() {
-  document.getElementById('aiTicketFallbackName').value = '';
-  document.getElementById('aiTicketFallbackModal').classList.add('show');
-}
-function hideAiTicketFallbackModal() {
-  document.getElementById('aiTicketFallbackModal').classList.remove('show');
-}
-function saveAiTicketFallback() {
-  var name = document.getElementById('aiTicketFallbackName').value;
-  if (!name) { showToast('请选择托底人员'); return; }
-  if (aiTicketFallbacks.some(function(f){ return f.name === name; })) { showToast('该人员已在托底岗位中'); return; }
-  aiTicketFallbacks.push({ id: aiTicketFallbackNextId++, name: name, enabled: true });
-  hideAiTicketFallbackModal();
-  renderAiTicketFallbacks();
-  showToast('已新增托底岗位：' + name);
 }
 
 
@@ -18107,6 +18095,13 @@ function switchXyLogTab(wrapId, idx, el) {
   if (bar) bar.querySelectorAll('.sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
   if (el) el.classList.add('active');
 }
+// 图片组名称统一用快递单号（SF + 13 位数字）
+function getImgGroupName(image) {
+  var s = String(image || '');
+  var h = 0;
+  for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) >>> 0; }
+  return 'SF123' + ('0000000000' + (h % 10000000000)).slice(-10);
+}
 // 只读 AI 识别物品清单（不可编辑/重新识别）：样式与包裹清单 AI识别物品清单一致（图片组卡片 + 物品/品牌/数量/属性）
 function buildReadonlyAiItemsHtml(o, title) {
   var mi = (o && o.packItems) || [];
@@ -18140,7 +18135,7 @@ function buildReadonlyAiItemsHtml(o, title) {
           '<span onclick="event.stopPropagation();previewPkgListImage(\''+iname+'\')" title="点击预览图片" style="flex-shrink:0;display:flex;align-items:center;cursor:pointer;">'+
             '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:14px;height:14px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
           '</span>'+
-          '<span style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+iname+'</span>'+
+          '<span style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+getImgGroupName(iname)+'</span>'+
           '<span style="font-size:10px;color:var(--text-secondary);background:#F1F5F9;border-radius:8px;padding:1px 6px;white-space:nowrap;">共 '+iitems.length+' 个</span>'+
           (gGen?'<span style="font-size:10px;color:#173D5B;background:#E7F3FB;border-radius:8px;padding:1px 6px;white-space:nowrap;">普货 '+gGen+'</span>':'')+
           (gSen?'<span style="font-size:10px;color:#DC2626;background:#FEF2F2;border-radius:8px;padding:1px 6px;white-space:nowrap;">敏货 '+gSen+'</span>':'')+
@@ -18303,7 +18298,7 @@ function renderPkgCatAiItems(o, cat, xy) {
     html += '<span onclick="event.stopPropagation();previewPkgListImage(\''+iname+'\')" title="点击预览图片" style="flex-shrink:0;display:flex;align-items:center;cursor:pointer;">'+
       '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:14px;height:14px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
     '</span>';
-    html += '<span style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+iname+'</span>';
+    html += '<span style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+getImgGroupName(iname)+'</span>';
     html += '<span style="font-size:10px;color:var(--text-secondary);background:#F1F5F9;border-radius:8px;padding:1px 6px;white-space:nowrap;">共 '+icount+' 个</span>';
     if (gGen) html += '<span style="font-size:10px;color:#173D5B;background:#E7F3FB;border-radius:8px;padding:1px 6px;white-space:nowrap;">普货 '+gGen+'</span>';
     if (gSen) html += '<span style="font-size:10px;color:#DC2626;background:#FEF2F2;border-radius:8px;padding:1px 6px;white-space:nowrap;">敏货 '+gSen+'</span>';
@@ -18396,7 +18391,10 @@ function buildCatTabbedAiItems(o) {
         '<svg class="ico" style="width:15px;height:15px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'+
         'AI识别物品清单'+
       '</div>'+
-      (o.status==='待打包-待审核' || o.status==='待合单' ? '<button class="btn btn-sm" onclick="showPkgListShow('+o.id+')" style="font-size:10px;padding:3px 8px;margin-left:auto;">清单展示</button>' : '')+
+      '<div style="margin-left:auto;display:flex;align-items:center;gap:6px;">'+
+        (o.status==='待打包-待审核' || o.status==='待合单' ? '<button class="btn btn-sm" onclick="showPkgListShow('+o.id+')" style="font-size:10px;padding:3px 8px;">清单展示</button>' : '')+
+        '<button class="btn btn-sm" onclick="exportPkgListImage('+o.id+')" title="导出当前客户XY号的全部物品清单图片" style="font-size:10px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>导出图片</button>'+
+      '</div>'+
     '</div>'+
     '<div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap;">';
   cats.forEach(function(c, i){
@@ -18414,6 +18412,169 @@ function buildCatTabbedAiItems(o) {
     '<div id="pkgCatAiContent_'+o.id+'" style="max-height:320px;overflow-y:auto;"></div>'+
   '</div>';
   return html;
+}
+// ========== 导出物品清单图片（分享给客户） ==========
+function buildPkgListSvg(o) {
+  var items = (o.packItems || []).slice();
+  var total = items.length;
+  var gen = 0, sen = 0;
+  items.forEach(function(it){ if(it.cat==='敏货') sen++; else gen++; });
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function brandOf(it){ return it.brand || itemBrandMap[it.name] || '—'; }
+  function typeOf(it){ return (it.pkgCat || getItemPkgCat(it.name)) === '超大件' ? '超大件' : '华侨包'; }
+
+  // 分组：超大件 / 敏货 / 普货（互不重叠）
+  var bigItems = items.filter(function(it){ return typeOf(it) === '超大件'; });
+  var senItems = items.filter(function(it){ return typeOf(it) !== '超大件' && it.cat === '敏货'; });
+  var genItems = items.filter(function(it){ return typeOf(it) !== '超大件' && it.cat !== '敏货'; });
+  var groups = [];
+  if (bigItems.length) groups.push({ title:'超大件', color:'#D97706', bg:'#FEF3C7', items:bigItems });
+  if (senItems.length) groups.push({ title:'敏货', color:'#DC2626', bg:'#FEE2E2', items:senItems });
+  if (genItems.length) groups.push({ title:'普货', color:'#173D5B', bg:'#E7F3FB', items:genItems });
+
+  var W = 760, cardX = 24, cardW = W - cardX*2;             // 712
+  var PAD = 30, contentX = cardX + PAD, contentW = cardW - PAD*2; // 652
+  var brandH = 8, titleH = 50, infoH = 30, statH = 46, theadH = 38, rowH = 40, groupHeadH = 30, footH = 44, segGap = 16;
+  var listH = 0;
+  groups.forEach(function(g){ listH += groupHeadH + g.items.length * rowH; });
+  if (!listH) listH = rowH;
+  var cardH = brandH + titleH + infoH + segGap + statH + segGap + theadH + listH + footH;
+  var H = cardH + cardX*2;
+
+  var colNo    = { x: contentX,          w: 34 };
+  var colTrack = { x: contentX + 34,     w: 122 };
+  var colName  = { x: contentX + 156,    w: 150 };
+  var colBrand = { x: contentX + 306,    w: 88 };
+  var colQty   = { x: contentX + 394,    w: 46 };
+  var colCat   = { x: contentX + 440,    w: 60 };
+  var colType  = { x: contentX + 500,    w: 72 };
+  var lineX2 = contentX + contentW;
+
+  var s = '<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">';
+  s += '<rect width="'+W+'" height="'+H+'" fill="#EEF2F7"/>';
+  s += '<defs><linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#173D5B"/><stop offset="1" stop-color="#31B9D0"/></linearGradient></defs>';
+  s += '<rect x="'+cardX+'" y="'+cardX+'" width="'+cardW+'" height="'+cardH+'" rx="16" fill="#ffffff"/>';
+  s += '<rect x="'+cardX+'" y="'+cardX+'" width="'+cardW+'" height="'+brandH+'" rx="4" fill="url(#brandGrad)"/>';
+
+  var y = cardX + brandH + 34; // 标题基线
+  s += '<text x="'+contentX+'" y="'+y+'" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="25" font-weight="700" fill="#111827">包裹物品清单</text>';
+  s += '<text x="'+lineX2+'" y="'+y+'" text-anchor="end" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="19" font-weight="700" fill="#173D5B">'+esc(o.xy||'—')+'</text>';
+
+  y += 24; // 信息行基线
+  var infoArr = [];
+  if (o.haioId) infoArr.push('海鸥ID '+esc(o.haioId));
+  if (o.country) infoArr.push('国家 '+esc(o.country));
+  if (o.route) infoArr.push('线路 '+esc(o.route));
+  infoArr.push('集包类型 '+(o.type==='拼团'?'拼团':'常规'));
+  s += '<text x="'+contentX+'" y="'+y+'" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="12.5" fill="#64748B">'+esc(infoArr.join('   ·   '))+'</text>';
+
+  y += segGap + 24; // 统计胶囊顶部
+  var pillH = 30, pillW = 150, pillGap = 12, px = contentX;
+  var pills = [
+    { label:'识别总数', val:String(total), color:'#173D5B', bg:'#E7F3FB' },
+    { label:'普货', val:String(gen), color:'#173D5B', bg:'#E0F2FE' },
+    { label:'敏货', val:String(sen), color:'#DC2626', bg:'#FEE2E2' }
+  ];
+  pills.forEach(function(pl){
+    s += '<rect x="'+px+'" y="'+y+'" width="'+pillW+'" height="'+pillH+'" rx="15" fill="'+pl.bg+'"/>';
+    s += '<text x="'+(px+pillW/2)+'" y="'+(y+20)+'" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="13" fill="'+pl.color+'">'+pl.label+' <tspan font-weight="700" font-size="15">'+pl.val+'</tspan></text>';
+    px += pillW + pillGap;
+  });
+
+  y += pillH + segGap; // 表头行顶部
+  s += '<rect x="'+contentX+'" y="'+y+'" width="'+contentW+'" height="'+theadH+'" rx="8" fill="#F1F5F9"/>';
+  var thY = y + 25;
+  function th(x, w, txt, anchor){
+    var ax = anchor==='middle' ? (x + w/2) : x;
+    s += '<text x="'+ax+'" y="'+thY+'" text-anchor="'+(anchor==='middle'?'middle':'start')+'" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="12" font-weight="600" fill="#64748B">'+txt+'</text>';
+  }
+  th(colNo.x, colNo.w, '序号', 'start');
+  th(colTrack.x, colTrack.w, '快递单号', 'start');
+  th(colName.x, colName.w, '物品', 'start');
+  th(colBrand.x, colBrand.w, '品牌', 'start');
+  th(colQty.x, colQty.w, '数量', 'middle');
+  th(colCat.x, colCat.w, '属性', 'middle');
+  th(colType.x, colType.w, '类型', 'middle');
+
+  var catTag = { '普货':{c:'#173D5B',b:'#E7F3FB'}, '敏货':{c:'#DC2626',b:'#FEE2E2'} };
+  var typeTag = { '超大件':{c:'#D97706',b:'#FEF3C7'}, '华侨包':{c:'#0E7490',b:'#E0F2FE'} };
+
+  y += theadH;
+  var seq = 0;
+  groups.forEach(function(g){
+    var ghTop = y;
+    s += '<rect x="'+contentX+'" y="'+ghTop+'" width="'+contentW+'" height="'+groupHeadH+'" rx="6" fill="'+g.bg+'"/>';
+    s += '<circle cx="'+(contentX+14)+'" cy="'+(ghTop+groupHeadH/2)+'" r="4" fill="'+g.color+'"/>';
+    s += '<text x="'+(contentX+26)+'" y="'+(ghTop+groupHeadH/2+5)+'" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="13" font-weight="700" fill="'+g.color+'">'+g.title+'</text>';
+    s += '<text x="'+(lineX2-8)+'" y="'+(ghTop+groupHeadH/2+5)+'" text-anchor="end" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="12" fill="#64748B">共 '+g.items.length+' 件</text>';
+    y += groupHeadH;
+    g.items.forEach(function(it, i){
+      var rowTop = y + i*rowH;
+      if (i % 2 === 1) s += '<rect x="'+contentX+'" y="'+rowTop+'" width="'+contentW+'" height="'+rowH+'" rx="6" fill="#FAFBFD"/>';
+      var cy = rowTop + rowH/2 + 5;
+      seq++;
+      var cat = it.cat==='敏货'?'敏货':'普货';
+      var ttype = typeOf(it);
+      var cc = catTag[cat], tc = typeTag[ttype];
+      s += '<text x="'+(colNo.x+colNo.w/2)+'" y="'+cy+'" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="12" fill="#94A3B8">'+seq+'</text>';
+      s += '<text x="'+colTrack.x+'" y="'+cy+'" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="10" font-weight="600" fill="#173D5B">'+esc(getImgGroupName(it.image))+'</text>';
+      s += '<text x="'+colName.x+'" y="'+cy+'" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="14" font-weight="600" fill="#111827">'+esc(it.name)+'</text>';
+      s += '<text x="'+colBrand.x+'" y="'+cy+'" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="12" fill="#64748B">'+esc(brandOf(it))+'</text>';
+      s += '<text x="'+(colQty.x+colQty.w/2)+'" y="'+cy+'" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="13" fill="#334155">× '+it.qty+'</text>';
+      var cw = 58, tagCh = 22;
+      s += '<rect x="'+(colCat.x+(colCat.w-cw)/2)+'" y="'+(rowTop+rowH/2-tagCh/2)+'" width="'+cw+'" height="'+tagCh+'" rx="11" fill="'+cc.b+'"/>';
+      s += '<text x="'+(colCat.x+colCat.w/2)+'" y="'+(rowTop+rowH/2+4)+'" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="11" font-weight="600" fill="'+cc.c+'">'+cat+'</text>';
+      var tw = 64;
+      s += '<rect x="'+(colType.x+(colType.w-tw)/2)+'" y="'+(rowTop+rowH/2-tagCh/2)+'" width="'+tw+'" height="'+tagCh+'" rx="11" fill="'+tc.b+'"/>';
+      s += '<text x="'+(colType.x+colType.w/2)+'" y="'+(rowTop+rowH/2+4)+'" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="11" font-weight="600" fill="'+tc.c+'">'+ttype+'</text>';
+      if (i < g.items.length-1) s += '<line x1="'+contentX+'" y1="'+(rowTop+rowH)+'" x2="'+lineX2+'" y2="'+(rowTop+rowH)+'" stroke="#F1F5F9" stroke-width="1"/>';
+    });
+    y += g.items.length * rowH;
+  });
+
+  var footY = y + 32;
+  s += '<line x1="'+contentX+'" y1="'+(footY-20)+'" x2="'+lineX2+'" y2="'+(footY-20)+'" stroke="#E5EAF0" stroke-width="1"/>';
+  s += '<text x="'+contentX+'" y="'+footY+'" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="11" fill="#94A3B8">虾远集运 · 智能客服系统</text>';
+  s += '<text x="'+lineX2+'" y="'+footY+'" text-anchor="end" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="11" fill="#94A3B8">导出时间 '+esc(new Date().toLocaleString('zh-CN'))+'</text>';
+  s += '</svg>';
+  return s;
+}
+function exportPkgListImage(id) {
+  var o = orderPackages.find(function(p){ return p.id===id; });
+  if (!o || !o.packItems || !o.packItems.length) { showToast('暂无物品清单可导出'); return; }
+  var svg = buildPkgListSvg(o);
+  try {
+    var blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var img = new Image();
+    img.onload = function(){
+      try {
+        var scale = 2;
+        var canvas = document.createElement('canvas');
+        canvas.width = (img.naturalWidth || 760) * scale;
+        canvas.height = (img.naturalHeight || 600) * scale;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#EEF2F7';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+        var a = document.createElement('a');
+        a.download = (o.xy || '包裹') + '_物品清单.png';
+        a.href = canvas.toDataURL('image/png');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showToast('已导出物品清单图片');
+      } catch(e) {
+        URL.revokeObjectURL(url);
+        showToast('导出图片失败：' + e.message);
+      }
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); showToast('导出图片失败'); };
+    img.src = url;
+  } catch(e) {
+    showToast('导出图片失败：' + e.message);
+  }
 }
 var pkgCatAiActive = {};
 var pkgCatAiXy = {};
@@ -18644,7 +18805,7 @@ function renderXyAiContent(id, idx) {
         '<div style="width:30px;height:30px;background:'+imgColors[ic%imgColors.length]+';border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+
           '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:15px;height:15px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
         '</div>'+
-        '<div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--text);">'+img.name+'</div>'+
+        '<div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--text);">'+getImgGroupName(img.name)+'</div>'+
         '<div style="font-size:10px;color:var(--text-muted);">识别 '+img.items.length+' 个物品</div></div>'+
         pkgCatTagHtml(getItemsPkgCat(img.items))+
         '<svg id="'+cid+'_arrow" style="width:13px;height:13px;color:var(--text-muted);transition:transform .2s;flex-shrink:0;transform:'+(ic===0?'rotate(180deg)':'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>'+
@@ -20371,16 +20532,15 @@ function renderPkgSplitItems(o) {
       else if (isBig) tagHtml = '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#FEF3C7;color:#D97706;font-size:10px;font-weight:600;border:1px solid #FDE68A;white-space:nowrap;">超大件普货</span>';
       else if (isSen) tagHtml = '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:600;border:1px solid #FECACA;">敏货</span>';
       else tagHtml = '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#E7F3FB;color:#173D5B;font-size:10px;font-weight:600;border:1px solid #BFDBFE;">普货</span>';
-      return '<div style="display:flex;align-items:center;gap:9px;padding:7px 10px;'+(i<items.length-1?'border-bottom:1px solid var(--border-light);':'')+'">'+
+      return '<div style="display:flex;align-items:center;gap:8px;padding:4px 10px;'+(i<items.length-1?'border-bottom:1px solid var(--border-light);':'')+'">'+
         '<input type="checkbox" class="pkg-split-item-cb" value="'+i+'" onchange="updatePkgSplitSelCount()" style="accent-color:var(--primary);flex-shrink:0;">'+
-        '<div style="width:34px;height:34px;background:'+imgColors[i%imgColors.length]+';border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border-light);cursor:pointer;" title="点击预览图片" onclick="previewPkgListImage(\''+imgName+'\')">'+
-          '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:16px;height:16px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+        '<div style="width:22px;height:22px;background:'+imgColors[i%imgColors.length]+';border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border-light);cursor:pointer;" title="点击预览图片" onclick="previewPkgListImage(\''+imgName+'\')">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:12px;height:12px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
         '</div>'+
-        '<div style="flex:1;min-width:0;">'+
-          '<div style="font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+it.name+'</div>'+
-          '<div style="font-size:10px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(it.brand || itemBrandMap[it.name] || '—')+'</div>'+
-        '</div>'+
-        '<span style="font-size:11px;color:var(--text-secondary);white-space:nowrap;">× '+it.qty+'</span>'+
+        '<span style="font-size:10px;color:var(--primary);flex-shrink:0;width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+getImgGroupName(it.image)+'</span>'+
+        '<span style="flex:1;min-width:0;font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+it.name+'</span>'+
+        '<span style="font-size:10px;color:var(--text-muted);flex-shrink:0;width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(it.brand || itemBrandMap[it.name] || '—')+'</span>'+
+        '<span style="font-size:11px;color:var(--text-secondary);white-space:nowrap;flex-shrink:0;">× '+it.qty+'</span>'+
         tagHtml +
       '</div>';
     }).join('');
@@ -21072,7 +21232,7 @@ function renderPkgListShow() {
       '<span class="pack-audit-item-name" title="'+it.name+'">'+it.name+'</span>'+
       '<span class="pack-audit-item-brand" title="'+(it.brand || itemBrandMap[it.name] || '')+'">'+(it.brand || itemBrandMap[it.name] || '—')+'</span>'+
       '<span class="pack-audit-item-qty">'+it.qty+'</span>'+
-      '<span class="pkg-list-img" title="点击查看图片" onclick="event.stopPropagation();previewPkgListImage(\''+imgName+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px;flex-shrink:0;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+imgName+'</span>'+
+      '<span class="pkg-list-img" title="点击查看图片" onclick="event.stopPropagation();previewPkgListImage(\''+imgName+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px;flex-shrink:0;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+getImgGroupName(imgName)+'</span>'+
     '</div>';
     if (it.cat === '敏货') senHtml += row; else genHtml += row;
   });
@@ -21117,7 +21277,7 @@ function previewPkgListImage(imgName) {
   grid.innerHTML = '<div style="aspect-ratio:1;background:'+colors[0]+';border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);">'+
     '<div style="text-align:center;color:#64748B;">'+
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:36px;height:36px;margin:0 auto 6px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
-      '<div style="font-size:11px;word-break:break-all;">'+imgName+'</div>'+
+      '<div style="font-size:11px;word-break:break-all;">'+getImgGroupName(imgName)+'</div>'+
     '</div>'+
   '</div>';
   document.getElementById('photoPreviewModal').classList.add('show');
@@ -21410,10 +21570,15 @@ function renderMergeItems(o, route) {
     else if (isBig) tagHtml = '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#FEF3C7;color:#D97706;font-size:10px;font-weight:600;border:1px solid #FDE68A;white-space:nowrap;">超大件普货</span>';
     else if (isSen) tagHtml = '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:600;border:1px solid #FECACA;">敏货</span>';
     else tagHtml = '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#E7F3FB;color:#173D5B;font-size:10px;font-weight:600;border:1px solid #BFDBFE;">普货</span>';
-    return '<div style="display:flex;align-items:center;gap:9px;padding:6px 10px;'+(i<items.length-1?'border-bottom:1px solid var(--border-light);':'')+'">'+
+    return '<div style="display:flex;align-items:center;gap:8px;padding:4px 10px;'+(i<items.length-1?'border-bottom:1px solid var(--border-light);':'')+'">'+
       '<input type="checkbox" class="merge-item-cb" value="'+i+'" onchange="updateMergeSelCount()" style="accent-color:var(--primary);flex-shrink:0;">'+
-      '<div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+it.name+'</div><div style="font-size:10px;color:var(--text-muted);">'+(it.brand||'—')+'</div></div>'+
-      '<span style="font-size:11px;color:var(--text-secondary);white-space:nowrap;">× '+it.qty+'</span>'+
+      '<div style="width:22px;height:22px;background:'+['#E7F3FB','#FEF3C7','#FEE2E2','#EDE9FE','#E0F2FE'][i%5]+';border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border-light);cursor:pointer;" title="点击预览图片" onclick="previewPkgListImage(\''+(it.image||(it.name+'_拆包图.jpg'))+'\')">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:12px;height:12px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+      '</div>'+
+      '<span style="font-size:10px;color:var(--primary);flex-shrink:0;width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+getImgGroupName(it.image)+'</span>'+
+      '<span style="flex:1;min-width:0;font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+it.name+'</span>'+
+      '<span style="font-size:10px;color:var(--text-muted);flex-shrink:0;width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(it.brand||'—')+'</span>'+
+      '<span style="font-size:11px;color:var(--text-secondary);white-space:nowrap;flex-shrink:0;">× '+it.qty+'</span>'+
       tagHtml +
     '</div>';
   }).join('');
@@ -21907,7 +22072,7 @@ function renderPackStartAiList() {
         '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:15px;height:15px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
       '</div>'+
       '<div style="flex:1;min-width:0;">'+
-        '<div style="font-size:11px;font-weight:600;color:var(--text);">'+iname+sourceTag+'</div>'+
+        '<div style="font-size:11px;font-weight:600;color:var(--text);">'+getImgGroupName(iname)+sourceTag+'</div>'+
         '<div style="font-size:9px;color:var(--text-muted);">识别 '+icount+' 个物品</div>'+
       '</div>'+
       '<span style="font-size:9px;color:var(--text-muted);">'+icount+' 项</span>'+
@@ -22214,7 +22379,7 @@ function renderPackAiContent() {
         '<div style="width:28px;height:28px;background:'+imgColors[ic%imgColors.length]+';border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+
           '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:14px;height:14px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
         '</div>'+
-        '<div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--text);">'+img.name+'</div>'+
+        '<div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--text);">'+getImgGroupName(img.name)+'</div>'+
         '<div style="font-size:10px;color:var(--text-muted);">识别 '+img.items.length+' 个物品</div></div>'+
         '<span style="font-size:10px;color:var(--text-muted);margin-right:4px;">'+img.items.length+' 项</span>'+
       '</div>';
