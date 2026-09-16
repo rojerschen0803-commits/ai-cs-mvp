@@ -1498,23 +1498,25 @@ input[type="range"]::-webkit-slider-thumb {
 /* ---------- TOAST ---------- */
 .toast {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 12px 18px;
-  box-shadow: var(--shadow-lg);
+  top: 24px;
+  left: 50%;
+  background: rgba(23, 61, 91, 0.9);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 22px;
+  box-shadow: 0 8px 24px rgba(23, 61, 91, 0.35);
   font-size: 13px;
   z-index: 10001;
-  transform: translateX(120%);
-  transition: transform 0.3s;
+  opacity: 0;
+  transform: translate(-50%, -16px);
+  transition: opacity 0.25s, transform 0.25s;
   display: flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
 }
-.toast.show { transform: translateX(0); }
-.toast.success { border-left: 3px solid var(--success); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 /* ---------- TRANSITIONS ---------- */
 .fade-in { animation: fadeIn 0.25s ease-out; }
@@ -6341,6 +6343,16 @@ main > .modal-overlay.show { display: flex !important; }
           <div id="pkgSplitBatches" style="margin-top:8px;"></div>
           <div style="font-size:10px;color:#9CA3AF;margin-top:6px;line-height:1.5;" id="pkgSplitItemHint">选择线路后自动匹配对应物品：超大件线路→超大件分单物品，敏感线路→敏感分单物品，其余→普通分单物品。</div>
         </div>
+        <!-- 线路修改（选"否"时显示，必填） -->
+        <div id="pkgSplitRouteChangeWrap" style="display:none;margin-bottom:12px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">线路修改 <span style="color:var(--danger);">*</span></label>
+          <select id="pkgSplitRouteChange" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);">
+            <option value="">请选择修改后的线路</option>
+            <option>海运普货</option><option>海运超大件普货</option><option>海运超大件敏感</option>
+            <option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>铁路超大件敏感</option>
+            <option>特快空运普货</option><option>特快空运敏感</option>
+          </select>
+        </div>
         <div id="pkgSplitRemark" style="display:none;margin-bottom:4px;">
           <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">备注 <span style="color:var(--danger);">*</span></label>
           <textarea id="pkgSplitRemarkText" placeholder="请输入备注..." style="width:100%;height:80px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;box-sizing:border-box;"></textarea>
@@ -6404,6 +6416,16 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <!-- 不合单提示（选否显示） -->
         <div id="mergeNoHint" style="display:none;margin-bottom:14px;font-size:12px;color:var(--text-secondary);background:#F9FAFB;padding:10px 12px;border-radius:6px;border:1px solid var(--border);line-height:1.6;">选择「否」后，将不加货合单，按正常订单流程进行打包处理。</div>
+        <!-- 线路修改（选"否"时显示，必填） -->
+        <div id="mergeRouteChangeWrap" style="display:none;margin-bottom:14px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">线路修改 <span style="color:var(--danger);">*</span></label>
+          <select id="mergeRouteChange" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);">
+            <option value="">请选择修改后的线路</option>
+            <option>海运普货</option><option>海运超大件普货</option><option>海运超大件敏感</option>
+            <option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>铁路超大件敏感</option>
+            <option>特快空运普货</option><option>特快空运敏感</option>
+          </select>
+        </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hideMergeModal()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmMerge()">确认合单</button></div>
       </div>
     </div>
@@ -6638,14 +6660,26 @@ main > .modal-overlay.show { display: flex !important; }
 
     <!-- 开始打包弹框 -->
     <div class="modal-overlay" id="packStartModal"><div class="modal" style="width:520px;max-height:80vh;overflow-y:auto;"><h3>开始打包</h3><div style="margin-bottom:8px;font-size:12px;color:var(--text-secondary);" id="packStartInfo"></div>
+    <div id="packStartAddGoodsArea" style="display:none;margin-bottom:10px;padding:10px 12px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;">
+      <div style="font-size:11px;font-weight:600;color:#9A3412;margin-bottom:6px;display:flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>加货单</div>
+      <div style="font-size:12px;color:#7C2D12;margin-bottom:6px;">加货单号：<b id="packStartAddGoodsXy" style="color:#9A3412;">—</b></div>
+      <div id="packStartAddGoodsPhotos" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+    </div>
     <div style="display:none;margin-bottom:10px;padding:8px 12px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;font-size:12px;color:#1D4ED8;line-height:1.6;" id="packStartMixTip"></div>
-    <div id="packStartSingleArea" style="margin-bottom:12px;"><label id="packStartSingleLabel" style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">拆包图片 <span style="color:var(--danger);">*</span></label>
+    <div id="packStartSingleArea" style="margin-bottom:12px;"><label id="packStartSingleLabel" style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">华侨包拆包图片 <span style="color:var(--danger);">*</span></label>
       <label for="packStartPhotos" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--text-muted);font-size:12px;">
         <svg class="ico" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        点击上传拆包照片
+        <span id="packStartSingleUploadText">点击上传华侨包拆包照片</span>
       </label>
       <input type="file" id="packStartPhotos" accept="image/*" multiple style="display:none;" onchange="onPackStartPhotoChange(event)">
       <div id="packStartPhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
+      <label id="packStartBigLabel" style="font-size:11px;color:var(--text-muted);display:block;margin:12px 0 3px;">超大件拆包图片 <span style="color:var(--text-muted);font-weight:400;">（选填）</span></label>
+      <label for="packStartBigPhotos" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--text-muted);font-size:12px;">
+        <svg class="ico" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span id="packStartBigUploadText">点击上传超大件拆包照片</span>
+      </label>
+      <input type="file" id="packStartBigPhotos" accept="image/*" multiple style="display:none;" onchange="onPackStartBigPhotoChange(event)">
+      <div id="packStartBigPhotoPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;"></div>
     </div>
     <!-- 派力仓包裹：二次核对图片 -->
     <div id="packStartXcArea" style="display:none;margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">派力仓包裹图片<span style="color:var(--danger);">*</span></label>
@@ -6681,18 +6715,14 @@ main > .modal-overlay.show { display: flex !important; }
           </span>
           <span style="font-size:11px;color:var(--text-muted);" id="packStartAiStats"></span>
         </div>
-        <!-- 工具栏 -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
-          <button class="btn btn-sm" style="font-size:10px;padding:3px 8px;" onclick="showPsAiEdit()">修改</button>
-          <button class="btn btn-sm" onclick="handlePsAiReIdentify()" style="font-size:10px;padding:3px 8px;background:#173D5B;color:#fff;border-color:#173D5B;">重新识别</button>
-          <span style="font-size:11px;color:var(--text-muted);margin-left:auto;" id="psAiSelCount">已选0项</span>
-        </div>
+        <!-- tab 筛选（非混合仓：全部/华侨包/超大件；混合仓：全部/清源仓/派力仓） -->
+        <div id="packStartAiTabs" style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;"></div>
         <!-- 图片卡片列表 -->
         <div id="packStartAiCards" style="max-height:260px;overflow-y:auto;margin-bottom:8px;"></div>
 
       </div>
     </div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-sm" onclick="savePackStartDraft()" title="临时保存，稍后可继续">保存</button><button class="btn btn-sm" id="packStartAiBtn" onclick="triggerPackStartAi()" style="display:inline-flex;align-items:center;gap:5px;"><svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>AI识别</button><button class="btn btn-primary btn-sm" onclick="submitPackStart()">提交审核</button></div></div></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-sm" onclick="savePackStartDraft()" title="临时保存，稍后可继续">保存</button><button class="btn btn-primary btn-sm" id="packStartSubmitBtn" onclick="handlePackStartSubmit()" style="display:inline-flex;align-items:center;gap:5px;"><svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>提交AI识别</button></div></div></div>
 
     <!-- 拼团第二步 AI 识别分析弹框 -->
     <div class="modal-overlay" id="packAiAnalyzeModal" style="z-index:1150;"><div class="modal" style="width:620px;max-height:86vh;overflow-y:auto;">
@@ -12599,7 +12629,7 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 // ========== TOAST ==========
 function showToast(msg) {
   const toast = document.getElementById('toast');
-  toast.innerHTML = '<span style="color:var(--success);"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> ' + msg;
+  toast.innerHTML = '<span style="color:#fff;"><svg class="ico ico-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> ' + msg;
   toast.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
@@ -15765,7 +15795,7 @@ function seedOrderPackages() {
     links: [], xpd: '', dueDate: '2026-08-21T18:00',
     country: '西班牙', haioId: 'HIO-51013', haioStatus: '已出库', woodenBox: '是'
   });
-  // 打包-待打包演示数据：混合仓 x1
+  // 打包-待打包演示数据：混合仓 x4（覆盖纯混合/加货/分单/超大件场景）
   orderPackages.push({
     id: orderPkgNextId++, code: 'JB-20240819-MX10', xy: 'XY20240819014',
     type: '混合仓', source: '客服', route: '海运普货', creator: '小霞', tracker: '张三',
@@ -15775,6 +15805,38 @@ function seedOrderPackages() {
     createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 10:00',
     links: [], xpd: '', dueDate: '2026-08-23T18:00',
     country: '德国', haioId: 'HIO-51014', haioStatus: '已出库'
+  });
+  orderPackages.push({
+    id: orderPkgNextId++, code: 'JB-20240819-MX11', xy: 'XY20240819015',
+    type: '混合仓', source: '客服', route: '铁路普货', creator: '小萌', tracker: '李四',
+    assignMode: '直接指派', assignee: '阿强', status: '待打包',
+    demand: '混合仓，加货单物品合入清源仓', qty: 11, xcLarge: '是', xcQty: 4,
+    picker: '小霞', pickedAt: '2026-08-19 10:30', packer: '阿强',
+    createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 10:30',
+    links: [], xpd: '', dueDate: '2026-08-23T18:00',
+    country: '法国', haioId: 'HIO-51015', haioStatus: '已出库',
+    addGoodsXy: 'XYJH20240819002',
+    addGoodsPhotos: ['加货单_拆包图1.jpg', '加货单_拆包图2.jpg']
+  });
+  orderPackages.push({
+    id: orderPkgNextId++, code: 'JB-20240819-MX12', xy: 'XY20240819016',
+    type: '混合仓', source: '客服', route: '特快空运普货', creator: '小霞', tracker: '王五',
+    assignMode: '直接指派', assignee: '小周', status: '待打包',
+    demand: '混合仓，分单物品入派力仓', qty: 13, xcLarge: '是', xcQty: 5,
+    picker: '小萌', pickedAt: '2026-08-19 11:00', packer: '小周',
+    createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 11:00',
+    links: [], xpd: '', dueDate: '2026-08-23T18:00',
+    country: '西班牙', haioId: 'HIO-51016', haioStatus: '已出库'
+  });
+  orderPackages.push({
+    id: orderPkgNextId++, code: 'JB-20240819-MX13', xy: 'XY20240819017',
+    type: '混合仓', source: '门店', route: '海运超大件普货', creator: '门店小张', tracker: '赵六',
+    assignMode: '直接指派', assignee: '老陈', status: '待打包',
+    demand: '混合仓，超大件木箱入派力仓', qty: 14, xcLarge: '是', xcQty: 6,
+    picker: '小霞', pickedAt: '2026-08-19 11:30', packer: '老陈',
+    createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 11:30',
+    links: [], xpd: '', dueDate: '2026-08-23T18:00',
+    country: '意大利', haioId: 'HIO-51017', haioStatus: '已出库'
   });
   balancePackageTypes();
 }
@@ -15860,6 +15922,7 @@ function balancePackageTypes() {
   function count(t){ return orderPackages.filter(function(o){ return shown(o)===t; }).length; }
   // 3. 把可重分配订单（普通/常规）逐条分给当前数量最少的类型，实现均衡
   var candidates = orderPackages.filter(function(o){ return o.type==='普通' || o.type==='常规'; });
+  var addGoodsXyCounter = 0;
   candidates.forEach(function(o){
     var minT = null, minC = Infinity;
     listTypes.forEach(function(t){
@@ -15867,6 +15930,24 @@ function balancePackageTypes() {
       if (c < minC) { minC = c; minT = t; }
     });
     o.type = (minT === '常规') ? '普通' : minT;
+    // 混合仓类型：补充分仓标记与派力仓包裹数，保证开始打包弹框正确显示清源仓/派力仓拆包图片
+    if (o.type === '混合仓') {
+      o.xcLarge = '是';
+      if (o.xcQty == null) o.xcQty = Math.max(1, Math.round((o.qty || 0) * 0.35));
+    } else {
+      o.xcLarge = '';
+      o.xcQty = '';
+    }
+    // 派力仓类型：补充加货单数据，保证开始打包弹框显示加货单号与加货单图片
+    if (o.type === '派力仓') {
+      if (!o.addGoodsXy) {
+        addGoodsXyCounter++;
+        o.addGoodsXy = 'XYJH' + (20260000 + addGoodsXyCounter);
+      }
+      if (!o.addGoodsPhotos || !o.addGoodsPhotos.length) {
+        o.addGoodsPhotos = ['加货单_拆包图1.jpg', '加货单_拆包图2.jpg', '加货单_拆包图3.jpg'];
+      }
+    }
   });
 }
 function seedPackAuditData() {
@@ -16079,6 +16160,37 @@ function seedPendingPackData() {
       ] : []
     });
   }
+  // 派力仓类型演示数据（跳过拣货，带加货单）
+  orderPackages.unshift({
+    id: orderPkgNextId++,
+    code: 'JB-20240820-PLC1',
+    xy: 'XY20240820001',
+    type: '派力仓',
+    source: '客服',
+    route: '海运普货',
+    creator: '小霞',
+    tracker: '张三',
+    assignMode: '直接指派',
+    assignee: '赵六',
+    status: '待打包',
+    demand: '派力仓包裹，二次核对加货',
+    qty: 6,
+    packer: '赵六',
+    createdAt: '2026-08-20 08:00',
+    updatedAt: '2026-08-20 09:30',
+    links: [], xpd: '', dueDate: '2026-08-25T18:00',
+    country: '德国',
+    haioId: 'HIO-51020',
+    haioStatus: '已出库',
+    addGoodsXy: 'XYJH20240820001',
+    addGoodsPhotos: ['加货单_拆包图1.jpg', '加货单_拆包图2.jpg', '加货单_拆包图3.jpg'],
+    packItems: [
+      { name:'棉质T恤', qty:2, cat:'普货', brand:'优衣库', image:'PLC_01.jpg', pkgCat:'华侨包' },
+      { name:'运动鞋', qty:1, cat:'普货', brand:'耐克', image:'PLC_01.jpg', pkgCat:'华侨包' },
+      { name:'书籍杂志', qty:4, cat:'普货', brand:'无品牌', image:'PLC_02.jpg', pkgCat:'华侨包' },
+      { name:'充电宝', qty:1, cat:'敏货', brand:'罗马仕', image:'PLC_02.jpg', pkgCat:'华侨包' }
+    ]
+  });
 }
 function seedGoodsRejectData() {
   // 包裹分单-审核驳回演示数据 x10
@@ -18102,6 +18214,34 @@ function getImgGroupName(image) {
   for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) >>> 0; }
   return 'SF123' + ('0000000000' + (h % 10000000000)).slice(-10);
 }
+// 图片组快递单号可修改（分单/合单详情 AI识别物品清单）
+var imgGroupNoOverride = {};
+function getImgGroupNo(oid, iname) {
+  var key = oid + '_' + iname;
+  return imgGroupNoOverride[key] || getImgGroupName(iname);
+}
+function editImgGroupNo(oid, iname, el) {
+  if (!el) return;
+  var key = oid + '_' + iname;
+  var cur = imgGroupNoOverride[key] || getImgGroupName(iname);
+  var input = document.createElement('input');
+  input.type = 'text';
+  input.value = cur;
+  input.style.cssText = 'width:100px;padding:2px 6px;border:1px solid var(--primary);border-radius:4px;font-size:12px;font-weight:600;color:var(--text);outline:none;';
+  input.onblur = function(){ saveImgGroupNo(oid, iname, this.value); };
+  input.onkeydown = function(e){ if(e.key==='Enter'){ this.blur(); } if(e.key==='Escape'){ this.value = cur; this.blur(); } };
+  el.innerHTML = '';
+  el.appendChild(input);
+  input.focus();
+  input.select();
+}
+function saveImgGroupNo(oid, iname, val) {
+  var key = oid + '_' + iname;
+  val = (val == null ? '' : String(val)).trim();
+  if (val && val !== getImgGroupName(iname)) { imgGroupNoOverride[key] = val; }
+  else { delete imgGroupNoOverride[key]; }
+  if (typeof renderPkgCatAiContent === 'function') renderPkgCatAiContent(oid, pkgCatAiActive[oid] || '全部');
+}
 // 只读 AI 识别物品清单（不可编辑/重新识别）：样式与包裹清单 AI识别物品清单一致（图片组卡片 + 物品/品牌/数量/属性）
 function buildReadonlyAiItemsHtml(o, title) {
   var mi = (o && o.packItems) || [];
@@ -18298,7 +18438,7 @@ function renderPkgCatAiItems(o, cat, xy) {
     html += '<span onclick="event.stopPropagation();previewPkgListImage(\''+iname+'\')" title="点击预览图片" style="flex-shrink:0;display:flex;align-items:center;cursor:pointer;">'+
       '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:14px;height:14px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
     '</span>';
-    html += '<span style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+getImgGroupName(iname)+'</span>';
+    html += '<span onclick="event.stopPropagation();editImgGroupNo('+o.id+',\''+iname+'\', this)" title="点击修改快递单号" style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;display:inline-flex;align-items:center;gap:3px;border-bottom:1px dashed #CBD5E1;">'+getImgGroupNo(o.id, iname)+'<svg viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="width:11px;height:11px;flex-shrink:0;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>';
     html += '<span style="font-size:10px;color:var(--text-secondary);background:#F1F5F9;border-radius:8px;padding:1px 6px;white-space:nowrap;">共 '+icount+' 个</span>';
     if (gGen) html += '<span style="font-size:10px;color:#173D5B;background:#E7F3FB;border-radius:8px;padding:1px 6px;white-space:nowrap;">普货 '+gGen+'</span>';
     if (gSen) html += '<span style="font-size:10px;color:#DC2626;background:#FEF2F2;border-radius:8px;padding:1px 6px;white-space:nowrap;">敏货 '+gSen+'</span>';
@@ -20078,10 +20218,10 @@ function renderOrderPackPool() {
     // Employee: 质检未通过→重新打包 | 待打包→打包+异常 | 打包中→完成+异常 | 打包完成→无 | 驳回→完成 | 异常→异常处理中 | 已作废→无
     else {
       if (o.qcStatus==='不合格') acts = '<button class="btn btn-sm btn-primary" onclick="startPackMine('+o.id+')">打包</button>';
-      else if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm btn-primary" onclick="startPackMine('+o.id+')">打包</button> <button class="btn btn-sm btn-primary" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-primary" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='打包中') acts = '<button class="btn btn-primary btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-primary" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
-      else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-primary" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
+      else if (o.status==='拣货完成'||o.status==='待打包') acts = '<button class="btn btn-sm btn-primary" onclick="startPackMine('+o.id+')">打包</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
+      else if (o.status==='待打包-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
+      else if (o.status==='打包中') acts = '<button class="btn btn-primary btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button> <button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
+      else if (o.status==='打包完成-待审核') acts = '<button class="btn btn-sm btn-danger" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>';
       else if (o.status==='驳回') acts = '<button class="btn btn-primary btn-sm" onclick="showOrderPackComplete('+o.id+')">完成</button>';
       else if (o.status==='打包完毕') acts = '<span class="tag tag-green">打包完成</span>';
       else if (o.void) acts = '';
@@ -20628,6 +20768,8 @@ function showPkgSplitModal(id) {
   onPkgSplitAddGoodsChange();
   document.getElementById('pkgSplitDemand').value = o.demand || '';
   document.getElementById('pkgSplitRemarkText').value = '';
+  var rcSel = document.getElementById('pkgSplitRouteChange');
+  if (rcSel) rcSel.value = o.route || '';
   pkgSplitBatches = [];
   renderPkgSplitBatches();
   renderPkgSplitItems(o);
@@ -20638,10 +20780,13 @@ function onPkgSplitChoiceChange() {
   var choice = document.querySelector('input[name="pkgSplitChoice"]:checked');
   var val = choice ? choice.value : '是';
   var isYes = (val === '是');
+  var isNo = (val === '否');
   document.getElementById('pkgSplitFields').style.display = isYes ? 'block' : 'none';
   document.getElementById('pkgSplitSensitive').style.display = isYes ? 'block' : 'none';
   document.getElementById('pkgSplitAddGoodsWrap').style.display = isYes ? 'block' : 'none';
   document.getElementById('pkgSplitRemark').style.display = isYes ? 'none' : 'block';
+  var rcWrap = document.getElementById('pkgSplitRouteChangeWrap');
+  if (rcWrap) rcWrap.style.display = isNo ? 'block' : 'none';
 }
 // ===== 是否加货：海鸥分单号模糊匹配 =====
 var mockAddGoodsNos = [
@@ -20727,14 +20872,20 @@ function confirmPkgSplit() {
   } else {
     var remark = document.getElementById('pkgSplitRemarkText').value.trim();
     if (!remark) { showToast('请填写备注'); return; }
+    var newRoute = '';
+    if (val === '否') {
+      newRoute = document.getElementById('pkgSplitRouteChange').value;
+      if (!newRoute) { showToast('请选择修改后的线路'); return; }
+    }
     o.auditReason = remark;
     o.auditAt = now; o.updatedAt = now;
     if (val === '否') {
       o.splitResult = '常规';
+      o.route = newRoute;
       o.status = '打包中';
       hidePkgSplitModal(); hideOrderPkgDrawer();
       renderGoodsAuditList(); renderOrderPackPool(); renderOrderPackStats();
-      showToast('已按常规处理：'+o.code);
+      showToast('已按常规处理并修改线路：'+o.code);
     } else {
       o.splitResult = '驳回'; o.status = '驳回'; o.rejectSource = '待打包驳回';
       hidePkgSplitModal(); hideOrderPkgDrawer();
@@ -21480,6 +21631,8 @@ function showMergeModal(id) {
   document.getElementById('mergeCurRouteLabel').textContent = '—';
   document.getElementById('mergeBatches').innerHTML = '';
   hideMergeXySuggest();
+  var rcSel = document.getElementById('mergeRouteChange');
+  if (rcSel) rcSel.value = o.route || '';
   onMergeChoiceChange();
   document.getElementById('mergeModal').classList.add('show');
 }
@@ -21489,6 +21642,8 @@ function onMergeChoiceChange() {
   document.getElementById('mergeFields').style.display = isYes ? 'block' : 'none';
   document.getElementById('mergeItemsWrap').style.display = isYes ? 'block' : 'none';
   document.getElementById('mergeNoHint').style.display = isYes ? 'none' : 'block';
+  var rcWrap = document.getElementById('mergeRouteChangeWrap');
+  if (rcWrap) rcWrap.style.display = isYes ? 'none' : 'block';
 }
 function hideMergeModal() { document.getElementById('mergeModal').classList.remove('show'); mergeOid = null; }
 function hideMergeXySuggest() {
@@ -21664,16 +21819,19 @@ function confirmMerge() {
     renderMergeList();
     showToast('已合单：' + o.code + ' → ' + xy + '（' + mergeBatches.length + ' 批次）');
   } else {
+    var newRoute = document.getElementById('mergeRouteChange').value;
+    if (!newRoute) { showToast('请选择修改后的线路'); return; }
     o.mergeResult = '否';
+    o.route = newRoute;
     o.status = '打包中';
     o.splitResult = '常规';
     o.updatedAt = now;
-    logs.push({ time: now, op: '不加货合单', who: '分单主管', extra: '按正常订单流程打包' });
+    logs.push({ time: now, op: '不加货合单', who: '分单主管', extra: '线路修改为 ' + newRoute + '，按正常订单流程打包' });
     o.mergeLogs = logs;
     hideMergeModal();
     hideOrderPkgDrawer();
     renderMergeList();
-    showToast('不加货合单，已进入正常打包流程：' + o.code);
+    showToast('不加货合单，已修改线路：' + o.code);
   }
 }
 // ========== 包裹分单 ==========
@@ -21825,18 +21983,41 @@ function startPackMine(id) {
   } else {
     mixTip.style.display = 'none';
   }
+  // 加货单展示（有加货单号的订单显示）
+  var addGoodsArea = document.getElementById('packStartAddGoodsArea');
+  if (o && o.addGoodsXy) {
+    addGoodsArea.style.display = '';
+    document.getElementById('packStartAddGoodsXy').textContent = o.addGoodsXy;
+    var addPhotos = o.addGoodsPhotos || [];
+    document.getElementById('packStartAddGoodsPhotos').innerHTML = addPhotos.map(function(name){
+      return '<div style="width:56px;height:56px;background:#FFEDD5;border:1px solid #FED7AA;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;" title="'+name+'">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" style="width:18px;height:18px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+        '<div style="font-size:8px;color:#9A3412;max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+name+'</div>'+
+      '</div>';
+    }).join('');
+  } else {
+    addGoodsArea.style.display = 'none';
+  }
   document.getElementById('packStartPhotoPreview').innerHTML = '';
   document.getElementById('packStartPhotos').value = '';
+  var bigPreview = document.getElementById('packStartBigPhotoPreview');
+  var bigInput = document.getElementById('packStartBigPhotos');
+  if (bigPreview) bigPreview.innerHTML = '';
+  if (bigInput) bigInput.value = '';
   document.getElementById('packStartAiArea').style.display = 'none';
   document.getElementById('packStartAiScanning').style.display = 'none';
   document.getElementById('packStartAiResult').style.display = 'none';
   document.getElementById('packStartAiCards').innerHTML = '';
+  packStartAiActiveTab = '全部';
   var aiBtn = document.getElementById('packStartAiBtn');
   if (aiBtn) aiBtn.style.display = '';
+  packStartAiDone = false;
+  var submitBtn = document.getElementById('packStartSubmitBtn');
+  if (submitBtn) submitBtn.innerHTML = '<svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>提交AI识别';
   var xcArea = document.getElementById('packStartXcArea');
   if (xcArea) {
-    var isXc = o && o.xcLarge === '是';
-    xcArea.style.display = isXc ? '' : 'none';
+    // 派力仓拆包图片已合并进"第二个上传项"，独立区不再显示
+    xcArea.style.display = 'none';
     document.getElementById('packStartXcPhotoPreview').innerHTML = '';
     document.getElementById('packStartXcPhotos').value = '';
   }
@@ -21855,8 +22036,23 @@ function startPackMine(id) {
   } else {
     if (singleArea) singleArea.style.display = 'block';
     if (tuanArea) tuanArea.style.display = 'none';
+    var isXc = o && o.xcLarge === '是';
     var singleLabel = document.getElementById('packStartSingleLabel');
-    if (singleLabel) singleLabel.innerHTML = (o && o.xcLarge === '是') ? '清源仓包裹图片 <span style="color:var(--danger);">*</span>' : '拆包图片 <span style="color:var(--danger);">*</span>';
+    var singleText = document.getElementById('packStartSingleUploadText');
+    var bigLabel = document.getElementById('packStartBigLabel');
+    var bigText = document.getElementById('packStartBigUploadText');
+    if (isXc) {
+      // 混合仓：清源仓拆包图片 + 派力仓拆包图片（均必填）
+      if (singleLabel) singleLabel.innerHTML = '清源仓拆包图片 <span style="color:var(--danger);">*</span>';
+      if (singleText) singleText.textContent = '点击上传清源仓拆包照片';
+      if (bigLabel) bigLabel.innerHTML = '派力仓拆包图片 <span style="color:var(--danger);">*</span>';
+      if (bigText) bigText.textContent = '点击上传派力仓拆包照片';
+    } else {
+      if (singleLabel) singleLabel.innerHTML = '华侨包拆包图片 <span style="color:var(--danger);">*</span>';
+      if (singleText) singleText.textContent = '点击上传华侨包拆包照片';
+      if (bigLabel) bigLabel.innerHTML = '超大件拆包图片 <span style="color:var(--text-muted);font-weight:400;">（选填）</span>';
+      if (bigText) bigText.textContent = '点击上传超大件拆包照片';
+    }
     renderPackStartPhotoPreview();
   }
 }
@@ -21949,6 +22145,20 @@ function onPackStartXcPhotoChange(e) {
     preview.appendChild(chip);
   }
 }
+function onPackStartBigPhotoChange(e) {
+  renderPackStartBigPhotoPreview();
+}
+function renderPackStartBigPhotoPreview() {
+  var input = document.getElementById('packStartBigPhotos');
+  var preview = document.getElementById('packStartBigPhotoPreview');
+  if (!input || !preview) return;
+  preview.innerHTML = '';
+  for (var i=0; i<input.files.length; i++) {
+    var f = input.files[i];
+    var size = f.size<1024?'<1KB':f.size<1048576?(f.size/1024).toFixed(1)+'KB':(f.size/1048576).toFixed(1)+'MB';
+    preview.innerHTML += '<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:#FFF7ED;border:1px solid var(--border-light);border-radius:12px;font-size:11px;color:#D97706;">'+f.name+' ('+size+')</span>';
+  }
+}
 function renderPackStartPhotoPreview() {
   var input = document.getElementById('packStartPhotos');
   var preview = document.getElementById('packStartPhotoPreview');
@@ -22016,19 +22226,38 @@ function triggerPackStartAi() {
         { name:'数据线', qty:10, cat:'普货', image:'IMG_004.jpg', source:'派力仓' }
       ];
     } else {
-      packStartItems = [
-        { name:'棉质T恤', qty:2, cat:'普货', image:'IMG_001.jpg' },
-        { name:'书籍杂志', qty:5, cat:'普货', image:'IMG_001.jpg' },
-        { name:'充电宝', qty:1, cat:'敏货', image:'IMG_001.jpg' },
-        { name:'陶瓷餐具', qty:1, cat:'普货', image:'IMG_002.jpg' },
-        { name:'香水', qty:2, cat:'敏货', image:'IMG_002.jpg' },
-        { name:'运动鞋', qty:3, cat:'普货', image:'IMG_002.jpg' },
-        { name:'桌面摆件', qty:1, cat:'普货', image:'IMG_003.jpg' },
-        { name:'数据线', qty:10, cat:'普货', image:'IMG_003.jpg' }
+      // 华侨包拆包图片（必填）+ 超大件拆包图片（选填）分别识别出图片组标签
+      var hqItems = [
+        { name:'棉质T恤', qty:2, cat:'普货', image:'HQB_01.jpg', pkgCat:'华侨包' },
+        { name:'书籍杂志', qty:5, cat:'普货', image:'HQB_01.jpg', pkgCat:'华侨包' },
+        { name:'充电宝', qty:1, cat:'敏货', image:'HQB_01.jpg', pkgCat:'华侨包' },
+        { name:'陶瓷餐具', qty:1, cat:'普货', image:'HQB_02.jpg', pkgCat:'华侨包' },
+        { name:'香水', qty:2, cat:'敏货', image:'HQB_02.jpg', pkgCat:'华侨包' },
+        { name:'运动鞋', qty:3, cat:'普货', image:'HQB_02.jpg', pkgCat:'华侨包' }
       ];
+      var bigInput = document.getElementById('packStartBigPhotos');
+      var hasBig = bigInput && bigInput.files.length > 0;
+      var bigItems = hasBig ? [
+        { name:'实木沙发', qty:1, cat:'普货', image:'CJD_01.jpg', pkgCat:'超大件' },
+        { name:'电动按摩椅', qty:1, cat:'敏货', image:'CJD_01.jpg', pkgCat:'超大件' },
+        { name:'办公桌', qty:1, cat:'普货', image:'CJD_02.jpg', pkgCat:'超大件' },
+        { name:'跑步机', qty:1, cat:'敏货', image:'CJD_02.jpg', pkgCat:'超大件' }
+      ] : [];
+      packStartItems = hqItems.concat(bigItems);
     }
+    packStartAiDone = true;
+    var submitBtn = document.getElementById('packStartSubmitBtn');
+    if (submitBtn) submitBtn.innerHTML = '<svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9Z"/></svg>提交';
     renderPackStartAiList();
   }, 1500);
+}
+var packStartAiActiveTab = '全部';
+// 图片组分类标签：混合仓按 source（清源仓/派力仓），非混合仓按 pkgCat（华侨包/超大件）
+function getPsAiGroupCat(iitems) {
+  if (!iitems || !iitems.length) return '华侨包';
+  var src = iitems[0].source;
+  if (src) return src;
+  return iitems[0].pkgCat || '华侨包';
 }
 function renderPackStartAiList() {
   var items = packStartItems;
@@ -22045,63 +22274,199 @@ function renderPackStartAiList() {
   // 更新概览
   document.getElementById('packStartAiTotal').textContent = totalItems + ' 件';
   document.getElementById('packStartAiStats').textContent = '普货 '+genCount+' · 敏货 '+senCount;
-  // 图片缩略颜色
-  var imgColors = ['#E7F3FB','#E7F3FB','#FEF3C7','#FEE2E2','#EDE9FE','#E0F2FE'];
-  // 构建图片卡片
+  // tab 集合：全部 + 去重的图片组分类
+  var cats = ['全部'];
+  imgOrder.forEach(function(iname){ var c = getPsAiGroupCat(imgs[iname]); if (cats.indexOf(c) < 0) cats.push(c); });
+  var tabsEl = document.getElementById('packStartAiTabs');
+  if (tabsEl) {
+    tabsEl.innerHTML = cats.map(function(c){
+      var active = c === packStartAiActiveTab;
+      return '<div onclick="switchPackStartAiTab(\''+c+'\')" style="padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap;'+(active?'background:var(--primary);color:#fff;':'background:var(--card);color:var(--text-secondary);border:1px solid var(--border);')+'">'+c+'</div>';
+    }).join('');
+  }
+  // 构建图片卡片（样式与包裹分单/详情 AI识别物品清单一致）
   var cards = document.getElementById('packStartAiCards');
   cards.innerHTML = '';
+  var rendered = 0;
   for(var ic=0;ic<imgOrder.length;ic++){
     var iname = imgOrder[ic];
     var iitems = imgs[iname];
+    var grpCat = getPsAiGroupCat(iitems);
+    if (packStartAiActiveTab !== '全部' && grpCat !== packStartAiActiveTab) continue;
     var icount = iitems.length;
-    var iColor = imgColors[ic % imgColors.length];
     var cid = 'psAi'+ic;
-    var firstOpen = ic===0;
+    var firstOpen = rendered === 0;
+    rendered++;
+    var gGen = 0, gSen = 0;
+    iitems.forEach(function(it){ if(it.cat==='敏货') gSen++; else gGen++; });
     var groupSource = iitems[0] && iitems[0].source ? iitems[0].source : '';
-    var sourceTag = groupSource ? '<span style="font-size:9px;padding:1px 6px;border-radius:10px;margin-left:6px;background:'+(groupSource==='派力仓'?'#FFEDD5':'#E7F3FB')+';color:'+(groupSource==='派力仓'?'#EA580C':'#173D5B')+';border:1px solid '+(groupSource==='派力仓'?'#FED7AA':'#A7F3D0')+';">'+groupSource+'</span>' : '';
+    var groupPkgCat = iitems[0] && iitems[0].pkgCat ? iitems[0].pkgCat : '';
     // 卡片容器
     var card = document.createElement('div');
-    card.style.cssText = 'margin-bottom:6px;border:1px solid var(--border);border-radius:8px;overflow:hidden;';
-    // 图片头
+    card.style.cssText = 'margin-bottom:8px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff;';
+    // 图片头（单行：图片icon + 可编辑单号 + 来源/共N个/普货/敏货标签 + 华侨包/超大件标签 + 重新识别icon + 新增 + 箭头）
     var hdr = document.createElement('div');
-    hdr.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 10px;background:#F8FAFC;cursor:pointer;';
+    hdr.style.cssText = 'display:flex;align-items:center;gap:6px;padding:5px 10px;background:#F8FAFC;cursor:pointer;';
     hdr.onclick = function(cid){ return function(){ togglePsAiCard(cid); }; }(cid);
     hdr.innerHTML =
-      '<input type="checkbox" class="ps-ai-cb" data-idx="'+ic+'" onclick="event.stopPropagation();setTimeout(updatePsAiSelCount,0)">'+
-      '<div style="width:30px;height:30px;background:'+iColor+';border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+
-        '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:15px;height:15px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+      '<div style="flex:1;min-width:0;display:flex;align-items:center;gap:6px;">'+
+        '<span onclick="event.stopPropagation();previewPkgListImage(\''+iname+'\')" title="点击预览图片" style="flex-shrink:0;display:flex;align-items:center;cursor:pointer;">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:14px;height:14px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+        '</span>'+
+        '<span onclick="event.stopPropagation();editPsAiGroupNo(\''+iname+'\', this)" title="点击修改快递单号" style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;display:inline-flex;align-items:center;gap:3px;border-bottom:1px dashed #CBD5E1;">'+getPsAiGroupNo(iname)+'<svg viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="width:11px;height:11px;flex-shrink:0;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>'+
+        (groupSource?'<span style="font-size:10px;color:#EA580C;background:#FFEDD5;border-radius:8px;padding:1px 6px;white-space:nowrap;">'+groupSource+'</span>':'')+
+        '<span style="font-size:10px;color:var(--text-secondary);background:#F1F5F9;border-radius:8px;padding:1px 6px;white-space:nowrap;">共 '+icount+' 个</span>'+
+        (gGen?'<span style="font-size:10px;color:#173D5B;background:#E7F3FB;border-radius:8px;padding:1px 6px;white-space:nowrap;">普货 '+gGen+'</span>':'')+
+        (gSen?'<span style="font-size:10px;color:#DC2626;background:#FEF2F2;border-radius:8px;padding:1px 6px;white-space:nowrap;">敏货 '+gSen+'</span>':'')+
       '</div>'+
-      '<div style="flex:1;min-width:0;">'+
-        '<div style="font-size:11px;font-weight:600;color:var(--text);">'+getImgGroupName(iname)+sourceTag+'</div>'+
-        '<div style="font-size:9px;color:var(--text-muted);">识别 '+icount+' 个物品</div>'+
-      '</div>'+
-      '<span style="font-size:9px;color:var(--text-muted);">'+icount+' 项</span>'+
-      '<svg id="'+cid+'_arrow" style="width:12px;height:12px;color:var(--text-muted);transition:transform .2s;flex-shrink:0;transform:'+(firstOpen?'rotate(180deg)':'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+      (groupPkgCat?pkgCatTagHtml(groupPkgCat):'')+
+      '<button onclick="event.stopPropagation();reIdentifyPsAiGroup(\''+iname+'\')" title="重新识别" style="flex-shrink:0;width:22px;height:22px;border-radius:5px;border:1px solid var(--border);background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;cursor:pointer;">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>'+
+      '</button>'+
+      '<button class="btn btn-sm" onclick="event.stopPropagation();addPsAiItem(\''+iname+'\')" style="font-size:10px;padding:1px 8px;flex-shrink:0;">+ 新增</button>'+
+      '<svg id="'+cid+'_arrow" style="width:13px;height:13px;color:var(--text-muted);transition:transform .2s;flex-shrink:0;transform:'+(firstOpen?'rotate(180deg)':'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
     card.appendChild(hdr);
-    // 物品列表
+    // 物品列表（label+值 左右结构，与详情一致）
     var body = document.createElement('div');
     body.id = cid+'_body';
     body.style.display = firstOpen ? '' : 'none';
-    // 物品表头
-    var th = document.createElement('div');
-    th.style.cssText = 'display:flex;align-items:center;gap:8px;padding:4px 10px 2px;font-size:9px;color:var(--text-muted);border-bottom:1px solid var(--border-light);';
-    th.innerHTML = '<span style="flex:1;">物品</span><span style="min-width:54px;text-align:center;">品牌</span><span style="min-width:16px;text-align:center;">数量</span><span style="min-width:36px;text-align:center;">属性</span>';
-    body.appendChild(th);
+    var inner = document.createElement('div');
+    inner.style.cssText = 'padding:4px 10px 6px;';
     for(var ii=0;ii<iitems.length;ii++){
       var it = iitems[ii];
       var isSen = it.cat==='敏货';
       var row = document.createElement('div');
-      row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;'+(ii<iitems.length-1?'border-bottom:1px solid var(--border-light);':'');
+      row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:4px 0;'+(ii<iitems.length-1?'border-bottom:1px solid var(--border-light);':'');
       row.innerHTML =
-        '<span style="font-size:11px;color:var(--text);flex:1;">'+it.name+'</span>'+
-        '<span style="font-size:10px;color:var(--text-secondary);min-width:54px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(it.brand || itemBrandMap[it.name] || '—')+'</span>'+
-        '<span style="font-size:10px;color:var(--text-muted);min-width:16px;text-align:center;">'+it.qty+'</span>'+
-        '<span style="min-width:36px;text-align:center;"><span class="tag" style="font-size:9px;padding:1px 6px;border-radius:10px;background:'+(isSen?'#FEF2F2':'#E7F3FB')+';color:'+(isSen?'#DC2626':'#173D5B')+';border:1px solid '+(isSen?'#FECACA':'#A7F3D0')+';">'+(isSen?'敏货':'普货')+'</span></span>';
-      body.appendChild(row);
+        '<div style="flex:1.4;display:flex;align-items:center;gap:4px;min-width:0;">'+
+          '<span style="font-size:10px;color:var(--text-muted);flex-shrink:0;">物品</span>'+
+          '<input type="text" value="'+it.name+'" onchange="editPsAiItemName(\''+iname+'\','+ii+',this.value)" style="flex:1;min-width:0;padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;">'+
+        '</div>'+
+        '<div style="flex:1;display:flex;align-items:center;gap:4px;min-width:0;">'+
+          '<span style="font-size:10px;color:var(--text-muted);flex-shrink:0;">品牌</span>'+
+          '<input type="text" value="'+(it.brand || itemBrandMap[it.name] || '')+'" placeholder="品牌" onchange="editPsAiItemBrand(\''+iname+'\','+ii+',this.value)" style="flex:1;min-width:0;padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;">'+
+        '</div>'+
+        '<div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">'+
+          '<span style="font-size:10px;color:var(--text-muted);">数量</span>'+
+          '<input type="number" value="'+it.qty+'" min="1" onchange="editPsAiItemQty(\''+iname+'\','+ii+',this.value)" style="width:40px;padding:3px 2px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;text-align:center;">'+
+        '</div>'+
+        '<div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">'+
+          '<span style="font-size:10px;color:var(--text-muted);">属性</span>'+
+          '<select onchange="editPsAiItemCat(\''+iname+'\','+ii+',this.value)" style="width:52px;padding:3px 2px;border:1px solid var(--border);border-radius:4px;font-size:11px;outline:none;">'+
+            '<option value="普货"'+(it.cat==='普货'?' selected':'')+'>普货</option>'+
+            '<option value="敏货"'+(isSen?' selected':'')+'>敏货</option>'+
+          '</select>'+
+        '</div>'+
+        '<span onclick="deletePsAiItem(\''+iname+'\','+ii+')" title="删除物品" style="width:16px;text-align:center;color:var(--danger);cursor:pointer;font-size:15px;flex-shrink:0;line-height:1;">×</span>';
+      inner.appendChild(row);
     }
+    body.appendChild(inner);
     card.appendChild(body);
     cards.appendChild(card);
   }
+}
+function switchPackStartAiTab(cat) {
+  packStartAiActiveTab = cat;
+  renderPackStartAiList();
+}
+// 图片组快递单号可编辑
+function getPsAiGroupNo(iname) {
+  return imgGroupNoOverride[currentPackStartId + '_' + iname] || getImgGroupName(iname);
+}
+function editPsAiGroupNo(iname, el) {
+  if (!el) return;
+  var cur = getPsAiGroupNo(iname);
+  var input = document.createElement('input');
+  input.type = 'text';
+  input.value = cur;
+  input.style.cssText = 'width:100px;padding:2px 6px;border:1px solid var(--primary);border-radius:4px;font-size:12px;font-weight:600;color:var(--text);outline:none;';
+  input.onblur = function(){ savePsAiGroupNo(iname, this.value); };
+  input.onkeydown = function(e){ if(e.key==='Enter'){ this.blur(); } if(e.key==='Escape'){ this.value = cur; this.blur(); } };
+  el.innerHTML = '';
+  el.appendChild(input);
+  input.focus();
+  input.select();
+}
+function savePsAiGroupNo(iname, val) {
+  var key = currentPackStartId + '_' + iname;
+  val = (val == null ? '' : String(val)).trim();
+  if (val && val !== getImgGroupName(iname)) imgGroupNoOverride[key] = val;
+  else delete imgGroupNoOverride[key];
+  renderPackStartAiList();
+}
+// 单个图片组重新识别
+function reIdentifyPsAiGroup(iname) {
+  var idx = packStartItems.findIndex(function(it){ return (it.image || '未分组') === iname; });
+  if (idx < 0) return;
+  var first = packStartItems[idx];
+  var fresh;
+  if (first.pkgCat === '超大件') {
+    fresh = [
+      { name:'实木沙发', qty:1, cat:'普货', image: iname, pkgCat:'超大件' },
+      { name:'电动按摩椅', qty:1, cat:'敏货', image: iname, pkgCat:'超大件' },
+      { name:'办公桌', qty:1, cat:'普货', image: iname, pkgCat:'超大件' },
+      { name:'跑步机', qty:1, cat:'敏货', image: iname, pkgCat:'超大件' }
+    ];
+  } else if (first.source === '派力仓') {
+    fresh = [
+      { name:'香水', qty:2, cat:'敏货', image: iname, source:'派力仓' },
+      { name:'运动鞋', qty:3, cat:'普货', image: iname, source:'派力仓' },
+      { name:'桌面摆件', qty:1, cat:'普货', image: iname, source:'派力仓' }
+    ];
+  } else if (first.source === '清源仓') {
+    fresh = [
+      { name:'棉质T恤', qty:2, cat:'普货', image: iname, source:'清源仓' },
+      { name:'书籍杂志', qty:5, cat:'普货', image: iname, source:'清源仓' },
+      { name:'充电宝', qty:1, cat:'敏货', image: iname, source:'清源仓' },
+      { name:'陶瓷餐具', qty:1, cat:'普货', image: iname, source:'清源仓' }
+    ];
+  } else {
+    fresh = [
+      { name:'棉质T恤', qty:2, cat:'普货', image: iname, pkgCat:'华侨包' },
+      { name:'书籍杂志', qty:5, cat:'普货', image: iname, pkgCat:'华侨包' },
+      { name:'充电宝', qty:1, cat:'敏货', image: iname, pkgCat:'华侨包' },
+      { name:'陶瓷餐具', qty:1, cat:'普货', image: iname, pkgCat:'华侨包' }
+    ];
+  }
+  packStartItems = packStartItems.filter(function(it){ return (it.image || '未分组') !== iname; }).concat(fresh);
+  renderPackStartAiList();
+  showToast('已重新识别');
+}
+// 内联编辑：定位图片组内第 ii 个物品在 packStartItems 中的索引
+function findPsAiItemIndex(iname, ii) {
+  var cnt = 0;
+  for (var i=0;i<packStartItems.length;i++){
+    if ((packStartItems[i].image || '未分组') === iname) {
+      if (cnt === ii) return i;
+      cnt++;
+    }
+  }
+  return -1;
+}
+function editPsAiItemName(iname, ii, val) {
+  var idx = findPsAiItemIndex(iname, ii);
+  if (idx >= 0) packStartItems[idx].name = val;
+}
+function editPsAiItemBrand(iname, ii, val) {
+  var idx = findPsAiItemIndex(iname, ii);
+  if (idx >= 0) packStartItems[idx].brand = val;
+}
+function editPsAiItemQty(iname, ii, val) {
+  var idx = findPsAiItemIndex(iname, ii);
+  if (idx >= 0) packStartItems[idx].qty = parseInt(val, 10) || 1;
+}
+function editPsAiItemCat(iname, ii, val) {
+  var idx = findPsAiItemIndex(iname, ii);
+  if (idx >= 0) packStartItems[idx].cat = val;
+}
+function deletePsAiItem(iname, ii) {
+  var idx = findPsAiItemIndex(iname, ii);
+  if (idx >= 0) packStartItems.splice(idx, 1);
+  renderPackStartAiList();
+}
+function addPsAiItem(iname) {
+  packStartItems.push({ name: '新物品', qty: 1, cat: '普货', image: iname });
+  renderPackStartAiList();
 }
 // 切换图片卡片展开/收起
 function togglePsAiCard(cid) {
@@ -22239,6 +22604,41 @@ function savePackStartDraft() {
   renderOrderPackPool(); renderOrderPackStats();
   showToast('已临时保存，可稍后继续打包');
 }
+var packStartAiDone = false;
+function handlePackStartSubmit() {
+  if (packStartAiDone) {
+    submitPackStart();
+  } else {
+    submitPackStartAi();
+  }
+}
+function submitPackStartAi() {
+  var o = orderPackages.find(function(p){ return p.id===currentPackStartId; });
+  if (!o) return;
+  var isTuan = o.type === '拼团' && o.links && o.links.length;
+  var draft = o.packDraft || null;
+  // 校验华侨包拆包图片（必填）
+  if (isTuan) {
+    for (var i=0; i<o.links.length; i++) {
+      var f = document.getElementById('packStartTuanFile_'+i);
+      var cnt = f ? f.files.length : 0;
+      var draftCnt = (draft && draft.photos[i] && draft.photos[i].names) ? draft.photos[i].names.length : 0;
+      if (cnt === 0 && draftCnt === 0) { alert('请为 XY 号 '+o.links[i]+' 上传华侨包拆包图片'); return; }
+    }
+  } else {
+    var files = document.getElementById('packStartPhotos').files;
+    var draftCnt = (draft && draft.photos[0] && draft.photos[0].names) ? draft.photos[0].names.length : 0;
+    var isXc = o.xcLarge === '是';
+    var firstLabel = isXc ? '清源仓拆包图片' : '华侨包拆包图片';
+    if (files.length === 0 && draftCnt === 0) { alert('请上传' + firstLabel); return; }
+    if (isXc) {
+      var bigFiles = document.getElementById('packStartBigPhotos').files;
+      if (bigFiles.length === 0) { alert('请上传派力仓拆包图片'); return; }
+    }
+  }
+  // 触发 AI 识别（识别完成后可修改物品，再手动提交审核）
+  triggerPackStartAi();
+}
 function submitPackStart() {
   var o = orderPackages.find(function(p){ return p.id===currentPackStartId; });
   if (!o) return;
@@ -22251,13 +22651,19 @@ function submitPackStart() {
       var f = document.getElementById('packStartTuanFile_'+i);
       var cnt = f ? f.files.length : 0;
       var draftCnt = (draft && draft.photos[i] && draft.photos[i].names) ? draft.photos[i].names.length : 0;
-      if (cnt === 0 && draftCnt === 0) { alert('请为 XY 号 '+o.links[i]+' 上传拆包图片'); return; }
+      if (cnt === 0 && draftCnt === 0) { alert('请为 XY 号 '+o.links[i]+' 上传华侨包拆包图片'); return; }
       photosCount += cnt + draftCnt;
     }
   } else {
     var files = document.getElementById('packStartPhotos').files;
     var draftCnt = (draft && draft.photos[0] && draft.photos[0].names) ? draft.photos[0].names.length : 0;
-    if (files.length === 0 && draftCnt === 0) { alert('请上传拆包图片'); return; }
+    var isXc = o.xcLarge === '是';
+    var firstLabel = isXc ? '清源仓拆包图片' : '华侨包拆包图片';
+    if (files.length === 0 && draftCnt === 0) { alert('请上传' + firstLabel); return; }
+    if (isXc) {
+      var bigFiles = document.getElementById('packStartBigPhotos').files;
+      if (bigFiles.length === 0) { alert('请上传派力仓拆包图片'); return; }
+    }
     photosCount = files.length + draftCnt;
   }
   o.status = '待打包-待审核';
