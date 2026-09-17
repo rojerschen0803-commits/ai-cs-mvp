@@ -21020,6 +21020,10 @@ function confirmRestoreSplit() {
   var gi = groups.findIndex(function(g){ return g.xy === restoreSplitSelectedXy; });
   if (gi < 0) return;
   var group = groups[gi];
+  // 若勾选了该分单的所有物品，需二次确认（恢复后会自动删除当前分单）
+  if (cbs.length >= group.items.length) {
+    if (!confirm('恢复当前分单所有物品会自动删除当前分单！')) return;
+  }
   var checkedIdx = [];
   cbs.forEach(function(cb){ checkedIdx.push(parseInt(cb.value)); });
   checkedIdx.sort(function(a,b){ return b-a; });
