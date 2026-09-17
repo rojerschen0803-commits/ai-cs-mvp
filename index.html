@@ -6310,6 +6310,10 @@ main > .modal-overlay.show { display: flex !important; }
             <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">截止时间</label><input type="datetime-local" id="pkgSplitDue" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
             <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">清源仓数量 <span style="color:var(--danger);">*</span></label><input type="number" id="pkgSplitQty" placeholder="请输入数量" step="1" min="1" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
           </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">打包员</label>
+            <input type="text" id="pkgSplitPacker" disabled style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:#F3F4F6;color:#9CA3AF;box-sizing:border-box;">
+          </div>
           <div style="margin-bottom:10px;position:relative;">
             <label id="pkgSplitNoLabel" style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥分单号 <span style="color:var(--danger);">*</span></label>
             <input type="text" id="pkgSplitNo" placeholder="请输入海鸥分单号" oninput="onPkgSplitNoInput()" onblur="setTimeout(hidePkgSplitNoSuggest,150)" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;">
@@ -6337,7 +6341,6 @@ main > .modal-overlay.show { display: flex !important; }
           </div>
           <div id="pkgSplitSensitiveList" style="max-height:200px;overflow-y:auto;background:#fff;border:1px solid var(--border-light);border-radius:6px;"></div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
-            <button class="btn btn-sm btn-primary" onclick="addPkgSplitBatch()" style="font-size:11px;padding:4px 12px;">添加到批次</button>
             <span style="font-size:10px;color:var(--text-muted);">当前线路：<b id="pkgSplitCurRouteLabel" style="color:var(--primary);">—</b></span>
           </div>
           <div id="pkgSplitBatches" style="margin-top:8px;"></div>
@@ -6358,6 +6361,32 @@ main > .modal-overlay.show { display: flex !important; }
           <textarea id="pkgSplitRemarkText" placeholder="请输入备注..." style="width:100%;height:80px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;box-sizing:border-box;"></textarea>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;"><button class="btn btn-sm" onclick="hidePkgSplitModal()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmPkgSplit()">确认</button></div>
+      </div>
+    </div>
+
+    <!-- 恢复分单弹框 -->
+    <div class="modal-overlay" id="restoreSplitModal" style="z-index:1100;">
+      <div class="modal" style="width:560px;max-height:82vh;overflow-y:auto;">
+        <h3>恢复分单</h3>
+        <div style="margin-bottom:12px;font-size:12px;color:var(--text-secondary);" id="restoreSplitInfo"></div>
+        <!-- 分单号单选 -->
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:6px;">分单号 <span style="color:var(--danger);">*</span></label>
+          <div id="restoreSplitXyList" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+        <!-- 分单物品（选择分单号后显示） -->
+        <div id="restoreSplitItemsWrap" style="display:none;margin-bottom:14px;border:1px solid var(--border);border-radius:8px;background:#F8FAFC;padding:10px 12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:700;color:var(--primary);">分单物品</span>
+            <span id="restoreSplitItemsCount" style="font-size:11px;color:var(--primary);font-weight:600;"></span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <label style="font-size:11px;color:var(--text-secondary);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" id="restoreSplitSelectAll" onchange="toggleRestoreSplitAll()" style="accent-color:var(--primary);"> 全选</label>
+            <span style="font-size:10px;color:var(--text-muted);">勾选要恢复到主单的物品</span>
+          </div>
+          <div id="restoreSplitItemsList" style="max-height:200px;overflow-y:auto;background:#fff;border:1px solid var(--border-light);border-radius:6px;"></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hideRestoreSplitModal()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmRestoreSplit()">确认恢复</button></div>
       </div>
     </div>
 
@@ -6427,6 +6456,32 @@ main > .modal-overlay.show { display: flex !important; }
           </select>
         </div>
         <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hideMergeModal()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmMerge()">确认合单</button></div>
+      </div>
+    </div>
+
+    <!-- 恢复加货单弹框 -->
+    <div class="modal-overlay" id="restoreMergeModal" style="z-index:1100;">
+      <div class="modal" style="width:560px;max-height:82vh;overflow-y:auto;">
+        <h3>恢复加货单</h3>
+        <div style="margin-bottom:12px;font-size:12px;color:var(--text-secondary);" id="restoreMergeInfo"></div>
+        <!-- 加货单号单选 -->
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:6px;">加货单号 <span style="color:var(--danger);">*</span></label>
+          <div id="restoreMergeXyList" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+        <!-- 合单物品（选择加货单号后显示） -->
+        <div id="restoreMergeItemsWrap" style="display:none;margin-bottom:14px;border:1px solid var(--border);border-radius:8px;background:#F8FAFC;padding:10px 12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:700;color:var(--primary);">合单物品</span>
+            <span id="restoreMergeItemsCount" style="font-size:11px;color:var(--primary);font-weight:600;"></span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <label style="font-size:11px;color:var(--text-secondary);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" id="restoreMergeSelectAll" onchange="toggleRestoreMergeAll()" style="accent-color:var(--primary);"> 全选</label>
+            <span style="font-size:10px;color:var(--text-muted);">勾选要恢复的物品</span>
+          </div>
+          <div id="restoreMergeItemsList" style="max-height:200px;overflow-y:auto;background:#fff;border:1px solid var(--border-light);border-radius:6px;"></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;"><button class="btn btn-sm" onclick="hideRestoreMergeModal()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmRestoreMerge()">确认恢复</button></div>
       </div>
     </div>
 
@@ -15864,13 +15919,13 @@ function seedMergeData() {
   ];
   var rows = [
     { code:'JB-20240901-JH1', xy:'XY20240901001', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'赵六', status:'待合单', demand:'客户加货，需合单处理', qty:6, haioId:'HIO-52001', country:'德国', day:'09-01', time:'09:30' },
-    { code:'JB-20240901-JH2', xy:'XY20240901002', route:'铁路普货', creator:'小萌', tracker:'李四', assignee:'阿强', status:'待合单', demand:'加货合单，核对清单', qty:5, haioId:'HIO-52002', country:'法国', day:'09-01', time:'10:00' },
+    { code:'JB-20240901-JH2', xy:'XY20240901002', route:'铁路普货', creator:'小萌', tracker:'李四', assignee:'阿强', status:'待合单', demand:'加货合单，核对清单', qty:5, haioId:'HIO-52002', country:'法国', day:'09-01', time:'10:00', addGoodsGroups:[{ xy:'XYJH20240901002', items:[{name:'纯棉T恤',qty:2,cat:'普货',brand:'优衣库',image:'IMG_JH3.jpg'},{name:'运动鞋',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH3.jpg'}] }] },
     { code:'JB-20240901-JH3', xy:'XY20240901003', route:'特快空运普货', creator:'小张', tracker:'王五', assignee:'阿明', status:'待合单', demand:'加急加货，尽快合单', qty:4, haioId:'HIO-52003', country:'美国', day:'09-01', time:'10:30' },
-    { code:'JB-20240901-JH4', xy:'XY20240901004', route:'铁路敏感', creator:'小霞', tracker:'张三', assignee:'赵六', status:'待合单', demand:'含敏货，合单需注意渠道', qty:7, haioId:'HIO-52004', country:'英国', day:'09-01', time:'11:00' },
+    { code:'JB-20240901-JH4', xy:'XY20240901004', route:'铁路敏感', creator:'小霞', tracker:'张三', assignee:'赵六', status:'待合单', demand:'含敏货，合单需注意渠道', qty:7, haioId:'HIO-52004', country:'英国', day:'09-01', time:'11:00', addGoodsGroups:[{ xy:'XYJH20240901004', items:[{name:'书籍杂志',qty:4,cat:'普货',brand:'无品牌',image:'IMG_JH5.jpg'},{name:'棒球帽',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH5.jpg'}] }] },
     { code:'JB-20240901-JH5', xy:'XY20240901005', route:'海运普货', creator:'小李', tracker:'李四', assignee:'阿强', status:'待合单', demand:'加货合单，正常处理', qty:3, haioId:'HIO-52005', country:'西班牙', day:'09-01', time:'11:30' },
     { code:'JB-20240901-JH6', xy:'XY20240901006', route:'铁路普货', creator:'小萌', tracker:'王五', assignee:'阿明', status:'待合单', demand:'客户追加货物，合单', qty:5, haioId:'HIO-52006', country:'意大利', day:'09-01', time:'13:00' },
-    { code:'JB-20240831-JH7', xy:'XY20240831007', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'赵六', status:'已合单', demand:'加货已合单', qty:6, haioId:'HIO-52007', country:'德国', day:'08-31', time:'15:00', mergeXy:'XY20240830001' },
-    { code:'JB-20240831-JH8', xy:'XY20240831008', route:'铁路普货', creator:'小李', tracker:'李四', assignee:'阿强', status:'已合单', demand:'加货已合单，正常打包', qty:4, haioId:'HIO-52008', country:'法国', day:'08-31', time:'16:00', mergeXy:'XY20240830002' }
+    { code:'JB-20240831-JH7', xy:'XY20240831007', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'赵六', status:'已合单', demand:'加货已合单', qty:6, haioId:'HIO-52007', country:'德国', day:'08-31', time:'15:00', mergeXy:'XY20240830001', addGoodsGroups:[{ xy:'XYJH20240831001', items:[{name:'手机壳',qty:2,cat:'普货',brand:'倍思',image:'IMG_JH1.jpg'},{name:'数据线',qty:3,cat:'普货',brand:'绿联',image:'IMG_JH1.jpg'}] },{ xy:'XYJH20240831002', items:[{name:'蓝牙音箱',qty:1,cat:'敏货',brand:'JBL',image:'IMG_JH2.jpg'},{name:'保温杯',qty:1,cat:'普货',brand:'膳魔师',image:'IMG_JH2.jpg'}] }] },
+    { code:'JB-20240831-JH8', xy:'XY20240831008', route:'铁路普货', creator:'小李', tracker:'李四', assignee:'阿强', status:'已合单', demand:'加货已合单，正常打包', qty:4, haioId:'HIO-52008', country:'法国', day:'08-31', time:'16:00', mergeXy:'XY20240830002', addGoodsGroups:[{ xy:'XYJH20240831003', items:[{name:'纯棉T恤',qty:2,cat:'普货',brand:'优衣库',image:'IMG_JH3.jpg'},{name:'运动鞋',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH3.jpg'}] },{ xy:'XYJH20240831004', items:[{name:'香水',qty:1,cat:'敏货',brand:'迪奥',image:'IMG_JH4.jpg'},{name:'收纳盒',qty:2,cat:'普货',brand:'无品牌',image:'IMG_JH4.jpg'}] }] }
   ];
   rows.forEach(function(m, i){
     var isDone = m.status === '已合单';
@@ -15902,6 +15957,7 @@ function seedMergeData() {
       mergeLogs: logs,
       mergeXy: m.mergeXy || '',
       mergeResult: isDone ? '是' : '',
+      addGoodsGroups: m.addGoodsGroups || [],
       createdAt: '2026-' + m.day + ' 08:00',
       updatedAt: '2026-' + m.day + ' ' + m.time,
       links: [], xpd: '', dueDate: '2026-09-05T18:00',
@@ -16157,7 +16213,12 @@ function seedPendingPackData() {
         {name:'书籍杂志',qty:3+(i%3),cat:'普货',image:'IMG_'+(9000+i)+'c.jpg'},
         {name:(i%2===0?'折叠床':'办公椅'),qty:1,cat:'普货',image:'IMG_'+(9000+i)+'d.jpg', pkgCat:'超大件'},
         {name:(i%2===0?'电动按摩椅':'跑步机'),qty:1,cat:'敏货',image:'IMG_'+(9000+i)+'e.jpg', pkgCat:'超大件'}
-      ] : []
+      ] : [],
+      splitGroups: (isAudit && i%2===0) ? [{ xy: 'XYFD-2026'+String(22+i).padStart(2,'0')+'-'+String(2000+i), items: [
+        {name:'羽绒服',qty:1+(i%3),cat:'普货',image:'IMG_'+(9000+i)+'a.jpg'},
+        {name:'运动鞋',qty:1+(i%2),cat:'普货',image:'IMG_'+(9000+i)+'b.jpg'},
+        {name:'家居收纳盒',qty:2+(i%2),cat:'普货',image:'IMG_'+(9000+i)+'c.jpg'}
+      ] }] : []
     });
   }
   // 派力仓类型演示数据（跳过拣货，带加货单）
@@ -20707,6 +20768,31 @@ function updatePkgSplitSelCount() {
     var all = document.querySelectorAll('.pkg-split-item-cb');
     selAll.checked = all.length > 0 && cbs.length === all.length;
   }
+  renderPkgSplitSelectedPreview();
+}
+// 勾选物品后实时预览（替代"添加到批次"）
+function renderPkgSplitSelectedPreview() {
+  var box = document.getElementById('pkgSplitBatches');
+  if (!box) return;
+  var o = orderPackages.find(function(p){ return p.id===pkgSplitOid; });
+  var route = document.getElementById('pkgSplitRoute').value;
+  var routeType = getPkgSplitRouteType(route);
+  var items = o ? getPkgSplitRouteItems(o, routeType) : [];
+  var cbs = document.querySelectorAll('.pkg-split-item-cb:checked');
+  if (!cbs.length) { box.innerHTML = ''; return; }
+  var selected = [];
+  cbs.forEach(function(cb){ var it = items[parseInt(cb.value)]; if (it) selected.push(it); });
+  var totalQty = selected.reduce(function(s,it){ return s+(it.qty||1); }, 0);
+  var typeColor = routeType==='超大件' ? '#D97706' : (routeType==='敏感' ? '#DC2626' : '#173D5B');
+  var typeBg = routeType==='超大件' ? '#FEF3C7' : (routeType==='敏感' ? '#FEE2E2' : '#E7F3FB');
+  var typeLabel = routeType==='超大件' ? '超大件' : (routeType==='敏感' ? '敏感' : '普通');
+  var names = selected.map(function(it){ return it.name+'×'+it.qty; }).join('、');
+  box.innerHTML = '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:4px;">已勾选物品（'+selected.length+' 种 · 共 '+totalQty+' 件）</div>'+
+    '<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--border-light);border-radius:6px;background:#fff;">'+
+      '<span style="font-size:10px;font-weight:600;color:'+typeColor+';background:'+typeBg+';padding:1px 8px;border-radius:8px;white-space:nowrap;">'+typeLabel+'</span>'+
+      '<div style="flex:1;min-width:0;font-size:11px;color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+names+'">'+names+'</div>'+
+      '<span style="font-size:11px;color:var(--text);white-space:nowrap;">'+totalQty+' 件</span>'+
+    '</div>';
 }
 function addPkgSplitBatch() {
   var o = orderPackages.find(function(p){ return p.id===pkgSplitOid; });
@@ -20763,6 +20849,7 @@ function showPkgSplitModal(id) {
   document.getElementById('pkgSplitUrgent').value = o.urgent ? '是' : '否';
   document.getElementById('pkgSplitDue').value = o.dueDate || '';
   document.getElementById('pkgSplitQty').value = (o.qty != null) ? o.qty : '';
+  document.getElementById('pkgSplitPacker').value = o.packer || o.assignee || '—';
   document.getElementById('pkgSplitNo').value = '';
   document.querySelectorAll('input[name="pkgSplitAddGoods"]').forEach(function(r){ r.checked = (r.value === '否'); });
   onPkgSplitAddGoodsChange();
@@ -20839,6 +20926,121 @@ function hidePkgSplitNoSuggest() {
   if (box) box.style.display = 'none';
 }
 function hidePkgSplitModal() { document.getElementById('pkgSplitModal').classList.remove('show'); pkgSplitOid = null; }
+// ===== 恢复分单（非分单类型主单撤销分单） =====
+var restoreSplitOid = null;
+var restoreSplitSelectedXy = '';
+function getOrderSplitGroups(o) {
+  if (o.splitGroups) return o.splitGroups;
+  var items = o.packItems || [];
+  var baseNo = o.splitNo || ('XYFD-' + o.code);
+  var groups = [];
+  // 按货品属性分组：敏货一个分单号、普货一个分单号，避免同一分单号混着普货和敏货
+  var senItems = items.filter(function(it){ return it.cat === '敏货'; });
+  var genItems = items.filter(function(it){ return it.cat !== '敏货'; });
+  if (senItems.length) groups.push({ xy: baseNo, items: senItems });
+  if (genItems.length) groups.push({ xy: senItems.length ? baseNo + '-2' : baseNo, items: genItems });
+  if (!groups.length) groups.push({ xy: baseNo, items: [] });
+  o.splitGroups = groups;
+  return groups;
+}
+function showRestoreSplitModal(id) {
+  var o = orderPackages.find(function(p){ return p.id===id; });
+  if (!o) return;
+  restoreSplitOid = id;
+  restoreSplitSelectedXy = '';
+  document.getElementById('restoreSplitInfo').textContent = '海鸥订单号：' + o.xy + ' | 集包号：' + o.code;
+  var groups = getOrderSplitGroups(o);
+  var list = document.getElementById('restoreSplitXyList');
+  list.innerHTML = groups.length ? groups.map(function(g){
+    return '<label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;background:#fff;">'+
+      '<input type="radio" name="restoreSplitXy" value="'+g.xy+'" onchange="selectRestoreSplitXy(\''+g.xy+'\')" style="accent-color:var(--primary);">'+
+      '<span style="font-weight:600;color:var(--text);">'+g.xy+'</span>'+
+      '<span style="margin-left:auto;font-size:11px;color:var(--text-muted);">'+g.items.length+' 种</span>'+
+    '</label>';
+  }).join('') : '<div style="text-align:center;color:var(--text-muted);font-size:12px;padding:16px;">暂无分单号</div>';
+  document.getElementById('restoreSplitItemsWrap').style.display = 'none';
+  document.getElementById('restoreSplitItemsList').innerHTML = '';
+  document.getElementById('restoreSplitItemsCount').textContent = '';
+  var selAll = document.getElementById('restoreSplitSelectAll');
+  if (selAll) selAll.checked = false;
+  document.getElementById('restoreSplitModal').classList.add('show');
+}
+function hideRestoreSplitModal() { document.getElementById('restoreSplitModal').classList.remove('show'); restoreSplitOid = null; restoreSplitSelectedXy = ''; }
+function selectRestoreSplitXy(xy) {
+  restoreSplitSelectedXy = xy;
+  var o = orderPackages.find(function(p){ return p.id===restoreSplitOid; });
+  if (!o) return;
+  var group = (o.splitGroups || []).find(function(g){ return g.xy === xy; });
+  var items = group ? group.items : [];
+  var list = document.getElementById('restoreSplitItemsList');
+  document.getElementById('restoreSplitItemsWrap').style.display = 'block';
+  var imgColors = ['#E7F3FB','#FEF3C7','#FEE2E2','#EDE9FE','#E0F2FE'];
+  list.innerHTML = items.map(function(it, i){
+    var isSen = it.cat === '敏货';
+    var tagHtml = isSen ? '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:600;border:1px solid #FECACA;">敏货</span>' : '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#E7F3FB;color:#173D5B;font-size:10px;font-weight:600;border:1px solid #BFDBFE;">普货</span>';
+    return '<div style="display:flex;align-items:center;gap:8px;padding:4px 10px;'+(i<items.length-1?'border-bottom:1px solid var(--border-light);':'')+'">'+
+      '<input type="checkbox" class="restore-split-item-cb" value="'+i+'" onchange="updateRestoreSplitSelCount()" style="accent-color:var(--primary);flex-shrink:0;">'+
+      '<div style="width:22px;height:22px;background:'+imgColors[i%imgColors.length]+';border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border-light);">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:12px;height:12px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+      '</div>'+
+      '<span style="font-size:10px;color:var(--primary);flex-shrink:0;width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+getImgGroupName(it.image)+'</span>'+
+      '<span style="flex:1;min-width:0;font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+it.name+'</span>'+
+      '<span style="font-size:10px;color:var(--text-muted);flex-shrink:0;width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(it.brand || itemBrandMap[it.name] || '—')+'</span>'+
+      '<span style="font-size:11px;color:var(--text-secondary);white-space:nowrap;flex-shrink:0;">× '+it.qty+'</span>'+
+      tagHtml +
+    '</div>';
+  }).join('');
+  var selAll = document.getElementById('restoreSplitSelectAll');
+  if (selAll) selAll.checked = false;
+  updateRestoreSplitSelCount();
+}
+function updateRestoreSplitSelCount() {
+  var cbs = document.querySelectorAll('.restore-split-item-cb:checked');
+  var count = document.getElementById('restoreSplitItemsCount');
+  if (count) count.textContent = '已选 ' + cbs.length + ' 种';
+  var selAll = document.getElementById('restoreSplitSelectAll');
+  if (selAll) {
+    var all = document.querySelectorAll('.restore-split-item-cb');
+    selAll.checked = all.length > 0 && cbs.length === all.length;
+  }
+}
+function toggleRestoreSplitAll() {
+  var selAll = document.getElementById('restoreSplitSelectAll');
+  var checked = selAll ? selAll.checked : false;
+  document.querySelectorAll('.restore-split-item-cb').forEach(function(cb){ cb.checked = checked; });
+  updateRestoreSplitSelCount();
+}
+function confirmRestoreSplit() {
+  var o = orderPackages.find(function(p){ return p.id===restoreSplitOid; });
+  if (!o) return;
+  if (!restoreSplitSelectedXy) { showToast('请选择分单号'); return; }
+  var cbs = document.querySelectorAll('.restore-split-item-cb:checked');
+  if (!cbs.length) { showToast('请勾选要恢复的物品'); return; }
+  var groups = o.splitGroups || [];
+  var gi = groups.findIndex(function(g){ return g.xy === restoreSplitSelectedXy; });
+  if (gi < 0) return;
+  var group = groups[gi];
+  var checkedIdx = [];
+  cbs.forEach(function(cb){ checkedIdx.push(parseInt(cb.value)); });
+  checkedIdx.sort(function(a,b){ return b-a; });
+  var restoredNames = [];
+  checkedIdx.forEach(function(idx){ restoredNames.push(group.items[idx].name+'×'+group.items[idx].qty); group.items.splice(idx, 1); });
+  var allRemoved = group.items.length === 0;
+  var msg = '已恢复 ' + restoredNames.length + ' 种物品到主单';
+  if (allRemoved) {
+    groups.splice(gi, 1);
+    msg += '，该分单所有物品已恢复，自动移除当前分单';
+  }
+  o.splitGroups = groups;
+  if (!groups.length) {
+    o.splitResult = '';
+    o.splitNo = '';
+    o.status = '待打包-待审核';
+  }
+  hideRestoreSplitModal();
+  renderGoodsAuditList();
+  showToast(msg);
+}
 function confirmPkgSplit() {
   var o = orderPackages.find(function(p){ return p.id===pkgSplitOid; });
   if (!o) return;
@@ -20848,27 +21050,29 @@ function confirmPkgSplit() {
   if (val === '是') {
     var route = document.getElementById('pkgSplitRoute').value;
     if (!route) { showToast('请选择线路'); return; }
-    // 无批次但已勾选物品时，自动加入一个批次
-    if (!pkgSplitBatches.length) {
-      var cbs = document.querySelectorAll('.pkg-split-item-cb:checked');
-      if (!cbs.length) { showToast('请勾选要分单的物品'); return; }
-      addPkgSplitBatch();
-    }
-    if (!pkgSplitBatches.length) { showToast('请先添加分单批次'); return; }
+    var routeType = getPkgSplitRouteType(route);
+    var items = getPkgSplitRouteItems(o, routeType);
+    var cbs = document.querySelectorAll('.pkg-split-item-cb:checked');
+    if (!cbs.length) { showToast('请勾选要分单的物品'); return; }
+    var selected = [];
+    cbs.forEach(function(cb){ var it = items[parseInt(cb.value)]; if (it) selected.push({ name:it.name, qty:it.qty, cat:it.cat, brand:it.brand, image:it.image }); });
+    var totalQty = selected.reduce(function(s,it){ return s+(it.qty||1); }, 0);
+    var splitNo = document.getElementById('pkgSplitNo').value.trim() || ('分单-' + (pkgSplitBatches.length + 1));
+    var batch = { route: route, routeType: routeType, items: selected, qty: totalQty, splitNo: splitNo };
     o.route = route;
     o.country = document.getElementById('pkgSplitCountry').value.trim();
     o.urgent = document.getElementById('pkgSplitUrgent').value === '是';
     o.dueDate = document.getElementById('pkgSplitDue').value;
-    o.qty = pkgSplitBatches.reduce(function(s,b){ return s + b.qty; }, 0);
-    o.splitNo = pkgSplitBatches.map(function(b){ return b.splitNo; }).join('、');
-    o.splitBatches = pkgSplitBatches.slice();
+    o.qty = totalQty;
+    o.splitNo = splitNo;
+    o.splitBatches = [batch];
     o.splitResult = '分单';
     o.demand = document.getElementById('pkgSplitDemand').value.trim();
     o.status = '打包中';
     o.auditAt = now; o.updatedAt = now;
     hidePkgSplitModal(); hideOrderPkgDrawer();
     renderGoodsAuditList(); renderOrderPackPool(); renderOrderPackStats();
-    showToast('已分单：'+o.code+'（'+pkgSplitBatches.length+' 个批次）');
+    showToast('已分单：'+o.code+'（'+selected.length+' 种 · 共 '+totalQty+' 件）');
   } else {
     var remark = document.getElementById('pkgSplitRemarkText').value.trim();
     if (!remark) { showToast('请填写备注'); return; }
@@ -21568,10 +21772,11 @@ function renderMergeList() {
     var statusHtml, acts;
     if (o.status === '待合单') {
       statusHtml = '<span class="tag tag-yellow">待合单</span>';
-      acts = '<button class="btn btn-sm btn-primary" onclick="showOrderPkgDetail('+o.id+')">合单</button>';
+      var hasPartialMerge = (o.addGoodsGroups && o.addGoodsGroups.length > 0);
+      acts = '<button class="btn btn-sm btn-primary" onclick="showOrderPkgDetail('+o.id+')">合单</button>' + (hasPartialMerge ? ' <button class="btn btn-sm" onclick="showRestoreMergeModal('+o.id+')">恢复</button>' : '');
     } else {
       statusHtml = '<span class="tag tag-green">已合单</span>';
-      acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>';
+      acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button> <button class="btn btn-sm" onclick="showRestoreMergeModal('+o.id+')">恢复</button>';
     }
     return '<tr>'+
       '<td style="font-weight:600;color:var(--primary);cursor:pointer;" onclick="showOrderPkgDetail('+o.id+')">'+o.xy+'</td>'+
@@ -21646,6 +21851,112 @@ function onMergeChoiceChange() {
   if (rcWrap) rcWrap.style.display = isYes ? 'none' : 'block';
 }
 function hideMergeModal() { document.getElementById('mergeModal').classList.remove('show'); mergeOid = null; }
+// ===== 恢复加货单 =====
+var restoreMergeOid = null;
+var restoreMergeSelectedXy = '';
+function showRestoreMergeModal(id) {
+  var o = orderPackages.find(function(p){ return p.id===id; });
+  if (!o) return;
+  restoreMergeOid = id;
+  restoreMergeSelectedXy = '';
+  document.getElementById('restoreMergeInfo').textContent = '海鸥订单号：' + o.xy + ' | 集包号：' + o.code;
+  var groups = o.addGoodsGroups || [];
+  var list = document.getElementById('restoreMergeXyList');
+  list.innerHTML = groups.length ? groups.map(function(g){
+    return '<label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;background:#fff;">'+
+      '<input type="radio" name="restoreMergeXy" value="'+g.xy+'" onchange="selectRestoreMergeXy(\''+g.xy+'\')" style="accent-color:var(--primary);">'+
+      '<span style="font-weight:600;color:var(--text);">'+g.xy+'</span>'+
+      '<span style="margin-left:auto;font-size:11px;color:var(--text-muted);">'+g.items.length+' 种</span>'+
+    '</label>';
+  }).join('') : '<div style="text-align:center;color:var(--text-muted);font-size:12px;padding:16px;">暂无加货单号</div>';
+  document.getElementById('restoreMergeItemsWrap').style.display = 'none';
+  document.getElementById('restoreMergeItemsList').innerHTML = '';
+  document.getElementById('restoreMergeItemsCount').textContent = '';
+  var selAll = document.getElementById('restoreMergeSelectAll');
+  if (selAll) selAll.checked = false;
+  document.getElementById('restoreMergeModal').classList.add('show');
+}
+function hideRestoreMergeModal() { document.getElementById('restoreMergeModal').classList.remove('show'); restoreMergeOid = null; restoreMergeSelectedXy = ''; }
+function selectRestoreMergeXy(xy) {
+  restoreMergeSelectedXy = xy;
+  var o = orderPackages.find(function(p){ return p.id===restoreMergeOid; });
+  if (!o) return;
+  var group = (o.addGoodsGroups || []).find(function(g){ return g.xy === xy; });
+  var items = group ? group.items : [];
+  var list = document.getElementById('restoreMergeItemsList');
+  document.getElementById('restoreMergeItemsWrap').style.display = 'block';
+  var imgColors = ['#E7F3FB','#FEF3C7','#FEE2E2','#EDE9FE','#E0F2FE'];
+  list.innerHTML = items.map(function(it, i){
+    var isSen = it.cat === '敏货';
+    var tagHtml = isSen ? '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:600;border:1px solid #FECACA;">敏货</span>' : '<span style="flex-shrink:0;display:inline-block;padding:1px 8px;border-radius:8px;background:#E7F3FB;color:#173D5B;font-size:10px;font-weight:600;border:1px solid #BFDBFE;">普货</span>';
+    return '<div style="display:flex;align-items:center;gap:8px;padding:4px 10px;'+(i<items.length-1?'border-bottom:1px solid var(--border-light);':'')+'">'+
+      '<input type="checkbox" class="restore-merge-item-cb" value="'+i+'" onchange="updateRestoreMergeSelCount()" style="accent-color:var(--primary);flex-shrink:0;">'+
+      '<div style="width:22px;height:22px;background:'+imgColors[i%imgColors.length]+';border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border-light);">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" style="width:12px;height:12px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+      '</div>'+
+      '<span style="font-size:10px;color:var(--primary);flex-shrink:0;width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+getImgGroupName(it.image)+'</span>'+
+      '<span style="flex:1;min-width:0;font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+it.name+'</span>'+
+      '<span style="font-size:10px;color:var(--text-muted);flex-shrink:0;width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(it.brand || itemBrandMap[it.name] || '—')+'</span>'+
+      '<span style="font-size:11px;color:var(--text-secondary);white-space:nowrap;flex-shrink:0;">× '+it.qty+'</span>'+
+      tagHtml +
+    '</div>';
+  }).join('');
+  var selAll = document.getElementById('restoreMergeSelectAll');
+  if (selAll) selAll.checked = false;
+  updateRestoreMergeSelCount();
+}
+function updateRestoreMergeSelCount() {
+  var cbs = document.querySelectorAll('.restore-merge-item-cb:checked');
+  var count = document.getElementById('restoreMergeItemsCount');
+  if (count) count.textContent = '已选 ' + cbs.length + ' 种';
+  var selAll = document.getElementById('restoreMergeSelectAll');
+  if (selAll) {
+    var all = document.querySelectorAll('.restore-merge-item-cb');
+    selAll.checked = all.length > 0 && cbs.length === all.length;
+  }
+}
+function toggleRestoreMergeAll() {
+  var selAll = document.getElementById('restoreMergeSelectAll');
+  var checked = selAll ? selAll.checked : false;
+  document.querySelectorAll('.restore-merge-item-cb').forEach(function(cb){ cb.checked = checked; });
+  updateRestoreMergeSelCount();
+}
+function confirmRestoreMerge() {
+  var o = orderPackages.find(function(p){ return p.id===restoreMergeOid; });
+  if (!o) return;
+  if (!restoreMergeSelectedXy) { showToast('请选择加货单号'); return; }
+  var cbs = document.querySelectorAll('.restore-merge-item-cb:checked');
+  if (!cbs.length) { showToast('请勾选要恢复的物品'); return; }
+  var now = new Date().toISOString().slice(0,16).replace('T',' ');
+  var groups = o.addGoodsGroups || [];
+  var gi = groups.findIndex(function(g){ return g.xy === restoreMergeSelectedXy; });
+  if (gi < 0) return;
+  var group = groups[gi];
+  var checkedIdx = [];
+  cbs.forEach(function(cb){ checkedIdx.push(parseInt(cb.value)); });
+  checkedIdx.sort(function(a,b){ return b-a; });
+  var restoredNames = [];
+  checkedIdx.forEach(function(idx){ restoredNames.push(group.items[idx].name+'×'+group.items[idx].qty); group.items.splice(idx, 1); });
+  var allRemoved = group.items.length === 0;
+  var msg = '已恢复 ' + restoredNames.length + ' 种物品';
+  if (allRemoved) {
+    groups.splice(gi, 1);
+    msg += '，该加货单所有物品已恢复，自动移除当前加货单';
+  }
+  o.addGoodsGroups = groups;
+  // 所有加货单号都被移除时：已合单订单退回待合单（撤销合单）
+  if (!groups.length && o.status === '已合单') {
+    o.status = '待合单';
+    o.mergeResult = '';
+    o.mergeXy = '';
+    if (o.mergeLogs) o.mergeLogs.push({ time: now, op: '恢复加货单', who: '分单主管', extra: '全部加货单已恢复，退回待合单' });
+  } else if (o.mergeLogs) {
+    o.mergeLogs.push({ time: now, op: '恢复加货单', who: '分单主管', extra: '恢复加货单号 ' + restoreMergeSelectedXy + '（' + restoredNames.join('、') + '）' });
+  }
+  hideRestoreMergeModal();
+  renderMergeList();
+  showToast(msg);
+}
 function hideMergeXySuggest() {
   var box = document.getElementById('mergeXySuggest');
   if (box) box.style.display = 'none';
@@ -21875,10 +22186,12 @@ function renderGoodsAuditList() {
     var statusHtml = '';
     if (o.status === '待打包-待审核') {
       statusHtml = '<span class="tag tag-yellow">待分单</span>';
-      acts = '<button class="btn btn-sm btn-primary" onclick="showOrderPkgDetail('+o.id+')">分单</button>';
+      var hasPartialSplit = (o.splitGroups && o.splitGroups.length > 0) || o.splitNo;
+      acts = '<button class="btn btn-sm btn-primary" onclick="showOrderPkgDetail('+o.id+')">分单</button>' + (hasPartialSplit ? ' <button class="btn btn-sm" onclick="showRestoreSplitModal('+o.id+')">恢复</button>' : '');
     } else if (o.status === '打包中') {
       statusHtml = '<span class="tag tag-green">已分单</span>';
-      acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>';
+      var isSplitMain = o.type !== '分单' && (o.splitResult === '分单' || o.splitNo);
+      acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>' + (isSplitMain ? ' <button class="btn btn-sm" onclick="showRestoreSplitModal('+o.id+')">恢复</button>' : '');
     } else if (o.status === '驳回') {
       statusHtml = '<span class="tag tag-red">分单驳回</span>';
       acts = '<button class="btn btn-sm" onclick="showOrderPkgDetail('+o.id+')">详情</button>';
