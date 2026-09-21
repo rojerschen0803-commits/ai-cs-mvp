@@ -17698,7 +17698,7 @@ function showOrderPkgDetail(id) {
     '<path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M21 3l-7 7"/><path d="M3 3l7 7"/><path d="M16 21h5v-5"/><path d="M8 21H3v-5"/><path d="M21 21l-7-7"/><path d="M3 21l7-7"/>');
   var flowSubTabs = '<div class="sub-tab-bar" id="pkgFlowSubBar" style="margin:0 0 12px;background:#F9FAFB;">'+
     '<span class="sub-tab-item active" onclick="switchPkgFlowSubTab(\'flowLog\',this)">流程记录</span>'+
-    '<span class="sub-tab-item" onclick="switchPkgFlowSubTab(\'splitLog\',this)">分单记录</span>'+
+    (o.type !== '加货' ? '<span class="sub-tab-item" onclick="switchPkgFlowSubTab(\'splitLog\',this)">分单记录</span>' : '')+
     ((o.type === '加货' || (o.mergeLogs && o.mergeLogs.length)) ? '<span class="sub-tab-item" onclick="switchPkgFlowSubTab(\'mergeLog\',this)">加货记录</span>' : '')+
   '</div>';
 
