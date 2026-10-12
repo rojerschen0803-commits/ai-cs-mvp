@@ -5626,7 +5626,7 @@ main > .modal-overlay.show { display: flex !important; }
     <!-- ====== PAGE: 经销商 > 员工管理 ====== -->
     <div class="page fade-in" id="page-orgEmployee">
       <div class="filter-section" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 14px;">
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">经销商</span><select id="orgEmpFilterCompany" onchange="orgSwitchCompanyFilter(this.value)" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);color:var(--text);min-width:240px;"></select></div>
+        <div id="orgEmpCompanyFilterWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">经销商</span><select id="orgEmpFilterCompany" onchange="orgSwitchCompanyFilter(this.value)" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);color:var(--text);min-width:240px;"></select></div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">部门</span><select id="orgEmpFilterDept" onchange="orgEmpApplyFilters()" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);color:var(--text);min-width:160px;"><option value="">部门筛选（含下级）</option></select></div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">状态</span><select id="orgEmpFilterStatus" onchange="orgEmpApplyFilters()" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);color:var(--text);"><option value="">全部</option><option>在职中</option><option>已离职</option></select></div>
         <input type="text" id="orgEmpSearchInput" placeholder="搜索姓名 / 用户名 / 工号" onkeydown="if(event.key==='Enter')orgEmpApplyFilters()" style="width:190px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
@@ -5656,7 +5656,7 @@ main > .modal-overlay.show { display: flex !important; }
     <!-- ====== PAGE: 经销商 > 部门列表 ====== -->
     <div class="page fade-in" id="page-orgDept">
       <div class="filter-section" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 14px;">
-        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">经销商</span><select id="orgDeptFilterCompany" onchange="orgDeptApplyFilters()" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);color:var(--text);min-width:240px;"></select></div>
+        <div id="orgDeptCompanyFilterWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">经销商</span><select id="orgDeptFilterCompany" onchange="orgDeptApplyFilters()" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);color:var(--text);min-width:240px;"></select></div>
         <input type="text" id="orgDeptSearch" placeholder="搜索部门名称" onkeydown="if(event.key==='Enter')orgDeptApplyFilters()" style="width:190px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
         <button class="btn btn-primary btn-sm" onclick="orgDeptApplyFilters()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
         <button class="btn btn-sm" onclick="resetOrgDeptFilters()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
@@ -9054,6 +9054,14 @@ function applyTopNavRoleVisibility() {
     if (hide) t.classList.remove('active');
   });
 }
+// 代理商（下级经销商）：数据只剩本主体 → 「部门 / 员工」筛选行里的「经销商」下拉没有意义，整块隐藏
+function applyAgentFilterVisibility() {
+  var hide = (currentRole === 'agent');
+  ['orgEmpCompanyFilterWrap', 'orgDeptCompanyFilterWrap'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.style.display = hide ? 'none' : 'flex';
+  });
+}
 function switchRole(role, el) {
   currentRole = role;
   // Button styling
@@ -9110,6 +9118,8 @@ function switchRole(role, el) {
   renderTickets();
   // 一级菜单的角色可见性（代理商看不到「经销商」）
   applyTopNavRoleVisibility();
+  // 部门 / 员工 筛选行里的「经销商」下拉：代理商隐藏
+  applyAgentFilterVisibility();
   // 统一应用一级菜单 + 角色权限
   var activeTop = document.querySelector('.top-nav-item.active');
   applyNavGroup(activeTop ? activeTop.getAttribute('data-group') : 'home');
@@ -9521,8 +9531,8 @@ function showPage(pageId) {
   if (pageId === 'teamSchedule') { renderTeamSchedule(); }
   if (pageId === 'orgOverview') { renderOrgOverview(); }
   if (pageId === 'orgCompany') { renderOrgCompanyList(); }
-  if (pageId === 'orgDept') { renderOrgDeptPage(); }
-  if (pageId === 'orgEmployee') { renderOrgCompanyFilter(); renderOrgEmpFilters(); renderOrgEmployees(); }
+  if (pageId === 'orgDept') { renderOrgDeptPage(); applyAgentFilterVisibility(); }
+  if (pageId === 'orgEmployee') { renderOrgCompanyFilter(); renderOrgEmpFilters(); renderOrgEmployees(); applyAgentFilterVisibility(); }
   if (pageId === 'home') { renderHomePage(); }
   if (pageId === 'assistant') { renderAgentCategoryTabs(); renderAgentQuickTasks(); }
   if (pageId === 'orderOverview') { renderOrderOverview(); }
@@ -30486,6 +30496,7 @@ bindCollapseFlyout();
 initModalCloseButtons();
 // 一级菜单/侧栏菜单的角色可见性（按初始角色渲染一次）
 applyTopNavRoleVisibility();
+applyAgentFilterVisibility();
 // Restore last page or default to home
 var savedPage = localStorage.getItem('currentPage');
 if (savedPage && document.getElementById('page-'+savedPage)) {
