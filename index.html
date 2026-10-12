@@ -2373,7 +2373,7 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="top-nav-item" data-group="finance" onclick="switchTopNav('finance', this)"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>财务</div>
     <div class="top-nav-item" data-group="customer" onclick="switchTopNav('customer', this)"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>客户</div>
     <div class="top-nav-item" data-group="orca" onclick="switchTopNav('orca', this)"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>ORCA</div>
-    <div class="top-nav-item" data-group="org" onclick="switchTopNav('org', this)"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg></span>经销商</div>
+    <div class="top-nav-item nav-agent-hidden" data-group="org" onclick="switchTopNav('org', this)"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg></span>经销商</div>
     <div class="top-nav-item" data-group="config" onclick="switchTopNav('config', this)"><span class="tn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>配置</div>
   </div>
   <div class="top-nav-right">
@@ -2489,15 +2489,15 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="nav-group-title single" data-nav-group="orca" data-page="skill" data-default-page="skill" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8z"/></svg></span> <span class="nav-text">技能</span></div>
     <div class="nav-group-title single" data-nav-group="orca" data-page="connectorManage" data-default-page="connectorManage" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3.5a2.5 2.5 0 0 1 5 0H17a1 1 0 0 1 1 1v3.5a2.5 2.5 0 0 1 0 5V20a1 1 0 0 1-1 1h-3.5a2.5 2.5 0 0 1-5 0H7a1 1 0 0 1-1-1v-3.5a2.5 2.5 0 0 1 0-5V8a1 1 0 0 1 1-1z"/></svg></span> <span class="nav-text">插件</span></div>
     <div class="nav-group-title" data-nav-group="orca" onclick="toggleNavSection(this)" id="orcaProjectTitle"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span> <span class="nav-text">项目</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
-    <div class="nav-group-title single" data-nav-group="customer" data-page="dashboard" data-default-page="dashboard" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span> <span class="nav-text">概览</span></div>
+    <div class="nav-group-title single nav-agent-hidden" data-nav-group="customer" data-page="dashboard" data-default-page="dashboard" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span> <span class="nav-text">概览</span></div>
     <div class="nav-group-title" data-nav-group="customer" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> <span class="nav-text">工单管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub" data-page="aiTicket" data-nav-group="customer" onclick="showPage('aiTicket')"> <span class="nav-text">AI工单</span>
     </div>
     <div class="nav-item sub" data-page="ticket" data-nav-group="customer" onclick="showPage('ticket')"> <span class="nav-text">工单</span>
     </div>
-    <div class="nav-item sub" data-page="aiReport" data-nav-group="customer" onclick="showPage('aiReport')"> <span class="nav-text">AI报备</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="aiReport" data-nav-group="customer" onclick="showPage('aiReport')"> <span class="nav-text">AI报备</span>
     </div>
-    <div class="nav-item sub" data-page="aiMarketing" data-nav-group="customer" onclick="showPage('aiMarketing')"> <span class="nav-text">AI主动营销</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="aiMarketing" data-nav-group="customer" onclick="showPage('aiMarketing')"> <span class="nav-text">AI主动营销</span>
     </div>
     <div class="nav-group-title" data-nav-group="customer" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/></svg></span> <span class="nav-text">客户管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub" data-page="crm" data-nav-group="customer" onclick="showPage('crm')"> <span class="nav-text">客户</span>
@@ -2506,62 +2506,62 @@ main > .modal-overlay.show { display: flex !important; }
     </div>
     <div class="nav-item sub" data-page="group" data-nav-group="customer" onclick="showPage('group')"> <span class="nav-text">客户组</span>
     </div>
-    <div class="nav-group-title single" data-nav-group="customer" data-page="chat" data-default-page="chat" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> <span class="nav-text">会话</span><span class="nav-own-badge" style="margin-left:auto;background:#94A3B8;color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center;">8</span></div>
-    <div class="nav-group-title" data-nav-group="customer" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span> <span class="nav-text">聊天监测</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
-    <div class="nav-item sub" data-page="staffChat" data-nav-group="customer" onclick="showPage('staffChat')"> <span class="nav-text">员工会话</span>
+    <div class="nav-group-title single nav-agent-hidden" data-nav-group="customer" data-page="chat" data-default-page="chat" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> <span class="nav-text">会话</span><span class="nav-own-badge" style="margin-left:auto;background:#94A3B8;color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center;">8</span></div>
+    <div class="nav-group-title nav-agent-hidden" data-nav-group="customer" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span> <span class="nav-text">聊天监测</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+    <div class="nav-item sub nav-agent-hidden" data-page="staffChat" data-nav-group="customer" onclick="showPage('staffChat')"> <span class="nav-text">员工会话</span>
     </div>
-    <div class="nav-item sub" data-page="customerChat" data-nav-group="customer" onclick="showPage('customerChat')"> <span class="nav-text">客户会话</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="customerChat" data-nav-group="customer" onclick="showPage('customerChat')"> <span class="nav-text">客户会话</span>
     </div>
-    <div class="nav-item sub" data-page="groupChat" data-nav-group="customer" onclick="showPage('groupChat')"> <span class="nav-text">群聊会话</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="groupChat" data-nav-group="customer" onclick="showPage('groupChat')"> <span class="nav-text">群聊会话</span>
     </div>
-    <div class="nav-item sub" data-page="timeoutTrace" data-nav-group="customer" onclick="showPage('timeoutTrace')"> <span class="nav-text">超时轨迹</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="timeoutTrace" data-nav-group="customer" onclick="showPage('timeoutTrace')"> <span class="nav-text">超时轨迹</span>
     </div>
-    <div class="nav-item sub" data-page="timeoutRecord" data-nav-group="customer" onclick="showPage('timeoutRecord')"> <span class="nav-text">超时记录</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="timeoutRecord" data-nav-group="customer" onclick="showPage('timeoutRecord')"> <span class="nav-text">超时记录</span>
     </div>
-    <div class="nav-item sub" data-page="timeoutSetting" data-nav-group="customer" onclick="showPage('timeoutSetting')"> <span class="nav-text">超时设置</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="timeoutSetting" data-nav-group="customer" onclick="showPage('timeoutSetting')"> <span class="nav-text">超时设置</span>
     </div>
-    <div class="nav-item sub" data-page="timeoutData" data-nav-group="customer" onclick="showPage('timeoutData')"> <span class="nav-text">超时数据</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="timeoutData" data-nav-group="customer" onclick="showPage('timeoutData')"> <span class="nav-text">超时数据</span>
     </div>
     <div class="nav-group-title single" data-nav-group="jy" data-page="orderOverview" data-default-page="orderOverview" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span> <span class="nav-text">概览</span></div>
     <div class="nav-group-title" data-nav-group="jy" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> <span class="nav-text">订单管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub" data-page="orderPackage" data-nav-group="jy" onclick="showPage('orderPackage')"> <span class="nav-text">集包</span>
     </div>
-    <div class="nav-item sub" data-page="orderPick" data-nav-group="jy" onclick="showPage('orderPick')"> <span class="nav-text">拣货</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="orderPick" data-nav-group="jy" onclick="showPage('orderPick')"> <span class="nav-text">拣货</span>
     </div>
-    <div class="nav-item sub" data-page="orderPack" data-nav-group="jy" onclick="showPage('orderPack')"> <span class="nav-text">打包</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="orderPack" data-nav-group="jy" onclick="showPage('orderPack')"> <span class="nav-text">打包</span>
     </div>
-    <div class="nav-item sub" data-page="orderVerify" data-nav-group="jy" onclick="showPage('orderVerify')"> <span class="nav-text">核款</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="orderVerify" data-nav-group="jy" onclick="showPage('orderVerify')"> <span class="nav-text">核款</span>
     </div>
-    <div class="nav-item sub" data-page="orderReturn" data-nav-group="jy" onclick="showPage('orderReturn')"> <span class="nav-text">退件</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="orderReturn" data-nav-group="jy" onclick="showPage('orderReturn')"> <span class="nav-text">退件</span>
     </div>
-    <div class="nav-item sub" data-page="orderException" data-nav-group="jy" onclick="showPage('orderException')"> <span class="nav-text">异常</span><span class="nav-badge" id="navBadgeEx"></span>
+    <div class="nav-item sub nav-agent-hidden" data-page="orderException" data-nav-group="jy" onclick="showPage('orderException')"> <span class="nav-text">异常</span><span class="nav-badge" id="navBadgeEx"></span>
     </div>
-    <div class="nav-item sub" data-page="orderVoid" data-nav-group="jy" onclick="showPage('orderVoid')"> <span class="nav-text">作废</span><span class="nav-badge" id="navBadgeVoid"></span>
+    <div class="nav-item sub nav-agent-hidden" data-page="orderVoid" data-nav-group="jy" onclick="showPage('orderVoid')"> <span class="nav-text">作废</span><span class="nav-badge" id="navBadgeVoid"></span>
     </div>
-    <div class="nav-group-title nav-not-employee" data-nav-group="jy" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">审核管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+    <div class="nav-group-title nav-not-employee nav-agent-hidden" data-nav-group="jy" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> <span class="nav-text">审核管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub nav-super-only" data-page="orderMerge" data-nav-group="jy" onclick="showPage('orderMerge')"> <span class="nav-text">加货合单</span><span class="nav-badge" id="navBadgeMerge"></span>
     </div>
     <div class="nav-item sub nav-super-only" data-page="orderGoodsAudit" data-nav-group="jy" onclick="showPage('orderGoodsAudit')"> <span class="nav-text">包裹分单</span><span class="nav-badge" id="navBadgeGoodsAudit"></span>
     </div>
     <div class="nav-item sub nav-super-only" data-page="orderPackAudit" data-nav-group="jy" onclick="showPage('orderPackAudit')"> <span class="nav-text">打包审核</span><span class="nav-badge" id="navBadgePackAudit"></span>
     </div>
-    <div class="nav-item sub nav-not-employee" data-page="orderQc" data-nav-group="jy" onclick="showPage('orderQc')"> <span class="nav-text">质检审核</span><span class="nav-badge" id="navBadgeQc"></span>
+    <div class="nav-item sub nav-not-employee nav-agent-hidden" data-page="orderQc" data-nav-group="jy" onclick="showPage('orderQc')"> <span class="nav-text">质检审核</span><span class="nav-badge" id="navBadgeQc"></span>
     </div>
-    <div class="nav-group-title" data-nav-group="jy" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span> <span class="nav-text">物流管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
-    <div class="nav-item sub" data-page="containerList" data-nav-group="jy" onclick="showPage('containerList')"> <span class="nav-text">货柜列表</span>
+    <div class="nav-group-title nav-agent-hidden" data-nav-group="jy" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span> <span class="nav-text">物流管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+    <div class="nav-item sub nav-agent-hidden" data-page="containerList" data-nav-group="jy" onclick="showPage('containerList')"> <span class="nav-text">货柜列表</span>
     </div>
-    <div class="nav-item sub" data-page="shipEnd" data-nav-group="jy" onclick="showPage('shipEnd')"> <span class="nav-text">末端打单</span><span class="nav-badge" id="navBadgeShipErr"></span>
+    <div class="nav-item sub nav-agent-hidden" data-page="shipEnd" data-nav-group="jy" onclick="showPage('shipEnd')"> <span class="nav-text">末端打单</span><span class="nav-badge" id="navBadgeShipErr"></span>
     </div>
-    <div class="nav-item sub" data-page="trackingMgr" data-nav-group="jy" onclick="showPage('trackingMgr')"> <span class="nav-text">轨迹管理</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="trackingMgr" data-nav-group="jy" onclick="showPage('trackingMgr')"> <span class="nav-text">轨迹管理</span>
     </div>
-    <div class="nav-item sub" data-page="inventoryMgr" data-nav-group="jy" onclick="showPage('inventoryMgr')"> <span class="nav-text">库存管理</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="inventoryMgr" data-nav-group="jy" onclick="showPage('inventoryMgr')"> <span class="nav-text">库存管理</span>
     </div>
     <div class="nav-group-title single" data-nav-group="finance" data-page="finance" data-default-page="finance" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span> <span class="nav-text">财务概览</span></div>
     <div class="nav-group-title single" data-nav-group="finance" data-page="financeDetail" data-default-page="financeDetail" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> <span class="nav-text">财务明细</span></div>
-    <div class="nav-group-title single" data-nav-group="org" data-page="orgOverview" data-default-page="orgOverview" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span> <span class="nav-text">总览</span></div>
+    <div class="nav-group-title single nav-agent-hidden" data-nav-group="org" data-page="orgOverview" data-default-page="orgOverview" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span> <span class="nav-text">总览</span></div>
     <div class="nav-group-title single nav-agent-hidden" data-nav-group="org" data-page="orgCompany" data-default-page="orgCompany" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 21v-6h6v6"/></svg></span> <span class="nav-text">经销商管理</span></div>
-    <div class="nav-group-title single" data-nav-group="org" data-page="orgDept" data-default-page="orgDept" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span> <span class="nav-text">部门列表</span></div>
-    <div class="nav-group-title single" data-nav-group="org" data-page="orgEmployee" data-default-page="orgEmployee" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> <span class="nav-text">员工管理</span></div>
+    <div class="nav-group-title single nav-agent-hidden" data-nav-group="org" data-page="orgDept" data-default-page="orgDept" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span> <span class="nav-text">部门列表</span></div>
+    <div class="nav-group-title single nav-agent-hidden" data-nav-group="org" data-page="orgEmployee" data-default-page="orgEmployee" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> <span class="nav-text">员工管理</span></div>
     <div class="nav-group-title" data-nav-group="config" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/></svg></span> <span class="nav-text">AI配置</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub" data-page="knowledge" data-nav-group="config" onclick="showPage('knowledge')"> <span class="nav-text">内部知识库</span>
     </div>
@@ -2574,18 +2574,22 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="nav-item sub" data-page="attrTraining" data-nav-group="config" onclick="showPage('attrTraining')"> <span class="nav-text">AI属性训练</span>
     </div>
     <div class="nav-group-title" data-nav-group="config" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> <span class="nav-text">团队</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
-    <div class="nav-item sub" data-page="team" data-nav-group="config" onclick="showPage('team')"> <span class="nav-text">团队列表</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="team" data-nav-group="config" onclick="showPage('team')"> <span class="nav-text">团队列表</span>
     </div>
-    <div class="nav-item sub" data-page="store" data-nav-group="config" onclick="showPage('store')"> <span class="nav-text">国内门店</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="store" data-nav-group="config" onclick="showPage('store')"> <span class="nav-text">国内门店</span>
     </div>
-    <div class="nav-item sub" data-page="storeOverseas" data-nav-group="config" onclick="showPage('storeOverseas')"> <span class="nav-text">海外门店</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="storeOverseas" data-nav-group="config" onclick="showPage('storeOverseas')"> <span class="nav-text">海外门店</span>
     </div>
-    <div class="nav-item sub" data-page="teamSchedule" data-nav-group="config" onclick="showPage('teamSchedule')"> <span class="nav-text">排班</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="teamSchedule" data-nav-group="config" onclick="showPage('teamSchedule')"> <span class="nav-text">排班</span>
+    </div>
+    <div class="nav-item sub nav-agent-only" data-page="orgDept" data-nav-group="config" onclick="showPage('orgDept')"> <span class="nav-text">部门</span>
+    </div>
+    <div class="nav-item sub nav-agent-only" data-page="orgEmployee" data-nav-group="config" onclick="showPage('orgEmployee')"> <span class="nav-text">员工</span>
     </div>
     <div class="nav-group-title" data-nav-group="config" onclick="toggleNavSection(this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> <span class="nav-text">系统管理</span><span class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
     <div class="nav-item sub" data-page="aiTicketConfig" data-nav-group="config" onclick="showPage('aiTicketConfig')"> <span class="nav-text">AI工单配置</span>
     </div>
-    <div class="nav-item sub" data-page="qcConfig" data-nav-group="config" onclick="showPage('qcConfig')"> <span class="nav-text">质检配置</span>
+    <div class="nav-item sub nav-agent-hidden" data-page="qcConfig" data-nav-group="config" onclick="showPage('qcConfig')"> <span class="nav-text">质检配置</span>
     </div>
     <div class="nav-item sub" data-page="settings" data-nav-group="config" onclick="showPage('settings')"> <span class="nav-text">个人中心</span>
     </div>
@@ -9035,6 +9039,21 @@ function redrawActivePageForScope() {
   if (id === 'orderOverview') { renderOrderOverview(); return; }
 }
 
+// 工单 / AI工单：超管专属列（创建类型 / 所属公司）与「所属公司」筛选行的显隐
+// 注意：列表重绘会重建 <td>，内联 display 会丢失，所以每次 render 之后必须再应用一次
+function applyTicketColSuperVisibility() {
+  var show = (currentRole === 'super');
+  document.querySelectorAll('.ticket-col-super').forEach(function(el){ el.style.display = show ? '' : 'none'; });
+  document.querySelectorAll('.ticket-col-super-wrap').forEach(function(el){ el.style.display = show ? 'flex' : 'none'; });
+}
+// 顶部一级菜单的角色可见性：代理商（下级经销商）看不到「经销商」（开户与跨主体查看属总部能力）
+function applyTopNavRoleVisibility() {
+  document.querySelectorAll('.top-nav-item').forEach(function(t){
+    var hide = t.classList.contains('nav-agent-hidden') && currentRole === 'agent';
+    t.style.display = hide ? 'none' : '';
+    if (hide) t.classList.remove('active');
+  });
+}
 function switchRole(role, el) {
   currentRole = role;
   // Button styling
@@ -9068,10 +9087,8 @@ function switchRole(role, el) {
   document.querySelectorAll('.pick-btn-super').forEach(function(b){ b.style.display = (role==='super') ? '' : 'none'; });
   document.querySelectorAll('.pack-btn-manager').forEach(function(b){ b.style.display = (role==='manager') ? '' : 'none'; });
   document.querySelectorAll('.pkg-batch-btn').forEach(function(b){ b.style.display = (role==='super'||role==='manager') ? '' : 'none'; });
-  // Ticket page super-only columns
-  document.querySelectorAll('.ticket-col-super').forEach(function(el){ el.style.display = (role==='super') ? '' : 'none'; });
-  // 工单 / AI工单 的「所属公司」筛选行：整块（含标签）仅超管可见，需保留 flex 布局
-  document.querySelectorAll('.ticket-col-super-wrap').forEach(function(el){ el.style.display = (role==='super') ? 'flex' : 'none'; });
+  // 工单/AI工单 超管专属列与筛选行的显隐（列表重绘后还会再调一次）
+  applyTicketColSuperVisibility();
   // 集包列表：所属公司列 / 筛选仅超管可见，切换角色后需重绘
   if (document.getElementById('page-orderPackage') && document.getElementById('page-orderPackage').classList.contains('active')) {
     renderOrderPkgList(); renderOrderPkgStats();
@@ -9091,12 +9108,14 @@ function switchRole(role, el) {
   }
   renderTicketTabs();
   renderTickets();
+  // 一级菜单的角色可见性（代理商看不到「经销商」）
+  applyTopNavRoleVisibility();
   // 统一应用一级菜单 + 角色权限
   var activeTop = document.querySelector('.top-nav-item.active');
   applyNavGroup(activeTop ? activeTop.getAttribute('data-group') : 'home');
-  // 代理商（下级经销商）角色：把「经销商管理」跳到「总览」（菜单隐藏由 applyNavGroup 的 nav-agent-hidden 规则统一处理）
-  if (isAgent && document.getElementById('page-orgCompany') && document.getElementById('page-orgCompany').classList.contains('active')) {
-    showPage('orgOverview');
+  // 代理商（下级经销商）角色：一级菜单「经销商」整体不可见 → 若当前停留在该组，切到「配置」（部门 / 员工在配置下）
+  if (isAgent && currentNavGroup === 'org') {
+    switchTopNav('config');
   }
   // 代理商：按主体重绘当前页面（数据范围 = 本主体）；其他角色需先清掉被主体锁定的筛选状态
   if (!isAgent) {
@@ -9348,6 +9367,8 @@ function applyNavGroup(group) {
   if (sidebar) {
     sidebar.style.display = (group === 'home') ? 'none' : '';
   }
+  // 代理商（下级经销商）：一级菜单「经销商」整体不可见 → 该组菜单按「配置」渲染，避免出现空侧栏
+  if (group === 'org' && currentRole === 'agent') group = 'config';
   var isEmp = (currentRole === 'employee');
   var items = document.querySelectorAll('.sidebar-nav .nav-item, .sidebar-nav .nav-group-title');
   items.forEach(function(item){
@@ -9356,6 +9377,7 @@ function applyNavGroup(group) {
     var isSuperOnly = item.classList.contains('nav-super-only');
     var isNotEmployee = item.classList.contains('nav-not-employee');
     var isAgentHidden = item.classList.contains('nav-agent-hidden');
+    var isAgentOnly = item.classList.contains('nav-agent-only');
     var empHidden = (page && ['tag','dashboard','group'].indexOf(page) !== -1);
     var showByGroup = (!g || g === group);
     var showByRole = true;
@@ -9363,6 +9385,7 @@ function applyNavGroup(group) {
     if (empHidden && isEmp) showByRole = false;
     if (isNotEmployee && isEmp) showByRole = false;
     if (isAgentHidden && currentRole === 'agent') showByRole = false;
+    if (isAgentOnly && currentRole !== 'agent') showByRole = false;
     var show = (showByGroup && showByRole);
     // 展开收起：三级菜单若所属二级标题已收起，则隐藏
     if (show && item.classList.contains('nav-item')) {
@@ -9420,6 +9443,8 @@ function openMsgDetail(row, title, content) {
 }
 
 function switchTopNav(group, el) {
+  // 代理商（下级经销商）：一级菜单「经销商」不可见，任何入口都回落到「配置」
+  if (group === 'org' && currentRole === 'agent') group = 'config';
   // 顶部一级菜单高亮
   document.querySelectorAll('.top-nav-item').forEach(function(t){ t.classList.remove('active'); });
   var target = el || document.querySelector('.top-nav-item[data-group="'+group+'"]');
@@ -9444,7 +9469,14 @@ function showPage(pageId) {
   if (page) page.classList.add('active');
   // Update nav active state
   document.querySelectorAll('.nav-item, .nav-group-title').forEach(function(n){ n.classList.remove('active'); });
-  var nav = document.querySelector('[data-page=\"'+pageId+'\"]');
+  // 同一 page 可能在多个一级菜单下各有一个入口（如「部门 / 员工」既在经销商组、也在代理商配置组）
+  // 优先选当前可见的那个，避免点配置下的入口却把侧栏跳到经销商组
+  var nav = null;
+  var navCands = document.querySelectorAll('[data-page="'+pageId+'"]');
+  for (var ni = 0; ni < navCands.length; ni++) {
+    if (navCands[ni].style.display !== 'none') { nav = navCands[ni]; break; }
+  }
+  if (!nav && navCands.length) nav = navCands[0];
   if (nav) nav.classList.add('active');
   // 同步顶部一级菜单高亮
   if (nav && nav.getAttribute('data-nav-group')) {
@@ -9967,6 +9999,7 @@ function renderTicketRows(list) {
     '<td style="font-size:10px;white-space:nowrap;">'+(t.created||'')+'</td>'+
     '<td style=\"white-space:nowrap;\">'+actions+'</td></tr>';
   }).join('');
+  applyTicketColSuperVisibility();
 }
 
 function buildTicketActionsHtml(t) {
@@ -16138,6 +16171,7 @@ function filterAiTickets() {
     '<td style="font-size:11px;white-space:nowrap;">'+fmtTs(t.createdAt)+'</td>'+
     '<td onclick="event.stopPropagation();"><button class="btn btn-sm btn-primary" onclick="pickAiToTicket('+t.id+')" style="font-size:10px;" '+(t.status==='picked'?'disabled':'')+'>'+(t.status==='picked'?'已挑入':'挑入工单')+'</button></td></tr>';
   }).join('');
+  applyTicketColSuperVisibility();
   updateAiTicketTabCounts();
 }
 
@@ -30450,6 +30484,8 @@ seedTickets(); seedCRM(); renderTicketTabs();
 renderOrcaProjects();
 bindCollapseFlyout();
 initModalCloseButtons();
+// 一级菜单/侧栏菜单的角色可见性（按初始角色渲染一次）
+applyTopNavRoleVisibility();
 // Restore last page or default to home
 var savedPage = localStorage.getItem('currentPage');
 if (savedPage && document.getElementById('page-'+savedPage)) {
