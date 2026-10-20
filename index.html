@@ -7770,6 +7770,7 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="modal" style="width:420px;">
         <h3>确认发货</h3>
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;" id="verifyShipInfo"></div>
+        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">出库仓库 <span style="color:var(--danger);">*</span></label><select id="verifyShipWarehouse" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择出库仓库</option><option>青源仓</option><option>派力仓</option><option>博乐仓</option></select></div>
         <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">确认备注 <span style="color:var(--text-muted);">(选填)</span></label><textarea id="verifyShipNote" placeholder="请输入发货备注..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hideVerifyShipModal()">取消</button><button class="btn btn-primary btn-sm" onclick="doConfirmVerifyShip()">确认发货</button></div>
       </div>
@@ -19930,9 +19931,9 @@ function pkgWhOf(o) {
   var legacy = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'混合仓', '博乐仓':'博乐仓' };
   return legacy[o.type] || '青源仓';
 }
+// 仓库标签：统一使用主体色（浅海军蓝底 + 深海军蓝字），与详情「集包类型」标签同口径
 function orderWhTag(w) {
-  var cls = { '门店':'tag-blue', '青源仓':'tag-green', '派力仓':'tag-orange', '混合仓':'tag-purple', '博乐仓':'tag-yellow' }[w] || 'tag-gray';
-  return '<span class="tag ' + cls + '">' + w + '</span>';
+  return '<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#E7F3FB;color:#173D5B;font-size:11px;font-weight:600;line-height:1.6;">' + w + '</span>';
 }
 function orderPkgTypeTag(o) { return orderTypeTag(pkgTypeOf(o)); }
 function orderPkgWhTag(o) { return orderWhTag(pkgWhOf(o)); }
@@ -21277,6 +21278,8 @@ function pkgBoxData(o) {
     boxes.push({
       idx: i,
       boxNo: boxOrderNo + '-' + i,
+      // 所属仓库：优先取完成打包时登记的箱仓库；演示数据按箱序号在青源仓/派力仓间交替
+      warehouse: (((o.packStartBoxes || [])[i - 1] || {}).warehouse) || (i % 2 === 1 ? '青源仓' : '派力仓'),
       parcels: parcelList.length,
       items: itemList.length,
       length: L, width: W, height: H,
@@ -21325,6 +21328,7 @@ function buildPkgPackingSecHtml(o) {
       '<th style="width:28px;"><input type="checkbox" onclick="pkgBoxToggleAll(this)" title="全选"></th>' +
       '<th style="width:40px;">序号</th>' +
       '<th>箱号</th>' +
+      '<th style="width:88px;">所属仓库</th>' +
       '<th>包裹数</th>' +
       '<th>物品数</th>' +
       '<th title="长（cm）">长</th>' +
@@ -21350,6 +21354,7 @@ function renderPkgPackingRows(o) {
       '<td><input type="checkbox" class="pkgbox-check" value="' + b.idx + '" onchange="pkgBoxUpdateBatch()"></td>' +
       '<td>' + b.idx + '</td>' +
       '<td style="white-space:nowrap;font-weight:600;">' + b.boxNo + '</td>' +
+      '<td style="white-space:nowrap;">' + orderWhTag(b.warehouse) + '</td>' +
       '<td><span class="org-count-link" onclick="showPkgBoxParcels(' + o.id + ',' + b.idx + ')" title="查看该箱包裹明细" style="cursor:pointer;">' + b.parcels + '</span></td>' +
       '<td><span class="org-count-link" onclick="showPkgBoxItems(' + o.id + ',' + b.idx + ')" title="查看该箱物品明细" style="cursor:pointer;">' + b.items + '</span></td>' +
       '<td>' + b.length + '</td>' +
@@ -21363,7 +21368,7 @@ function renderPkgPackingRows(o) {
       '<td>' + pkgShotThumb(b.tone, 'load', '装箱图片', 'showPkgBoxShot(' + o.id + ',' + b.idx + ',\'load\')', 30) + '</td>' +
       '<td>' + pkgShotThumb(b.tone, 'seal', '封箱图片', 'showPkgBoxShot(' + o.id + ',' + b.idx + ',\'seal\')', 30) + '</td>' +
       '</tr>';
-  }).join('') || '<tr><td colspan="15" style="text-align:center;color:var(--text-muted);padding:30px;">暂无打包明细</td></tr>';
+  }).join('') || '<tr><td colspan="16" style="text-align:center;color:var(--text-muted);padding:30px;">暂无打包明细</td></tr>';
   var master = document.querySelector('#pkgBoxTable thead input[type="checkbox"]');
   if (master) master.checked = false;
   pkgBoxUpdateBatch();
@@ -21516,7 +21521,7 @@ function showPkgBoxParcels(oid, idx) {
       '</tr>';
   }).join('');
   pkgBoxModalWrap('包裹明细',
-    '箱号 ' + b.boxNo + '（序号 ' + b.idx + '） · 共 ' + b.parcels + ' 个包裹，重量单位 kg',
+    '箱号 ' + b.boxNo + '（序号 ' + b.idx + '）· ' + b.warehouse + ' · 共 ' + b.parcels + ' 个包裹，重量单位 kg',
     '<table class="data-table data-table--compact"><thead><tr><th style="width:48px;">序号</th><th>包裹编号</th><th>快递单号</th><th>物品数</th><th>重量(kg)</th><th>入库图片</th><th>拆包图片</th><th>货架</th></tr></thead><tbody>' + rows + '</tbody></table>');
 }
 // 点「物品数」→ 该箱的物品明细
@@ -21594,9 +21599,9 @@ function exportPkgBoxPacking(oid) {
   if (!o) return;
   var set = pkgBoxUseSet(o);
   if (!set.use.length) { showToast('请先勾选要导出的箱子'); return; }
-  var head = ['序号', '箱号', '包裹数', '物品数', '长(cm)', '宽(cm)', '高(cm)', '体积周长(cm)', '体积(m³)', '体积重(kg)', '实重(kg)', '密度(kg/m³)'];
+  var head = ['序号', '箱号', '所属仓库', '包裹数', '物品数', '长(cm)', '宽(cm)', '高(cm)', '体积周长(cm)', '体积(m³)', '体积重(kg)', '实重(kg)', '密度(kg/m³)'];
   var rows = set.use.map(function(b){
-    return [b.idx, b.boxNo, b.parcels, b.items, b.length, b.width, b.height, b.girth,
+    return [b.idx, b.boxNo, b.warehouse, b.parcels, b.items, b.length, b.width, b.height, b.girth,
       b.volume.toFixed(3), b.volWeight.toFixed(2), b.realWeight.toFixed(2), b.density.toFixed(1)];
   });
   pkgBoxDownloadCsv(pkgBoxFileName(o, set, '打包明细'), head, rows, '已导出打包明细');
@@ -21607,11 +21612,11 @@ function exportPkgBoxParcels(oid) {
   if (!o) return;
   var set = pkgBoxUseSet(o);
   if (!set.use.length) { showToast('请先勾选要导出的箱子'); return; }
-  var head = ['箱号', '箱序号', '包裹编号', '快递单号', '物品数', '重量(kg)', '货架'];
+  var head = ['箱号', '所属仓库', '箱序号', '包裹编号', '快递单号', '物品数', '重量(kg)', '货架'];
   var rows = [];
   set.use.forEach(function(b){
     b.parcelList.forEach(function(p){
-      rows.push([b.boxNo, b.idx, p.no, p.express, p.itemLines, p.weight, p.shelf]);
+      rows.push([b.boxNo, b.warehouse, b.idx, p.no, p.express, p.itemLines, p.weight, p.shelf]);
     });
   });
   pkgBoxDownloadCsv(pkgBoxFileName(o, set, '包裹清单'), head, rows, '已导出包裹清单');
@@ -21893,18 +21898,18 @@ function pkgFlowDetailHtml(o, key, state) {
     var fParcelSec = '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">' +
       fSecHead('打包包裹列表', '共 ' + fParcels.length + ' 个包裹') +
       (fParcels.length
-        ? '<div class="pkg-step-scroll"><table class="pkg-step-table"><thead><tr><th>箱号</th><th>包裹编号</th><th>快递单号</th><th style="text-align:center;">物品数</th><th style="text-align:right;">重量</th></tr></thead><tbody>' +
+        ? '<div class="pkg-step-scroll"><table class="pkg-step-table"><thead><tr><th>箱号</th><th>所属仓库</th><th>包裹编号</th><th>快递单号</th><th style="text-align:center;">物品数</th><th style="text-align:right;">重量</th></tr></thead><tbody>' +
           fParcels.map(function(x){
-            return '<tr><td>' + x.box.boxNo + '</td><td>' + x.p.no + '</td><td>' + x.p.express + '</td><td style="text-align:center;">' + x.p.itemLines + '</td><td style="text-align:right;">' + x.p.weight + ' kg</td></tr>';
+            return '<tr><td>' + x.box.boxNo + '</td><td>' + orderWhTag(x.box.warehouse) + '</td><td>' + x.p.no + '</td><td>' + x.p.express + '</td><td style="text-align:center;">' + x.p.itemLines + '</td><td style="text-align:right;">' + x.p.weight + ' kg</td></tr>';
           }).join('') + '</tbody></table></div>'
         : '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">暂无包裹数据</div>') +
     '</div>';
     var fBoxSec = '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">' +
       fSecHead('打包箱子列表', '共 ' + fBoxes.length + ' 箱') +
       (fBoxes.length
-        ? '<div class="pkg-step-scroll"><table class="pkg-step-table"><thead><tr><th>箱号</th><th style="text-align:center;">包裹数</th><th style="text-align:center;">物品数</th><th style="text-align:right;">体积</th><th style="text-align:right;">实重</th><th>装箱图片 / 封箱图片</th></tr></thead><tbody>' +
+        ? '<div class="pkg-step-scroll"><table class="pkg-step-table"><thead><tr><th>箱号</th><th>所属仓库</th><th style="text-align:center;">包裹数</th><th style="text-align:center;">物品数</th><th style="text-align:right;">体积</th><th style="text-align:right;">实重</th><th>装箱图片 / 封箱图片</th></tr></thead><tbody>' +
           fBoxes.map(function(b){
-            return '<tr><td>' + b.boxNo + '</td><td style="text-align:center;">' + b.parcels + '</td><td style="text-align:center;">' + b.items + '</td><td style="text-align:right;">' + b.volume + ' m³</td><td style="text-align:right;">' + b.realWeight + ' kg</td><td>' + fShotMini(b.tone, 'load') + fShotMini(b.tone, 'seal') + '</td></tr>';
+            return '<tr><td>' + b.boxNo + '</td><td>' + orderWhTag(b.warehouse) + '</td><td style="text-align:center;">' + b.parcels + '</td><td style="text-align:center;">' + b.items + '</td><td style="text-align:right;">' + b.volume + ' m³</td><td style="text-align:right;">' + b.realWeight + ' kg</td><td>' + fShotMini(b.tone, 'load') + fShotMini(b.tone, 'seal') + '</td></tr>';
           }).join('') + '</tbody></table></div>'
         : '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">暂无箱子数据</div>') +
     '</div>';
@@ -31675,6 +31680,8 @@ function confirmVerifyShip(id) {
   var o = orderPackages.find(function(p){ return p.id===id; });
   if (!o) return;
   document.getElementById('verifyShipInfo').textContent = '集包号：'+o.code+' | '+orderPlainXy(o);
+  var _whSel = document.getElementById('verifyShipWarehouse');
+  if (_whSel) _whSel.value = '';
   document.getElementById('verifyShipNote').value = '';
   document.getElementById('verifyShipModal').classList.add('show');
 }
@@ -31683,11 +31690,15 @@ function doConfirmVerifyShip() {
   if (!currentVerifyShipId) return;
   var o = orderPackages.find(function(p){ return p.id===currentVerifyShipId; });
   if (!o) return;
+  var _whEl = document.getElementById('verifyShipWarehouse');
+  var _wh = _whEl ? _whEl.value : '';
+  if (!_wh) { alert('请选择出库仓库'); return; }
+  o.verifyShipWarehouse = _wh;
   o.verifyShipAt = new Date().toISOString().slice(0,16).replace('T',' ');
   o.verifyShipNote = document.getElementById('verifyShipNote').value.trim() || '';
   hideVerifyShipModal();
   renderVerifyPaid(); renderVerifyShipping(); renderOrderVerifyStats();
-  showToast('发货确认成功，进入发货中：'+o.code);
+  showToast('发货确认成功（' + _wh + '出库），进入发货中：' + o.code);
 }
 var currentVerifyDoneId = null;
 function confirmVerifyDone(id) {
