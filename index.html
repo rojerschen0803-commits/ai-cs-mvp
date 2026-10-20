@@ -19933,7 +19933,7 @@ function pkgWhOf(o) {
 }
 // 仓库标签：统一使用主体色（浅海军蓝底 + 深海军蓝字），与详情「集包类型」标签同口径
 function orderWhTag(w) {
-  return '<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#E7F3FB;color:#173D5B;font-size:11px;font-weight:600;line-height:1.6;">' + w + '</span>';
+  return '<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#E7F3FB;color:#173D5B;font-size:11px;font-weight:600;line-height:1.6;white-space:nowrap;">' + w + '</span>';
 }
 function orderPkgTypeTag(o) { return orderTypeTag(pkgTypeOf(o)); }
 function orderPkgWhTag(o) { return orderWhTag(pkgWhOf(o)); }
