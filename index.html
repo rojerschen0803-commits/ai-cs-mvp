@@ -422,6 +422,47 @@ button, input, select, textarea { font-family: inherit; }
 .crm-drawer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); }
 .crm-drawer-panel { position: absolute; top: 0; right: 0; width: 70%; max-width: 950px; height: 100%; background: var(--card); box-shadow: -4px 0 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; animation: slideInLeft 0.25s ease; }
 @keyframes slideInLeft { from { transform: translateX(100%); } to { transform: translateX(0); } }
+/* 客户详情：与集包详情同款（灰底 + 白卡 + 主色图标） */
+.crm-dhead { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: #fff; border-bottom: 1px solid #EAEEF3; flex-shrink: 0; }
+.crm-dhead-ico { width: 26px; height: 26px; border-radius: 7px; background: #E7F3FB; color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.crm-dhead-ico svg { width: 14px; height: 14px; }
+.crm-dhead-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.crm-dhead-close { margin-left: auto; width: 28px; height: 28px; border: none; background: transparent; color: var(--text-muted); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.crm-dhead-close:hover { background: #F1F4F8; color: var(--text); }
+.crm-dhead-close svg { width: 15px; height: 15px; }
+.crm-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; padding: 14px 16px 16px; overflow: hidden; }
+.crm-card { background: #fff; border: 1px solid #EAEEF3; border-radius: 10px; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+.crm-card--profile { flex: 0 0 20%; min-height: 150px; max-height: 220px; overflow-y: auto; padding: 12px 16px; }
+.crm-card--tab { flex: 1; min-height: 0; overflow-y: auto; padding: 14px 16px; }
+.crm-card-head { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; flex-wrap: wrap; }
+.crm-avatar { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, #E7F3FB, #D6E9F7); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 0 0 1px #C7DCEA; }
+.crm-avatar svg { width: 17px; height: 17px; }
+.crm-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.crm-code-tag { font-size: 10px; padding: 1px 8px; border-radius: 9px; background: #E7F3FB; color: #173D5B; border: 1px solid #C7DCEA; font-weight: 600; letter-spacing: .2px; }
+.crm-tag { font-size: 10px; padding: 1px 8px; border-radius: 9px; background: #F3F4F6; color: #111827; border: 1px solid var(--border); }
+.crm-info-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px 12px; }
+.crm-kv { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.crm-kv-ico { width: 24px; height: 24px; border-radius: 6px; background: #EEF4FF; color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.crm-kv-ico svg { width: 13px; height: 13px; }
+.crm-kv-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
+.crm-kv-label { font-size: 10px; color: var(--text-muted); }
+.crm-kv-value { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crm-tabbar { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; background: #fff; border: 1px solid #EAEEF3; border-radius: 10px; box-shadow: 0 1px 2px rgba(16,24,40,.04); flex-shrink: 0; }
+.crm-dtab { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 6px 13px; cursor: pointer; color: var(--text-secondary); border-radius: 6px; background: var(--bg); white-space: nowrap; transition: all .15s; user-select: none; }
+.crm-dtab svg { width: 13px; height: 13px; flex-shrink: 0; }
+.crm-dtab:hover { color: var(--text); background: var(--border-light); }
+.crm-dtab.active { color: #fff; background: var(--primary); font-weight: 600; }
+.crm-sec { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
+.crm-sec-ico { width: 20px; height: 20px; border-radius: 5px; background: #EEF4FF; color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.crm-sec-ico svg { width: 12px; height: 12px; }
+.crm-sec-t { font-size: 12.5px; font-weight: 600; color: var(--text); }
+.crm-sec-x { font-size: 10px; color: var(--text-muted); }
+.crm-sec-badge { font-size: 10px; padding: 1px 7px; border-radius: 9px; background: #E7F3FB; color: #173D5B; border: 1px solid #C7DCEA; }
+.crm-sec-upd { margin-left: auto; font-size: 11px; color: var(--text-muted); }
+.crm-ticketcard { background: #F9FBFD; border: 1px solid #E9EEF3; border-radius: 8px; padding: 12px; cursor: pointer; transition: all .15s; }
+.crm-ticketcard:hover { border-color: #C7DCEA; background: #F5FAFE; box-shadow: 0 2px 8px rgba(23,61,91,.06); }
+.crm-ticket-ico { width: 20px; height: 20px; border-radius: 5px; background: #E7F3FB; color: var(--primary); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.crm-ticket-ico svg { width: 12px; height: 12px; }
 /* AI compare drawer shares styles with ticket drawer */
 #aiCompareDrawer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; }
 #aiCompareDrawer.open { display: flex; }
@@ -2084,6 +2125,10 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex; flex-direction: column;
 }
 .drawer-overlay.show .drawer-panel { right: 0; }
+
+/* 工单详情抽屉：避免与订单详情抽屉的同名 .drawer-panel 样式冲突（被 right:-960px 推出屏幕） */
+#ticketDrawer .drawer-overlay { position: absolute; inset: 0; display: block; opacity: 1; background: rgba(0,0,0,0.3); }
+#ticketDrawer .drawer-panel { position: absolute; top: 0; right: 0; bottom: auto; width: 70%; max-width: 900px; height: 100%; }
 .drawer-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 20px; border-bottom: 1px solid var(--border);
@@ -2202,6 +2247,13 @@ input[type="range"]::-webkit-slider-thumb {
 .pkg-top-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:2px 0 9px; }
 .pkg-top-xy { font-size:16px; font-weight:700; color:var(--primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .pkg-basic-card { background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:12px; box-shadow:0 1px 2px rgba(16,24,40,.04); }
+
+/* ===== 集包详情：灰色底 + 白色模块卡片 ===== */
+#orderPkgDrawer .drawer-body { background: #F3F6FA; padding: 14px 16px 16px; }
+#orderPkgDrawer .pkg-basic-card { border-color: #EAEEF3; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+#orderPkgDrawer #pkgDetailTabBar { background: #fff; border: 1px solid #EAEEF3; border-radius: 10px; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+#orderPkgDrawer #pkgDetailTabContent { background: #fff; border: 1px solid #EAEEF3; border-radius: 10px; padding: 14px 16px; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+#orderPkgDrawer #pkgDetailTabContent > *:first-child { margin-top: 0; }
 .pkg-basic-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:7px 12px; }
 .pkg-info-item { display:flex; align-items:center; gap:7px; min-width:0; }
 .pkg-info-ico { width:24px; height:24px; border-radius:6px; background:#EEF4FF; color:var(--primary); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
@@ -3139,7 +3191,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div style="overflow-x:auto;">
           <table class="data-table" id="crmTable">
             <thead>
-              <tr><th style="width:34px;"><input type="checkbox" onclick="toggleAllCrmCheckboxes(this)" title="全选"></th><th>客户ID</th><th>海鸥系统ID</th><th>客户名称</th><th>所属公司</th><th>地区</th><th>组别</th><th>标签</th><th>工单数</th><th>订单数</th><th>创建时间</th><th>操作</th></tr>
+              <tr><th style="width:34px;"><input type="checkbox" onclick="toggleAllCrmCheckboxes(this)" title="全选"></th><th>客户ID</th><th>海鸥ID</th><th>客户名称</th><th>所属公司</th><th>地区</th><th>组别</th><th>标签</th><th>工单数</th><th>订单数</th><th>创建时间</th><th>操作</th></tr>
             </thead>
             <tbody id="crmTableBody"></tbody>
           </table>
@@ -3157,7 +3209,7 @@ main > .modal-overlay.show { display: flex !important; }
           <div><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">客户名称</label><input type="text" id="crmNewName" placeholder="客户姓名/公司名" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
           <div><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">客户ID</label><input type="text" id="crmNewId" readonly style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--bg);" value="自动生成 AG+6位"></div>
           <div><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">地区</label><select id="crmNewCountry" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择</option><option>西班牙</option><option>德国</option><option>法国</option><option>意大利</option><option>中国</option><option>其他</option></select></div>
-          <div><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥ID</label><input type="text" id="crmNewHaioId" placeholder="手动填写" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥ID</label><input type="text" id="crmNewHaioId" placeholder="如 2532969" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
           <div><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">联系电话</label><input type="text" id="crmNewPhone" placeholder="+34/86..." style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
           <div><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">邮箱</label><input type="text" id="crmNewEmail" placeholder="xx@xx.com" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
           <div><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">微信号</label><input type="text" id="crmNewWechat" placeholder="微信号" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
@@ -6540,7 +6592,7 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
           <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;white-space:nowrap;">国家</label><input type="text" id="orderPkgCountry" placeholder="如 德国" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
-          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;white-space:nowrap;">海鸥客户ID</label><input type="text" id="orderPkgHaioId" placeholder="如 HIO-10001" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;white-space:nowrap;">海鸥客户ID</label><input type="text" id="orderPkgHaioId" placeholder="如 2532969" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">是否加急</label><select id="orderPkgUrgent" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgUrgentChange()"><option value="否">否</option><option value="是">是</option></select></div>
         </div>
         <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
@@ -7221,7 +7273,7 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <div style="margin-bottom:10px;display:flex;gap:8px;">
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥订单号(XY) <span style="color:var(--danger);">*</span></label><input type="text" id="packCreateXy" placeholder="如 XY20240703001" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;white-space:nowrap;">海鸥客户ID</label><input type="text" id="packCreateHaioId" placeholder="如 HIO-10001" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;white-space:nowrap;">海鸥客户ID</label><input type="text" id="packCreateHaioId" placeholder="如 2532969" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         </div>
         <div style="margin-bottom:10px;display:flex;gap:8px;">
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">国家</label><input type="text" id="packCreateCountry" placeholder="如 德国" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
@@ -7526,7 +7578,7 @@ main > .modal-overlay.show { display: flex !important; }
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">付款方式</span><select id="verifyAllFilterPay" onchange="renderVerifyAll()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>现付现结</option><option>分段付款</option><option>到港付</option><option>清关后付</option><option>收货付</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">收货国家</span><select id="verifyAllFilterCountry" onchange="renderVerifyAll()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>德国</option><option>法国</option><option>英国</option><option>波兰</option><option>美国</option><option>西班牙</option><option>意大利</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyAllFilterStore" onchange="renderVerifyAll()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div>
-            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">状态</span><select id="verifyAllFilterStatus" onchange="renderVerifyAll()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>待付款</option><option>待发货</option><option>发货中</option><option>已完成</option><option>退件</option></select></div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">状态</span><select id="verifyAllFilterStatus" onchange="renderVerifyAll()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>待付款</option><option>待发货</option><option>发货中</option><option>已完成</option><option>退件</option></select></div><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">是否结清</span><select id="verifyAllFilterSettled" onchange="renderVerifyAll()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>是</option><option>否</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">更新时间</span><input type="date" id="verifyAllFilterDateFrom" onchange="renderVerifyAll()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间从"><span style="font-size:11px;color:var(--text-muted);">至</span><input type="date" id="verifyAllFilterDateTo" onchange="renderVerifyAll()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间至"></div>
             <div style="position:relative;display:inline-flex;align-items:center;">
               <svg class="ico" style="position:absolute;left:10px;width:14px;height:14px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -7536,7 +7588,7 @@ main > .modal-overlay.show { display: flex !important; }
             <button class="btn btn-sm" onclick="resetVerifyAllFilters();renderVerifyAll();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
           </div>
         </div>
-        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyAllCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>应收金额</th><th>商品名称</th><th>更新时间</th><th>备注</th></tr></thead><tbody id="verifyAllList"></tbody></table></div></div>
+        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyAllCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>是否结清</th><th>商品名称</th><th>更新时间</th><th>备注</th></tr></thead><tbody id="verifyAllList"></tbody></table></div></div>
       </div>
       <div id="verifyPendingPanel" style="display:none;">
         <div class="filter-section" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
@@ -7544,7 +7596,7 @@ main > .modal-overlay.show { display: flex !important; }
             <select id="verifyPendingFilterRoute" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部线路</option><option>海运普货</option><option>海运超大件普货</option><option>海运超大件敏感</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>铁路超大件敏感</option><option>特快空运普货</option><option>特快空运敏感</option></select>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">付款方式</span><select id="verifyPendingFilterPay" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>现付现结</option><option>分段付款</option><option>到港付</option><option>清关后付</option><option>收货付</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">收货国家</span><select id="verifyPendingFilterCountry" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>德国</option><option>法国</option><option>英国</option><option>波兰</option><option>美国</option><option>西班牙</option><option>意大利</option></select></div>
-            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyPendingFilterStore" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyPendingFilterStore" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">是否结清</span><select id="verifyPendingFilterSettled" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>是</option><option>否</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">更新时间</span><input type="date" id="verifyPendingFilterDateFrom" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间从"><span style="font-size:11px;color:var(--text-muted);">至</span><input type="date" id="verifyPendingFilterDateTo" onchange="renderVerifyPending()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间至"></div>
             <div style="position:relative;display:inline-flex;align-items:center;">
               <svg class="ico" style="position:absolute;left:10px;width:14px;height:14px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -7554,14 +7606,14 @@ main > .modal-overlay.show { display: flex !important; }
             <button class="btn btn-sm" onclick="resetVerifyPendingFilters();renderVerifyPending();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
           </div>
         </div>
-        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>应收金额</th><th>商品名称</th><th>更新时间</th><th>备注</th><th>操作</th></tr></thead><tbody id="verifyPendingList"></tbody></table></div></div>
+        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>是否结清</th><th>商品名称</th><th>更新时间</th><th>备注</th><th>操作</th></tr></thead><tbody id="verifyPendingList"></tbody></table></div></div>
       </div>
       <div id="verifyPaidPanel" style="display:none;">
         <div class="filter-section" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 14px;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">全部线路</span><select id="verifyPaidFilterRoute" onchange="renderVerifyPaid()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">付款方式</span><select id="verifyPaidFilterPay" onchange="renderVerifyPaid()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>现付现结</option><option>分段付款</option><option>到港付</option><option>清关后付</option><option>收货付</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">收货国家</span><select id="verifyPaidFilterCountry" onchange="renderVerifyPaid()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>德国</option><option>法国</option><option>英国</option><option>波兰</option><option>美国</option><option>西班牙</option><option>意大利</option></select></div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyPaidFilterStore" onchange="renderVerifyPaid()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyPaidFilterStore" onchange="renderVerifyPaid()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">是否结清</span><select id="verifyPaidFilterSettled" onchange="renderVerifyPaid()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>是</option><option>否</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">更新时间</span><input type="date" id="verifyPaidFilterDateFrom" onchange="renderVerifyPaid()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间从"><span style="font-size:11px;color:var(--text-muted);">至</span><input type="date" id="verifyPaidFilterDateTo" onchange="renderVerifyPaid()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间至"></div>
           <div style="position:relative;display:inline-flex;align-items:center;">
             <svg class="ico" style="position:absolute;left:10px;width:14px;height:14px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -7570,14 +7622,14 @@ main > .modal-overlay.show { display: flex !important; }
           <button class="btn btn-primary btn-sm" onclick="renderVerifyPaid();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetVerifyCommonFilters('verifyPaid');renderVerifyPaid();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
         </div>
-        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyPaidCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>应收金额</th><th>商品名称</th><th>更新时间</th><th>备注</th><th>操作</th></tr></thead><tbody id="verifyPaidList"></tbody></table></div></div>
+        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyPaidCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>是否结清</th><th>商品名称</th><th>更新时间</th><th>备注</th><th>操作</th></tr></thead><tbody id="verifyPaidList"></tbody></table></div></div>
       </div>
       <div id="verifyShippingPanel" style="display:none;">
         <div class="filter-section" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 14px;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">全部线路</span><select id="verifyShippingFilterRoute" onchange="renderVerifyShipping()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">付款方式</span><select id="verifyShippingFilterPay" onchange="renderVerifyShipping()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>现付现结</option><option>分段付款</option><option>到港付</option><option>清关后付</option><option>收货付</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">收货国家</span><select id="verifyShippingFilterCountry" onchange="renderVerifyShipping()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>德国</option><option>法国</option><option>英国</option><option>波兰</option><option>美国</option><option>西班牙</option><option>意大利</option></select></div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyShippingFilterStore" onchange="renderVerifyShipping()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyShippingFilterStore" onchange="renderVerifyShipping()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">是否结清</span><select id="verifyShippingFilterSettled" onchange="renderVerifyShipping()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>是</option><option>否</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">更新时间</span><input type="date" id="verifyShippingFilterDateFrom" onchange="renderVerifyShipping()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间从"><span style="font-size:11px;color:var(--text-muted);">至</span><input type="date" id="verifyShippingFilterDateTo" onchange="renderVerifyShipping()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间至"></div>
           <div style="position:relative;display:inline-flex;align-items:center;">
             <svg class="ico" style="position:absolute;left:10px;width:14px;height:14px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -7586,14 +7638,14 @@ main > .modal-overlay.show { display: flex !important; }
           <button class="btn btn-primary btn-sm" onclick="renderVerifyShipping();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetVerifyCommonFilters('verifyShipping');renderVerifyShipping();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
         </div>
-        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyShippingCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>应收金额</th><th>商品名称</th><th>更新时间</th><th>备注</th><th>操作</th></tr></thead><tbody id="verifyShippingList"></tbody></table></div></div>
+        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyShippingCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>是否结清</th><th>商品名称</th><th>更新时间</th><th>备注</th><th>操作</th></tr></thead><tbody id="verifyShippingList"></tbody></table></div></div>
       </div>
       <div id="verifyDonePanel" style="display:none;">
         <div class="filter-section" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 14px;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">全部线路</span><select id="verifyDoneFilterRoute" onchange="renderVerifyDone()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">付款方式</span><select id="verifyDoneFilterPay" onchange="renderVerifyDone()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>现付现结</option><option>分段付款</option><option>到港付</option><option>清关后付</option><option>收货付</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">收货国家</span><select id="verifyDoneFilterCountry" onchange="renderVerifyDone()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>德国</option><option>法国</option><option>英国</option><option>波兰</option><option>美国</option><option>西班牙</option><option>意大利</option></select></div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyDoneFilterStore" onchange="renderVerifyDone()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="verifyDoneFilterStore" onchange="renderVerifyDone()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">是否结清</span><select id="verifyDoneFilterSettled" onchange="renderVerifyDone()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>是</option><option>否</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">更新时间</span><input type="date" id="verifyDoneFilterDateFrom" onchange="renderVerifyDone()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间从"><span style="font-size:11px;color:var(--text-muted);">至</span><input type="date" id="verifyDoneFilterDateTo" onchange="renderVerifyDone()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;width:120px;" title="更新时间至"></div>
           <div style="position:relative;display:inline-flex;align-items:center;">
             <svg class="ico" style="position:absolute;left:10px;width:14px;height:14px;color:var(--primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -7602,7 +7654,7 @@ main > .modal-overlay.show { display: flex !important; }
           <button class="btn btn-primary btn-sm" onclick="renderVerifyDone();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetVerifyCommonFilters('verifyDone');renderVerifyDone();renderOrderVerifyStats();"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
         </div>
-        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyDoneCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>应收金额</th><th>商品名称</th><th>更新时间</th><th>备注</th></tr></thead><tbody id="verifyDoneList"></tbody></table></div></div>
+        <div class="data-table-wrap"><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th style="width:30px;"><input type="checkbox" onclick="toggleAllVerifyDoneCheckboxes(this)" title="全选"></th><th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>类型</th><th>仓库</th><th>活动</th><th>状态</th><th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>是否结清</th><th>商品名称</th><th>更新时间</th><th>备注</th></tr></thead><tbody id="verifyDoneList"></tbody></table></div></div>
       </div>
       <div id="verifyReturnedPanel" style="display:none;">
         <div class="filter-section" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
@@ -7776,13 +7828,13 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
     </div>
 
-    <!-- 确认完成弹框 -->
+    <!-- 完成收货弹框 -->
     <div class="modal-overlay" id="verifyDoneModal">
       <div class="modal" style="width:420px;">
-        <h3>确认完成</h3>
+        <h3>完成收货</h3>
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;" id="verifyDoneInfo"></div>
-        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">确认备注 <span style="color:var(--text-muted);">(选填)</span></label><textarea id="verifyDoneNote" placeholder="请输入完成备注..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hideVerifyDoneModal()">取消</button><button class="btn btn-primary btn-sm btn-success" onclick="doConfirmVerifyDone()">确认完成</button></div>
+        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">收货备注 <span style="color:var(--text-muted);">(选填)</span></label><textarea id="verifyDoneNote" placeholder="请输入收货备注..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hideVerifyDoneModal()">取消</button><button class="btn btn-primary btn-sm" onclick="doConfirmVerifyDone()">确认收货</button></div>
       </div>
     </div>
 
@@ -8279,7 +8331,7 @@ main > .modal-overlay.show { display: flex !important; }
         <select id="orderReturnType" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderReturnTypeChange()"><option value="">请选择</option><option>快递单号退件</option><option>XY号整箱退件</option></select></div>
         <div id="orderReturnTrackingField" style="margin-bottom:10px;display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">快递单号 <span style="color:var(--danger);">*</span></label><input type="text" id="orderReturnTracking" placeholder="请输入快递单号" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         <div id="orderReturnXyField" style="margin-bottom:10px;display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">XY号 <span style="color:var(--danger);">*</span></label><input type="text" id="orderReturnXy" placeholder="请输入XY号" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
-        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥ID</label><input type="text" id="orderReturnHaioId" placeholder="如 HIO-10001" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥ID</label><input type="text" id="orderReturnHaioId" placeholder="如 2532969" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">退件原因及备注 <span style="color:var(--danger);">*必填</span></label><textarea id="orderReturnReasonNote" placeholder="请填写退件原因及备注说明..." style="width:100%;height:80px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;"></textarea></div>
         <div style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">上传图片</label>
           <label for="orderReturnFiles" style="display:flex;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--border);border-radius:8px;padding:12px;cursor:pointer;color:var(--text-muted);font-size:12px;">
@@ -10030,19 +10082,22 @@ let currentTicketId = null;
 
 function seedTickets() {
   tickets = [
-    { id: ticketNextId++, code: 'TK202606280001', priority: '普通', type: '物流查询', customerId: 'AG181356', haioId: 'HIO-44126', dept: '市场-门店团队', store: '慕尼黑店', status: '待处理', created: '2026-06-28 09:00', csAgent: '小霞', demand: '德国DHL包裹物流状态查询', csAction: '已查询DHL系统', reply: '预计7月2日送达', accepted: '2026-06-28 09:30', completed: '-', plannedDue: '2026-07-01 18:00', updated: '2026-06-28 09:30', creator: '李四', urged: true },
-    { id: ticketNextId++, code: 'TK202606220001', priority: '严重', type: '售后客诉', customerId: 'AG524887', haioId: 'HIO-88421', dept: '市场-门店团队', store: '马鞍山店', status: '跟进中', created: '2026-06-22 10:30', csAgent: '小萌', demand: '客户包裹显示签收但本人未收到', csAction: '已登记追查', reply: '请门店核实', accepted: '2026-06-22 11:00', completed: '-', plannedDue: '2026-06-23 18:00', updated: '2026-06-23 10:30', creator: '张三', files: ['签收单照片.png', '快递面单.pdf'], assignHistory: [{ time: '2026-06-22 11:05', from: '张三', fromDept: '市场-销售团队', to: '小萌', toDept: '市场-门店团队', note: '客户情绪激动，请尽快处理', files: ['客户投诉截图.jpg'] }] },
-    { id: ticketNextId++, code: 'TK202606210001', priority: '普通', type: '售前报价', customerId: 'AG392105', haioId: 'HIO-78203', dept: '市场-销售团队', store: '-', status: '待处理', created: '2026-06-21 14:15', csAgent: '张三', demand: '含电池产品发美国12KG', csAction: '已核实品类', reply: '推荐空运+卡航', accepted: '-', completed: '-', plannedDue: '2026-06-23 12:00', updated: '2026-06-22 14:15', creator: '张三' },
-    { id: ticketNextId++, code: 'TK202606200003', priority: '严重', type: '售后理赔', customerId: 'AG674230', haioId: 'HIO-55912', dept: '市场-门店团队', store: '罗马店', status: '已完成', created: '2026-06-20 09:00', csAgent: '张三', demand: '包裹破损要求理赔', csAction: '核算赔付320元', reply: '已赔付', accepted: '2026-06-20 10:30', completed: '2026-06-22 16:00', plannedDue: '2026-06-22 18:00', updated: '2026-06-22 16:00', creator: '张三', files: ['破损照片_1.jpg', '破损照片_2.jpg', '理赔申请表.pdf'], assignHistory: [{ time: '2026-06-20 10:35', from: '系统', fromDept: '-', to: '张三', toDept: '市场-销售团队', note: '自动指派至理赔专员' }] },
-    { id: ticketNextId++, code: 'TK202606200002', priority: '紧急', type: '售中跟进', customerId: 'AG181356', haioId: 'HIO-44126', dept: '市场-门店团队', store: '慕尼黑店', status: '跟进中', created: '2026-06-20 08:00', csAgent: '小霞', demand: '海关滞留5天客户催件', csAction: '补齐CE认证文件', reply: '已提交海关', accepted: '2026-06-20 09:30', completed: '-', plannedDue: '2026-06-21 18:00', updated: '2026-06-21 09:30', creator: '李四', files: ['CE认证证书.pdf', '商业发票.xlsx'], assignHistory: [{ time: '2026-06-20 09:35', from: '李四', fromDept: '市场-门店团队', to: '小霞', toDept: '市场-门店团队', note: '需补交清关材料', files: ['清关材料清单.pdf', '海关通知截图.png'] }, { time: '2026-06-21 10:00', from: '小霞', fromDept: '市场-门店团队', to: '张三', toDept: '市场-销售团队', note: '转交上级处理' }] },
-    { id: ticketNextId++, code: 'TK202606190001', priority: '普通', type: '售前报价', customerId: 'AG800912', haioId: '-', dept: '市场-销售团队', store: '-', status: '已关闭', created: '2026-06-19 16:00', csAgent: '王五', demand: '西班牙华侨包价格咨询', csAction: 'AI快速报价', reply: '客户已确认', accepted: '2026-06-19 16:30', completed: '2026-06-20 10:00', plannedDue: '2026-06-20 10:00', updated: '2026-06-20 10:00', creator: '王五' },
-    { id: ticketNextId++, code: 'TK202606180001', priority: '紧急', type: '售中跟进', customerId: 'AG524887', haioId: 'HIO-88422', dept: '市场-门店团队', store: '马鞍山店', status: '已完成', created: '2026-06-18 11:00', csAgent: '张三', demand: '物流更新超3天', csAction: '通知物流排查', reply: '24h内答复', accepted: '2026-06-18 13:00', completed: '2026-06-21 09:00', plannedDue: '2026-06-21 09:00', updated: '2026-06-21 09:00', creator: '张三' },
-    { id: ticketNextId++, code: 'TK202606150001', priority: '普通', type: '售后理赔', customerId: 'AG674230', haioId: 'HIO-55913', dept: '市场-门店团队', store: '罗马店', status: '已关闭', created: '2026-06-15 10:00', csAgent: '赵六', demand: '退还运费差价', csAction: '差额12元已退还', reply: '已退款完成', accepted: '2026-06-15 11:00', completed: '2026-06-17 14:00', plannedDue: '2026-06-17 12:00', updated: '2026-06-17 14:00', creator: '赵六' },
-    { id: ticketNextId++, code: 'TK202607020001', priority: '普通', type: '售前报价', customerId: 'AG524887', haioId: '-', dept: '市场-门店团队', store: '马德里店', status: '待处理', created: '2026-07-02 09:20', csAgent: '张三', demand: '西班牙服装18kg报价咨询', csAction: 'AI已识别并生成报价建议', reply: '待人工确认', accepted: '-', completed: '-', plannedDue: '2026-07-02 12:00', updated: '2026-07-02 09:20', creator: 'AI识别', sourceType: 'AI工单' },
-    { id: ticketNextId++, code: 'TK202607020002', priority: '普通', type: '物流查询', customerId: 'AG181356', haioId: 'HIO-44126', dept: '市场-门店团队', store: '罗马店', status: '待处理', created: '2026-07-02 10:05', csAgent: '小霞', demand: 'DE2024KGH清关状态查询', csAction: 'AI已匹配历史工单', reply: '待查询清关系统', accepted: '-', completed: '-', plannedDue: '2026-07-02 14:00', updated: '2026-07-02 10:05', creator: 'AI识别', sourceType: 'AI工单' },
-    { id: ticketNextId++, code: 'TK202607020003', priority: '严重', type: '售后客诉', customerId: 'AG800912', haioId: '-', dept: '市场-门店团队', store: '慕尼黑店', status: '待处理', created: '2026-07-02 11:30', csAgent: '小萌', demand: '包裹破损要求理赔', csAction: 'AI已识别为高优客诉', reply: '待人工创建理赔单', accepted: '-', completed: '-', plannedDue: '2026-07-02 15:00', updated: '2026-07-02 11:30', creator: 'AI识别', sourceType: 'AI工单' },
-    { id: ticketNextId++, code: 'TK202607020004', priority: '紧急', type: '售中跟进', customerId: 'AG674230', haioId: 'HIO-55912', dept: '市场-销售团队', store: '-', status: '跟进中', created: '2026-07-02 13:10', csAgent: '张三', demand: '货物短少2件核查', csAction: 'AI已发起内部核查', reply: '待出库记录核验', accepted: '2026-07-02 13:30', completed: '-', plannedDue: '2026-07-03 18:00', updated: '2026-07-02 13:30', creator: 'AI识别', sourceType: 'AI工单' },
-    { id: ticketNextId++, code: 'TK202607020005', priority: '普通', type: '物流查询', customerId: 'AG392105', haioId: 'HIO-78203', dept: '市场-销售团队', store: '-', status: '待处理', created: '2026-07-02 15:40', csAgent: '王五', demand: '包裹延误超3天查询', csAction: 'AI已匹配物流轨迹', reply: '待查询异常原因', accepted: '-', completed: '-', plannedDue: '2026-07-02 18:00', updated: '2026-07-02 15:40', creator: 'AI识别', sourceType: 'AI工单' },
+    { id: ticketNextId++, code: 'TK202606280001', priority: '普通', type: '物流查询', customerId: 'IX181356', haioId: '44126', dept: '市场-门店团队', store: '慕尼黑店', status: '待处理', created: '2026-06-28 09:00', csAgent: '小霞', demand: '德国DHL包裹物流状态查询', csAction: '已查询DHL系统', reply: '预计7月2日送达', accepted: '2026-06-28 09:30', completed: '-', plannedDue: '2026-07-01 18:00', updated: '2026-06-28 09:30', creator: '李四', urged: true },
+    { id: ticketNextId++, code: 'TK202606220001', priority: '严重', type: '售后客诉', customerId: 'IX524887', haioId: '88421', dept: '市场-门店团队', store: '马鞍山店', status: '跟进中', created: '2026-06-22 10:30', csAgent: '小萌', demand: '客户包裹显示签收但本人未收到', csAction: '已登记追查', reply: '请门店核实', accepted: '2026-06-22 11:00', completed: '-', plannedDue: '2026-06-23 18:00', updated: '2026-06-23 10:30', creator: '张三', files: ['签收单照片.png', '快递面单.pdf'], assignHistory: [{ time: '2026-06-22 11:05', from: '张三', fromDept: '市场-销售团队', to: '小萌', toDept: '市场-门店团队', note: '客户情绪激动，请尽快处理', files: ['客户投诉截图.jpg'] }] },
+    { id: ticketNextId++, code: 'TK202606210001', priority: '普通', type: '售前报价', customerId: 'IX392105', haioId: '78203', dept: '市场-销售团队', store: '-', status: '待处理', created: '2026-06-21 14:15', csAgent: '张三', demand: '含电池产品发美国12KG', csAction: '已核实品类', reply: '推荐空运+卡航', accepted: '-', completed: '-', plannedDue: '2026-06-23 12:00', updated: '2026-06-22 14:15', creator: '张三' },
+    { id: ticketNextId++, code: 'TK202606200003', priority: '严重', type: '售后理赔', customerId: 'IX674230', haioId: '55912', dept: '市场-门店团队', store: '罗马店', status: '已完成', created: '2026-06-20 09:00', csAgent: '张三', demand: '包裹破损要求理赔', csAction: '核算赔付320元', reply: '已赔付', accepted: '2026-06-20 10:30', completed: '2026-06-22 16:00', plannedDue: '2026-06-22 18:00', updated: '2026-06-22 16:00', creator: '张三', files: ['破损照片_1.jpg', '破损照片_2.jpg', '理赔申请表.pdf'], assignHistory: [{ time: '2026-06-20 10:35', from: '系统', fromDept: '-', to: '张三', toDept: '市场-销售团队', note: '自动指派至理赔专员' }] },
+    { id: ticketNextId++, code: 'TK202606200002', priority: '紧急', type: '售中跟进', customerId: 'IX181356', haioId: '44126', dept: '市场-门店团队', store: '慕尼黑店', status: '跟进中', created: '2026-06-20 08:00', csAgent: '小霞', demand: '海关滞留5天客户催件', csAction: '补齐CE认证文件', reply: '已提交海关', accepted: '2026-06-20 09:30', completed: '-', plannedDue: '2026-06-21 18:00', updated: '2026-06-21 09:30', creator: '李四', files: ['CE认证证书.pdf', '商业发票.xlsx'], assignHistory: [{ time: '2026-06-20 09:35', from: '李四', fromDept: '市场-门店团队', to: '小霞', toDept: '市场-门店团队', note: '需补交清关材料', files: ['清关材料清单.pdf', '海关通知截图.png'] }, { time: '2026-06-21 10:00', from: '小霞', fromDept: '市场-门店团队', to: '张三', toDept: '市场-销售团队', note: '转交上级处理' }] },
+    { id: ticketNextId++, code: 'TK202606190001', priority: '普通', type: '售前报价', customerId: 'IX800912', haioId: '-', dept: '市场-销售团队', store: '-', status: '已关闭', created: '2026-06-19 16:00', csAgent: '王五', demand: '西班牙华侨包价格咨询', csAction: 'AI快速报价', reply: '客户已确认', accepted: '2026-06-19 16:30', completed: '2026-06-20 10:00', plannedDue: '2026-06-20 10:00', updated: '2026-06-20 10:00', creator: '王五' },
+    { id: ticketNextId++, code: 'TK202606180001', priority: '紧急', type: '售中跟进', customerId: 'IX524887', haioId: '88422', dept: '市场-门店团队', store: '马鞍山店', status: '已完成', created: '2026-06-18 11:00', csAgent: '张三', demand: '物流更新超3天', csAction: '通知物流排查', reply: '24h内答复', accepted: '2026-06-18 13:00', completed: '2026-06-21 09:00', plannedDue: '2026-06-21 09:00', updated: '2026-06-21 09:00', creator: '张三' },
+    { id: ticketNextId++, code: 'TK202606150001', priority: '普通', type: '售后理赔', customerId: 'IX674230', haioId: '55913', dept: '市场-门店团队', store: '罗马店', status: '已关闭', created: '2026-06-15 10:00', csAgent: '赵六', demand: '退还运费差价', csAction: '差额12元已退还', reply: '已退款完成', accepted: '2026-06-15 11:00', completed: '2026-06-17 14:00', plannedDue: '2026-06-17 12:00', updated: '2026-06-17 14:00', creator: '赵六' },
+    { id: ticketNextId++, code: 'TK202607020001', priority: '普通', type: '售前报价', customerId: 'IX524887', haioId: '-', dept: '市场-门店团队', store: '马德里店', status: '待处理', created: '2026-07-02 09:20', csAgent: '张三', demand: '西班牙服装18kg报价咨询', csAction: 'AI已识别并生成报价建议', reply: '待人工确认', accepted: '-', completed: '-', plannedDue: '2026-07-02 12:00', updated: '2026-07-02 09:20', creator: 'AI识别', sourceType: 'AI工单' },
+    { id: ticketNextId++, code: 'TK202607020002', priority: '普通', type: '物流查询', customerId: 'IX181356', haioId: '44126', dept: '市场-门店团队', store: '罗马店', status: '待处理', created: '2026-07-02 10:05', csAgent: '小霞', demand: 'DE2024KGH清关状态查询', csAction: 'AI已匹配历史工单', reply: '待查询清关系统', accepted: '-', completed: '-', plannedDue: '2026-07-02 14:00', updated: '2026-07-02 10:05', creator: 'AI识别', sourceType: 'AI工单' },
+    { id: ticketNextId++, code: 'TK202607020003', priority: '严重', type: '售后客诉', customerId: 'IX800912', haioId: '-', dept: '市场-门店团队', store: '慕尼黑店', status: '待处理', created: '2026-07-02 11:30', csAgent: '小萌', demand: '包裹破损要求理赔', csAction: 'AI已识别为高优客诉', reply: '待人工创建理赔单', accepted: '-', completed: '-', plannedDue: '2026-07-02 15:00', updated: '2026-07-02 11:30', creator: 'AI识别', sourceType: 'AI工单' },
+    { id: ticketNextId++, code: 'TK202607020004', priority: '紧急', type: '售中跟进', customerId: 'IX674230', haioId: '55912', dept: '市场-销售团队', store: '-', status: '跟进中', created: '2026-07-02 13:10', csAgent: '张三', demand: '货物短少2件核查', csAction: 'AI已发起内部核查', reply: '待出库记录核验', accepted: '2026-07-02 13:30', completed: '-', plannedDue: '2026-07-03 18:00', updated: '2026-07-02 13:30', creator: 'AI识别', sourceType: 'AI工单' },
+    { id: ticketNextId++, code: 'TK202607020005', priority: '普通', type: '物流查询', customerId: 'IX392105', haioId: '78203', dept: '市场-销售团队', store: '-', status: '待处理', created: '2026-07-02 15:40', csAgent: '王五', demand: '包裹延误超3天查询', csAction: 'AI已匹配物流轨迹', reply: '待查询异常原因', accepted: '-', completed: '-', plannedDue: '2026-07-02 18:00', updated: '2026-07-02 15:40', creator: 'AI识别', sourceType: 'AI工单' },
+  { id: ticketNextId++, code: 'TK202503150001', priority: '普通', type: '售前报价', customerId: 'IX253969', haioId: '253969', dept: '市场-销售团队', store: '-', status: '已完成', created: '2025-03-15 10:20', csAgent: '小霞', demand: '咨询国际物流价格（西班牙，铁路敏感）', csAction: '介绍铁路敏感线路与计费规则', reply: '报价 ¥22/kg，客户认可', accepted: '2025-03-15 11:05', completed: '2025-03-16 09:40', plannedDue: '2025-03-16 18:00', updated: '2025-03-16 09:40', creator: '小霞' },
+  { id: ticketNextId++, code: 'TK202508100001', priority: '紧急', type: '物流查询', customerId: 'IX253969', haioId: '253969', dept: '市场-门店团队', store: '马德里店', status: '已完成', created: '2025-08-10 09:10', csAgent: '小萌', demand: '清关完成但时效偏长，询问何时到达', csAction: '同步清关节点与预计尾程时间，已安抚', reply: '预计 8 月下旬派送', accepted: '2025-08-10 09:30', completed: '2025-08-10 10:00', plannedDue: '2025-08-10 18:00', updated: '2025-08-10 10:00', creator: '小萌' },
+  { id: ticketNextId++, code: 'TK202508300001', priority: '严重', type: '售后理赔', customerId: 'IX253969', haioId: '253969', dept: '市场-门店团队', store: '马德里店', status: '已完成', created: '2025-08-30 16:20', csAgent: '张三', demand: '签收后发现货损，要求理赔', csAction: '核损并给出 80 元赔付方案', reply: '客户接受赔付 ¥80，已结案', accepted: '2025-09-04 10:00', completed: '2025-09-04 10:30', plannedDue: '2025-09-05 18:00', updated: '2025-09-04 10:30', creator: '张三', files: ['货损照片_1.jpg', '货损照片_2.jpg', '理赔确认单.pdf'] }
   ];
 }
 let tagPool = ['高价值客户','价格敏感','时效敏感','普货为主','敏货为主','安全优先','敏感客户','大牌客户','纯电客户','华侨','公司','个人','活跃客户','沉睡客户','流失客户'];
@@ -11181,11 +11236,12 @@ var CRM_COMPANIES = ['浙江虾远国际供应链管理有限公司', '森煜通
 
 function seedCRM() {
   crmData = [
-    { id: crmNextId++, code: 'AG524887', name: '华侨客户A', company: CRM_COMPANIES[0], country: '西班牙', phone: '+34 612345678', email: 'a@example.com', wechat: 'wx_a123', haioId: 'HIO-88421', tags: ['高价值客户', '时效敏感', '普货为主'], group: '华侨客户组', lastTicketDate: '2026-06-18', ticketCount: 5, orderCount: 3, complaintCount: 0, addrCount: 2, profile: '', created: '2025-03-15', createdAt: '2025/03/15 10:22:31', updated: '2026-06-18' },
-    { id: crmNextId++, code: 'AG392105', name: '电商客户B', company: CRM_COMPANIES[1], country: '中国', phone: '+86 13800138000', email: 'b@trade.cn', wechat: 'wx_b456', haioId: 'HIO-78203', tags: ['高价值客户', '价格敏感', '敏货为主'], group: '电商客户组', lastTicketDate: '2026-06-21', ticketCount: 12, orderCount: 5, complaintCount: 1, addrCount: 1, profile: '', created: '2025-01-08', createdAt: '2025/01/08 09:14:02', updated: '2026-06-21' },
-    { id: crmNextId++, code: 'AG674230', name: '华侨客户C', company: CRM_COMPANIES[0], country: '意大利', phone: '+39 331234567', email: '', wechat: 'wx_c789', haioId: 'HIO-55912', tags: ['敏感客户', '安全优先'], group: '华侨客户组', lastTicketDate: '2026-06-20', ticketCount: 3, orderCount: 1, complaintCount: 2, addrCount: 0, profile: '', created: '2025-06-22', createdAt: '2025/06/22 16:40:55', updated: '2026-06-20' },
-    { id: crmNextId++, code: 'AG181356', name: '电商客户D', company: CRM_COMPANIES[1], country: '德国', phone: '+49 1761234567', email: 'info@d-shop.de', wechat: '', haioId: 'HIO-44126', tags: ['高价值客户', '时效敏感'], group: '电商客户组', lastTicketDate: '2026-06-22', ticketCount: 8, orderCount: 4, complaintCount: 0, addrCount: 1, profile: '', created: '2024-11-30', createdAt: '2024/11/30 11:05:18', updated: '2026-06-22' },
-    { id: crmNextId++, code: 'AG800912', name: '个人客户E', company: CRM_COMPANIES[0], country: '法国', phone: '+33 612345678', email: '', wechat: 'wx_e000', haioId: '-', tags: ['价格敏感', '普货为主'], group: '个人客户组', lastTicketDate: '2026-06-19', ticketCount: 1, orderCount: 0, complaintCount: 0, addrCount: 0, profile: '', created: '2026-04-05', createdAt: '2026/04/05 14:38:47', updated: '2026-06-19' },
+    { id: crmNextId++, code: 'IX253969', name: '华侨客户F·全链路', company: CRM_COMPANIES[0], country: '西班牙', phone: '+34 655 253 969', email: '', wechat: 'wx_f253969', haioId: '253969', tags: ['新客', '价格敏感', '时效敏感'], group: '华侨客户组', lastTicketDate: '2025-09-04', ticketCount: 3, orderCount: 1, complaintCount: 1, addrCount: 1, profile: '', created: '2025-03-15', createdAt: '2025/03/15 10:20:00', updated: '2025-09-04' },
+    { id: crmNextId++, code: 'IX524887', name: '华侨客户A', company: CRM_COMPANIES[0], country: '西班牙', phone: '+34 612345678', email: 'a@example.com', wechat: 'wx_a123', haioId: '88421', tags: ['高价值客户', '时效敏感', '普货为主'], group: '华侨客户组', lastTicketDate: '2026-06-18', ticketCount: 5, orderCount: 3, complaintCount: 0, addrCount: 2, profile: '', created: '2025-03-15', createdAt: '2025/03/15 10:22:31', updated: '2026-06-18' },
+    { id: crmNextId++, code: 'IX392105', name: '电商客户B', company: CRM_COMPANIES[1], country: '中国', phone: '+86 13800138000', email: 'b@trade.cn', wechat: 'wx_b456', haioId: '78203', tags: ['高价值客户', '价格敏感', '敏货为主'], group: '电商客户组', lastTicketDate: '2026-06-21', ticketCount: 12, orderCount: 5, complaintCount: 1, addrCount: 1, profile: '', created: '2025-01-08', createdAt: '2025/01/08 09:14:02', updated: '2026-06-21' },
+    { id: crmNextId++, code: 'IX674230', name: '华侨客户C', company: CRM_COMPANIES[0], country: '意大利', phone: '+39 331234567', email: '', wechat: 'wx_c789', haioId: '55912', tags: ['敏感客户', '安全优先'], group: '华侨客户组', lastTicketDate: '2026-06-20', ticketCount: 3, orderCount: 1, complaintCount: 2, addrCount: 0, profile: '', created: '2025-06-22', createdAt: '2025/06/22 16:40:55', updated: '2026-06-20' },
+    { id: crmNextId++, code: 'IX181356', name: '电商客户D', company: CRM_COMPANIES[1], country: '德国', phone: '+49 1761234567', email: 'info@d-shop.de', wechat: '', haioId: '44126', tags: ['高价值客户', '时效敏感'], group: '电商客户组', lastTicketDate: '2026-06-22', ticketCount: 8, orderCount: 4, complaintCount: 0, addrCount: 1, profile: '', created: '2024-11-30', createdAt: '2024/11/30 11:05:18', updated: '2026-06-22' },
+    { id: crmNextId++, code: 'IX800912', name: '个人客户E', company: CRM_COMPANIES[0], country: '法国', phone: '+33 612345678', email: '', wechat: 'wx_e000', haioId: '-', tags: ['价格敏感', '普货为主'], group: '个人客户组', lastTicketDate: '2026-06-19', ticketCount: 1, orderCount: 0, complaintCount: 0, addrCount: 0, profile: '', created: '2026-04-05', createdAt: '2026/04/05 14:38:47', updated: '2026-06-19' },
   ];
 }
 function crmCompany(c) { return c.company || CRM_COMPANIES[(c.id || 0) % 2]; }
@@ -11307,7 +11363,7 @@ function confirmBatchGroup() {
 
 function showCrmCreateModal() {
   document.getElementById('crmCreateModal').classList.add('show');
-  document.getElementById('crmNewId').value = 'AG'+String(Math.floor(Math.random()*900000+100000));
+  document.getElementById('crmNewId').value = 'IX'+String(Math.floor(Math.random()*900000+100000));
   // Populate group dropdown
   var gs = document.getElementById('crmNewGroup');
   gs.innerHTML = '<option value="">未分组</option>' + (groupList||[]).map(function(g){return '<option>'+g+'</option>';}).join('');
@@ -11396,7 +11452,8 @@ function filterCRM() {
     '<td>' + crmOrderCount(c) + '</td>' +
     '<td style="white-space:nowrap;">' + crmCreatedText(c) + '</td>' +
     '<td style="white-space:nowrap;" onclick="event.stopPropagation();">' +
-    '<button class="btn btn-sm" onclick="promptEditCustomer('+c.id+')">修改</button>' +
+    '<button class="btn btn-sm" onclick="showCrmDrawer('+c.id+')" style="color:var(--primary);border:1px solid #C7DCEA;background:#F7FAFD;">画像</button>' +
+    '<button class="btn btn-sm" style="margin-left:2px;" onclick="promptEditCustomer('+c.id+')">修改</button>' +
     '<button class="btn btn-sm" onclick="showCrmAddress('+c.id+')" style="margin-left:2px;'+(hasAddr?'':'border:1px solid var(--border);color:var(--text-muted);background:#F3F4F6;')+'">地址管理</button>' +
     '<button class="btn btn-sm" onclick="mergeCrmCustomer('+c.id+')" style="margin-left:2px;">合并</button>' +
     '<button class="btn btn-sm btn-primary" onclick="quickCreateTicket('+c.id+')" style="margin-left:2px;">新建工单</button></td></tr>';
@@ -11476,87 +11533,358 @@ function promptEditCustomer(cid) {
 
 function promptNewCustomer() { showCrmCreateModal(); }
 
-function showCrmDrawer(id) {
-  var c = crmData.find(function(x){ return x.id===id; });
-  if (!c) return;
-  // Build customer profile from tags
-  var profileText = '';
+
+// ===== AI 客户画像：基于聊天/业务节点沉淀的客户档案与事件 =====
+var CRM_AI_PROFILE = {
+  code: 'IX253969',
+  updatedAt: '2026-10-20 10:30',
+  summary: '2025-03-15 首次咨询国际物流价格，次日成交并注册海鸥ID 253969；首单全程约 5 个半月完成：经历入库、集包、付款（计费重 25kg，实付 ¥500）、发货、清关与尾程两次时效催问、签收后货损理赔（¥80）并结案。整体为「价格敏感 + 时效敏感」的新客首单，履约完成但体验有波动，建议回访与复购引导。',
+  metrics: [
+    ['海鸥ID', '253969'],
+    ['地区 / 组别', '西班牙 · 华侨客户组'],
+    ['首咨时间', '2025-03-15'],
+    ['最近互动', '2025-09-04'],
+    ['累计订单', '1 单'],
+    ['计费重', '25 kg'],
+    ['实付金额', '¥500'],
+    ['常用线路', '铁路敏感（¥22/kg）']
+  ],
+  lifecycle: ['咨询', '成交', '入库', '集包', '付款', '发货', '清关', '尾程', '签收', '理赔完成'],
+  events: [
+    { date: '2025-03-15', type: '咨询', color: '#173D5B', title: '咨询国际物流价格', desc: '客户通过企业微信咨询国际物流价格，客服介绍铁路敏感线路报价 22 元/kg。', meta: '渠道：企业微信 · 客服：小霞' },
+    { date: '2025-03-16', type: '成交', color: '#15803D', title: '同意下单，注册海鸥ID 253969', desc: '销售给出初步报价，客户认可并同意下单，完成海鸥账号注册（253969）。', meta: '销售：小萌 · 海鸥ID：253969' },
+    { date: '2025-04-20', type: '入库', color: '#0891B2', title: '仓库收到包裹并告知客户', desc: '仓库签收客户包裹并完成入库，已同步告知客户。', meta: '仓库：青源仓 · 包裹：3 件' },
+    { date: '2025-06-15', type: '集包', color: '#0891B2', title: '完成集包，客户确认货物已凑齐', desc: '客服与客户核对物品后完成集包，客户确认货物已全部到齐。', meta: '客服：小霞 · 集包号：XY20250615001' },
+    { date: '2025-07-20', type: '付款', color: '#D97706', title: '支付打包费用 ¥500', desc: '客户确认箱规与计费重后完成付款，新客减免 50 元。', meta: '实付：¥500', detail: [
+      ['箱规（cm）', '60 × 40 × 40'],
+      ['体积重', '25 kg'],
+      ['实重', '23 kg'],
+      ['计费重', '25 kg（取体积重）'],
+      ['单价', '¥22/kg（铁路敏感）'],
+      ['附加费', '¥0'],
+      ['应付金额', '¥550'],
+      ['新客减免', '-¥50'],
+      ['最终实付', '¥500']
+    ] },
+    { date: '2025-07-25', type: '发货', color: '#173D5B', title: '包裹从仓库出发', desc: '完成出库交接，包裹从青源仓发出。', meta: '出库仓：青源仓 · 运单已生成' },
+    { date: '2025-08-10', type: '清关', color: '#D97706', title: '清关完成，客户催问时效', desc: '清关完成但整体时效偏长，客户询问预计到达时间，客服已安抚并说明后续节点。', meta: '处理：已安抚 · 客服：小萌' },
+    { date: '2025-08-20', type: '尾程', color: '#0891B2', title: '尾程开始，客户再次催问', desc: '尾程派送开始，客户再次询问到达时间，客服已安抚并同步派送进度。', meta: '处理：已安抚 · 客服：小萌' },
+    { date: '2025-08-30', type: '签收', color: '#15803D', title: '包裹送达，客户反馈货损', desc: '包裹送达客户手中，客户反馈部分货物破损，客服启动赔付流程。', meta: '异常：货损 · 处理：理赔中' },
+    { date: '2025-09-04', type: '理赔', color: '#B91C1C', title: '接受赔付方案 ¥80，物流完成', desc: '客户接受 80 元赔付方案，理赔结案，本单物流流程完成。', meta: '赔付：¥80 · 状态：已结案' }
+  ],
+  orders: [
+    { code: 'JB-20250316-0001', xy: 'XY20250615001', route: '铁路敏感', status: '已完成', weight: '25 kg', amount: '¥500', createdAt: '2025-03-16' }
+  ],
+  insights: [
+    { label: '价格敏感', color: '#D97706', text: '首单使用新客减免 ¥50，实付 ¥500；后续报价建议突出性价比与拼团/加货优惠。' },
+    { label: '时效敏感', color: '#173D5B', text: '清关、尾程各催问一次，建议在节点超时前主动预警并同步轨迹。' },
+    { label: '服务风险', color: '#B91C1C', text: '发生货损并赔付 ¥80（已结案），建议 7 日内回访确认满意度。' },
+    { label: '复购潜力', color: '#15803D', text: '铁路敏感线路首单完整履约，可推荐同类线路的拼团或加货方案。' }
+  ]
+};
+function crmSecHtml(title, extra) {
+  return '<div style="display:flex;align-items:center;gap:8px;margin:16px 0 8px;">' +
+    '<span style="font-size:12px;font-weight:600;color:var(--text);">' + title + '</span>' +
+    (extra || '') + '</div>';
+}
+function crmAiProfileHtml(c) {
+  var p = (typeof CRM_AI_PROFILE !== 'undefined' && c && c.code === CRM_AI_PROFILE.code) ? CRM_AI_PROFILE : null;
+  var h = '<div style="margin-bottom:6px;">';
+  h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">' +
+    '<span style="font-weight:600;font-size:13px;">AI客户画像</span>' +
+    '<span style="font-size:10px;padding:1px 7px;border-radius:9px;background:#E7F3FB;color:#173D5B;border:1px solid #C7DCEA;">AI 生成</span>' +
+    (p ? '<span style="margin-left:auto;font-size:11px;color:var(--text-muted);">更新于 ' + p.updatedAt + '</span>' : '') +
+    '</div>';
+  // 标签
   if (c.tags && c.tags.length) {
-    profileText = '标签：' + c.tags.join('、') + '<br>';
+    h += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">' + c.tags.map(function(t){
+      return '<span style="font-size:11px;padding:1px 8px;border-radius:9px;background:#F3F4F6;color:#111827;border:1px solid var(--border);">' + t + '</span>';
+    }).join('') + '</div>';
   }
-  profileText += '地区：' + (c.country||'-') + '<br>';
-  profileText += '组别：' + (c.group||'未分组') + '<br>';
-  profileText += '工单总数：' + c.ticketCount + ' 单<br>';
-  profileText += '投诉次数：' + c.complaintCount + ' 次<br>';
-  // Get linked tickets
+  // 摘要
+  var summary = p ? p.summary : ('标签：' + ((c.tags || []).join('、') || '—') + '；地区：' + (c.country || '—') + '；组别：' + (c.group || '未分组') + '；工单 ' + (c.ticketCount || 0) + ' 单；投诉 ' + (c.complaintCount || 0) + ' 次。');
+  h += '<div style="background:linear-gradient(135deg,#F7FAFD,#EEF6FB);border:1px solid #C7DCEA;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.85;color:var(--text-secondary);">' + summary + '</div>';
+  if (!p) {
+    h += '<div style="margin-top:10px;font-size:11px;color:var(--text-muted);">暂无聊天事件记录，完成更多会话后自动生成客户事件与档案。</div></div>';
+    return h;
+  }
+  // 客户档案
+  h += crmSecHtml('客户档案');
+  h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px 12px;background:#F8FAFC;border:1px solid var(--border-light);border-radius:8px;padding:12px 14px;">' +
+    p.metrics.map(function(m){
+      return '<div><div style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">' + m[0] + '</div><div style="font-size:12px;font-weight:600;color:var(--text);">' + m[1] + '</div></div>';
+    }).join('') + '</div>';
+  // 生命周期
+  h += crmSecHtml('客户生命周期', '<span style="font-size:10px;color:var(--text-muted);">共 ' + p.lifecycle.length + ' 个节点 · 已全部完成</span>');
+  h += '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;">' + p.lifecycle.map(function(n, i){
+    var last = i === p.lifecycle.length - 1;
+    return '<span style="font-size:10px;padding:2px 8px;border-radius:9px;background:' + (last ? '#E7F3FB' : '#F3F4F6') + ';color:' + (last ? '#173D5B' : 'var(--text-secondary)') + ';border:1px solid ' + (last ? '#C7DCEA' : 'var(--border)') + ';font-weight:' + (last ? '600' : '400') + ';">' + n + '</span>' +
+      (last ? '' : '<span style="font-size:9px;color:var(--text-muted);">›</span>');
+  }).join('') + '</div>';
+  // 事件时间轴
+  h += crmSecHtml('客户事件（' + p.events.length + '）', '<span style="font-size:10px;color:var(--text-muted);">按聊天记录与业务节点自动梳理</span>');
+  h += '<div>' + p.events.map(function(e, i){
+    var isLast = i === p.events.length - 1;
+    return '<div style="display:flex;gap:10px;">' +
+      '<div style="width:56px;flex-shrink:0;text-align:right;padding-top:1px;">' +
+        '<div style="font-size:12px;font-weight:600;color:var(--text);">' + e.date.slice(5) + '</div>' +
+        '<div style="font-size:10px;color:var(--text-muted);">' + e.date.slice(0, 4) + '</div>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;align-items:center;width:18px;flex-shrink:0;">' +
+        '<span style="width:18px;height:18px;border-radius:6px;background:' + e.color + '14;color:' + e.color + ';border:1px solid ' + e.color + '33;display:flex;align-items:center;justify-content:center;margin-top:1px;flex-shrink:0;">' + crmIco(CRM_EVENT_ICONS[e.type] || 'clock', 11) + '</span>' +
+        (isLast ? '' : '<span style="flex:1;width:1px;background:var(--border);margin-top:4px;"></span>') +
+      '</div>' +
+      '<div style="flex:1;min-width:0;padding-bottom:14px;">' +
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">' +
+          '<span style="font-size:12px;font-weight:600;color:var(--text);">' + e.title + '</span>' +
+          '<span style="font-size:10px;padding:0 6px;border-radius:8px;background:' + e.color + '14;color:' + e.color + ';">' + e.type + '</span>' +
+        '</div>' +
+        '<div style="font-size:12px;line-height:1.7;color:var(--text-secondary);">' + e.desc + '</div>' +
+        (e.detail ? '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px 12px;background:#F8FAFC;border:1px solid var(--border-light);border-radius:6px;padding:8px 10px;margin-top:8px;font-size:11px;">' + e.detail.map(function(d){
+          return '<div><span style="color:var(--text-muted);">' + d[0] + '</span> <b style="color:var(--text);">' + d[1] + '</b></div>';
+        }).join('') + '</div>' : '') +
+        (e.meta ? '<div style="font-size:11px;color:var(--text-muted);margin-top:4px;">' + e.meta + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('') + '</div>';
+  // AI 洞察
+  h += crmSecHtml('AI 洞察与建议');
+  h += '<div style="display:flex;flex-direction:column;gap:8px;">' + p.insights.map(function(x){
+    return '<div style="display:flex;gap:8px;background:#fff;border:1px solid var(--border-light);border-left:3px solid ' + x.color + ';border-radius:6px;padding:8px 10px;font-size:12px;line-height:1.7;color:var(--text-secondary);">' +
+      '<span style="color:' + x.color + ';font-weight:600;flex-shrink:0;">' + x.label + '</span><span>' + x.text + '</span></div>';
+  }).join('') + '</div>';
+  h += '</div>';
+  return h;
+}
+
+function crmProfileFor(c) {
+  return (typeof CRM_AI_PROFILE !== 'undefined' && c && c.code === CRM_AI_PROFILE.code) ? CRM_AI_PROFILE : null;
+}
+// 客户详情图标库（线性图标，描边随主色 #173D5B）
+var CRM_ICONS = {
+  user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  hash: '<line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>',
+  tag: '<path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
+  globe: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/>',
+  users: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/>',
+  chat: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/>',
+  mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+  clipboard: '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/>',
+  search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  alert: '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  activity: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+  history: '<path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/>',
+  sparkles: '<path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"/>',
+  bulb: '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>',
+  package: '<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+  inbox: '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/>',
+  check: '<polyline points="20 6 9 17 4 12"/>',
+  checkCircle: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+  card: '<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>',
+  truck: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+  pin: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>'
+};
+// 事件类型 → 图标（与集包流转节点同一套线性图标语言）
+var CRM_EVENT_ICONS = { '咨询': 'chat', '成交': 'check', '入库': 'inbox', '集包': 'package', '付款': 'card', '发货': 'truck', '清关': 'globe', '尾程': 'pin', '签收': 'checkCircle', '理赔': 'shield' };
+function crmIco(name, size) {
+  var s = size ? ' style="width:' + size + 'px;height:' + size + 'px;"' : '';
+  return '<svg' + s + ' viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (CRM_ICONS[name] || CRM_ICONS.tag) + '</svg>';
+}
+function crmKv(icon, label, value) {
+  var v = (value === 0 || value) ? String(value) : '-';
+  return '<div class="crm-kv"><span class="crm-kv-ico">' + crmIco(icon) + '</span>' +
+    '<span class="crm-kv-text"><span class="crm-kv-label">' + label + '</span>' +
+    '<span class="crm-kv-value" title="' + v.replace(/"/g, '&quot;') + '">' + v + '</span></span></div>';
+}
+function crmSecTitle(icon, title, extra, right) {
+  return '<div class="crm-sec"><span class="crm-sec-ico">' + crmIco(icon) + '</span>' +
+    '<span class="crm-sec-t">' + title + '</span>' + (extra || '') +
+    (right ? '<span class="crm-sec-upd">' + right + '</span>' : '') + '</div>';
+}
+function crmEmptyHtml(title, sub) {
+  return '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);">' +
+    '<div style="width:40px;height:40px;border-radius:12px;background:#EEF4FF;color:#9DB4C9;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">' + crmIco('inbox', 18) + '</div>' +
+    '<div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:4px;">' + title + '</div>' +
+    '<div style="font-size:12px;">' + sub + '</div></div>';
+}
+function crmProfileTopHtml(c) {
+  var inquiry = (typeof countInquiries === 'function') ? countInquiries(c) : 0;
+  var items =
+    crmKv('hash', '客户ID', c.code) +
+    crmKv('tag', '海鸥ID', c.haioId || '-') +
+    crmKv('globe', '地区', c.country || '-') +
+    crmKv('users', '组别', c.group || '未分组') +
+    crmKv('phone', '电话', c.phone || '-') +
+    crmKv('chat', '微信', c.wechat || '-') +
+    crmKv('mail', '邮箱', c.email || '-') +
+    crmKv('clipboard', '工单数', (c.ticketCount || 0) + ' 单') +
+    crmKv('search', '询价', inquiry + ' 次') +
+    crmKv('alert', '投诉', (c.complaintCount || 0) + ' 次') +
+    crmKv('calendar', '创建时间', c.created || c.createdAt || '-') +
+    crmKv('clock', '更新时间', c.updated || c.lastTicketDate || '-');
+  var tags = (c.tags || []).map(function(t){ return '<span class="crm-tag">' + t + '</span>'; }).join('');
+  return '<div class="crm-card-head">' +
+      '<span class="crm-avatar">' + crmIco('user') + '</span>' +
+      '<span class="crm-name">' + c.name + '</span>' +
+      '<span class="crm-code-tag">' + c.code + '</span>' + tags +
+    '</div>' +
+    '<div class="crm-info-grid">' + items + '</div>';
+}
+function crmTimelineHtml(p) {
+  return p.events.map(function(e, i){
+    var isLast = i === p.events.length - 1;
+    return '<div style="display:flex;gap:10px;">' +
+      '<div style="width:56px;flex-shrink:0;text-align:right;padding-top:1px;">' +
+        '<div style="font-size:12px;font-weight:600;color:var(--text);">' + e.date.slice(5) + '</div>' +
+        '<div style="font-size:10px;color:var(--text-muted);">' + e.date.slice(0, 4) + '</div>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;align-items:center;width:18px;flex-shrink:0;">' +
+        '<span style="width:18px;height:18px;border-radius:6px;background:' + e.color + '14;color:' + e.color + ';border:1px solid ' + e.color + '33;display:flex;align-items:center;justify-content:center;margin-top:1px;flex-shrink:0;">' + crmIco(CRM_EVENT_ICONS[e.type] || 'clock', 11) + '</span>' +
+        (isLast ? '' : '<span style="flex:1;width:1px;background:var(--border);margin-top:4px;"></span>') +
+      '</div>' +
+      '<div style="flex:1;min-width:0;padding-bottom:14px;">' +
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;">' +
+          '<span style="font-size:12px;font-weight:600;color:var(--text);">' + e.title + '</span>' +
+          '<span style="font-size:10px;padding:0 6px;border-radius:8px;background:' + e.color + '14;color:' + e.color + ';">' + e.type + '</span>' +
+        '</div>' +
+        '<div style="font-size:12px;line-height:1.7;color:var(--text-secondary);">' + e.desc + '</div>' +
+        (e.detail ? '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px 12px;background:#F8FAFC;border:1px solid var(--border-light);border-radius:6px;padding:8px 10px;margin-top:8px;font-size:11px;">' + e.detail.map(function(d){
+          return '<div><span style="color:var(--text-muted);">' + d[0] + '</span> <b style="color:var(--text);">' + d[1] + '</b></div>';
+        }).join('') + '</div>' : '') +
+        (e.meta ? '<div style="font-size:11px;color:var(--text-muted);margin-top:4px;">' + e.meta + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+function crmLifecycleHtml(c) {
+  var p = crmProfileFor(c);
+  if (!p) return crmEmptyHtml('暂无客户事件', '完成更多会话与业务节点后自动生成客户生命周期');
+  var chips = p.lifecycle.map(function(n, i){
+    var last = i === p.lifecycle.length - 1;
+    return '<span style="font-size:10px;padding:2px 8px;border-radius:9px;background:' + (last ? '#E7F3FB' : '#F3F4F6') + ';color:' + (last ? '#173D5B' : 'var(--text-secondary)') + ';border:1px solid ' + (last ? '#C7DCEA' : 'var(--border)') + ';font-weight:' + (last ? '600' : '400') + ';">' + n + '</span>' +
+      (last ? '' : '<span style="font-size:9px;color:var(--text-muted);">›</span>');
+  }).join('');
+  return crmSecTitle('activity', '客户生命周期', '<span class="crm-sec-x">共 ' + p.lifecycle.length + ' 个节点 · 已全部完成</span>') +
+    '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-bottom:16px;">' + chips + '</div>' +
+    crmSecTitle('history', '客户事件（' + p.events.length + '）', '<span class="crm-sec-x">按聊天记录与业务节点自动梳理</span>') +
+    '<div>' + crmTimelineHtml(p) + '</div>';
+}
+function crmInsightHtml(c) {
+  var p = crmProfileFor(c);
+  var summary = p ? p.summary : ('标签：' + ((c.tags || []).join('、') || '—') + '；地区：' + (c.country || '—') + '；组别：' + (c.group || '未分组') + '；工单 ' + (c.ticketCount || 0) + ' 单；投诉 ' + (c.complaintCount || 0) + ' 次。');
+  var insights = p ? p.insights : [{ label: '待沉淀', color: '#64748B', text: '该客户暂无足够会话数据，建议补充沟通记录后生成画像建议。' }];
+  return crmSecTitle('sparkles', 'AI客户画像', '<span class="crm-sec-badge">AI 生成</span>', p ? ('更新于 ' + p.updatedAt) : '') +
+    '<div style="background:linear-gradient(135deg,#F7FAFD,#EEF6FB);border:1px solid #C7DCEA;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.85;color:var(--text-secondary);">' + summary + '</div>' +
+    '<div style="margin-top:16px;">' + crmSecTitle('bulb', 'AI 洞察与建议') + '</div>' +
+    '<div style="display:flex;flex-direction:column;gap:8px;">' + insights.map(function(x){
+      return '<div style="display:flex;gap:8px;background:#fff;border:1px solid var(--border-light);border-left:3px solid ' + x.color + ';border-radius:6px;padding:8px 10px;font-size:12px;line-height:1.7;color:var(--text-secondary);">' +
+        '<span style="color:' + x.color + ';font-weight:600;flex-shrink:0;">' + x.label + '</span><span>' + x.text + '</span></div>';
+    }).join('') + '</div>';
+}
+function crmOrdersHtml(c) {
+  var p = crmProfileFor(c);
+  var list = (p && p.orders && p.orders.length) ? p.orders.slice() : orderPackages.filter(function(o){
+    return String(o.haioId || '') === String(c.haioId || '') && c.haioId;
+  });
+  if (!list.length) return crmEmptyHtml('暂无关联集包订单', '该客户暂无集包订单记录');
+  var rows = list.map(function(o){
+    return '<tr>' +
+      '<td style="font-weight:600;color:var(--primary);white-space:nowrap;">' + (o.code || '—') + '</td>' +
+      '<td style="white-space:nowrap;">' + (o.xy || '—') + '</td>' +
+      '<td style="white-space:nowrap;">' + (o.route || '—') + '</td>' +
+      '<td style="white-space:nowrap;">' + (o.status || '—') + '</td>' +
+      '<td style="white-space:nowrap;">' + (o.weight || (o.verifyPayWeight ? o.verifyPayWeight + ' kg' : '—')) + '</td>' +
+      '<td style="white-space:nowrap;">' + (o.amount || (o.verifyPayAmount ? ('¥' + o.verifyPayAmount) : '—')) + '</td>' +
+      '<td style="white-space:nowrap;">' + (o.createdAt || '—') + '</td>' +
+    '</tr>';
+  }).join('');
+  return crmSecTitle('package', '关联订单', '<span class="crm-sec-x">共 ' + list.length + ' 单</span>') +
+    '<div class="data-table-wrap"><table class="data-table data-table--compact"><thead><tr>' +
+      '<th>集包号</th><th>海鸥订单号</th><th>线路</th><th>状态</th><th>计费重</th><th>实付金额</th><th>创建时间</th>' +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+}
+function crmTicketsHtml(c) {
   var linkedTickets = tickets.filter(function(t){ return t.customerId === c.code; });
+  if (!linkedTickets.length) return crmEmptyHtml('暂无关联工单', '该客户暂未产生工单记录');
+  return crmSecTitle('clipboard', '关联工单', '<span class="crm-sec-x">共 ' + linkedTickets.length + ' 单</span>') +
+    '<div style="display:flex;flex-direction:column;gap:8px;">' + linkedTickets.map(function(t){
+      var priorityColor = t.priority==='紧急'?'#DC2626':t.priority==='严重'?'#EA580C':t.priority==='普通'?'#173D5B':'#888';
+      return '<div class="crm-ticketcard" onclick="showTicketDetailModal(' + t.id + ')">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
+          '<span style="display:inline-flex;align-items:center;gap:6px;">' +
+            '<span class="crm-ticket-ico">' + crmIco('clipboard') + '</span>' +
+            '<span style="color:var(--primary);font-weight:600;font-size:13px;">' + t.code + '</span>' +
+          '</span>' +
+          '<span style="font-size:11px;padding:2px 8px;border-radius:10px;background:' + priorityColor + '15;color:' + priorityColor + ';font-weight:500;">' + t.priority + '</span>' +
+        '</div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--text-secondary);margin-bottom:6px;">' +
+          '<span>类型：' + (t.type || '—') + '</span>' +
+          '<span>状态：' + (t.status || '—') + '</span>' +
+          '<span>创建人：' + (t.csAgent || t.creator || '') + '</span>' +
+          '<span>创建：' + (t.created || '') + '</span>' +
+        '</div>' +
+        '<div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px;"><span style="font-weight:500;">需求：</span>' + (t.demand || t.title || '') + '</div>' +
+        '<div style="font-size:11px;color:var(--text-secondary);"><span style="font-weight:500;">处理：</span>' + (t.csAction || t.reply || '') + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+}
+var __crmDrawerId = null;
+function switchCrmDetailTab(tab, el) {
+  var c = crmData.find(function(x){ return x.id === __crmDrawerId; });
+  var body = document.getElementById('crmDetailTabBody');
+  if (!c || !body) return;
+  body.innerHTML = tab === 'lifecycle' ? crmLifecycleHtml(c)
+    : tab === 'insight' ? crmInsightHtml(c)
+    : tab === 'orders' ? crmOrdersHtml(c)
+    : crmTicketsHtml(c);
+  if (el && el.parentNode) {
+    var tabs = el.parentNode.querySelectorAll('.crm-dtab');
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+    el.classList.add('active');
+  }
+  body.scrollTop = 0;
+}
+function showCrmDrawer(id) {
+  var c = crmData.find(function(x){ return x.id === id; });
+  if (!c) return;
+  __crmDrawerId = id;
   var drawer = document.getElementById('crmDrawer');
   if (!drawer) {
     drawer = document.createElement('div');
     drawer.id = 'crmDrawer';
-    drawer.innerHTML = '<div class=\"crm-drawer-overlay\" onclick=\"closeCrmDrawer()\"></div><div class=\"crm-drawer-panel\" id=\"crmDrawerPanel\"></div>';
+    drawer.innerHTML = '<div class="crm-drawer-overlay" onclick="closeCrmDrawer()"></div><div class="crm-drawer-panel" id="crmDrawerPanel"></div>';
     document.body.appendChild(drawer);
   }
   var panel = document.getElementById('crmDrawerPanel');
+  // 与集包详情同款：顶部白色标题栏 + 灰色底 + 三块白色模块卡片
+  panel.style.background = '#F3F6FA';
+  panel.style.padding = '0';
+  panel.style.gap = '0';
   panel.innerHTML =
-    '<div style=\"display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border-light);\">'+
-    '<h2 style=\"margin:0;font-size:16px;\">'+c.name+' <span style=\"font-size:12px;font-weight:400;color:var(--text-muted);\">'+c.code+'</span></h2>'+
-    '<button class=\"btn btn-sm\" onclick=\"closeCrmDrawer()\">关闭</button></div>'+
-    '<div style=\"display:flex;flex:1;overflow:hidden;\">'+
-    '<div style=\"width:33.33%;border-right:1px solid var(--border-light);padding:20px;overflow-y:auto;\">'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">客户ID</span><div style=\"font-weight:600;\">'+c.code+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">名称</span><div>'+c.name+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">地区</span><div>'+(c.country||'-')+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">组别</span><div>'+(c.group||'未分组')+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">电话</span><div>'+(c.phone||'-')+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">邮箱</span><div>'+(c.email||'-')+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">微信</span><div>'+(c.wechat||'-')+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">海鸥ID</span><div>'+(c.haioId||'-')+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">工单数</span><div>'+c.ticketCount+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">询价</span><div>'+countInquiries(c)+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">投诉</span><div>'+(c.complaintCount>0?'<span style=\"color:var(--danger);\">'+c.complaintCount+'</span>':'0')+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">创建时间</span><div>'+(c.created||'-')+'</div></div>'+
-    '<div style=\"margin-bottom:16px;\"><span style=\"color:var(--text-muted);font-size:11px;\">更新时间</span><div>'+(c.updated||c.lastTicketDate||'-')+'</div></div>'+
-    '</div>'+
-    '<div style=\"width:66.67%;padding:20px;overflow-y:auto;\">'+
-    '<div style=\"margin-bottom:20px;\">'+
-    '<div style=\"font-weight:600;font-size:13px;margin-bottom:8px;color:var(--text-muted);\">AI客户画像</div>'+
-    '<div style=\"background:linear-gradient(135deg,#E7F3FB,#F0FDF4);border-radius:8px;padding:14px;font-size:12px;line-height:1.8;border:1px solid #A7F3D0;\">'+profileText+'</div></div>'+
-    '<div style=\"margin-bottom:20px;\">'+
-    '<div style=\"font-weight:600;font-size:13px;margin-bottom:8px;\">关联工单 ('+linkedTickets.length+')</div>'+
-    '<div style=\"font-size:12px;\">'+
-    (linkedTickets.length ? linkedTickets.map(function(t){
-      var priorityColor = t.priority==='紧急'?'#DC2626':t.priority==='严重'?'#EA580C':t.priority==='普通'?'#173D5B':'#888';
-      var isOverdue = false; var dueLabel = '';
-      if (t.status!=='已完成'&&t.status!=='已关闭'&&t.plannedDue&&t.plannedDue!=='-') {
-        var due = new Date(t.plannedDue);
-        isOverdue = new Date() > due;
-        dueLabel = isOverdue ? '<span style="color:#DC2626;font-weight:600;">已超时</span>' :
-          '<span style="color:var(--text-muted);">'+Math.ceil((due-Date.now())/(86400000))+'天后截止</span>';
-      }
-      return '<div style="background:var(--bg);border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid var(--border);cursor:pointer;" onclick="showTicketDetailModal('+t.id+')">'+
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'+
-          '<span style="color:var(--primary);font-weight:600;font-size:13px;">'+t.code+'</span>'+
-          '<span style="font-size:11px;padding:2px 8px;border-radius:10px;background:'+priorityColor+'15;color:'+priorityColor+';font-weight:500;">'+t.priority+'</span>'+
-        '</div>'+
-        '<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--text-secondary);margin-bottom:6px;">'+
-          '<span>创建人：'+(t.csAgent||t.creator||'')+'</span>'+
-          '<span>指派人：'+(t.assignee||'')+'</span>'+
-          '<span>创建：'+t.created+'</span>'+
-          dueLabel+
-        '</div>'+
-        '<div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px;">'+
-          '<span style="font-weight:500;">需求：</span>'+(t.demand||t.title||'')+
-        '</div>'+
-        '<div style="font-size:11px;color:var(--text-secondary);">'+
-          '<span style="font-weight:500;">建议：</span>'+(t.reply||t.csAction||'')+
-        '</div>'+
-      '</div>'; }).join('') : '<div style="color:var(--text-muted);">暂无关联工单</div>')+
-    '</div></div>'+
-    '</div></div>';
+    '<div class="crm-dhead">' +
+      '<span class="crm-dhead-ico">' + crmIco('user') + '</span>' +
+      '<span class="crm-dhead-title">客户详情</span>' +
+      '<button class="crm-dhead-close" title="关闭" onclick="closeCrmDrawer()">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+      '</button>' +
+    '</div>' +
+    '<div class="crm-body">' +
+      '<div class="crm-card crm-card--profile">' + crmProfileTopHtml(c) + '</div>' +
+      '<div class="crm-tabbar" id="crmDetailTabBar">' +
+        '<span class="crm-dtab active" onclick="switchCrmDetailTab(\'lifecycle\',this)">' + crmIco('activity') + '客户生命周期</span>' +
+        '<span class="crm-dtab" onclick="switchCrmDetailTab(\'insight\',this)">' + crmIco('sparkles') + 'AI客户画像</span>' +
+        '<span class="crm-dtab" onclick="switchCrmDetailTab(\'orders\',this)">' + crmIco('package') + '关联订单</span>' +
+        '<span class="crm-dtab" onclick="switchCrmDetailTab(\'tickets\',this)">' + crmIco('clipboard') + '关联工单</span>' +
+      '</div>' +
+      '<div class="crm-card crm-card--tab" id="crmDetailTabBody"></div>' +
+    '</div>';
   drawer.classList.add('open');
+  switchCrmDetailTab('lifecycle', panel.querySelector('.crm-dtab'));
 }
-
 function closeCrmDrawer() {
   var drawer = document.getElementById('crmDrawer');
   if (drawer) drawer.classList.remove('open');
@@ -16369,12 +16697,12 @@ function switchBot(type) {
 function seedAiTickets() {
   var n = Date.now();
   aiTickets = [
-    { id: aiTicketId++, from: '企业微信-马德里店群', customerCode: 'AG524887', customerId: 1, customerName: '华侨客户A', aiType: '售前报价', sourceText: '西班牙服装 18kg 多少钱', aiSummary: '客户询问西班牙服装18KG报价，需华侨包线路', aiDetail: '来源消息：客户在企业微信群中发送"西班牙服装 18kg 多少钱"，AI识别为售前报价类型', matchTicket: '-', matchRate: '85%', matchedCode: '', aiSuggestion: '推荐华侨包线路报价，预计18KG约€85，建议发送标准报价模板', status: 'pending', assignee: '', haioId: 'HIO-88421', chatType: '群聊', createdAt: n - 5*60000 },
-    { id: aiTicketId++, from: '企业微信-罗马店群', customerCode: 'AG181356', customerId: 4, customerName: '电商客户D', aiType: '物流查询', sourceText: 'DE2024KGH 清关了吗', aiSummary: '客户询问包裹DE2024KGH是否已清关', aiDetail: '来源消息：客户私信"DE2024KGH 清关了吗"，AI识别为物流查询', matchTicket: '20260621-AG181356-HIO44126', matchRate: '92%', matchedCode: '20260621-AG181356-HIO44126', aiSuggestion: '已匹配历史工单，清关状态查询建议联系清关部门确认DE2024KGH进展', status: 'picked', assignee: '小霞', haioId: 'HIO-44126', chatType: '私聊', createdAt: n - 10*60000 },
-    { id: aiTicketId++, from: '企业微信-慕尼黑店群', customerCode: 'AG800912', customerId: 5, customerName: '个人客户E', aiType: '售后客诉', sourceText: '包裹破了，里面东西坏了 [图片]', aiSummary: '客户投诉包裹破损，要求理赔', aiDetail: '来源消息：客户发送破损照片+文字"包裹破了，里面东西坏了"，AI识别为售后客诉', matchTicket: '-', matchRate: '78%', matchedCode: '', aiSuggestion: '高优先级客诉，建议立即创建理赔工单并联系客户，参考破损理赔标准流程处理', status: 'pending', assignee: '张三', haioId: '-', chatType: '私聊', abnormal: '售后客诉已超时 48 分钟未跟进，建议优先处理', createdAt: n - 48*60000 },
-    { id: aiTicketId++, from: '企业微信-巴黎店群', customerCode: 'AG392105', customerId: 2, customerName: '电商客户B', aiType: '售前报价', sourceText: '德国50kg锂电池能走吗', aiSummary: '新客户询问德国敏货50KG海运报价', aiDetail: '来源消息：客户"德国50kg锂电池能走吗"，AI识别为售前报价', matchTicket: '20260618-AG392105-HIO78203', matchRate: '95%', matchedCode: '20260618-AG392105-HIO78203', aiSuggestion: '锂电池属于敏货需走铁路敏感线路，50KG约€120，建议确认是否需要保险', status: 'picked', assignee: '张三', haioId: 'HIO-78203', chatType: '群聊', createdAt: n - 8*60000 },
-    { id: aiTicketId++, from: '企业微信-马德里店群', customerCode: 'AG674230', customerId: 3, customerName: '华侨客户C', aiType: '问题跟进', sourceText: '上个月破损那个，什么时候退钱', aiSummary: '前次理赔进度跟进，客户问退款到账时间', aiDetail: '来源消息：客户"上个月破损那个，什么时候退钱"，AI识别为售后跟进', matchTicket: '20260620-AG674230-HIO55912', matchRate: '88%', matchedCode: '20260620-AG674230-HIO55912', aiSuggestion: '跟进理赔工单20260620-AG674230-HIO55912，预计3-5工作日退款到账，建议告知客户进度', status: 'picked', assignee: '王五', haioId: 'HIO-55912', chatType: '私聊', createdAt: n - 12*60000 },
-    { id: aiTicketId++, from: '企业微信-罗马店群', customerCode: 'AG524887', customerId: 1, customerName: '华侨客户A', aiType: '货物异常', sourceText: '少了两件衣服，查一下', aiSummary: '客户反馈收到货物数量短少2件', aiDetail: '来源消息：客户"少了两件衣服，查一下"，AI识别为货物异常', matchTicket: '-', matchRate: '81%', matchedCode: '', aiSuggestion: '货物短少需核验出库记录和签收单，建议发起内部核查并48小时内回复客户', status: 'pending', assignee: '', haioId: 'HIO-88421', chatType: '群聊', abnormal: '货物异常已超时 95 分钟未跟进，需紧急核查', createdAt: n - 95*60000 },
+    { id: aiTicketId++, from: '企业微信-马德里店群', customerCode: 'IX524887', customerId: 1, customerName: '华侨客户A', aiType: '售前报价', sourceText: '西班牙服装 18kg 多少钱', aiSummary: '客户询问西班牙服装18KG报价，需华侨包线路', aiDetail: '来源消息：客户在企业微信群中发送"西班牙服装 18kg 多少钱"，AI识别为售前报价类型', matchTicket: '-', matchRate: '85%', matchedCode: '', aiSuggestion: '推荐华侨包线路报价，预计18KG约€85，建议发送标准报价模板', status: 'pending', assignee: '', haioId: '88421', chatType: '群聊', createdAt: n - 5*60000 },
+    { id: aiTicketId++, from: '企业微信-罗马店群', customerCode: 'IX181356', customerId: 4, customerName: '电商客户D', aiType: '物流查询', sourceText: 'DE2024KGH 清关了吗', aiSummary: '客户询问包裹DE2024KGH是否已清关', aiDetail: '来源消息：客户私信"DE2024KGH 清关了吗"，AI识别为物流查询', matchTicket: '20260621-IX181356-44126', matchRate: '92%', matchedCode: '20260621-IX181356-44126', aiSuggestion: '已匹配历史工单，清关状态查询建议联系清关部门确认DE2024KGH进展', status: 'picked', assignee: '小霞', haioId: '44126', chatType: '私聊', createdAt: n - 10*60000 },
+    { id: aiTicketId++, from: '企业微信-慕尼黑店群', customerCode: 'IX800912', customerId: 5, customerName: '个人客户E', aiType: '售后客诉', sourceText: '包裹破了，里面东西坏了 [图片]', aiSummary: '客户投诉包裹破损，要求理赔', aiDetail: '来源消息：客户发送破损照片+文字"包裹破了，里面东西坏了"，AI识别为售后客诉', matchTicket: '-', matchRate: '78%', matchedCode: '', aiSuggestion: '高优先级客诉，建议立即创建理赔工单并联系客户，参考破损理赔标准流程处理', status: 'pending', assignee: '张三', haioId: '-', chatType: '私聊', abnormal: '售后客诉已超时 48 分钟未跟进，建议优先处理', createdAt: n - 48*60000 },
+    { id: aiTicketId++, from: '企业微信-巴黎店群', customerCode: 'IX392105', customerId: 2, customerName: '电商客户B', aiType: '售前报价', sourceText: '德国50kg锂电池能走吗', aiSummary: '新客户询问德国敏货50KG海运报价', aiDetail: '来源消息：客户"德国50kg锂电池能走吗"，AI识别为售前报价', matchTicket: '20260618-IX392105-78203', matchRate: '95%', matchedCode: '20260618-IX392105-78203', aiSuggestion: '锂电池属于敏货需走铁路敏感线路，50KG约€120，建议确认是否需要保险', status: 'picked', assignee: '张三', haioId: '78203', chatType: '群聊', createdAt: n - 8*60000 },
+    { id: aiTicketId++, from: '企业微信-马德里店群', customerCode: 'IX674230', customerId: 3, customerName: '华侨客户C', aiType: '问题跟进', sourceText: '上个月破损那个，什么时候退钱', aiSummary: '前次理赔进度跟进，客户问退款到账时间', aiDetail: '来源消息：客户"上个月破损那个，什么时候退钱"，AI识别为售后跟进', matchTicket: '20260620-IX674230-55912', matchRate: '88%', matchedCode: '20260620-IX674230-55912', aiSuggestion: '跟进理赔工单20260620-IX674230-55912，预计3-5工作日退款到账，建议告知客户进度', status: 'picked', assignee: '王五', haioId: '55912', chatType: '私聊', createdAt: n - 12*60000 },
+    { id: aiTicketId++, from: '企业微信-罗马店群', customerCode: 'IX524887', customerId: 1, customerName: '华侨客户A', aiType: '货物异常', sourceText: '少了两件衣服，查一下', aiSummary: '客户反馈收到货物数量短少2件', aiDetail: '来源消息：客户"少了两件衣服，查一下"，AI识别为货物异常', matchTicket: '-', matchRate: '81%', matchedCode: '', aiSuggestion: '货物短少需核验出库记录和签收单，建议发起内部核查并48小时内回复客户', status: 'pending', assignee: '', haioId: '88421', chatType: '群聊', abnormal: '货物异常已超时 95 分钟未跟进，需紧急核查', createdAt: n - 95*60000 },
   ];
 }
 
@@ -18134,7 +18462,7 @@ function seedOrderPackages() {
   // 作废演示数据已移至 VOID_DEMO_ROWS（仅供作废页展示，不计入集包列表进展列）
   // 通过演示数据 x5
   for (var pi=0; pi<5; pi++) {
-    orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240708-PS'+(pi+1), xy: 'XY20240708P'+(pi+1), type: '常规', source: '客服', route: _routes[(pi+3)%7], creator: _creators[(pi+2)%4], tracker: _trackers[(pi+3)%6], status: '通过', demand: '', picker: '小萌', pickedAt: '2026-07-08T09:00', createdAt: '2026-07-08T08:00', updatedAt: '2026-07-08T14:00', links: [], xpd: '', dueDate: '2026-07-12T18:00', country: _countries[_routes[(pi+3)%7]], haioId: 'HIO-'+(50000+pi), haioStatus: '已出库', packer: '赵六', woodenBox: pi%2?'是':'否', packDoneAt: '2026-07-08T13:00', auditAt: '2026-07-08T14:00' });
+    orderPackages.push({ id: orderPkgNextId++, code: 'JB-20240708-PS'+(pi+1), xy: 'XY20240708P'+(pi+1), type: '常规', source: '客服', route: _routes[(pi+3)%7], creator: _creators[(pi+2)%4], tracker: _trackers[(pi+3)%6], status: '通过', demand: '', picker: '小萌', pickedAt: '2026-07-08T09:00', createdAt: '2026-07-08T08:00', updatedAt: '2026-07-08T14:00', links: [], xpd: '', dueDate: '2026-07-12T18:00', country: _countries[_routes[(pi+3)%7]], haioId: ''+(50000+pi), haioStatus: '已出库', packer: '赵六', woodenBox: pi%2?'是':'否', packDoneAt: '2026-07-08T13:00', auditAt: '2026-07-08T14:00' });
   }
   seedMorePackData();
   seedVerifyFlowData();
@@ -18148,11 +18476,11 @@ function seedOrderPackages() {
   seedMergeData();
   // 混合仓演示数据 x5（倒序 unshift，保证排在最前）
   var mxItems = [
-    { code: 'JB-20240818-MX1', xy: 'XY20240818001', route: '海运普货', creator: '小霞', tracker: '张三', assignMode: '放入公海', assignee: '', status: '待分配', demand: '混合仓：青源仓+派力仓合并发货', qty: 12, xcQty: 5, country: '德国', haioId: 'HIO-51001', day: '18', time: '09:30', packItems: [{ name:'棉质T恤', qty:3, cat:'普货', brand:'优衣库', image:'IMG_MX1_1.jpg', xy:'XY20240818001' }, { name:'运动鞋', qty:2, cat:'普货', brand:'耐克', image:'IMG_MX1_1.jpg', xy:'XY20240818001' }, { name:'充电宝', qty:1, cat:'敏货', brand:'罗马仕', image:'IMG_MX1_2.jpg', xy:'XY20240818001' }, { name:'蓝牙耳机', qty:1, cat:'敏货', brand:'苹果', image:'IMG_MX1_2.jpg', xy:'XY20240818001' }, { name:'书籍杂志', qty:4, cat:'普货', brand:'无品牌', image:'IMG_MX1_3.jpg', xy:'XY20240818001' }, { name:'保温杯', qty:1, cat:'普货', brand:'膳魔师', image:'IMG_MX1_3.jpg', xy:'XY20240818001' }, { name:'毛巾', qty:3, cat:'普货', brand:'洁丽雅', image:'IMG_MX1_4.jpg', xy:'XYFD20240818001', srcType:'分单' }, { name:'收纳盒', qty:2, cat:'普货', brand:'无品牌', image:'IMG_MX1_4.jpg', xy:'XYFD20240818001', srcType:'分单' }, { name:'厨房剪刀', qty:2, cat:'普货', brand:'张小泉', image:'IMG_MX1_4.jpg', xy:'XYFD20240818001', srcType:'分单' }, { name:'台灯', qty:2, cat:'普货', brand:'飞利浦', image:'IMG_MX1_5.jpg', xy:'XYFD20240818002', srcType:'分单' }, { name:'数据线', qty:3, cat:'普货', brand:'品胜', image:'IMG_MX1_5.jpg', xy:'XYFD20240818002', srcType:'分单' }, { name:'运动鞋', qty:2, cat:'普货', brand:'阿迪达斯', image:'IMG_MX1_6.jpg', xy:'XYJH20240818001', srcType:'加货' }, { name:'袜子', qty:4, cat:'普货', brand:'无品牌', image:'IMG_MX1_6.jpg', xy:'XYJH20240818001', srcType:'加货' }, { name:'运动鞋', qty:2, cat:'普货', brand:'耐克', image:'IMG_MX1_7.jpg', xy:'XYJH20240818002', srcType:'加货' }, { name:'鞋带', qty:2, cat:'普货', brand:'无品牌', image:'IMG_MX1_7.jpg', xy:'XYJH20240818002', srcType:'加货' }], mergeLogs: [{ xy:'XYJH20240818001', time:'2026-08-18 08:00', op:'加货单创建', who:'小霞' }, { xy:'XYJH20240818001', time:'2026-08-18 08:40', op:'AI识别物品清单生成', who:'AI识别' }, { xy:'XYJH20240818001', time:'2026-08-18 09:20', op:'加货复核', who:'张三', extra:'青源仓+派力仓货物核对无误' }, { xy:'XYJH20240818002', time:'2026-08-19 10:00', op:'加货单创建', who:'小萌' }, { xy:'XYJH20240818002', time:'2026-08-19 10:30', op:'加货复核', who:'李四', extra:'补发运动鞋 2 双' }], addGoodsXy: 'XYJH20240818001', splitLogs: [{ xy:'XY20240818001', time:'2026-08-18 08:05', op:'提交分单申请', who:'小霞', extra:'混合仓需拆分青源仓/派力仓分别打包' }, { xy:'XY20240818001', time:'2026-08-18 08:30', op:'分单审核通过', who:'张三' }, { xy:'XYFD20240818001', time:'2026-08-18 08:45', op:'分单生成', who:'系统', extra:'青源仓 7 件' }, { xy:'XYFD20240818002', time:'2026-08-18 08:50', op:'分单生成', who:'系统', extra:'派力仓 5 件' }] },
-    { code: 'JB-20240817-MX2', xy: 'XY20240817002', route: '铁路普货', creator: '小萌', tracker: '李四', assignMode: '直接指派', assignee: '赵六', subLead: '张三', status: '打包中', demand: '混合仓，派力仓包裹单独装箱', qty: 8, xcQty: 3, packer: '赵六', country: '法国', haioId: 'HIO-51002', day: '17', time: '14:00' },
-    { code: 'JB-20240816-MX3', xy: 'XY20240816003', route: '特快空运普货', creator: '门店小张', tracker: '张三', assignMode: '直接指派', assignee: '阿强', status: '打包完成', demand: '混合仓，加急处理', qty: 15, xcQty: 6, packer: '阿强', packStartAt: '2026-08-16 10:00', packStartReason: '混合仓开始打包，拆包核对', packStartPhotos: 3, packDoneAt: '2026-08-16 16:00', packCompleteReason: '打包完成', packCompletePhotos: 3, country: '西班牙', haioId: 'HIO-51003', day: '16', time: '16:00' },
-    { code: 'JB-20240815-MX4', xy: 'XY20240815004', route: '铁路敏感', creator: '小霞', tracker: '王五', assignMode: '直接指派', assignee: '赵六', status: '打包完毕', demand: '混合仓，敏感货单独包装', qty: 10, xcQty: 4, packer: '赵六', packStartAt: '2026-08-15 10:00', packStartReason: '混合仓开始打包', packStartPhotos: 3, packDoneAt: '2026-08-15 15:00', packCompleteReason: '混合仓打包完毕', packCompletePhotos: 4, auditReason: '混合仓物品无误，同意打包', auditAt: '2026-08-15 15:30', country: '意大利', haioId: 'HIO-51004', day: '15', time: '15:30' },
-    { code: 'JB-20240814-MX5', xy: 'XY20240814005', route: '海运超大件普货', creator: '小萌', tracker: '张三', assignMode: '直接指派', assignee: '阿强', status: '已付款', demand: '混合仓，超大件木箱加固', qty: 6, xcQty: 2, packer: '阿强', packDoneAt: '2026-08-14 14:00', verifyPayer: '张三', verifyPaidAt: '2026-08-14 16:00', verifyPayAmount: '486', verifyPayWeight: '22.5', country: '英国', haioId: 'HIO-51005', day: '14', time: '16:00' }
+    { code: 'JB-20240818-MX1', xy: 'XY20240818001', route: '海运普货', creator: '小霞', tracker: '张三', assignMode: '放入公海', assignee: '', status: '待分配', demand: '混合仓：青源仓+派力仓合并发货', qty: 12, xcQty: 5, country: '德国', haioId: '51001', day: '18', time: '09:30', packItems: [{ name:'棉质T恤', qty:3, cat:'普货', brand:'优衣库', image:'IMG_MX1_1.jpg', xy:'XY20240818001' }, { name:'运动鞋', qty:2, cat:'普货', brand:'耐克', image:'IMG_MX1_1.jpg', xy:'XY20240818001' }, { name:'充电宝', qty:1, cat:'敏货', brand:'罗马仕', image:'IMG_MX1_2.jpg', xy:'XY20240818001' }, { name:'蓝牙耳机', qty:1, cat:'敏货', brand:'苹果', image:'IMG_MX1_2.jpg', xy:'XY20240818001' }, { name:'书籍杂志', qty:4, cat:'普货', brand:'无品牌', image:'IMG_MX1_3.jpg', xy:'XY20240818001' }, { name:'保温杯', qty:1, cat:'普货', brand:'膳魔师', image:'IMG_MX1_3.jpg', xy:'XY20240818001' }, { name:'毛巾', qty:3, cat:'普货', brand:'洁丽雅', image:'IMG_MX1_4.jpg', xy:'XYFD20240818001', srcType:'分单' }, { name:'收纳盒', qty:2, cat:'普货', brand:'无品牌', image:'IMG_MX1_4.jpg', xy:'XYFD20240818001', srcType:'分单' }, { name:'厨房剪刀', qty:2, cat:'普货', brand:'张小泉', image:'IMG_MX1_4.jpg', xy:'XYFD20240818001', srcType:'分单' }, { name:'台灯', qty:2, cat:'普货', brand:'飞利浦', image:'IMG_MX1_5.jpg', xy:'XYFD20240818002', srcType:'分单' }, { name:'数据线', qty:3, cat:'普货', brand:'品胜', image:'IMG_MX1_5.jpg', xy:'XYFD20240818002', srcType:'分单' }, { name:'运动鞋', qty:2, cat:'普货', brand:'阿迪达斯', image:'IMG_MX1_6.jpg', xy:'XYJH20240818001', srcType:'加货' }, { name:'袜子', qty:4, cat:'普货', brand:'无品牌', image:'IMG_MX1_6.jpg', xy:'XYJH20240818001', srcType:'加货' }, { name:'运动鞋', qty:2, cat:'普货', brand:'耐克', image:'IMG_MX1_7.jpg', xy:'XYJH20240818002', srcType:'加货' }, { name:'鞋带', qty:2, cat:'普货', brand:'无品牌', image:'IMG_MX1_7.jpg', xy:'XYJH20240818002', srcType:'加货' }], mergeLogs: [{ xy:'XYJH20240818001', time:'2026-08-18 08:00', op:'加货单创建', who:'小霞' }, { xy:'XYJH20240818001', time:'2026-08-18 08:40', op:'AI识别物品清单生成', who:'AI识别' }, { xy:'XYJH20240818001', time:'2026-08-18 09:20', op:'加货复核', who:'张三', extra:'青源仓+派力仓货物核对无误' }, { xy:'XYJH20240818002', time:'2026-08-19 10:00', op:'加货单创建', who:'小萌' }, { xy:'XYJH20240818002', time:'2026-08-19 10:30', op:'加货复核', who:'李四', extra:'补发运动鞋 2 双' }], addGoodsXy: 'XYJH20240818001', splitLogs: [{ xy:'XY20240818001', time:'2026-08-18 08:05', op:'提交分单申请', who:'小霞', extra:'混合仓需拆分青源仓/派力仓分别打包' }, { xy:'XY20240818001', time:'2026-08-18 08:30', op:'分单审核通过', who:'张三' }, { xy:'XYFD20240818001', time:'2026-08-18 08:45', op:'分单生成', who:'系统', extra:'青源仓 7 件' }, { xy:'XYFD20240818002', time:'2026-08-18 08:50', op:'分单生成', who:'系统', extra:'派力仓 5 件' }] },
+    { code: 'JB-20240817-MX2', xy: 'XY20240817002', route: '铁路普货', creator: '小萌', tracker: '李四', assignMode: '直接指派', assignee: '赵六', subLead: '张三', status: '打包中', demand: '混合仓，派力仓包裹单独装箱', qty: 8, xcQty: 3, packer: '赵六', country: '法国', haioId: '51002', day: '17', time: '14:00' },
+    { code: 'JB-20240816-MX3', xy: 'XY20240816003', route: '特快空运普货', creator: '门店小张', tracker: '张三', assignMode: '直接指派', assignee: '阿强', status: '打包完成', demand: '混合仓，加急处理', qty: 15, xcQty: 6, packer: '阿强', packStartAt: '2026-08-16 10:00', packStartReason: '混合仓开始打包，拆包核对', packStartPhotos: 3, packDoneAt: '2026-08-16 16:00', packCompleteReason: '打包完成', packCompletePhotos: 3, country: '西班牙', haioId: '51003', day: '16', time: '16:00' },
+    { code: 'JB-20240815-MX4', xy: 'XY20240815004', route: '铁路敏感', creator: '小霞', tracker: '王五', assignMode: '直接指派', assignee: '赵六', status: '打包完毕', demand: '混合仓，敏感货单独包装', qty: 10, xcQty: 4, packer: '赵六', packStartAt: '2026-08-15 10:00', packStartReason: '混合仓开始打包', packStartPhotos: 3, packDoneAt: '2026-08-15 15:00', packCompleteReason: '混合仓打包完毕', packCompletePhotos: 4, auditReason: '混合仓物品无误，同意打包', auditAt: '2026-08-15 15:30', country: '意大利', haioId: '51004', day: '15', time: '15:30' },
+    { code: 'JB-20240814-MX5', xy: 'XY20240814005', route: '海运超大件普货', creator: '小萌', tracker: '张三', assignMode: '直接指派', assignee: '阿强', status: '已付款', demand: '混合仓，超大件木箱加固', qty: 6, xcQty: 2, packer: '阿强', packDoneAt: '2026-08-14 14:00', verifyPayer: '张三', verifyPaidAt: '2026-08-14 16:00', verifyPayAmount: '486', verifyPayWeight: '22.5', country: '英国', haioId: '51005', day: '14', time: '16:00' }
   ];
   for (var mi = mxItems.length - 1; mi >= 0; mi--) {
     var m = mxItems[mi];
@@ -18203,11 +18531,11 @@ function seedOrderPackages() {
   }
   // 拣货中演示数据 x5（含1条混合仓）
   var pickingItems = [
-    { code:'JB-20240819-MX6', xy:'XY20240819006', type:'混合仓', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'小霞', demand:'混合仓拣货，分仓核对', qty:10, xcQty:4, country:'德国', haioId:'HIO-51006', claimedAt:'2026-08-19 09:30' },
-    { code:'JB-20240819-P1', xy:'XY20240819007', type:'普通', route:'铁路普货', creator:'小萌', tracker:'李四', assignee:'小萌', demand:'易碎品，轻拿轻放', qty:8, xcQty:0, country:'法国', haioId:'HIO-51007', claimedAt:'2026-08-19 10:00' },
-    { code:'JB-20240819-P2', xy:'XY20240819008', type:'拼团', route:'特快空运普货', creator:'小张', tracker:'王五', assignee:'赵六', demand:'拼团拣货，合并打包', qty:12, xcQty:0, country:'西班牙', haioId:'HIO-51008', claimedAt:'2026-08-19 10:30' },
-    { code:'JB-20240819-P3', xy:'XY20240819009', type:'超大件', route:'铁路超大件普货', creator:'仓库小李', tracker:'张三', assignee:'阿强', demand:'大件需叉车配合', qty:5, xcQty:0, country:'意大利', haioId:'HIO-51009', claimedAt:'2026-08-19 11:00' },
-    { code:'JB-20240819-P4', xy:'XY20240819010', type:'加货', route:'海运普货', creator:'小霞', tracker:'李四', assignee:'小霞', demand:'加货拣货，核对清单', qty:7, xcQty:0, country:'英国', haioId:'HIO-51010', claimedAt:'2026-08-19 11:30' }
+    { code:'JB-20240819-MX6', xy:'XY20240819006', type:'混合仓', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'小霞', demand:'混合仓拣货，分仓核对', qty:10, xcQty:4, country:'德国', haioId:'51006', claimedAt:'2026-08-19 09:30' },
+    { code:'JB-20240819-P1', xy:'XY20240819007', type:'普通', route:'铁路普货', creator:'小萌', tracker:'李四', assignee:'小萌', demand:'易碎品，轻拿轻放', qty:8, xcQty:0, country:'法国', haioId:'51007', claimedAt:'2026-08-19 10:00' },
+    { code:'JB-20240819-P2', xy:'XY20240819008', type:'拼团', route:'特快空运普货', creator:'小张', tracker:'王五', assignee:'赵六', demand:'拼团拣货，合并打包', qty:12, xcQty:0, country:'西班牙', haioId:'51008', claimedAt:'2026-08-19 10:30' },
+    { code:'JB-20240819-P3', xy:'XY20240819009', type:'超大件', route:'铁路超大件普货', creator:'仓库小李', tracker:'张三', assignee:'阿强', demand:'大件需叉车配合', qty:5, xcQty:0, country:'意大利', haioId:'51009', claimedAt:'2026-08-19 11:00' },
+    { code:'JB-20240819-P4', xy:'XY20240819010', type:'加货', route:'海运普货', creator:'小霞', tracker:'李四', assignee:'小霞', demand:'加货拣货，核对清单', qty:7, xcQty:0, country:'英国', haioId:'51010', claimedAt:'2026-08-19 11:30' }
   ];
   pickingItems.forEach(function(it){
     orderPackages.push({
@@ -18256,7 +18584,7 @@ function seedOrderPackages() {
     ],
     createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 10:00',
     links: [], xpd: '', dueDate: '2026-08-23T18:00',
-    country: '德国', haioId: 'HIO-51011', haioStatus: '已出库', woodenBox: '否'
+    country: '德国', haioId: '51011', haioStatus: '已出库', woodenBox: '否'
   });
   orderPackages.push({
     id: orderPkgNextId++, code: 'JB-20240818-MX8', xy: 'XY20240818012',
@@ -18274,7 +18602,7 @@ function seedOrderPackages() {
     ],
     createdAt: '2026-08-18 08:00', updatedAt: '2026-08-18 14:00',
     links: [], xpd: '', dueDate: '2026-08-22T18:00',
-    country: '法国', haioId: 'HIO-51012', haioStatus: '已出库', woodenBox: '否'
+    country: '法国', haioId: '51012', haioStatus: '已出库', woodenBox: '否'
   });
   orderPackages.push({
     id: orderPkgNextId++, code: 'JB-20240817-MX9', xy: 'XY20240817013',
@@ -18286,7 +18614,7 @@ function seedOrderPackages() {
     auditReason: '混合仓物品无误，同意打包', auditAt: '2026-08-17 15:00',
     createdAt: '2026-08-17 08:00', updatedAt: '2026-08-17 15:00',
     links: [], xpd: '', dueDate: '2026-08-21T18:00',
-    country: '西班牙', haioId: 'HIO-51013', haioStatus: '已出库', woodenBox: '是'
+    country: '西班牙', haioId: '51013', haioStatus: '已出库', woodenBox: '是'
   });
   // 打包-待打包演示数据：混合仓 x4（覆盖纯混合/加货/分单/超大件场景）
   orderPackages.push({
@@ -18297,7 +18625,7 @@ function seedOrderPackages() {
     picker: '小萌', pickedAt: '2026-08-19 10:00', packer: '赵六',
     createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 10:00',
     links: [], xpd: '', dueDate: '2026-08-23T18:00',
-    country: '德国', haioId: 'HIO-51014', haioStatus: '已出库'
+    country: '德国', haioId: '51014', haioStatus: '已出库'
   });
   orderPackages.push({
     id: orderPkgNextId++, code: 'JB-20240819-MX11', xy: 'XY20240819015',
@@ -18307,7 +18635,7 @@ function seedOrderPackages() {
     picker: '小霞', pickedAt: '2026-08-19 10:30', packer: '阿强',
     createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 10:30',
     links: [], xpd: '', dueDate: '2026-08-23T18:00',
-    country: '法国', haioId: 'HIO-51015', haioStatus: '已出库',
+    country: '法国', haioId: '51015', haioStatus: '已出库',
     addGoodsXy: 'XYJH20240819002',
     addGoodsPhotos: ['加货单_拆包图1.jpg', '加货单_拆包图2.jpg']
   });
@@ -18319,7 +18647,7 @@ function seedOrderPackages() {
     picker: '小萌', pickedAt: '2026-08-19 11:00', packer: '小周',
     createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 11:00',
     links: [], xpd: '', dueDate: '2026-08-23T18:00',
-    country: '西班牙', haioId: 'HIO-51016', haioStatus: '已出库'
+    country: '西班牙', haioId: '51016', haioStatus: '已出库'
   });
   orderPackages.push({
     id: orderPkgNextId++, code: 'JB-20240819-MX13', xy: 'XY20240819017',
@@ -18329,7 +18657,7 @@ function seedOrderPackages() {
     picker: '小霞', pickedAt: '2026-08-19 11:30', packer: '老陈',
     createdAt: '2026-08-19 08:00', updatedAt: '2026-08-19 11:30',
     links: [], xpd: '', dueDate: '2026-08-23T18:00',
-    country: '意大利', haioId: 'HIO-51017', haioStatus: '已出库'
+    country: '意大利', haioId: '51017', haioStatus: '已出库'
   });
   balancePackageTypes();
   normalizePkgListByStage();
@@ -18358,14 +18686,14 @@ function seedMergeData() {
     ]
   ];
   var rows = [
-    { code:'JB-20240901-JH1', xy:'XY20240901001', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'赵六', status:'待合单', demand:'客户加货，需合单处理', qty:6, haioId:'HIO-52001', country:'德国', day:'09-01', time:'09:30' },
-    { code:'JB-20240901-JH2', xy:'XY20240901002', route:'铁路普货', creator:'小萌', tracker:'李四', assignee:'阿强', status:'待合单', demand:'加货合单，核对清单', qty:5, haioId:'HIO-52002', country:'法国', day:'09-01', time:'10:00', addGoodsGroups:[{ xy:'XYJH20240901002', items:[{name:'纯棉T恤',qty:2,cat:'普货',brand:'优衣库',image:'IMG_JH3.jpg'},{name:'运动鞋',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH3.jpg'}] }] },
-    { code:'JB-20240901-JH3', xy:'XY20240901003', route:'特快空运普货', creator:'小张', tracker:'王五', assignee:'阿明', status:'待合单', demand:'加急加货，尽快合单', qty:4, haioId:'HIO-52003', country:'美国', day:'09-01', time:'10:30' },
-    { code:'JB-20240901-JH4', xy:'XY20240901004', route:'铁路敏感', creator:'小霞', tracker:'张三', assignee:'赵六', status:'待合单', demand:'含敏货，合单需注意渠道', qty:7, haioId:'HIO-52004', country:'英国', day:'09-01', time:'11:00', addGoodsGroups:[{ xy:'XYJH20240901004', items:[{name:'书籍杂志',qty:4,cat:'普货',brand:'无品牌',image:'IMG_JH5.jpg'},{name:'棒球帽',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH5.jpg'}] }] },
-    { code:'JB-20240901-JH5', xy:'XY20240901005', route:'海运普货', creator:'小李', tracker:'李四', assignee:'阿强', status:'待合单', demand:'加货合单，正常处理', qty:3, haioId:'HIO-52005', country:'西班牙', day:'09-01', time:'11:30' },
-    { code:'JB-20240901-JH6', xy:'XY20240901006', route:'铁路普货', creator:'小萌', tracker:'王五', assignee:'阿明', status:'待合单', demand:'客户追加货物，合单', qty:5, haioId:'HIO-52006', country:'意大利', day:'09-01', time:'13:00' },
-    { code:'JB-20240831-JH7', xy:'XY20240831007', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'赵六', status:'已合单', demand:'加货已合单', qty:6, haioId:'HIO-52007', country:'德国', day:'08-31', time:'15:00', mergeXy:'XY20240830001', addGoodsGroups:[{ xy:'XYJH20240831001', items:[{name:'手机壳',qty:2,cat:'普货',brand:'倍思',image:'IMG_JH1.jpg'},{name:'数据线',qty:3,cat:'普货',brand:'绿联',image:'IMG_JH1.jpg'}] },{ xy:'XYJH20240831002', items:[{name:'蓝牙音箱',qty:1,cat:'敏货',brand:'JBL',image:'IMG_JH2.jpg'},{name:'保温杯',qty:1,cat:'普货',brand:'膳魔师',image:'IMG_JH2.jpg'}] }] },
-    { code:'JB-20240831-JH8', xy:'XY20240831008', route:'铁路普货', creator:'小李', tracker:'李四', assignee:'阿强', status:'已合单', demand:'加货已合单，正常打包', qty:4, haioId:'HIO-52008', country:'法国', day:'08-31', time:'16:00', mergeXy:'XY20240830002', addGoodsGroups:[{ xy:'XYJH20240831003', items:[{name:'纯棉T恤',qty:2,cat:'普货',brand:'优衣库',image:'IMG_JH3.jpg'},{name:'运动鞋',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH3.jpg'}] },{ xy:'XYJH20240831004', items:[{name:'香水',qty:1,cat:'敏货',brand:'迪奥',image:'IMG_JH4.jpg'},{name:'收纳盒',qty:2,cat:'普货',brand:'无品牌',image:'IMG_JH4.jpg'}] }] }
+    { code:'JB-20240901-JH1', xy:'XY20240901001', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'赵六', status:'待合单', demand:'客户加货，需合单处理', qty:6, haioId:'52001', country:'德国', day:'09-01', time:'09:30' },
+    { code:'JB-20240901-JH2', xy:'XY20240901002', route:'铁路普货', creator:'小萌', tracker:'李四', assignee:'阿强', status:'待合单', demand:'加货合单，核对清单', qty:5, haioId:'52002', country:'法国', day:'09-01', time:'10:00', addGoodsGroups:[{ xy:'XYJH20240901002', items:[{name:'纯棉T恤',qty:2,cat:'普货',brand:'优衣库',image:'IMG_JH3.jpg'},{name:'运动鞋',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH3.jpg'}] }] },
+    { code:'JB-20240901-JH3', xy:'XY20240901003', route:'特快空运普货', creator:'小张', tracker:'王五', assignee:'阿明', status:'待合单', demand:'加急加货，尽快合单', qty:4, haioId:'52003', country:'美国', day:'09-01', time:'10:30' },
+    { code:'JB-20240901-JH4', xy:'XY20240901004', route:'铁路敏感', creator:'小霞', tracker:'张三', assignee:'赵六', status:'待合单', demand:'含敏货，合单需注意渠道', qty:7, haioId:'52004', country:'英国', day:'09-01', time:'11:00', addGoodsGroups:[{ xy:'XYJH20240901004', items:[{name:'书籍杂志',qty:4,cat:'普货',brand:'无品牌',image:'IMG_JH5.jpg'},{name:'棒球帽',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH5.jpg'}] }] },
+    { code:'JB-20240901-JH5', xy:'XY20240901005', route:'海运普货', creator:'小李', tracker:'李四', assignee:'阿强', status:'待合单', demand:'加货合单，正常处理', qty:3, haioId:'52005', country:'西班牙', day:'09-01', time:'11:30' },
+    { code:'JB-20240901-JH6', xy:'XY20240901006', route:'铁路普货', creator:'小萌', tracker:'王五', assignee:'阿明', status:'待合单', demand:'客户追加货物，合单', qty:5, haioId:'52006', country:'意大利', day:'09-01', time:'13:00' },
+    { code:'JB-20240831-JH7', xy:'XY20240831007', route:'海运普货', creator:'小霞', tracker:'张三', assignee:'赵六', status:'已合单', demand:'加货已合单', qty:6, haioId:'52007', country:'德国', day:'08-31', time:'15:00', mergeXy:'XY20240830001', addGoodsGroups:[{ xy:'XYJH20240831001', items:[{name:'手机壳',qty:2,cat:'普货',brand:'倍思',image:'IMG_JH1.jpg'},{name:'数据线',qty:3,cat:'普货',brand:'绿联',image:'IMG_JH1.jpg'}] },{ xy:'XYJH20240831002', items:[{name:'蓝牙音箱',qty:1,cat:'敏货',brand:'JBL',image:'IMG_JH2.jpg'},{name:'保温杯',qty:1,cat:'普货',brand:'膳魔师',image:'IMG_JH2.jpg'}] }] },
+    { code:'JB-20240831-JH8', xy:'XY20240831008', route:'铁路普货', creator:'小李', tracker:'李四', assignee:'阿强', status:'已合单', demand:'加货已合单，正常打包', qty:4, haioId:'52008', country:'法国', day:'08-31', time:'16:00', mergeXy:'XY20240830002', addGoodsGroups:[{ xy:'XYJH20240831003', items:[{name:'纯棉T恤',qty:2,cat:'普货',brand:'优衣库',image:'IMG_JH3.jpg'},{name:'运动鞋',qty:1,cat:'普货',brand:'耐克',image:'IMG_JH3.jpg'}] },{ xy:'XYJH20240831004', items:[{name:'香水',qty:1,cat:'敏货',brand:'迪奥',image:'IMG_JH4.jpg'},{name:'收纳盒',qty:2,cat:'普货',brand:'无品牌',image:'IMG_JH4.jpg'}] }] }
   ];
   rows.forEach(function(m, i){
     var isDone = m.status === '已合单';
@@ -18755,7 +19083,7 @@ function seedPackAuditData() {
       updatedAt: '2026-07-'+String(20+i).padStart(2,'0')+' 10:00',
       links: [], xpd: '', dueDate: '2026-07-'+String(25+i).padStart(2,'0')+'T18:00',
       country: '',
-      haioId: 'HIO-'+(60000+i),
+      haioId: ''+(60000+i),
       haioStatus: '已出库',
       woodenBox: i%3===0?'是':'否'
     });
@@ -18798,7 +19126,7 @@ function seedPackDoneAuditData() {
       updatedAt: '2026-07-'+String(10+i).padStart(2,'0')+' 14:00',
       links: [], xpd: '', dueDate: '2026-07-'+String(18+i).padStart(2,'0')+'T18:00',
       country: '',
-      haioId: 'HIO-'+(70000+i),
+      haioId: ''+(70000+i),
       haioStatus: '已出库',
       woodenBox: i%3===0?'是':'否'
     });
@@ -18842,7 +19170,7 @@ function seedPendingPackData() {
       links: [],
       dueDate: '2026-08-04T18:00',
       country: '德国',
-      haioId: 'HIO-' + (83000 + ti),
+      haioId: '' + (83000 + ti),
       haioStatus: '已出库'
     });
   }
@@ -18879,7 +19207,7 @@ function seedPendingPackData() {
       links: [],
       dueDate: '2026-08-05T18:00',
       country: '德国',
-      haioId: 'HIO-' + (84000 + ai),
+      haioId: '' + (84000 + ai),
       haioStatus: '已出库',
       packStartPhotos: 3,
       packItems: [
@@ -18917,7 +19245,7 @@ function seedPendingPackData() {
       updatedAt: '2026-07-'+String(30+i).padStart(2,'0')+' 08:00',
       links: [], xpd: '', dueDate: '2026-07-'+String(35+i).padStart(2,'0')+'T18:00',
       country: '',
-      haioId: 'HIO-'+(80000+i),
+      haioId: ''+(80000+i),
       haioStatus: '已出库',
       packItems: isAudit ? [
         {name:'羽绒服',qty:1+(i%3),cat:'普货',image:'IMG_'+(9000+i)+'a.jpg'},
@@ -18956,7 +19284,7 @@ function seedPendingPackData() {
     updatedAt: '2026-08-20 09:30',
     links: [], xpd: '', dueDate: '2026-08-25T18:00',
     country: '德国',
-    haioId: 'HIO-51020',
+    haioId: '51020',
     haioStatus: '已出库',
     addGoodsXy: 'XYJH20240820001',
     addGoodsPhotos: ['加货单_拆包图1.jpg', '加货单_拆包图2.jpg', '加货单_拆包图3.jpg'],
@@ -18994,7 +19322,7 @@ function seedGoodsRejectData() {
       updatedAt: '2026-07-'+String(50+i).padStart(2,'0')+' 11:00',
       links: [], xpd: '', dueDate: '2026-07-'+String(55+i).padStart(2,'0')+'T18:00',
       country: '',
-      haioId: 'HIO-'+(90000+i),
+      haioId: ''+(90000+i),
       haioStatus: '已出库',
       packItems: [
         {name:'羽绒服',qty:1+(i%3),cat:'普货',image:'IMG_'+(9100+i)+'a.jpg'},
@@ -19066,7 +19394,7 @@ function seedVerifyFlowData() {
         qcTime: qcTime, qcPerson: '质检员·小美', qcStatus: '合格',
         updatedAt: doneAt, links: [], xpd: '', dueDate: '2026-07-10T18:00',
         country: countries[route],
-        haioId: 'HIO-'+(20000+orderPkgNextId),
+        haioId: ''+(20000+orderPkgNextId),
         haioStatus: '已签收',
         verifyPayer: '门店小张',
         verifyPaidAt: paidAt,
@@ -19157,7 +19485,7 @@ function seedQcFailData() {
       xpd: '',
       dueDate: '2026-06-28T18:00',
       country: countries[route],
-      haioId: 'HIO-'+(95000+i),
+      haioId: ''+(95000+i),
       haioStatus: '已出库',
       woodenBox: i%2?'是':'否'
     });
@@ -19180,7 +19508,7 @@ function seedVerifyReturnedData() {
       route: route, creator: creators[i%4], tracker: trackers[i%4],
       status: '退件', prevStatus: ['打包完毕','已付款','待发货'][i%3],
       country: {'海运普货':'美国','海运超大件普货':'德国','铁路普货':'波兰','铁路敏感':'匈牙利','铁路超大件普货':'捷克','特快空运普货':'英国','特快空运敏感':'法国'}[route]||'—',
-      haioId: 'HIO-'+(60000+i), haioStatus: '已出库',
+      haioId: ''+(60000+i), haioStatus: '已出库',
       picker: trackers[i%4], pickedAt: createdAt,
       packer: packers[i%3], woodenBox: i%3===0?'是':'否',
       packDoneAt: '2026-07-'+String(day+1).padStart(2,'0')+' 14:00:00',
@@ -19690,7 +20018,7 @@ function renderOrderPkgHead(isSuper) {
     head.innerHTML = '<tr>' + cb +
       '<th style="font-weight:600;color:var(--primary);">海鸥订单号</th><th>类型</th><th>仓库</th><th>活动</th><th>集包号</th>' + comp +
       '<th>客户ID</th><th>付款方式</th><th>是否开票</th><th>门店</th><th>收货国家</th><th>线路</th><th>状态</th>' +
-      '<th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>应收金额</th><th>商品名称</th>' +
+      '<th>箱数</th><th>计费重</th><th>体积</th><th>预计金额</th><th>已收金额</th><th>是否结清</th><th>商品名称</th>' +
       '<th>更新时间</th><th>备注</th><th>客户要求</th><th>创建人</th><th>创建时间</th><th>操作</th></tr>';
   }
   applyPkgCompanyVisibility();
@@ -24332,7 +24660,7 @@ function renderOrderPackPool() {
       else if (o.void) acts = '';
     }
     // Demo helpers for new fields
-    var haioId = o.haioId || 'HIO-'+(10000+o.id);
+    var haioId = o.haioId || ''+(10000+o.id);
     var country = o.country || '—';
     var subLead = o.subLead || (o.assignee || '');
     var woodenBox = o.woodenBox !== undefined ? o.woodenBox : (o.type==='拼团' ? '是' : '否');
@@ -24599,7 +24927,7 @@ function showPackEdit(id) {
   var o = orderPackages.find(function(p){ return p.id===id; });
   if (!o) return;
   document.getElementById('packEditXy').value = o.xy || orderDisplayXy(o);
-  document.getElementById('packEditHaioId').value = o.haioId || 'HIO-'+(10000+o.id);
+  document.getElementById('packEditHaioId').value = o.haioId || ''+(10000+o.id);
   var wooden = o.woodenBox || (o.type==='拼团'?'是':'否');
   document.querySelector('input[name="packEditWooden"][value="'+wooden+'"]').checked = true;
   document.getElementById('packEditHaioStatus').value = o.haioStatus || '已出库';
@@ -27935,12 +28263,12 @@ var VOID_DEMO_ROWS = [
   { id:-8001, code:'JB-20240715-0001', xy:'XY20240715001', type:'普通', source:'客服', route:'海运普货', creator:'小霞', tracker:'张三', status:'已作废', void:true, voidType:'客户退仓', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-15 10:30', voidReason:'客户撤单', demand:'客户撤单', createdAt:'2026-07-15 09:00', updatedAt:'2026-07-15 10:30', links:[], xpd:'', dueDate:'' },
   { id:-8002, code:'JB-20240716-0001', xy:'XY20240716001', type:'普通', source:'客服', route:'铁路普货', creator:'小萌', tracker:'李四', status:'已作废', void:true, voidType:'加货单', voidNewXy:'XY20240801001', voidSource:'拣货作废', voidOperator:'超管', voidAt:'2026-07-16 14:00', voidReason:'商品损坏,需重新下单', demand:'商品损坏', picker:'小萌', pickedAt:'2026-07-16 11:00', createdAt:'2026-07-16 10:00', updatedAt:'2026-07-16 14:00', links:[], xpd:'', dueDate:'' },
   { id:-8003, code:'JB-20240718-0002', xy:'XY20240718002', type:'超大件', source:'仓库', route:'特快空运普货', creator:'仓库小李', tracker:'王五', status:'已作废', void:true, voidType:'修改路线', voidNewXy:'XY20240802001', voidSource:'打包作废', voidOperator:'超管', voidAt:'2026-07-18 09:15', voidReason:'超重无法运输,改发海运', demand:'超重无法运输', packer:'赵六', packDoneAt:'2026-07-18 08:00', createdAt:'2026-07-17 16:00', updatedAt:'2026-07-18 09:15', links:[], xpd:'', dueDate:'' },
-  { id:-8004, code:'JB-20240719-0003', xy:'XY20240719003', type:'拼团', source:'客服', route:'铁路敏感', creator:'小霞', tracker:'张三', status:'已作废', void:true, voidType:'客户退仓', voidSource:'核款作废', voidOperator:'超管', voidAt:'2026-07-19 16:00', voidReason:'客户拒收', demand:'客户拒收', picker:'小霞', pickedAt:'2026-07-19 10:00', packer:'赵六', packDoneAt:'2026-07-19 14:00', verifyPayer:'张三', verifyPaidAt:'2026-07-19 15:30', verifyPayAmount:'326', verifyPayWeight:'12.5', haioId:'HIO-10018', createdAt:'2026-07-19 09:00', updatedAt:'2026-07-19 16:00', links:[], xpd:'', dueDate:'' },
-  { id:-8005, code:'JB-20240708-VD1', xy:'XY20240708V1', type:'常规', source:'客服', route:'铁路普货', creator:'小萌', tracker:'王五', status:'已作废', void:true, voidType:'客户退仓', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T10:00', voidReason:'演示作废数据#1', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'HIO-40000', haioStatus:'已出库' },
-  { id:-8006, code:'JB-20240708-VD2', xy:'XY20240708V2', type:'常规', source:'客服', route:'铁路敏感', creator:'小张', tracker:'赵六', status:'已作废', void:true, voidType:'加货单', voidNewXy:'XY2024080V2', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T11:00', voidReason:'演示作废数据#2', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'HIO-40001', haioStatus:'已出库' },
-  { id:-8007, code:'JB-20240708-VD3', xy:'XY20240708V3', type:'常规', source:'客服', route:'铁路超大件普货', creator:'小李', status:'已作废', void:true, voidType:'修改路线', voidNewXy:'XY2024080V3', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T12:00', voidReason:'演示作废数据#3', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'HIO-40002', haioStatus:'已出库' },
-  { id:-8008, code:'JB-20240708-VD4', xy:'XY20240708V4', type:'常规', source:'客服', route:'特快空运敏感', creator:'小霞', status:'已作废', void:true, voidType:'客户退仓', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T13:00', voidReason:'演示作废数据#4', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'HIO-40003', haioStatus:'已出库' },
-  { id:-8009, code:'JB-20240708-VD5', xy:'XY20240708V5', type:'常规', source:'客服', route:'海运普货', creator:'小萌', tracker:'张三', status:'已作废', void:true, voidType:'加货单', voidNewXy:'XY2024080V5', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T14:00', voidReason:'演示作废数据#5', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'HIO-40004', haioStatus:'已出库' }
+  { id:-8004, code:'JB-20240719-0003', xy:'XY20240719003', type:'拼团', source:'客服', route:'铁路敏感', creator:'小霞', tracker:'张三', status:'已作废', void:true, voidType:'客户退仓', voidSource:'核款作废', voidOperator:'超管', voidAt:'2026-07-19 16:00', voidReason:'客户拒收', demand:'客户拒收', picker:'小霞', pickedAt:'2026-07-19 10:00', packer:'赵六', packDoneAt:'2026-07-19 14:00', verifyPayer:'张三', verifyPaidAt:'2026-07-19 15:30', verifyPayAmount:'326', verifyPayWeight:'12.5', haioId:'10018', createdAt:'2026-07-19 09:00', updatedAt:'2026-07-19 16:00', links:[], xpd:'', dueDate:'' },
+  { id:-8005, code:'JB-20240708-VD1', xy:'XY20240708V1', type:'常规', source:'客服', route:'铁路普货', creator:'小萌', tracker:'王五', status:'已作废', void:true, voidType:'客户退仓', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T10:00', voidReason:'演示作废数据#1', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'40000', haioStatus:'已出库' },
+  { id:-8006, code:'JB-20240708-VD2', xy:'XY20240708V2', type:'常规', source:'客服', route:'铁路敏感', creator:'小张', tracker:'赵六', status:'已作废', void:true, voidType:'加货单', voidNewXy:'XY2024080V2', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T11:00', voidReason:'演示作废数据#2', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'40001', haioStatus:'已出库' },
+  { id:-8007, code:'JB-20240708-VD3', xy:'XY20240708V3', type:'常规', source:'客服', route:'铁路超大件普货', creator:'小李', status:'已作废', void:true, voidType:'修改路线', voidNewXy:'XY2024080V3', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T12:00', voidReason:'演示作废数据#3', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'40002', haioStatus:'已出库' },
+  { id:-8008, code:'JB-20240708-VD4', xy:'XY20240708V4', type:'常规', source:'客服', route:'特快空运敏感', creator:'小霞', status:'已作废', void:true, voidType:'客户退仓', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T13:00', voidReason:'演示作废数据#4', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'40003', haioStatus:'已出库' },
+  { id:-8009, code:'JB-20240708-VD5', xy:'XY20240708V5', type:'常规', source:'客服', route:'海运普货', creator:'小萌', tracker:'张三', status:'已作废', void:true, voidType:'加货单', voidNewXy:'XY2024080V5', voidSource:'集包作废', voidOperator:'超管', voidAt:'2026-07-08T14:00', voidReason:'演示作废数据#5', demand:'', createdAt:'2026-07-08T08:00', updatedAt:'2026-07-08T10:00', links:[], xpd:'', dueDate:'2026-07-12T18:00', haioId:'40004', haioStatus:'已出库' }
 ];
 function renderOrderExStats() {
   var all = orderPackages.filter(function(o){ return o.status==='异常'; });
@@ -30930,7 +31258,7 @@ function xlSaveOrder(orderId) {
       source: '门店', category: xlRouteName(c.transport_type) + (c.attr === '敏' ? '敏感' : '普货'),
       is_oversize: vals.is_oversize, unload_ability: vals.unload_ability,
       postcode: vals.postcode, country: vals.country, country_code: vals.country_code, address: vals.address,
-      customer_id: c.customer_id || 'AG300000', attr: c.attr, print_status: '',
+      customer_id: c.customer_id || 'IX300000', attr: c.attr, print_status: '',
       transfer_no: vals.transfer_no, transfer_company: vals.transfer_company,
       tracking_status: '', tracking_events: [], remote: '否'
     });
@@ -31016,6 +31344,13 @@ function verifyFinance(o) {
   var base = o.verifyPayAmount ? parseFloat(o.verifyPayAmount) : 0;
   var est = base > 0 ? (base + 10 + ((id * 13) % 160)) : (150 + ((id * 53) % 1200));
   var paid = base + verifySettleSum(o);
+  var payMethod = o.verifyPayMethod || _vkPayMethods[id % _vkPayMethods.length];
+  // 结清口径：已完成 / 待发货（已核款待发货）/ 现付现结 视为款项收齐；发货中按尾款累计判断；退件不计结清
+  if (o.status !== '退件') {
+    if (o.verifyDoneAt) paid = Math.max(paid, est);
+    else if (o.verifyPaidAt && (!o.verifyShipAt || payMethod === '现付现结')) paid = Math.max(paid, est);
+  }
+  var settled = (paid + 0.005) >= est;
   var country = o.country || (typeof _countries !== 'undefined' ? _countries[o.route] : '') || '—';
   var items = o.packItems || [];
   var goods;
@@ -31026,16 +31361,22 @@ function verifyFinance(o) {
     goods = _vkGoodsNames[id % _vkGoodsNames.length];
   }
   return {
-    payMethod: o.verifyPayMethod || _vkPayMethods[id % _vkPayMethods.length],
+    payMethod: payMethod,
     invoice: (id % 2 === 0) ? '是' : '否',
-    customerId: 'AG' + String(300000 + (id * 97) % 700000),
+    customerId: 'IX' + String(300000 + (id * 97) % 700000),
     country: country,
     volume: (0.08 + ((id * 37) % 120) / 100).toFixed(2) + ' m³',
     estimated: est.toFixed(2),
     paid: paid.toFixed(2),
     receivable: (est - paid).toFixed(2),
+    settled: settled ? '是' : '否',
     goods: goods
   };
+}
+function verifySettledTag(f) {
+  return f && f.settled === '是'
+    ? '<span class="tag tag-green">是</span>'
+    : '<span class="tag tag-yellow">否</span>';
 }
 function verifyFinanceCells(o, n) {
   var f = verifyFinance(o);
@@ -31046,7 +31387,7 @@ function verifyFinanceCells(o, n) {
     '<td rowspan="'+n+'">'+f.volume+'</td>' +
     '<td rowspan="'+n+'">'+f.estimated+'</td>' +
     '<td rowspan="'+n+'">'+f.paid+'</td>' +
-    '<td rowspan="'+n+'">'+f.receivable+'</td>' +
+    '<td rowspan="'+n+'">'+verifySettledTag(f)+'</td>' +
     '<td rowspan="'+n+'" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+f.goods+'</td>';
 }
 function verifyStageTag(o) {
@@ -31057,7 +31398,7 @@ function verifyStageTag(o) {
   return '待付款';
 }
 function resetVerifyAllFilters() {
-  ['verifyAllFilterRoute','verifyAllFilterPay','verifyAllFilterCountry','verifyAllFilterStatus','verifyAllFilterStore','verifyAllFilterDateFrom','verifyAllFilterDateTo','verifyAllSearch'].forEach(function(id){ var el = document.getElementById(id); if (el) el.value=''; });
+  ['verifyAllFilterRoute','verifyAllFilterPay','verifyAllFilterCountry','verifyAllFilterStatus','verifyAllFilterSettled','verifyAllFilterStore','verifyAllFilterDateFrom','verifyAllFilterDateTo','verifyAllSearch'].forEach(function(id){ var el = document.getElementById(id); if (el) el.value=''; });
 }
 
 function renderVerifyAll() {
@@ -31066,6 +31407,7 @@ function renderVerifyAll() {
   var filterPay = (document.getElementById('verifyAllFilterPay')||{}).value || '';
   var filterCountry = (document.getElementById('verifyAllFilterCountry')||{}).value || '';
   var filterStatus = (document.getElementById('verifyAllFilterStatus')||{}).value || '';
+  var filterSettled = (document.getElementById('verifyAllFilterSettled')||{}).value || '';
   var filterStore = (document.getElementById('verifyAllFilterStore')||{}).value || '';
   var dateFrom = (document.getElementById('verifyAllFilterDateFrom')||{}).value || '';
   var dateTo = (document.getElementById('verifyAllFilterDateTo')||{}).value || '';
@@ -31076,6 +31418,7 @@ function renderVerifyAll() {
   if (filterPay) list = list.filter(function(o){ return verifyFinance(o).payMethod===filterPay; });
   if (filterCountry) list = list.filter(function(o){ return verifyFinance(o).country===filterCountry; });
   if (filterStatus) list = list.filter(function(o){ return verifyStageTag(o)===filterStatus; });
+  if (filterSettled) list = list.filter(function(o){ return verifyFinance(o).settled===filterSettled; });
   if (filterStore) list = list.filter(function(o){ return o.storeDept===filterStore; });
   if (dateFrom) list = list.filter(function(o){ return (o.updatedAt||'').slice(0,10) >= dateFrom; });
   if (dateTo) list = list.filter(function(o){ return (o.updatedAt||'').slice(0,10) <= dateTo; });
@@ -31102,7 +31445,7 @@ function renderVerifyAll() {
         '<td rowspan="'+n+'" style="white-space:nowrap;">'+f.volume+'</td>'+
         '<td rowspan="'+n+'">'+f.estimated+'</td>'+
         '<td rowspan="'+n+'">'+f.paid+'</td>'+
-        '<td rowspan="'+n+'">'+f.receivable+'</td>'+
+        '<td rowspan="'+n+'">'+verifySettledTag(f)+'</td>'+
         '<td rowspan="'+n+'" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+f.goods+'</td>'+
         '<td rowspan="'+n+'" style="white-space:nowrap;">'+o.updatedAt+'</td>'+
         '<td rowspan="'+n+'" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(o.verifyPayNote||'')+'</td></tr>';
@@ -31131,18 +31474,20 @@ function verifyUnifiedCells(o, n, statusHtml, updateTime, withTypeActivity) {
     '<td rowspan="'+n+'" style="white-space:nowrap;">'+f.volume+'</td>' +
     '<td rowspan="'+n+'">'+f.estimated+'</td>' +
     '<td rowspan="'+n+'">'+f.paid+'</td>' +
-    '<td rowspan="'+n+'">'+f.receivable+'</td>' +
+    '<td rowspan="'+n+'">'+verifySettledTag(f)+'</td>' +
     '<td rowspan="'+n+'" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+f.goods+'</td>' +
     '<td rowspan="'+n+'" style="white-space:nowrap;">'+updateTime+'</td>' +
     '<td rowspan="'+n+'" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(o.verifyPayNote||'')+'</td>';
 }
 // 各状态 tab 通用筛选（付款方式/收货国家/门店/更新时间；线路由各 render 单独处理）
 function applyVerifyCommonFilters(list, prefix) {
+  var filterSettled = (document.getElementById(prefix+'FilterSettled')||{}).value || '';
   var filterPay = (document.getElementById(prefix+'FilterPay')||{}).value || '';
   var filterCountry = (document.getElementById(prefix+'FilterCountry')||{}).value || '';
   var filterStore = (document.getElementById(prefix+'FilterStore')||{}).value || '';
   var dateFrom = (document.getElementById(prefix+'FilterDateFrom')||{}).value || '';
   var dateTo = (document.getElementById(prefix+'FilterDateTo')||{}).value || '';
+  if (filterSettled) list = list.filter(function(o){ return verifyFinance(o).settled===filterSettled; });
   if (filterPay) list = list.filter(function(o){ return verifyFinance(o).payMethod===filterPay; });
   if (filterCountry) list = list.filter(function(o){ return verifyFinance(o).country===filterCountry; });
   if (filterStore) list = list.filter(function(o){ return o.storeDept===filterStore; });
@@ -31151,7 +31496,7 @@ function applyVerifyCommonFilters(list, prefix) {
   return list;
 }
 function resetVerifyCommonFilters(prefix) {
-  [prefix+'FilterRoute', prefix+'FilterPay', prefix+'FilterCountry', prefix+'FilterStore', prefix+'FilterDateFrom', prefix+'FilterDateTo', prefix+'Search'].forEach(function(id){ var el = document.getElementById(id); if (el) el.value=''; });
+  [prefix+'FilterRoute', prefix+'FilterPay', prefix+'FilterCountry', prefix+'FilterSettled', prefix+'FilterStore', prefix+'FilterDateFrom', prefix+'FilterDateTo', prefix+'Search'].forEach(function(id){ var el = document.getElementById(id); if (el) el.value=''; });
 }
 // 待付款范围：仅未核款（核款完成后即离开「待付款」，进入「待发货」）
 function inVerifyPendingScope(o) {
@@ -31301,7 +31646,7 @@ function verifyShippingActions(o) {
   if (verifyNeedsSettlement(o)) {
     ops.push('<button class="btn btn-primary btn-sm" onclick="showVerifySettleModal('+o.id+')">收尾款</button>');
   } else {
-    ops.push('<button class="btn btn-primary btn-sm" onclick="confirmVerifyShip('+o.id+')">发货</button>');
+    ops.push('<button class="btn btn-primary btn-sm" onclick="confirmVerifyDone('+o.id+')">完成</button>');
   }
   ops.push('<button class="btn btn-sm" onclick="markOrderPackExceptionDirect('+o.id+')">异常</button>');
   if (currentRole === 'super') ops.push('<button class="btn btn-sm btn-gray" onclick="voidOrderPackage('+o.id+')">作废</button>');
@@ -31718,7 +32063,7 @@ function doConfirmVerifyDone() {
   o.verifyDoneNote = document.getElementById('verifyDoneNote').value.trim() || '';
   hideVerifyDoneModal();
   renderVerifyShipping(); renderVerifyDone(); renderOrderVerifyStats();
-  showToast('已完成签收：'+o.code);
+  showToast('已完成收货：'+o.code);
 }
 var currentVerifyReturnId = null;
 function verifyReturn(id) {
@@ -33417,7 +33762,7 @@ seedOrderPackages();
 seedOrderReturns();
 // Fill missing demo fields and clean dash placeholders
 orderPackages.forEach(function(o, i){
-  if (!o.haioId) o.haioId = 'HIO-'+String(10001+i).padStart(5,'0');
+  if (!o.haioId) o.haioId = ''+String(10001+i).padStart(5,'0');
   if (!o.country) o.country = '德国';
   if (!o.qty) o.qty = Math.floor(Math.random()*5)+1;
   if (!o.demand) o.demand = '无特殊要求';
