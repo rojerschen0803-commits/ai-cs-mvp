@@ -2248,6 +2248,11 @@ input[type="range"]::-webkit-slider-thumb {
 .pkg-top-xy { font-size:16px; font-weight:700; color:var(--primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .pkg-basic-card { background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:12px; box-shadow:0 1px 2px rgba(16,24,40,.04); }
 
+/* ===== 新建集包：所属仓库多选 chips ===== */
+.pkg-wh-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:1px solid var(--border);border-radius:14px;font-size:11.5px;line-height:1.4;cursor:pointer;background:#fff;color:var(--text-secondary);transition:all .15s;user-select:none;white-space:nowrap;}
+.pkg-wh-chip:hover{border-color:#AEC3D6;color:var(--primary);}
+.pkg-wh-chip:has(input:checked){border-color:#173D5B;background:#E7F3FB;color:#173D5B;font-weight:600;}
+.pkg-wh-chip input{width:11px;height:11px;margin:0;accent-color:#173D5B;flex-shrink:0;}
 /* ===== 集包详情：灰色底 + 白色模块卡片 ===== */
 #orderPkgDrawer .drawer-body { background: #F3F6FA; padding: 14px 16px 16px; }
 #orderPkgDrawer .pkg-basic-card { border-color: #EAEEF3; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
@@ -5572,7 +5577,7 @@ main > .modal-overlay.show { display: flex !important; }
     <!-- ====== PAGE 6: 团队管理 ====== -->
     <div class="page fade-in" id="page-team">
       <div class="sub-tab-bar" style="margin-bottom:16px;">
-        <div class="sub-tab-item active" onclick="switchTeamTab('dept', this)">部门管理</div>
+        <div class="sub-tab-item active" onclick="switchTeamTab('dept', this)">团队列表</div>
         <div class="sub-tab-item" onclick="switchTeamTab('role', this)">角色管理</div>
       </div>
 
@@ -6539,7 +6544,7 @@ main > .modal-overlay.show { display: flex !important; }
           <div id="pkgFilterCountryWrap" style="display:none;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">收货国家</span><select id="orderPkgFilterCountry" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>德国</option><option>法国</option><option>英国</option><option>波兰</option><option>美国</option><option>西班牙</option><option>意大利</option></select></div>
           <div id="pkgFilterStoreWrap" style="display:none;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="orderPkgFilterStore" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div>
           <div id="pkgFilterTypeWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPkgFilterType" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option></select></div>
-          <div id="pkgFilterWarehouseWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">仓库</span><select id="orderPkgFilterWarehouse" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>门店</option><option>青源仓</option><option>派力仓</option><option>混合仓</option><option>博乐仓</option></select></div>
+          <div id="pkgFilterWarehouseWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">仓库</span><select id="orderPkgFilterWarehouse" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>门店</option><option>青源仓</option><option>派力仓</option><option>青源仓+派力仓</option><option>博乐仓</option></select></div>
           <div id="pkgFilterActivityWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">活动</span><select id="orderPkgFilterActivity" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>拼团</option></select></div>
           <div id="pkgFilterDemandWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">客户要求</span><input type="text" id="orderPkgSearchDemand" placeholder="模糊检索" style="width:110px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
           <div id="pkgFilterCreatedWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">创建时间</span><input type="date" id="orderPkgFilterDateFrom" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><span style="font-size:11px;color:var(--text-muted);margin:0 4px;">至</span><input type="date" id="orderPkgFilterDateTo" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
@@ -6585,10 +6590,18 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="modal" style="width:800px;max-height:88vh;overflow-y:auto;">
         <h3>新建集包</h3>
         <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包类型 <span style="color:var(--danger);">*</span></label><select id="orderPkgType" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgTypeChange()"><option value="">请选择</option><option value="常规">常规</option><option value="加货">加货</option><option value="变更">变更</option></select></div>
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">所属仓库 <span style="color:var(--danger);">*</span></label><select id="orderPkgWarehouse" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgWarehouseChange()"><option value="">请选择</option><option>门店</option><option>青源仓</option><option>派力仓</option><option>混合仓</option><option>博乐仓</option></select></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包类型 <span style="color:var(--danger);">*</span></label><select id="orderPkgType" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgTypeChange()"><option value="">请选择</option><option value="常规">常规</option><option value="加货">加货</option></select></div>
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包活动 <span style="color:var(--danger);">*</span></label><select id="orderPkgActivity" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgActivityChange()"><option value="常规">常规</option><option value="拼团">拼团</option></select></div>
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">线路 <span style="color:var(--danger);">*</span></label><select id="orderPkgRoute" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
+        </div>
+        <div id="orderPkgWarehouseRow" style="margin-bottom:10px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">所属仓库 <span style="color:var(--danger);">*</span> <span style="font-size:10px;font-weight:400;color:var(--text-muted);">可多选 · 包裹数按包裹明细自动统计</span></label>
+          <div id="orderPkgWarehouseGroup" style="display:flex;flex-wrap:wrap;gap:6px;">
+              <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="门店" onchange="onOrderPkgWarehouseChange()">门店</label>
+              <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="青源仓" onchange="onOrderPkgWarehouseChange()">青源仓</label>
+              <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="派力仓" onchange="onOrderPkgWarehouseChange()">派力仓</label>
+              <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="博乐仓" onchange="onOrderPkgWarehouseChange()">博乐仓</label>
+          </div>
         </div>
         <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
           <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;white-space:nowrap;">国家</label><input type="text" id="orderPkgCountry" placeholder="如 德国" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
@@ -6597,12 +6610,7 @@ main > .modal-overlay.show { display: flex !important; }
         </div>
         <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">截止时间</label><input type="datetime-local" id="orderPkgDue" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
-          <div style="flex:1;"><label id="orderPkgQtyLabel" style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">青源仓包裹数 <span style="color:var(--danger);">*</span></label><input type="number" id="orderPkgQty" placeholder="请输入数量" step="1" min="1" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
           <div style="flex:1;" id="orderPkgXyCell"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥订单号(XY) <span style="color:var(--danger);">*</span></label><input type="text" id="orderPkgXy" placeholder="如 XY20240703001" list="orderPkgXySuggest" autocomplete="off" oninput="onOrderPkgXyInput()" onchange="onOrderPkgXyInput()" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><datalist id="orderPkgXySuggest"></datalist></div>
-        </div>
-        <div id="orderPkgXcQtyWrap" style="display:none;margin-bottom:10px;">
-          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">派力仓包裹数 <span style="color:var(--danger);">*</span></label>
-          <input type="number" id="orderPkgXcQty" placeholder="请输入派力仓包裹数" step="1" min="1" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
         </div>
         <div id="orderPkgXpdField" style="margin-bottom:10px;display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">关联拼团订单(XYPD) <span style="color:var(--danger);">*</span></label><input type="text" id="orderPkgXpd" placeholder="请输入拼团订单 XYPD 号，如 XYPD20240703001" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
         <div id="orderPkgUrgentReasonRow" style="margin-bottom:10px;display:none;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">催办理由 <span style="color:var(--text-muted);">(选填)</span></label><textarea id="orderPkgUrgentReason" placeholder="请输入催办理由..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:60px;"></textarea></div>
@@ -6644,12 +6652,13 @@ main > .modal-overlay.show { display: flex !important; }
                 <thead><tr style="background:#F8FAFC;">
                   <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">序号</th>
                   <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">包裹编号</th>
+                  <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">所属仓库</th>
                   <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">快递单号</th>
                   <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">物品数</th>
-                  <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">重量(kg)</th>
+                  <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">重量</th>
                   <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">入库图片</th>
-                  <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">拆包图片</th>
                   <th style="position:sticky;top:0;background:#F8FAFC;text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;border-bottom:1px solid var(--border);">货架</th>
+                </tr></thead>
                 </tr></thead>
                 <tbody id="orderPkgParcelRows"></tbody>
               </table>
@@ -7525,29 +7534,30 @@ main > .modal-overlay.show { display: flex !important; }
 
     <!-- 异常编辑弹框（样式参考集包创建弹框） -->
     <div class="modal-overlay" id="orderExEditModal">
-      <div class="modal" style="width:640px;">
+      <div class="modal" style="width:720px;">
         <h3>编辑异常</h3>
         <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包编号</label><input type="text" id="orderExEditCode" readonly style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:#F9FAFB;color:var(--text-muted);box-sizing:border-box;"></div>
-          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥ID</label><input type="text" id="orderExEditHaioId" placeholder="如 HY88001" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
-        </div>
-        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">海鸥订单号(XY) <span style="color:var(--danger);">*</span></label><input type="text" id="orderExEditXy" placeholder="如 XY260818001" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包活动 <span style="color:var(--danger);">*</span></label><select id="orderExEditActivity" onchange="onExEditActivityChange()" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="常规">常规</option><option value="拼团">拼团</option></select></div>
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">线路</label><select id="orderExEditRoute" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
+          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">集包编号</label><input type="text" id="orderExEditCode" readonly style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;background:#F9FAFB;color:var(--text-secondary);"></div>
+          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">海鸥ID</label><input type="text" id="orderExEditHaioId" placeholder="如 2532969" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
         </div>
         <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">国家</label><input type="text" id="orderExEditCountry" placeholder="如 德国" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">是否加急</label><select id="orderExEditUrgent" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="否">否</option><option value="是">是</option></select></div>
+          <div style="flex:1.3;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">海鸥订单号(XY)</label><input type="text" id="orderExEditXy" readonly style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;background:#F9FAFB;color:var(--text-secondary);"></div>
+          <div style="flex:.7;min-width:96px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">集包类型</label><div id="orderExEditTypeTags" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-height:32px;padding:4px 10px;border:1px solid var(--border);border-radius:6px;background:#F9FAFB;box-sizing:border-box;"></div></div>
+          <div style="flex:1.4;min-width:200px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">所属仓库</label><div id="orderExEditWhTags" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-height:32px;padding:4px 10px;border:1px solid var(--border);border-radius:6px;background:#F9FAFB;box-sizing:border-box;"></div></div>
         </div>
         <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">截至时间</label><input type="datetime-local" id="orderExEditDue" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
-          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">包裹数量</label><input type="number" id="orderExEditQty" placeholder="请输入数量" min="1" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">集包活动</label><select id="orderExEditActivity" onchange="onExEditActivityChange()" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="常规">常规</option><option value="拼团">拼团</option></select></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">线路</label><select id="orderExEditRoute" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
+          <div style="flex:1;min-width:0;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">国家</label><input type="text" id="orderExEditCountry" placeholder="如 德国" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;"></div>
         </div>
-        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">客户要求</label><textarea id="orderExEditDemand" placeholder="请填写客户要求..." style="width:100%;height:70px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;box-sizing:border-box;"></textarea></div>
+        <div style="display:flex;gap:8px;margin-bottom:10px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">截至时间</label><input type="datetime-local" id="orderExEditDue" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">是否加急</label><select id="orderExEditUrgent" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="否">否</option><option value="是">是</option></select></div>
+        </div>
         <div id="orderExEditXpdBlock" style="display:none;margin-bottom:10px;">
-          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">拼团号(XYPD) <span style="color:var(--danger);">*</span></label><input type="text" id="orderExEditXpd" placeholder="如 XYPD20260001" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">拼团号(XYPD) <span style="color:var(--danger);">*</span></label><input type="text" id="orderExEditXpd" placeholder="如 XYPD20260001" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;box-sizing:border-box;">
         </div>
+        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">客户要求</label><textarea id="orderExEditDemand" placeholder="请填写客户要求..." style="width:100%;height:72px;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;box-sizing:border-box;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hideOrderExEdit()">取消</button><button class="btn btn-primary btn-sm" onclick="saveOrderExEdit()">保存修改</button></div>
       </div>
     </div>
@@ -8836,6 +8846,52 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('rolePermissionModal')">取消</button>
       <button class="btn btn-primary" onclick="saveRolePermission()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 编辑角色 Modal -->
+<div class="modal-overlay" id="editRoleModal">
+  <div class="modal" style="width:460px;">
+    <h3>编辑角色</h3>
+    <div class="form-group">
+      <label>角色名称 <span style="color:var(--danger);">*</span></label>
+      <input type="text" id="editRoleNameInput" placeholder="请输入角色名称" maxlength="20">
+    </div>
+    <div class="form-group">
+      <label>角色描述</label>
+      <input type="text" id="editRoleDescInput" placeholder="如：处理客户对话，接管AI会话" maxlength="40">
+    </div>
+    <div class="form-group">
+      <label>角色标识色</label>
+      <select id="editRoleColorInput"><option value="blue">蓝色</option><option value="green">绿色</option><option value="yellow">黄色</option><option value="gray">灰色</option><option value="red">红色</option></select>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">修改名称后，已绑定该角色的成员与权限配置会同步迁移。</div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('editRoleModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveEditRole()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 角色数据权限 Modal -->
+<div class="modal-overlay" id="roleDataScopeModal">
+  <div class="modal" style="width:780px;">
+    <h3>数据权限</h3>
+    <div id="roleDataScopeInfo" style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;"></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#F7FAFD;border:1px solid #E3EDF6;border-radius:8px;margin-bottom:10px;flex-wrap:wrap;">
+      <span style="font-size:11px;color:var(--text-muted);">快捷设置</span>
+      <button class="btn btn-sm" onclick="dsSetAll('all')">全部设为「全部数据」</button>
+      <button class="btn btn-sm" onclick="dsSetAll('self')">全部设为「自创建数据」</button>
+      <span style="margin-left:auto;font-size:11px;color:var(--text-muted);">一级设置会同步其下二级菜单</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:0 12px 6px;font-size:11px;color:var(--text-muted);">
+      <span style="flex:1;">菜单（一级 / 二级）</span><span style="width:260px;flex-shrink:0;">列表数据范围</span>
+    </div>
+    <div id="roleDataScopeList" style="max-height:50vh;overflow-y:auto;border:1px solid var(--border-light);border-radius:8px;"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('roleDataScopeModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveRoleDataScope()">保存</button>
     </div>
   </div>
 </div>
@@ -13800,6 +13856,35 @@ var teamRolePermissions = {
   '训练员': ['查看对话列表','标注训练数据','管理知识库'],
   '查看者': ['查看对话列表','查看效果分析']
 };
+
+// ===== 角色 · 数据权限（按一级 / 二级菜单设置列表可见范围）=====
+var ROLE_MENU_TREE = [
+  { key: 'home',     name: '首页',   subs: [] },
+  { key: 'jy',       name: '集运',   subs: [ { key: 'overview', name: '概览' }, { key: 'order', name: '订单管理' }, { key: 'audit', name: '审核管理' }, { key: 'logistics', name: '物流管理' }, { key: 'haiou', name: '海鸥管理' } ] },
+  { key: 'finance',  name: '财务',   subs: [ { key: 'overview', name: '财务概览' }, { key: 'detail', name: '财务明细' } ] },
+  { key: 'customer', name: '客户',   subs: [ { key: 'overview', name: '概览' }, { key: 'ticket', name: '工单管理' }, { key: 'crm', name: '客户管理' }, { key: 'session', name: '会话' }, { key: 'monitor', name: '聊天监测' } ] },
+  { key: 'orca',     name: 'ORCA',   subs: [ { key: 'new', name: '新建会话' }, { key: 'skill', name: '技能' }, { key: 'plugin', name: '插件' }, { key: 'project', name: '项目' } ] },
+  { key: 'org',      name: '经销商', subs: [ { key: 'overview', name: '总览' }, { key: 'dealer', name: '经销商管理' }, { key: 'dept', name: '部门列表' }, { key: 'employee', name: '员工管理' } ] },
+  { key: 'config',   name: '配置',   subs: [ { key: 'ai', name: 'AI配置' }, { key: 'team', name: '团队' }, { key: 'system', name: '系统管理' } ] }
+];
+// 角色 → { 菜单key: 'all' | 'self' }；缺省视为 all（全部数据）
+var teamDataScopes = {
+  '管理员': {},
+  '坐席': { 'customer': 'self', 'customer.crm': 'self', 'customer.session': 'self', 'customer.monitor': 'self', 'jy.order': 'self' },
+  '训练员': { 'orca': 'self', 'orca.skill': 'self' },
+  '查看者': {}
+};
+function roleScopeOf(role, key) {
+  var m = teamDataScopes[role] || {};
+  return m[key] === 'self' ? 'self' : 'all';
+}
+function roleScopeSummary(role, node) {
+  if (!node.subs || !node.subs.length) return roleScopeOf(role, node.key);
+  var selfs = node.subs.filter(function(s){ return roleScopeOf(role, node.key + '.' + s.key) === 'self'; }).length;
+  if (selfs === 0) return 'all';
+  if (selfs === node.subs.length) return 'self';
+  return 'mix';
+}
 var teamDeptNextId = 6;
 var teamMemberNextId = 16;
 var currentTeamDept = 1;
@@ -15137,11 +15222,23 @@ function renderTeamRoleDetail() {
   if (!r || !detail) return;
   var users = teamMembers.filter(function(m){ return m.role === r.name; });
   var perms = teamRolePermissions[r.name] || [];
+  var dsTagMap = { all: ['tag-blue', '全部数据'], self: ['tag-yellow', '自创建数据'], mix: ['tag-gray', '部分自创建'] };
+  var dsTags = ROLE_MENU_TREE.map(function(n){
+    var s = roleScopeSummary(r.name, n) || 'all';
+    var it = dsTagMap[s] || dsTagMap.all;
+    return '<span class="tag ' + it[0] + '" style="font-size:11px;padding:3px 9px;" title="' + n.name + '：' + it[1] + '">' + n.name + ' · ' + it[1] + '</span>';
+  }).join('');
   detail.innerHTML =
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">'+
-      '<div><div style="font-size:15px;font-weight:600;">'+r.name+'</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">'+r.desc+'</div></div>'+
-      '<button class="btn btn-primary btn-sm" onclick="showRolePermissionModal()" style="font-size:11px;">配置权限</button>'+
+    '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap;">'+
+      '<div style="min-width:0;"><div style="font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;">'+r.name+'<span class="tag tag-'+r.color+'" style="font-size:10px;padding:1px 7px;">角色</span></div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;">'+r.desc+'</div></div>'+
+      '<div style="display:flex;gap:8px;flex-shrink:0;">'+
+        '<button class="btn btn-sm" onclick="showEditRoleModal()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> 编辑角色</button>'+
+        '<button class="btn btn-sm" onclick="showRoleDataScopeModal()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg> 数据权限</button>'+
+        '<button class="btn btn-primary btn-sm" onclick="showRolePermissionModal()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 功能权限</button>'+
+      '</div>'+
     '</div>'+
+    '<div style="font-size:13px;font-weight:600;margin-bottom:8px;">数据权限 <span style="font-size:11px;font-weight:400;color:var(--text-muted);">按一级 / 二级菜单控制列表数据范围</span></div>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">'+dsTags+'</div>'+
     '<div style="font-size:13px;font-weight:600;margin-bottom:10px;">绑定用户（'+users.length+'人）</div>'+
     '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">'+
       (users.map(function(u){ return '<span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:var(--bg);border-radius:16px;font-size:12px;"><span style="width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;">'+u.name.charAt(0)+'</span>'+u.name+'</span>'; }).join('') || '<span style="font-size:12px;color:var(--text-muted);">暂无绑定用户</span>')+
@@ -15201,6 +15298,7 @@ function saveNewRole() {
   if (teamRoles.find(function(r){ return r.name === name; })) { showToast('角色已存在'); return; }
   teamRoles.push({ name: name, desc: '自定义角色', color: 'gray' });
   teamRolePermissions[name] = ['查看对话列表'];
+  teamDataScopes[name] = {};
   document.getElementById('addRoleModal').classList.remove('show');
   currentTeamRole = name;
   renderTeamRoleList(); renderTeamRoleDetail();
@@ -15245,6 +15343,120 @@ function saveRolePermission() {
   document.getElementById('rolePermissionModal').classList.remove('show');
   renderTeamRoleDetail();
   showToast('权限已保存');
+}
+// ===== 角色基本信息编辑 =====
+function showEditRoleModal() {
+  var r = teamRoles.find(function(x){ return x.name === currentTeamRole; });
+  if (!r) return;
+  var n = document.getElementById('editRoleNameInput');
+  var d = document.getElementById('editRoleDescInput');
+  var c = document.getElementById('editRoleColorInput');
+  if (n) n.value = r.name;
+  if (d) d.value = r.desc || '';
+  if (c) c.value = r.color || 'blue';
+  document.getElementById('editRoleModal').classList.add('show');
+}
+function saveEditRole() {
+  var r = teamRoles.find(function(x){ return x.name === currentTeamRole; });
+  if (!r) return;
+  var nEl = document.getElementById('editRoleNameInput');
+  var dEl = document.getElementById('editRoleDescInput');
+  var cEl = document.getElementById('editRoleColorInput');
+  var name = nEl ? nEl.value.trim() : '';
+  if (!name) { showToast('请输入角色名称'); return; }
+  var oldName = r.name;
+  if (name !== oldName && teamRoles.some(function(x){ return x.name === name; })) { showToast('角色名称已存在'); return; }
+  r.name = name;
+  r.desc = (dEl && dEl.value.trim()) || r.desc || '自定义角色';
+  r.color = (cEl && cEl.value) || r.color || 'blue';
+  if (name !== oldName) {
+    teamRolePermissions[name] = teamRolePermissions[oldName] || [];
+    delete teamRolePermissions[oldName];
+    teamDataScopes[name] = teamDataScopes[oldName] || {};
+    delete teamDataScopes[oldName];
+    teamMembers.forEach(function(m){ if (m.role === oldName) m.role = name; });
+    currentTeamRole = name;
+  }
+  document.getElementById('editRoleModal').classList.remove('show');
+  renderTeamRoleList(); renderTeamRoleDetail(); renderTeamMembers();
+  showToast('已保存角色信息：' + name);
+}
+// ===== 角色数据权限（一级 / 二级菜单 × 全部数据 / 自创建数据）=====
+function dsRadioName(key) { return 'ds_' + String(key).replace(/[.]/g, '_'); }
+function dsRadioValue(key) {
+  var el = document.querySelector('input[name="' + dsRadioName(key) + '"]:checked');
+  return el ? el.value : 'all';
+}
+function dsSetRadio(key, val) {
+  var el = document.querySelector('input[name="' + dsRadioName(key) + '"][value="' + val + '"]');
+  if (el) el.checked = true;
+}
+function dsSetAll(val) {
+  var box = document.getElementById('roleDataScopeList');
+  if (!box) return;
+  box.querySelectorAll('input[type="radio"][value="' + val + '"]').forEach(function(el){ el.checked = true; });
+}
+function dsSetLevel1(key) {
+  var val = dsRadioValue(key);
+  var node = ROLE_MENU_TREE.filter(function(x){ return x.key === key; })[0];
+  if (!node) return;
+  (node.subs || []).forEach(function(s){ dsSetRadio(key + '.' + s.key, val); });
+}
+function dsSyncLevel1(key) {
+  var node = ROLE_MENU_TREE.filter(function(x){ return x.key === key; })[0];
+  if (!node || !node.subs || !node.subs.length) return;
+  var vals = node.subs.map(function(s){ return dsRadioValue(key + '.' + s.key); });
+  var allSelf = vals.every(function(v){ return v === 'self'; });
+  var allAll = vals.every(function(v){ return v === 'all'; });
+  if (allAll) dsSetRadio(key, 'all');
+  else if (allSelf) dsSetRadio(key, 'self');
+  else {
+    document.querySelectorAll('input[name="' + dsRadioName(key) + '"]').forEach(function(el){ el.checked = false; });
+  }
+}
+function dsRowRadios(key, val, isLevel1) {
+  var handler = isLevel1 ? ("dsSetLevel1('" + key + "')") : ("dsSyncLevel1('" + key + "')");
+  return '<div style="width:260px;display:flex;gap:14px;flex-shrink:0;">' +
+    '<label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;color:var(--text-secondary);"><input type="radio" name="' + dsRadioName(key) + '" value="all"' + (val === 'self' || val === 'mix' ? '' : ' checked') + ' onchange="' + handler + '">全部数据</label>' +
+    '<label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;color:var(--text-secondary);"><input type="radio" name="' + dsRadioName(key) + '" value="self"' + (val === 'self' ? ' checked' : '') + ' onchange="' + handler + '">自创建数据</label>' +
+  '</div>';
+}
+function renderRoleDataScopeList() {
+  var role = currentTeamRole;
+  var info = document.getElementById('roleDataScopeInfo');
+  if (info) info.innerHTML = '当前角色：<b style="color:var(--text);">' + role + '</b> · 逐项设置各菜单列表可见范围；一级设置会同步其下二级菜单，默认全部数据。';
+  var box = document.getElementById('roleDataScopeList');
+  if (!box) return;
+  var html = '';
+  ROLE_MENU_TREE.forEach(function(n){
+    html += '<div style="display:flex;align-items:center;gap:12px;padding:9px 12px;background:#F7FAFD;border-top:1px solid var(--border-light);">' +
+      '<div style="flex:1;min-width:0;font-size:12.5px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;">' + n.name +
+        (n.subs && n.subs.length ? '<span style="font-size:10px;font-weight:400;color:var(--text-muted);">' + n.subs.length + ' 个二级菜单</span>' : '<span style="font-size:10px;font-weight:400;color:var(--text-muted);">一级菜单</span>') +
+        (roleScopeSummary(role, n) === 'mix' ? '<span style="font-size:10px;font-weight:500;color:#D97706;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:0 6px;">混合</span>' : '') +
+      '</div>' + dsRowRadios(n.key, roleScopeSummary(role, n), true) + '</div>';
+    (n.subs || []).forEach(function(s){
+      var key = n.key + '.' + s.key;
+      html += '<div style="display:flex;align-items:center;gap:12px;padding:6px 12px 6px 30px;border-top:1px dashed var(--border-light);">' +
+        '<div style="flex:1;min-width:0;font-size:12px;color:var(--text-secondary);">' + s.name + '</div>' +
+        dsRowRadios(key, roleScopeOf(role, key), false) + '</div>';
+    });
+  });
+  box.innerHTML = html;
+}
+function showRoleDataScopeModal() {
+  renderRoleDataScopeList();
+  document.getElementById('roleDataScopeModal').classList.add('show');
+}
+function saveRoleDataScope() {
+  var out = {};
+  ROLE_MENU_TREE.forEach(function(n){
+    out[n.key] = dsRadioValue(n.key);
+    (n.subs || []).forEach(function(s){ out[n.key + '.' + s.key] = dsRadioValue(n.key + '.' + s.key); });
+  });
+  teamDataScopes[currentTeamRole] = out;
+  document.getElementById('roleDataScopeModal').classList.remove('show');
+  renderTeamRoleDetail();
+  showToast('数据权限已保存：' + currentTeamRole);
 }
 
 // ========== 排班管理 ==========
@@ -19004,19 +19216,18 @@ function balancePackageTypes() {
   });
   // 2. 仓库优先沿用旧类型（门店/青源仓/派力仓/混合仓/博乐仓），类型收敛为 常规/加货/变更
   //    —— 必须先迁仓库再归类型，否则旧仓库信息会丢失
-  var WH = ['青源仓', '派力仓', '博乐仓', '门店', '混合仓'];
+  var WH = ['青源仓', '派力仓', '博乐仓', '门店'];
   var legacyWh = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'混合仓', '博乐仓':'博乐仓' };
-  var whCount = { '门店':0, '青源仓':0, '派力仓':0, '混合仓':0, '博乐仓':0 };
+  var whCount = { '门店':0, '青源仓':0, '派力仓':0, '博乐仓':0 };
   var addGoodsXyCounter = 0;
   var typeTick = 0;
   orderPackages.forEach(function(o){
     if (!o.warehouse && legacyWh[o.type]) o.warehouse = legacyWh[o.type];
     if (o.type === '超大件') o.oversized = '是';
-    if (o.type !== '加货' && o.type !== '变更' && o.type !== '拼团') {
+    if (o.type !== '加货' && o.type !== '拼团') {
       o.type = '常规';
       typeTick++;
       if (typeTick % 9 === 0) o.type = '加货';
-      else if (typeTick % 9 === 4) o.type = '变更';
     }
     if (!o.activity) o.activity = (o.type === '拼团') ? '拼团' : '常规';
   });
@@ -19030,6 +19241,7 @@ function balancePackageTypes() {
     whCount[o.warehouse] = (whCount[o.warehouse] || 0) + 1;
     // 混合仓：补充分仓标记与派力仓包裹数，保证开始打包弹框正确显示青源仓/派力仓拆包图片
     if (o.warehouse === '混合仓') {
+      o.warehouses = ['青源仓', '派力仓'];
       o.xcLarge = '是';
       if (o.xcQty == null || o.xcQty === '') o.xcQty = Math.max(1, Math.round((o.qty || 0) * 0.35));
     } else {
@@ -20231,6 +20443,7 @@ function renderOrderPkgList() {
 }
 function orderTypeTag(t) {
   if (t === '常规') return '<span class="tag tag-blue">常规</span>';
+  if (t === '变更') return '<span class="tag tag-yellow">变更</span>';
   if (t === '混合仓') return '<span class="tag tag-purple">混合仓</span>';
   return '<span class="tag tag-gray">' + t + '</span>';
 }
@@ -20240,9 +20453,9 @@ function orderActivityTag(a) {
 }
 
 // ===== 集包「类型 / 仓库」拆分口径（2026-10-19）=====
-// 类型：常规 / 加货 / 变更；仓库：门店 / 青源仓 / 派力仓 / 混合仓 / 博乐仓
-var PKG_TYPES = ['常规', '加货', '变更'];
-var PKG_WAREHOUSES = ['门店', '青源仓', '派力仓', '混合仓', '博乐仓'];
+// 类型：常规 / 加货；仓库：门店 / 青源仓 / 派力仓 / 博乐仓（可多选，青源仓+派力仓 = 原混合仓）
+var PKG_TYPES = ['常规', '加货'];
+var PKG_WAREHOUSES = ['门店', '青源仓', '派力仓', '博乐仓'];
 // 拼团属于「活动」维度，历史数据仍以 type='拼团' 标记，统一兼容判断
 function isPkgTuan(o) { return !!o && (o.activity === '拼团' || o.type === '拼团'); }
 // 展示用「类型」：拼团/普通/超大件/分单/旧仓库值 一律归入常规
@@ -20255,11 +20468,24 @@ function pkgTypeOf(o) {
 // 展示用「仓库」：新字段优先，旧数据按 type 兼容推导，兜底青源仓
 function pkgWhOf(o) {
   if (!o) return '青源仓';
+  if (o.warehouses && o.warehouses.length) return o.warehouses.join('+');
+  if (o.warehouse === '混合仓') return '青源仓+派力仓';
   if (o.warehouse) return o.warehouse;
-  var legacy = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'混合仓', '博乐仓':'博乐仓' };
+  var legacy = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'青源仓+派力仓', '博乐仓':'博乐仓' };
   return legacy[o.type] || '青源仓';
 }
 // 仓库标签：统一使用主体色（浅海军蓝底 + 深海军蓝字），与详情「集包类型」标签同口径
+// 某个仓库的包裹数：优先 qtyByWh；旧「混合仓」数据按 总包裹数-派力仓 推算青源仓
+function pkgQtyOfWh(o, w) {
+  if (!o) return '';
+  if (o.qtyByWh && o.qtyByWh[w] != null) return o.qtyByWh[w];
+  var whs = (o.warehouses && o.warehouses.length) ? o.warehouses : String(pkgWhOf(o)).split('+');
+  if (whs.length > 1) {
+    if (w === '派力仓') return (o.xcQty === 0 || o.xcQty) ? o.xcQty : '';
+    if (w === '青源仓') return Math.max(0, (o.qty || 0) - (o.xcQty || 0));
+  }
+  return (o.qty === 0 || o.qty) ? o.qty : '';
+}
 function orderWhTag(w) {
   return '<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#E7F3FB;color:#173D5B;font-size:11px;font-weight:600;line-height:1.6;white-space:nowrap;">' + w + '</span>';
 }
@@ -20518,12 +20744,11 @@ function editOrderPackage(id) {
   document.getElementById('orderPkgCountry').value = o.country||'';
   document.getElementById('orderPkgDue').value = o.dueDate||'';
   document.getElementById('orderPkgEditor').innerHTML = o.demand||'';
-  // 编辑模式：类型/仓库/包裹数虽隐藏，但需回填真实值，避免保存时被必填校验拦截
+  // 编辑模式：类型/仓库虽隐藏，但需回填真实值，保证保存口径一致
   document.getElementById('orderPkgType').value = pkgTypeOf(o);
-  document.getElementById('orderPkgWarehouse').value = pkgWhOf(o);
+  var _ewhs = (o.warehouses && o.warehouses.length) ? o.warehouses.slice() : String(pkgWhOf(o)).split('+');
+  pkgSetWarehouses(_ewhs);
   document.getElementById('orderPkgXy').value = o.xy || '';
-  document.getElementById('orderPkgQty').value = (o.qty || 1);
-  document.getElementById('orderPkgXcQty').value = (o.xcQty || '');
   document.getElementById('orderPkgActivity').value = isPkgTuan(o) ? '拼团' : '常规';
   hidePkgParcelPreview();
   document.getElementById('orderPkgCreateModal').setAttribute('data-edit-id', id);
@@ -20546,6 +20771,13 @@ function resetOrderPkgSaveBtn() {
   btn.textContent = '创建集包';
   btn.onclick = function(){ createOrderPackage(); };
 }
+function pkgSelectedWarehouses() {
+  return Array.prototype.slice.call(document.querySelectorAll('.pkg-wh-cb:checked')).map(function(el){ return el.value; });
+}
+function pkgSetWarehouses(arr) {
+  var list = arr || [];
+  document.querySelectorAll('.pkg-wh-cb').forEach(function(el){ el.checked = list.indexOf(el.value) >= 0; });
+}
 function showOrderPkgCreate() {
   resetOrderPkgSaveBtn();
   fillPkgXySuggest();
@@ -20559,7 +20791,7 @@ function showOrderPkgCreate() {
   }
   document.getElementById('orderPkgCreateModal').classList.add('show');
   document.getElementById('orderPkgType').value='常规';
-  document.getElementById('orderPkgWarehouse').value='青源仓';
+  pkgSetWarehouses(['青源仓']);
   document.getElementById('orderPkgActivity').value='常规';
   updatePkgFormByTypeWh();
   document.getElementById('orderPkgRoute').value='';
@@ -20568,60 +20800,82 @@ function showOrderPkgCreate() {
   document.getElementById('orderPkgUrgent').value='否';
   document.getElementById('orderPkgUrgentReason').value='';
   document.getElementById('orderPkgUrgentReasonRow').style.display='none';
-  document.getElementById('orderPkgXcQty').value='';
-  arrangePkgMixField(false);
-  var _qtyLbl = document.getElementById('orderPkgQtyLabel');
-  if (_qtyLbl) _qtyLbl.innerHTML = '青源仓包裹数 <span style="color:var(--danger);">*</span>';
-  document.getElementById('orderPkgXy').value=''; document.getElementById('orderPkgXpd').value=''; document.getElementById('orderPkgQty').value='';
+  document.getElementById('orderPkgXy').value=''; document.getElementById('orderPkgXpd').value='';
   document.getElementById('orderPkgEditor').innerHTML = '';
   document.getElementById('orderPkgDue').value='';
   document.getElementById('orderPkgDispatch').checked=false;
-  document.getElementById('orderPkgDispatchRow').style.display='flex';
-  document.getElementById('orderPkgDispatchTip').style.display='none';
   document.getElementById('orderPkgXpdField').style.display='none';
   document.getElementById('orderPkgStoreRow').style.display='none';
   document.getElementById('orderPkgStoreDept').value='';
   document.getElementById('orderPkgStorePerson').innerHTML='<option value="">先选部门</option>';
   hidePkgParcelPreview();
+  updatePkgFormByTypeWh();
 }
 function hideOrderPkgCreate() { document.getElementById('orderPkgCreateModal').classList.remove('show'); resetOrderPkgSaveBtn(); hidePkgParcelPreview(); }
 // ===== 新建集包：完整海鸥单号 → 包裹明细预览 =====
 function pkgXyIsComplete(v) { return /^XY\d{11}$/.test(String(v || '').trim().toUpperCase()); }
 // 演示数据：优先取该订单真实箱内包裹；没有订单则按单号生成稳定数据
+// 该 XY 单号涉及哪些仓库（确定性演示数据：单青源 / 青源+派力 / 单派力）
+function pkgPreviewPlan(xy) {
+  var key = String(xy || '').toUpperCase();
+  var h = 0;
+  for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) % 2147483647;
+  h = h || 7;
+  var m = h % 10;
+  if (m < 6) return ['青源仓'];
+  if (m < 9) return ['青源仓', '派力仓'];
+  return ['派力仓'];
+}
+// 包裹编号：青源仓 J44522、派力仓 D-55221
+function pkgParcelCode(wh, i) {
+  var num = 10000 + ((i * 7919 + (wh === '派力仓' ? 55221 : 44522)) % 89999);
+  if (wh === '派力仓') return 'D-' + num;
+  if (wh === '青源仓') return 'J' + num;
+  return 'P' + num;
+}
 function pkgParcelPreviewData(xy) {
   var key = String(xy || '').toUpperCase();
+  var plan = pkgPreviewPlan(key);
   var o = orderPackages.find(function(p){ return String(p.xy || '').toUpperCase() === key; });
+  var rows = [];
   if (o) {
     var boxes = pkgBoxData(o);
-    if (boxes && boxes.length) {
-      var b = boxes[0];
-      return {
-        boxNo: b.boxNo, seq: b.idx || 1,
-        rows: (b.parcelList || []).map(function(p, i){
-          return { idx: i + 1, no: p.no, express: p.express, items: p.itemLines, weight: p.weight, shelf: p.shelf, tone: p.tone };
-        })
-      };
+    if (boxes && boxes.length && boxes[0].parcelList) {
+      var pl = boxes[0].parcelList;
+      var splitAt = Math.ceil(pl.length * 0.6);
+      pl.forEach(function(p, i){
+        rows.push({
+          idx: i + 1,
+          express: p.express, items: p.itemLines, weight: p.weight, shelf: p.shelf, tone: p.tone,
+          wh: (plan.length > 1 && i >= splitAt) ? plan[1] : plan[0]
+        });
+      });
     }
   }
-  var seed = 0;
-  for (var i = 0; i < key.length; i++) seed = (seed * 31 + key.charCodeAt(i)) % 2147483647;
-  if (!seed) seed = 7;
-  var rnd = function(){ seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
-  var ri = function(a, b){ return a + Math.floor(rnd() * (b - a + 1)); };
-  var pick = function(arr){ return arr[Math.floor(rnd() * arr.length) % arr.length]; };
-  var n = ri(6, 12), rows = [];
-  for (var k = 1; k <= n; k++) {
-    rows.push({
-      idx: k,
-      no: 'P01-' + pkgBoxPad(k, 2),
-      express: pick(PKG_BOX_CARRIERS) + pkgBoxPad(ri(0, 999999999999), 12),
-      items: ri(1, 3),
-      weight: (0.3 + rnd() * 7.9).toFixed(2),
-      shelf: ri(1, 5) + '-' + ri(1, 4) + '-' + ri(1, 15),
-      tone: ri(0, 3)
-    });
+  if (!rows.length) {
+    var seed = 0;
+    for (var i2 = 0; i2 < key.length; i2++) seed = (seed * 31 + key.charCodeAt(i2)) % 2147483647;
+    if (!seed) seed = 7;
+    var rnd = function(){ seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+    var ri = function(a, b){ return a + Math.floor(rnd() * (b - a + 1)); };
+    var pick = function(arr){ return arr[Math.floor(rnd() * arr.length) % arr.length]; };
+    var n = ri(6, 12);
+    for (var k = 1; k <= n; k++) {
+      rows.push({
+        idx: k,
+        express: pick(PKG_BOX_CARRIERS) + pkgBoxPad(ri(0, 999999999999), 12),
+        items: ri(1, 3),
+        weight: (0.3 + rnd() * 7.9).toFixed(2),
+        shelf: ri(1, 5) + '-' + ri(1, 4) + '-' + ri(1, 15),
+        tone: ri(0, 3),
+        wh: (plan.length > 1 && k > Math.ceil(n * 0.6)) ? plan[1] : plan[0]
+      });
+    }
   }
-  return { boxNo: key + '-1', seq: 1, rows: rows };
+  rows.forEach(function(r, i){ r.no = pkgParcelCode(r.wh, i + 1); });
+  var whCount = {};
+  rows.forEach(function(r){ whCount[r.wh] = (whCount[r.wh] || 0) + 1; });
+  return { rows: rows, whs: plan, whCount: whCount };
 }
 function onOrderPkgXyInput() { renderPkgParcelPreview(); }
 function renderPkgParcelPreview() {
@@ -20632,21 +20886,23 @@ function renderPkgParcelPreview() {
   if (!pkgXyIsComplete(xy)) { hidePkgParcelPreview(); return; }
   var d = pkgParcelPreviewData(xy);
   var sub = document.getElementById('orderPkgParcelSub');
-  if (sub) sub.innerHTML = '箱号 <b style="color:var(--text);font-weight:600;">' + d.boxNo + '</b>（序号' + d.seq + '）· 共 <b style="color:var(--text);font-weight:600;">' + d.rows.length + '</b> 个包裹，重量单位 kg';
+  if (sub) {
+    var cnt = Object.keys(d.whCount).map(function(w){ return w + ' <b style="color:var(--text);font-weight:600;">' + d.whCount[w] + '</b> 个'; }).join(' · ');
+    sub.innerHTML = '共 <b style="color:var(--text);font-weight:600;">' + d.rows.length + '</b> 个包裹 · ' + cnt;
+  }
   var badge = document.getElementById('orderPkgParcelBadge');
   if (badge) badge.textContent = '共 ' + d.rows.length + ' 个';
   var inIco = '<span style="display:inline-flex;width:40px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:#2B3138;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" style="width:18px;height:18px;" fill="none" stroke="#C9CED3" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>';
   var tb = document.getElementById('orderPkgParcelRows');
   if (tb) tb.innerHTML = d.rows.map(function(r){
-    var outIco = '<span style="display:inline-flex;width:40px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:#2B3138;"><svg viewBox="0 0 44 44" style="width:40px;height:40px;display:block;">' + pkgShotSvg(r.tone, 'out') + '</svg></span>';
     return '<tr style="border-top:1px solid var(--border-light);">' +
       '<td style="padding:9px 10px;color:var(--text-muted);">' + r.idx + '</td>' +
       '<td style="padding:9px 10px;font-weight:600;color:var(--text);">' + r.no + '</td>' +
+      '<td style="padding:9px 10px;">' + orderWhTag(r.wh) + '</td>' +
       '<td style="padding:9px 10px;color:var(--text);white-space:nowrap;">' + r.express + '</td>' +
       '<td style="padding:9px 10px;">' + r.items + '</td>' +
       '<td style="padding:9px 10px;">' + r.weight + '</td>' +
       '<td style="padding:6px 10px;">' + inIco + '</td>' +
-      '<td style="padding:6px 10px;">' + outIco + '</td>' +
       '<td style="padding:9px 10px;color:var(--text-muted);">' + r.shelf + '</td>' +
     '</tr>';
   }).join('');
@@ -20723,30 +20979,18 @@ function arrangePkgMixField(isMix) {
 }
 function onOrderPkgTypeChange() { updatePkgFormByTypeWh(); }
 function onOrderPkgWarehouseChange() { updatePkgFormByTypeWh(); }
-// 类型 + 仓库 双维度联动：门店字段 / 包裹数标签 / 混合仓派力仓数量 / 是否跳过拣货
+// 所属仓库多选联动：门店字段 / 跳过拣货提示
 function updatePkgFormByTypeWh() {
-  var v = document.getElementById('orderPkgType').value;
-  var whEl = document.getElementById('orderPkgWarehouse');
-  var wh = whEl ? whEl.value : '';
-  // 门店：显示部门 / 门店人员
-  var isStore = wh === '门店';
+  var whs = pkgSelectedWarehouses();
+  var isStore = whs.indexOf('门店') >= 0;
   document.getElementById('orderPkgStoreRow').style.display = isStore ? '' : 'none';
   if (!isStore) { document.getElementById('orderPkgStoreDept').value = ''; document.getElementById('orderPkgStorePerson').innerHTML = '<option value="">先选部门</option>'; }
-  // 包裹数标签随仓库变化（混合仓拆「青源仓 + 派力仓」两栏）
-  var qtyLabel = document.getElementById('orderPkgQtyLabel');
-  var qtyName = (wh === '混合仓') ? '青源仓' : (wh || '青源仓');
-  if (qtyLabel) qtyLabel.innerHTML = qtyName + '包裹数 <span style="color:var(--danger);">*</span>';
-  // 混合仓：派力仓包裹数进入行3第三列
-  var isMix = wh === '混合仓';
-  arrangePkgMixField(isMix);
-  if (!isMix) document.getElementById('orderPkgXcQty').value = '';
-  // 仓库型订单（门店/青源仓/派力仓/博乐仓）与变更类型：跳过拣货
-  var skipWhs = ['门店', '青源仓', '派力仓', '博乐仓'];
-  var isSkip = skipWhs.indexOf(wh) >= 0 || v === '变更';
+  // 仓库型（门店 / 青源仓 / 派力仓 / 博乐仓）创建后跳过拣货
+  var isSkip = whs.length > 0;
   document.getElementById('orderPkgDispatchRow').style.display = isSkip ? 'none' : 'flex';
   var tip = document.getElementById('orderPkgDispatchTip');
   tip.style.display = isSkip ? 'flex' : 'none';
-  if (isSkip) document.getElementById('orderPkgDispatchTipText').textContent = (skipWhs.indexOf(wh) >= 0 ? wh : v) + '类型创建后跳过拣货，直接进入打包环节！';
+  if (isSkip) document.getElementById('orderPkgDispatchTipText').textContent = whs.join(' + ') + ' 创建后跳过拣货，直接进入打包环节！';
 }
 function onOrderPkgActivityChange() {
   var v = document.getElementById('orderPkgActivity').value;
@@ -20769,9 +21013,9 @@ function onOrderPkgUrgentChange() {
 function createOrderPackage() {
   var type = document.getElementById('orderPkgType').value;
   var activity = document.getElementById('orderPkgActivity').value;
-  var warehouse = (document.getElementById('orderPkgWarehouse') || {}).value || '';
+  var whs = pkgSelectedWarehouses();
   if (!type) { alert('请选择集包类型'); return; }
-  if (!warehouse) { alert('请选择所属仓库'); return; }
+  if (!whs.length) { alert('请选择所属仓库'); return; }
   var isTuan = activity === '拼团';
   // 活动选拼团时即为拼团订单；否则按集包类型推导（常规→普通）
   var finalType = isTuan ? '拼团' : (type || '常规');
@@ -20780,15 +21024,10 @@ function createOrderPackage() {
   var haioId = document.getElementById('orderPkgHaioId').value;
   var country = document.getElementById('orderPkgCountry').value;
   var isUrgent = document.getElementById('orderPkgUrgent').value;
-  var xcLarge = (warehouse === '混合仓') ? '是' : '否';
-  var xcQty = 0;
-  if (warehouse === '混合仓') {
-    xcQty = parseInt(document.getElementById('orderPkgXcQty').value) || 0;
-    if (!xcQty || xcQty < 1) { alert('请填写派力仓包裹数'); return; }
-  }
+  var xcLarge = whs.length > 1 ? '是' : '否';
   var source = '客服';
   var storeDept = '', storePerson = '';
-  if (warehouse === '门店') {
+  if (whs.indexOf('门店') >= 0) {
     storeDept = document.getElementById('orderPkgStoreDept').value;
     if (!storeDept) { alert('请选择部门'); return; }
     storePerson = document.getElementById('orderPkgStorePerson').value;
@@ -20804,8 +21043,25 @@ function createOrderPackage() {
     if (!xpd) { alert('请输入关联拼团订单XYPD号'); return; }
   }
   var links = [], linkDemands = [], linkHaioIds = [], linkBoxes = [];
-  var qty = parseInt(document.getElementById('orderPkgQty').value) || 0;
-  if (!qty || qty < 1) { alert('请填写' + ((warehouse === '混合仓') ? '青源仓' : warehouse) + '包裹数'); return; }
+  // 包裹明细出现多个仓库的包裹时，必须多选所属仓库
+  var _plan = pkgPreviewPlan(xy);
+  if (_plan.length > 1 && whs.length < _plan.length) {
+    alert('包裹明细包含' + _plan.join('、') + '的包裹，请多选所属仓库');
+    return;
+  }
+  // 包裹数不再手填：按包裹明细自动统计到所选仓库（门店等非包裹仓库按剩余包裹兜底）
+  var _pd = pkgParcelPreviewData(xy);
+  var _totalParcel = _pd.rows.length;
+  var qtyByWh = {}, totalQty = 0;
+  whs.forEach(function(w){ var n = _pd.whCount[w] || 0; qtyByWh[w] = n; totalQty += n; });
+  whs.forEach(function(w){
+    if (!qtyByWh[w]) {
+      var rest = _totalParcel - totalQty;
+      if (rest > 0) { qtyByWh[w] = rest; totalQty += rest; }
+    }
+  });
+  var xcQty = qtyByWh['派力仓'] || 0;
+  var qty = totalQty;
   var demand = document.getElementById('orderPkgEditor').innerHTML.trim();
   var due = document.getElementById('orderPkgDue').value;
   var dispatch = document.getElementById('orderPkgDispatch').checked;
@@ -20825,8 +21081,9 @@ function createOrderPackage() {
       pkg.linkHaioIds = linkHaioIds; pkg.linkBoxes = linkBoxes;
       pkg.demand = demand; pkg.dueDate = due;
       pkg.tracker = tracker; pkg.source = source;
-      pkg.storeDept = storeDept; pkg.storePerson = storePerson; pkg.qty = qty;
-      pkg.xcLarge = xcLarge; pkg.xcQty = xcQty;
+      pkg.storeDept = storeDept; pkg.storePerson = storePerson;
+      pkg.xcLarge = xcLarge;
+      pkg.warehouse = whs.join('+'); pkg.warehouses = whs.slice();
       pkg.updatedAt = nowStr;
     }
     hideOrderPkgCreate();
@@ -20837,13 +21094,13 @@ function createOrderPackage() {
 
   var initialStatus = '待开始';
   var whDirect = ['青源仓','派力仓','博乐仓'];
-  if (whDirect.indexOf(warehouse) >= 0 || warehouse==='混合仓' || finalType==='变更') initialStatus = '待分配';
-  else if (warehouse==='门店') initialStatus = '打包完成';
+  if (whs.some(function(w){ return whDirect.indexOf(w) >= 0; })) initialStatus = '待分配';
+  else if (whs.indexOf('门店') >= 0) initialStatus = '打包完成';
   else if (dispatch) initialStatus = '待认领';
   var assignMode = dispatch ? '放入公海' : '';
   var code = 'JB-'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(orderPkgNextId).padStart(4,'0');
   var pkg = {
-    id: orderPkgNextId++, code: code, xy: xy, type: finalType, activity: activity, warehouse: warehouse, source: source, route: route,
+    id: orderPkgNextId++, code: code, xy: xy, type: finalType, activity: activity, warehouse: whs.join('+'), warehouses: whs.slice(), qtyByWh: qtyByWh, source: source, route: route,
     creator: '小霞', tracker: tracker, assignMode: assignMode, assignee: '',
     status: initialStatus, demand: demand, picker: '',
     pickedAt: '', createdAt: nowStr, updatedAt: nowStr,
@@ -21138,8 +21395,10 @@ function showOrderPkgDetail(id) {
           pkgInfoItem('box','所属仓库', orderWhTag(pkgWhOf(o)))+
           pkgInfoItem('tag','集包活动','<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#F3F4F6;color:#111827;font-size:11px;font-weight:600;line-height:1.6;">'+(isPkgTuan(o)?'拼团':'常规')+'</span>')+
           (o.void ? pkgInfoItem('void','作废类型','<span style="display:inline-block;padding:1px 9px;border-radius:6px;background:#FEF2F2;color:#DC2626;font-size:11px;font-weight:600;line-height:1.6;">'+(o.voidType||'—')+'</span>') : '')+
-          pkgInfoItem('box','青源仓包裹数',o.qty||'—')+
-          (o.xcLarge==='是' ? pkgInfoItem('truck','派力仓包裹数',(o.xcQty||'')+' 件') : '')+
+          (o.warehouses && o.warehouses.length ? o.warehouses : String(pkgWhOf(o)).split('+')).map(function(w){
+            var _q = pkgQtyOfWh(o, w);
+            return pkgInfoItem('box', w + '包裹数', (_q === 0 || _q) ? (_q + ' 件') : '—');
+          }).join('')+
           (o.xpd ?
             '<div class="pkg-info-item" style="align-items:flex-start;">'+
               '<span class="pkg-info-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>'+
@@ -28339,6 +28598,17 @@ function onExEditActivityChange() {
   var isTuan = act === '拼团';
   document.getElementById('orderExEditXpdBlock').style.display = isTuan ? '' : 'none';
 }
+// 异常编辑：集包类型 / 所属仓库 仅只读展示
+function renderExEditReadonly(o) {
+  var t = o ? (o.type === '拼团' ? '拼团' : pkgTypeOf(o)) : '常规';
+  var tBox = document.getElementById('orderExEditTypeTags');
+  if (tBox) tBox.innerHTML = orderTypeTag(t);
+  var whs = (o && o.warehouses && o.warehouses.length) ? o.warehouses.slice() : (o ? String(pkgWhOf(o)).split('+') : []);
+  var box = document.getElementById('orderExEditWhTags');
+  if (box) box.innerHTML = (whs.length ? whs : ['—']).map(function(w){
+    return w === '—' ? '<span style="font-size:12px;color:var(--text-muted);">—</span>' : orderWhTag(w);
+  }).join('');
+}
 function showOrderExEdit(id) {
   var o = orderPackages.find(function(p){ return p.id===id; });
   if (!o) o = EX_DEMO_ROWS.find(function(p){ return p.id===id; });
@@ -28349,10 +28619,10 @@ function showOrderExEdit(id) {
   document.getElementById('orderExEditCountry').value = o ? (o.country||'') : '';
   document.getElementById('orderExEditUrgent').value = (o && o.urgent) ? '是' : '否';
   document.getElementById('orderExEditDue').value = o ? (o.dueDate||'') : '';
-  document.getElementById('orderExEditQty').value = o ? (o.qty||'') : '';
   document.getElementById('orderExEditDemand').value = o ? stripHtml(o.demand||'') : '';
   document.getElementById('orderExEditXpd').value = o ? (o.xpd||'') : '';
   document.getElementById('orderExEditActivity').value = (o && o.type==='拼团') ? '拼团' : '常规';
+  renderExEditReadonly(o);
   document.getElementById('orderExEditModal').setAttribute('data-edit-id', id);
   onExEditActivityChange();
   document.getElementById('orderExEditModal').classList.add('show');
@@ -28369,26 +28639,21 @@ function saveOrderExEdit() {
   var o = orderPackages.find(function(p){ return p.id===id; });
   if (!o) o = EX_DEMO_ROWS.find(function(p){ return p.id===id; });
   if (!o) { hideOrderExEdit(); return; }
-  var xy = document.getElementById('orderExEditXy').value.trim();
-  if (!xy) { alert('请填写海鸥订单号(XY)'); return; }
   o.haioId = document.getElementById('orderExEditHaioId').value.trim();
   o.route = document.getElementById('orderExEditRoute').value;
   o.country = document.getElementById('orderExEditCountry').value.trim();
   o.dueDate = document.getElementById('orderExEditDue').value;
-  o.qty = parseInt(document.getElementById('orderExEditQty').value) || 0;
   o.urgent = document.getElementById('orderExEditUrgent').value === '是';
   o.demand = document.getElementById('orderExEditDemand').value.trim();
-  o.xy = xy;
   if (act === '拼团') {
-    // 常规改拼团：XY 保留 + 填拼团号(XYPD)；独立订单模型
+    // 改为拼团：填拼团号(XYPD)；独立订单模型
     var xpd = document.getElementById('orderExEditXpd').value.trim();
     if (!xpd) { alert('请填写拼团号(XYPD)'); return; }
     o.type = '拼团';
     o.xpd = xpd;
     o.links = [];
   } else {
-    // 拼团改常规：去掉拼团号，XY 保留可修改
-    o.type = '普通';
+    if (o.type === '拼团') o.type = '常规';
     o.xpd = '';
     o.links = [];
   }
