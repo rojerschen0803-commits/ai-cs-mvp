@@ -6934,9 +6934,9 @@ main > .modal-overlay.show { display: flex !important; }
           <div id="pkgFilterPayWrap" style="display:none;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">付款方式</span><select id="orderPkgFilterPay" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>现付现结</option><option>分段付款</option><option>到港付</option><option>清关后付</option><option>收货付</option></select></div>
           <div id="pkgFilterCountryWrap" style="display:none;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">收货国家</span><select id="orderPkgFilterCountry" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>德国</option><option>法国</option><option>英国</option><option>波兰</option><option>美国</option><option>西班牙</option><option>意大利</option></select></div>
           <div id="pkgFilterStoreWrap" style="display:none;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="orderPkgFilterStore" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div>
-          <div id="pkgFilterTypeWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPkgFilterType" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option></select></div>
+          <div id="pkgFilterTypeWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPkgFilterType" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option><option>成品入库</option></select></div>
           <div id="pkgFilterTrackerWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">跟单人</span><select id="orderPkgFilterTracker" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>张三</option><option>李四</option><option>王五</option><option>赵六</option><option>赵敏</option></select></div>
-          <div id="pkgFilterWarehouseWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">仓库</span><select id="orderPkgFilterWarehouse" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>门店</option><option>青源仓</option><option>派力仓</option><option>青源仓+派力仓</option><option>乌鲁木齐仓</option><option>福永仓</option></select></div>
+          <div id="pkgFilterWarehouseWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">仓库</span><select id="orderPkgFilterWarehouse" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>门店</option><option>青源仓</option><option>派力仓</option><option>青源仓+派力仓</option><option>银羽仓</option><option>福永仓</option></select></div>
           <div id="pkgFilterActivityWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">活动</span><select id="orderPkgFilterActivity" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>拼团</option></select></div>
           <div id="pkgFilterDemandWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">客户要求</span><input type="text" id="orderPkgSearchDemand" placeholder="模糊检索" style="width:110px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
           <div id="pkgFilterCreatedWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">创建时间</span><input type="date" id="orderPkgFilterDateFrom" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><span style="font-size:11px;color:var(--text-muted);margin:0 4px;">至</span><input type="date" id="orderPkgFilterDateTo" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
@@ -7004,7 +7004,7 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="modal" style="width:800px;max-height:88vh;overflow-y:auto;">
         <h3>新建集包</h3>
         <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
-          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包类型 <span style="color:var(--danger);">*</span></label><select id="orderPkgType" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgTypeChange()"><option value="">请选择</option><option value="常规">常规</option><option value="加货">加货</option><option value="变更">变更</option><option value="现场打包">现场打包</option></select></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包类型 <span style="color:var(--danger);">*</span></label><select id="orderPkgType" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgTypeChange()"><option value="">请选择</option><option value="常规">常规</option><option value="加货">加货</option><option value="变更">变更</option><option value="现场打包">现场打包</option><option value="成品入库">成品入库</option></select></div>
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">集包活动 <span style="color:var(--danger);">*</span></label><select id="orderPkgActivity" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;" onchange="onOrderPkgActivityChange()"><option value="常规">常规</option><option value="拼团">拼团</option></select></div>
           <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">线路 <span style="color:var(--danger);">*</span></label><select id="orderPkgRoute" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
         </div>
@@ -7014,7 +7014,7 @@ main > .modal-overlay.show { display: flex !important; }
               <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="门店" onchange="onOrderPkgWarehouseChange()">门店</label>
               <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="青源仓" onchange="onOrderPkgWarehouseChange()">青源仓</label>
               <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="派力仓" onchange="onOrderPkgWarehouseChange()">派力仓</label>
-              <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="乌鲁木齐仓" onchange="onOrderPkgWarehouseChange()">乌鲁木齐仓</label>
+              <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="银羽仓" onchange="onOrderPkgWarehouseChange()">银羽仓</label>
               <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="福永仓" onchange="onOrderPkgWarehouseChange()">福永仓</label>
           </div>
         </div>
@@ -7373,7 +7373,7 @@ main > .modal-overlay.show { display: flex !important; }
       <div id="orderPickPoolPanel">
         <div class="filter-section" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 16px;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">进展状态</span><select id="orderPickFilterStatus" onchange="renderOrderPickPool()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>待认领</option><option>拣货中</option><option>拣货完成</option></select></div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPickFilterType" onchange="renderOrderPickPool()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option></select></div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPickFilterType" onchange="renderOrderPickPool()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option><option>成品入库</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">拣货人</span><input type="text" id="orderPickFilterPicker" placeholder="输入姓名" style="width:95px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">创建时间</span><input type="date" id="orderPickFilterDateFrom" onchange="renderOrderPickPool()" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><span style="font-size:11px;color:var(--text-muted);margin:0 4px;">至</span><input type="date" id="orderPickFilterDateTo" onchange="renderOrderPickPool()" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
           <div style="position:relative;display:inline-flex;align-items:center;">
@@ -7443,7 +7443,7 @@ main > .modal-overlay.show { display: flex !important; }
         <div class="filter-section" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:10px 0;">
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">线路</span><select id="orderPackFilterRoute" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
-            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPackFilterType" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option></select></div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPackFilterType" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option><option>成品入库</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">活动</span><select id="orderPackFilterActivity" onchange="renderOrderPackPool();renderOrderPackStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>拼团</option></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">进展状态</span><select id="orderPackFilterStatus" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></select></div>
             <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">分包负责人</span><input type="text" id="orderPackFilterSubLead" placeholder="输入姓名" style="width:95px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
@@ -7807,7 +7807,7 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="filter-section" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;padding:6px 14px;">
         <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:0;">
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">线路</span><select id="orderQcFilterRoute" onchange="renderOrderQcList()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>海运普货</option><option>海运超大件普货</option><option>铁路普货</option><option>铁路敏感</option><option>铁路超大件普货</option><option>特快空运普货</option><option>特快空运敏感</option></select></div>
-          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderQcFilterType" onchange="renderOrderQcList()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option></select></div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderQcFilterType" onchange="renderOrderQcList()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option><option>成品入库</option></select></div>
           <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">关键词</span><input id="orderQcSearch" oninput="renderOrderQcList()" placeholder="海鸥订单号/海鸥ID" style="width:160px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
           <button class="btn btn-primary btn-sm" onclick="renderOrderQcList()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 查询</button>
           <button class="btn btn-sm" onclick="resetOrderQcFilters()"><svg class="ico" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重置</button>
@@ -8248,7 +8248,7 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="modal" style="width:420px;">
         <h3>确认发货</h3>
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;" id="verifyShipInfo"></div>
-        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">出库仓库 <span style="color:var(--danger);">*</span></label><select id="verifyShipWarehouse" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择出库仓库</option><option>青源仓</option><option>派力仓</option><option>乌鲁木齐仓</option><option>福永仓</option></select></div>
+        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">出库仓库 <span style="color:var(--danger);">*</span></label><select id="verifyShipWarehouse" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择出库仓库</option><option>青源仓</option><option>派力仓</option><option>银羽仓</option><option>福永仓</option></select></div>
         <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">确认备注 <span style="color:var(--text-muted);">(选填)</span></label><textarea id="verifyShipNote" placeholder="请输入发货备注..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hideVerifyShipModal()">取消</button><button class="btn btn-primary btn-sm" onclick="doConfirmVerifyShip()">确认发货</button></div>
       </div>
@@ -13419,7 +13419,7 @@ const pageAnnotations = {
     sections: [
       { type: 'desc', label: '页面说明', items: ['集包管理是订单全链路起点，客服在此创建工单。系统根据集包类型自动决定是否进入拣货/打包环节'] },
       { type: 'interaction', label: '新建/编辑', items: [
-        '集包类型：常规/加货/变更/现场打包（仅变更、现场打包创建后跳过拣货，与仓库无关）；所属仓库：门店/青源仓/派力仓/乌鲁木齐仓/福永仓（可多选）；活动选拼团需XYPD号+关联1-5个XY号',
+        '集包类型：常规/加货/变更/现场打包（仅变更、现场打包创建后跳过拣货，与仓库无关）；所属仓库：门店/青源仓/派力仓/银羽仓/福永仓（可多选）；活动选拼团需XYPD号+关联1-5个XY号',
         '初始状态逻辑：变更/现场打包→待分配(跳过拣货，直接进入打包)；常规/加货→派单则待认领、未派单则待开始（均需拣货）',
         '跟单人自动分配：美线/日韩→李四；中东/非洲→王五；其他→张三'
       ]},
@@ -19848,11 +19848,11 @@ function balancePackageTypes() {
     o.activity = '拼团';
     if (i >= 10) { o.type = '常规'; o.activity = '常规'; o.xpd = ''; o.links = []; o.linkDemands = null; o.linkHaioIds = null; o.linkBoxes = null; }
   });
-  // 2. 仓库优先沿用旧类型（门店/青源仓/派力仓/乌鲁木齐仓/福永仓），类型收敛为 常规/加货/变更
+  // 2. 仓库优先沿用旧类型（门店/青源仓/派力仓/银羽仓/福永仓），类型收敛为 常规/加货/变更
   //    —— 必须先迁仓库再归类型，否则旧仓库信息会丢失
-  var WH = ['青源仓', '派力仓', '乌鲁木齐仓', '福永仓', '门店'];
-  var legacyWh = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'混合仓', '博乐仓':'乌鲁木齐仓', '乌鲁木齐仓':'乌鲁木齐仓', '福永仓':'福永仓' };
-  var whCount = { '门店':0, '青源仓':0, '派力仓':0, '乌鲁木齐仓':0, '福永仓':0 };
+  var WH = ['青源仓', '派力仓', '银羽仓', '福永仓', '门店'];
+  var legacyWh = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'混合仓', '博乐仓':'银羽仓', '乌鲁木齐仓':'银羽仓', '银羽仓':'银羽仓', '福永仓':'福永仓' };
+  var whCount = { '门店':0, '青源仓':0, '派力仓':0, '银羽仓':0, '福永仓':0 };
   var addGoodsXyCounter = 0;
   var typeTick = 0;
   orderPackages.forEach(function(o){
@@ -20636,7 +20636,7 @@ function renderOverviewFlow(o) {
     { label:'集包', active: ['待开始','待认领'].indexOf(o.status)>=0 },
     { label:'拣货', active: ['拣货中','拣货完成'].indexOf(o.status)>=0 },
     { label:'打包', active: PKG_PACK_STATUSES.indexOf(o.status)>=0 },
-    { label:'待付款', active: isPackDoneStatus(o)&&!o.verifyPaidAt },
+    { label:'待付款', active: (isPackDoneStatus(o)||o.status==='待付款')&&!o.verifyPaidAt },
     { label:'待发货', active: o.verifyPaidAt&&!o.verifyShipAt },
     { label:'发货中', active: o.verifyShipAt&&!o.verifyDoneAt },
     { label:'已完成', active: o.verifyDoneAt }
@@ -20657,7 +20657,7 @@ function renderOverviewCharts() {
       orderPackages.filter(function(o){ return ['待开始','待认领'].indexOf(o.status)>=0; }).length,
       orderPackages.filter(function(o){ return ['拣货中','拣货完成'].indexOf(o.status)>=0; }).length,
       orderPackages.filter(function(o){ return PKG_PACK_STATUSES.indexOf(o.status)>=0; }).length,
-      orderPackages.filter(function(o){ return isPackDoneStatus(o)&&!o.verifyPaidAt; }).length,
+      orderPackages.filter(function(o){ return (isPackDoneStatus(o)||o.status==='待付款')&&!o.verifyPaidAt; }).length,
       orderPackages.filter(function(o){ return o.verifyPaidAt&&!o.verifyShipAt; }).length,
       orderPackages.filter(function(o){ return o.verifyShipAt&&!o.verifyDoneAt; }).length,
       orderPackages.filter(function(o){ return o.verifyDoneAt; }).length
@@ -20825,7 +20825,7 @@ function renderOrderPkgStats() {
   set('pkgTabPkg', all.filter(function(o){ return ['待开始','待认领'].indexOf(o.status)>=0; }).length);
   set('pkgTabPick', all.filter(function(o){ var s=o.status; return s==='拣货中'||s==='拣货完成'; }).length);
   set('pkgTabPack', all.filter(function(o){ var s=o.status; return PKG_PACK_STATUSES.indexOf(s)>=0; }).length);
-  set('pkgTabPay', all.filter(function(o){ return isPackDoneStatus(o)&&!o.verifyPaidAt; }).length);
+  set('pkgTabPay', all.filter(function(o){ return (isPackDoneStatus(o)||o.status==='待付款')&&!o.verifyPaidAt; }).length);
   set('pkgTabShip', all.filter(function(o){ return o.verifyPaidAt&&!o.verifyShipAt; }).length);
   set('pkgTabIng', all.filter(function(o){ return o.verifyShipAt&&!o.verifyDoneAt; }).length);
   set('pkgTabDone', all.filter(function(o){ return o.verifyDoneAt; }).length);
@@ -21015,7 +21015,7 @@ function renderOrderPkgList() {
       case 'pkg': if (['待开始','待认领'].indexOf(o.status)===-1) return false; break;
       case 'pick': if (['拣货中','拣货完成'].indexOf(o.status)===-1) return false; break;
       case 'pack': if (PKG_PACK_STATUSES.indexOf(o.status)===-1) return false; break;
-      case 'pendingPay': if ((o.status!=='打包完成'&&o.status!=='打包完毕')||o.verifyPaidAt) return false; break;
+      case 'pendingPay': if ((o.status!=='打包完成'&&o.status!=='打包完毕'&&o.status!=='待付款')||o.verifyPaidAt) return false; break;
       case 'pendingShip': if (!o.verifyPaidAt||o.verifyShipAt) return false; break;
       case 'shipping': if (!o.verifyShipAt||o.verifyDoneAt) return false; break;
       case 'done': if (!o.verifyDoneAt) return false; break;
@@ -21123,6 +21123,7 @@ function orderTypeTag(t) {
   if (t === '常规') return '<span class="tag tag-blue">常规</span>';
   if (t === '变更') return '<span class="tag tag-yellow">变更</span>';
   if (t === '现场打包') return '<span class="tag tag-green">现场打包</span>';
+  if (t === '成品入库') return '<span class="tag tag-purple">成品入库</span>';
   if (t === '混合仓') return '<span class="tag tag-purple">混合仓</span>';
   return '<span class="tag tag-gray">' + t + '</span>';
 }
@@ -21132,11 +21133,13 @@ function orderActivityTag(a) {
 }
 
 // ===== 集包「类型 / 仓库」拆分口径（2026-10-19）=====
-// 类型：常规 / 加货；仓库：门店 / 青源仓 / 派力仓 / 乌鲁木齐仓 / 福永仓（可多选，青源仓+派力仓 = 原混合仓）
-var PKG_TYPES = ['常规', '加货', '变更', '现场打包'];
-// 这两个类型货已在仓/已打包，创建后直接跳过拣货
-var PKG_SKIP_PICK_TYPES = ['变更', '现场打包'];
-var PKG_WAREHOUSES = ['门店', '青源仓', '派力仓', '乌鲁木齐仓', '福永仓'];
+// 类型：常规 / 加货；仓库：门店 / 青源仓 / 派力仓 / 银羽仓 / 福永仓（可多选，青源仓+派力仓 = 原混合仓）
+var PKG_TYPES = ['常规', '加货', '变更', '现场打包', '成品入库'];
+// 这些类型货已在仓/已打包，创建后直接跳过拣货
+var PKG_SKIP_PICK_TYPES = ['变更', '现场打包', '成品入库'];
+// 创建即进入核款环节（待付款）的类型：不经过拣货 / 打包 / 审核 / 质检
+var PKG_PAY_FIRST_TYPES = ['成品入库'];
+var PKG_WAREHOUSES = ['门店', '青源仓', '派力仓', '银羽仓', '福永仓'];
 // 拼团属于「活动」维度，历史数据仍以 type='拼团' 标记，统一兼容判断
 function isPkgTuan(o) { return !!o && (o.activity === '拼团' || o.type === '拼团'); }
 // 是否跳过拣货：变更 / 现场打包 类型，或创建时已标记
@@ -21147,6 +21150,7 @@ function pkgTypeOf(o) {
   if (o.type === '加货') return '加货';
   if (o.type === '变更') return '变更';
   if (o.type === '现场打包') return '现场打包';
+  if (o.type === '成品入库') return '成品入库';
   return '常规';
 }
 // 展示用「仓库」：新字段优先，旧数据按 type 兼容推导，兜底青源仓
@@ -21154,8 +21158,11 @@ function pkgWhOf(o) {
   if (!o) return '青源仓';
   if (o.warehouses && o.warehouses.length) return o.warehouses.join('+');
   if (o.warehouse === '混合仓') return '青源仓+派力仓';
-  if (o.warehouse) return o.warehouse;
-  var legacy = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'青源仓+派力仓', '博乐仓':'乌鲁木齐仓' };
+  if (o.warehouse) {
+    // 旧仓库名兼容：乌鲁木齐仓（历史数据）展示为银羽仓
+    return String(o.warehouse).split('+').map(function(w){ return w === '乌鲁木齐仓' ? '银羽仓' : w; }).join('+');
+  }
+  var legacy = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'青源仓+派力仓', '博乐仓':'银羽仓', '乌鲁木齐仓':'银羽仓' };
   return legacy[o.type] || '青源仓';
 }
 // 仓库标签：统一使用主体色（浅海军蓝底 + 深海军蓝字），与详情「集包类型」标签同口径
@@ -21672,11 +21679,14 @@ function updatePkgFormByTypeWh() {
   // 跳过拣货只由集包类型决定：变更 / 现场打包 跳过，其余类型正常拣货（与仓库无关）
   var type = document.getElementById('orderPkgType').value;
   var isSkip = PKG_SKIP_PICK_TYPES.indexOf(type) >= 0;
+  var isPayFirst = PKG_PAY_FIRST_TYPES.indexOf(type) >= 0;
   document.getElementById('orderPkgDispatchRow').style.display = isSkip ? 'none' : 'flex';
   var tip = document.getElementById('orderPkgDispatchTip');
   tip.style.display = isSkip ? 'flex' : 'none';
   if (isSkip) {
-    document.getElementById('orderPkgDispatchTipText').textContent = '「' + type + '」类型 创建后跳过拣货，直接进入打包环节！';
+    document.getElementById('orderPkgDispatchTipText').textContent = isPayFirst
+      ? '「成品入库」类型 创建后直接进入核款环节·待付款，跳过拣货与打包！'
+      : '「' + type + '」类型 创建后跳过拣货，直接进入打包环节！';
   }
 }
 function onOrderPkgActivityChange() {
@@ -21705,7 +21715,9 @@ function createOrderPackage() {
   if (!whs.length) { alert('请选择所属仓库'); return; }
   var isTuan = activity === '拼团';
   // 活动选拼团时即为拼团订单；否则按集包类型推导（常规→普通）
-  var finalType = isTuan ? '拼团' : (type || '常规');
+  var isPayFirst = (type === '成品入库');
+  // 成品入库不参与拼团，类型原样保留
+  var finalType = isPayFirst ? '成品入库' : (isTuan ? '拼团' : (type || '常规'));
   var route = document.getElementById('orderPkgRoute').value;
   if (!route) { alert('请选择线路'); return; }
   var haioId = document.getElementById('orderPkgHaioId').value;
@@ -21781,7 +21793,8 @@ function createOrderPackage() {
 
   var initialStatus = '待开始';
   var typeSkipPick = PKG_SKIP_PICK_TYPES.indexOf(finalType) >= 0;
-  if (typeSkipPick) initialStatus = '待分配';   // 变更 / 现场打包：跳过拣货，直接进打包
+  if (PKG_PAY_FIRST_TYPES.indexOf(finalType) >= 0) initialStatus = '待付款';   // 成品入库：创建即进入核款（待付款）
+  else if (typeSkipPick) initialStatus = '待分配';   // 变更 / 现场打包：跳过拣货，直接进打包
   else if (dispatch) initialStatus = '待认领';   // 常规 / 加货：按派单规则进入拣货
   var assignMode = dispatch ? '放入公海' : '';
   var code = 'JB-'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(orderPkgNextId).padStart(4,'0');
@@ -23095,7 +23108,8 @@ function pkgFlowNodes(o) {
     '待开始':'pick', '待认领':'pick', '拣货中':'pick',
     '拣货完成':'pack', '待打包':'pack',
     '待合单':'merge', '已合单':'pack', '待分配':'pack', '打包中':'pack', '驳回':'audit',
-    '打包完成-待审核':'audit'
+    '打包完成-待审核':'audit',
+    '待付款':'pay'
   };
   if (st === '待打包-待审核') activeKey = (o.type === '加货') ? 'merge' : 'split';
   else if (stMap[st]) activeKey = stMap[st];
@@ -33363,7 +33377,8 @@ function resetVerifyCommonFilters(prefix) {
 // 待付款范围：仅未核款（核款完成后即离开「待付款」，进入「待发货」）
 function inVerifyPendingScope(o) {
   if (o.verifyPaidAt || o.verifyShipAt || o.verifyDoneAt) return false;
-  return o.status === '打包完成' || isPackDoneStatus(o);
+  // 成品入库创建即待付款，无需等打包完成
+  return o.status === '待付款' || o.status === '打包完成' || isPackDoneStatus(o);
 }
 function renderVerifyPending() {
   var filterRoute = document.getElementById('verifyPendingFilterRoute')?document.getElementById('verifyPendingFilterRoute').value:'';
