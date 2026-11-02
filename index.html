@@ -2614,6 +2614,18 @@ main > .modal-overlay.show { display: flex !important; }
 .pkg-cfg-radio.is-on{border-color:var(--primary);background:#E7F3FB;color:var(--primary);font-weight:600;}
 .pkg-fine-tip{display:flex;align-items:flex-start;gap:6px;background:#E7F3FB;border:1px solid #BBD9EE;border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:11.5px;color:#173D5B;line-height:1.6;}
 .pkg-fine-tip svg{width:13px;height:13px;flex-shrink:0;margin-top:2px;}
+
+/* ===== 打包图片下载 ===== */
+.pack-img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:10px;}
+.pack-img-item{position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.pack-img-item:hover{border-color:var(--primary);}
+.pack-img-item.is-on{border-color:var(--primary);box-shadow:0 0 0 2px rgba(23,61,91,.12);}
+.pack-img-item .thumb{width:100%;height:86px;display:block;background:#EEF2F6;object-fit:cover;}
+.pack-img-item .cap{padding:5px 7px;font-size:10.5px;line-height:1.4;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pack-img-item .cap b{color:var(--text);font-weight:600;}
+.pack-img-item .tick{position:absolute;right:5px;top:5px;width:16px;height:16px;border-radius:4px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;}
+.pack-img-item.is-on .tick{background:var(--primary);border-color:var(--primary);}
+.pack-img-item .badge{position:absolute;left:5px;top:5px;background:rgba(23,61,91,.85);color:#fff;font-size:9.5px;padding:1px 5px;border-radius:4px;}
 </style>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -7539,8 +7551,28 @@ main > .modal-overlay.show { display: flex !important; }
         <div id="packStartBoxList" style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px;"></div>
       </div>
       <div id="packStartReasonWrap" style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">完成说明 <span style="color:var(--danger);">*</span></label><textarea id="packStartReason" placeholder="请填写完成说明，如：外箱已加固，封箱完整，标签清晰，可进入出库交接。" style="width:100%;height:70px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;font-family:inherit;"></textarea></div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;"><span id="packStartAiHint" style="margin-right:auto;font-size:11px;color:#D97706;font-weight:600;"></span><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-sm" id="packStartAiBtn" onclick="triggerParcelAiRecognize()" style="display:none;align-items:center;gap:4px;border:1px solid var(--primary);color:var(--primary);background:#fff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>AI识别</button><button class="btn btn-primary btn-sm" id="packStartSubmitBtn" onclick="submitPackStart()">确认提交</button></div>
+      <div id="packStartFooter" style="position:sticky;bottom:-24px;z-index:6;display:flex;gap:8px;justify-content:flex-end;align-items:center;margin:10px -24px -24px;padding:12px 24px 14px;background:var(--card);border-top:1px solid var(--border-light);border-radius:0 0 var(--radius-lg) var(--radius-lg);"><span id="packStartAiHint" style="margin-right:auto;font-size:11px;color:#D97706;font-weight:600;"></span><button class="btn btn-sm" onclick="openPackImgDownload()" title="下载本单打包相关图片" style="border:1px solid var(--border);display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下载</button><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-sm" id="packStartAiBtn" onclick="triggerParcelAiRecognize()" style="display:none;align-items:center;gap:4px;border:1px solid var(--primary);color:var(--primary);background:#fff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>AI识别</button><button class="btn btn-primary btn-sm" id="packStartSubmitBtn" onclick="submitPackStart()">确认提交</button></div>
     </div></div>
+
+    <!-- 打包图片下载弹框 -->
+    <div class="modal-overlay" id="packImgDlModal" style="z-index:2300;">
+      <div class="modal" style="width:720px;max-height:88vh;display:flex;flex-direction:column;">
+        <h3 style="margin-bottom:4px;">下载图片</h3>
+        <button type="button" class="modal-close-x" onclick="closePackImgDownload()" title="关闭" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div id="packImgDlSub" style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">—</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px;background:#F7F9FB;border:1px solid var(--border-light);border-radius:8px;margin-bottom:10px;">
+          <label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;"><input type="checkbox" id="packImgDlAll" checked onchange="packImgDlToggleAll(this.checked)" style="cursor:pointer;">全选</label>
+          <div class="sub-tab-bar" style="margin:0;gap:4px;" id="packImgDlGroupBar"></div>
+          <span id="packImgDlSelInfo" style="margin-left:auto;font-size:12px;color:var(--text-secondary);white-space:nowrap;">已选 0 / 0 张</span>
+        </div>
+        <div id="packImgDlGrid" class="pack-img-grid" style="flex:1;overflow-y:auto;min-height:200px;max-height:46vh;padding:2px;"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-light);">
+          <span style="margin-right:auto;font-size:11px;color:var(--text-muted);">导出为一张 PNG 汇总图，便于存档与发送</span>
+          <button class="btn btn-sm" onclick="closePackImgDownload()">取消</button>
+          <button class="btn btn-primary btn-sm" id="packImgDlBtn" onclick="packImgDlExport()">下载 0 张</button>
+        </div>
+      </div>
+    </div>
 
     <!-- 开始打包二级弹框：选择装箱物品 -->
     <div class="modal-overlay" id="packBoxItemModal" style="z-index:2200;"><div class="modal" style="width:560px;max-height:86vh;overflow-y:auto;">
@@ -7574,6 +7606,7 @@ main > .modal-overlay.show { display: flex !important; }
         <span id="packBoxItemStat" style="margin-left:auto;font-size:11px;color:var(--text-muted);"></span>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <select id="packBoxStatusFilter" onchange="onPackBoxStatusFilter(this.value)" title="按装箱状态筛选" style="flex-shrink:0;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);color:var(--text);cursor:pointer;"><option value="全部">全部</option><option value="未装箱">未装箱</option><option value="已装箱">已装箱</option></select>
         <input type="text" id="packBoxSearch" placeholder="单号 / 物品名称" oninput="renderPackBoxPool()" style="flex:1;min-width:0;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
         <button class="btn btn-sm" onclick="showToast('扫码录入快递单号（演示）')" title="扫码录入快递单号" style="padding:6px 10px;flex-shrink:0;display:inline-flex;align-items:center;gap:4px;"><svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="8" y1="9" x2="8" y2="15"/><line x1="12" y1="9" x2="12" y2="15"/><line x1="16" y1="9" x2="16" y2="15"/></svg></button>
       </div>
@@ -22691,6 +22724,207 @@ function pkgBoxModalWrap(title, sub, tableHtml) {
     { wide: true }
   );
 }
+// ===== 打包弹框：图片下载（可全选，导出 PNG 汇总图） =====
+var packImgDlGroup = 'all';
+var packImgDlSel = {};
+var packImgDlItems = [];
+function packImgDlTypeMeta() {
+  var isComplete = (typeof packDialogMode !== 'undefined' && packDialogMode === 'complete');
+  return isComplete
+    ? [{ k:'all', n:'全部' }, { k:'box', n:'装箱图片' }, { k:'seal', n:'封箱图片' }]
+    : [{ k:'all', n:'全部' }, { k:'photo', n:'包裹照片' }, { k:'in', n:'入库图片' }, { k:'out', n:'拆包图片' }];
+}
+function packImgDlBuild() {
+  var o = orderPackages.filter(function(x){ return x.id === currentPackStartId; })[0];
+  var items = [];
+  var isComplete = (typeof packDialogMode !== 'undefined' && packDialogMode === 'complete');
+  if (isComplete) {
+    (packStartBoxes || []).forEach(function(b, bi){
+      (b.packUrls || []).forEach(function(u, ui){
+        items.push({ id: 'box-' + bi + '-' + ui, group: 'box', label: '装箱图片', sub: b.no || ('箱' + (bi + 1)), src: u, svg: '' });
+      });
+      (b.sealUrls || []).forEach(function(u, ui){
+        items.push({ id: 'seal-' + bi + '-' + ui, group: 'seal', label: '封箱图片', sub: b.no || ('箱' + (bi + 1)), src: u, svg: '' });
+      });
+      if (!(b.packUrls || []).length) items.push({ id: 'box-' + bi + '-ph', group: 'box', label: '装箱图片', sub: b.no || ('箱' + (bi + 1)), src: '', svg: pkgShotSvg(bi % 4, 'load') });
+      if (!(b.sealUrls || []).length) items.push({ id: 'seal-' + bi + '-ph', group: 'seal', label: '封箱图片', sub: b.no || ('箱' + (bi + 1)), src: '', svg: pkgShotSvg(bi % 4, 'seal') });
+    });
+  } else {
+    (packStartParcelState || []).forEach(function(p, i){
+      (p.photos || []).forEach(function(ph, pi){
+        items.push({ id: 'ph-' + i + '-' + pi, group: 'photo', label: '包裹照片', sub: p.express, src: ph.url, svg: '' });
+      });
+      items.push({ id: 'in-' + i, group: 'in', label: '入库图片', sub: p.express, src: '', svg: pkgShotSvg(i % 4, 'in') });
+      items.push({ id: 'out-' + i, group: 'out', label: '拆包图片', sub: p.express, src: '', svg: pkgShotSvg(i % 4, 'out') });
+    });
+  }
+  return { order: o, items: items };
+}
+function openPackImgDownload() {
+  var data = packImgDlBuild();
+  if (!data.items.length) {
+    packImgDlItems = []; packImgDlSel = {};
+    var g0 = document.getElementById('packImgDlGrid'); if (g0) g0.innerHTML = '';
+    var b0 = document.getElementById('packImgDlBtn'); if (b0) { b0.textContent = '下载 0 张'; b0.disabled = true; }
+    var s0 = document.getElementById('packImgDlSelInfo'); if (s0) s0.textContent = '已选 0 / 0 张';
+    closePackImgDownload();
+    showToast(packDialogMode === 'complete' ? '请先在「新增箱号」里上传装箱 / 封箱图片' : '暂无可下载的图片');
+    return;
+  }
+  packImgDlItems = data.items;
+  packImgDlSel = {};
+  packImgDlItems.forEach(function(it){ packImgDlSel[it.id] = true; });
+  packImgDlGroup = 'all';
+  var sub = document.getElementById('packImgDlSub');
+  if (sub) sub.innerHTML = '订单 <b style="color:var(--text);">' + ((data.order && (data.order.xy || data.order.code)) || '—') + '</b> · 共 ' + packImgDlItems.length + ' 张图片，可全选后一次导出';
+  packImgDlRenderGroups();
+  packImgDlRender();
+  var el = document.getElementById('packImgDlModal');
+  if (el) el.classList.add('show');
+}
+function closePackImgDownload() {
+  var el = document.getElementById('packImgDlModal');
+  if (el) el.classList.remove('show');
+}
+function packImgDlRenderGroups() {
+  var bar = document.getElementById('packImgDlGroupBar');
+  if (!bar) return;
+  var metas = packImgDlTypeMeta();
+  bar.innerHTML = metas.map(function(m){
+    var cnt = m.k === 'all' ? packImgDlItems.length : packImgDlItems.filter(function(x){ return x.group === m.k; }).length;
+    return '<div class="sub-tab-item' + (packImgDlGroup === m.k ? ' active' : '') + '" onclick="packImgDlSetGroup(\'' + m.k + '\',this)">' + m.n + ' <span class="sub-tab-count">' + cnt + '</span></div>';
+  }).join('');
+}
+function packImgDlSetGroup(k, el) {
+  packImgDlGroup = k;
+  packImgDlRenderGroups();
+  packImgDlRender();
+}
+function packImgDlRender() {
+  var grid = document.getElementById('packImgDlGrid');
+  if (!grid) return;
+  var list = packImgDlItems.filter(function(x){ return packImgDlGroup === 'all' || x.group === packImgDlGroup; });
+  grid.innerHTML = list.map(function(it){
+    var on = !!packImgDlSel[it.id];
+    var thumb = it.src
+      ? '<img class="thumb" src="' + it.src + '" alt="">'
+      : '<svg class="thumb" viewBox="0 0 44 44" preserveAspectRatio="xMidYMid slice">' + it.svg + '</svg>';
+    return '<div class="pack-img-item' + (on ? ' is-on' : '') + '" onclick="packImgDlToggleItem(\'' + it.id + '\')">' +
+      thumb +
+      '<span class="badge">' + it.label + '</span>' +
+      '<span class="tick">' + (on ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><polyline points="20 6 9 17 4 12"/></svg>' : '') + '</span>' +
+      '<div class="cap" title="' + it.sub + '">' + it.sub + '</div>' +
+    '</div>';
+  }).join('') || '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:36px;font-size:12px;">该分类下暂无图片</div>';
+  packImgDlSyncCount();
+}
+function packImgDlToggleItem(id) {
+  packImgDlSel[id] = !packImgDlSel[id];
+  packImgDlRender();
+}
+function packImgDlToggleAll(checked) {
+  var list = packImgDlItems.filter(function(x){ return packImgDlGroup === 'all' || x.group === packImgDlGroup; });
+  list.forEach(function(it){ packImgDlSel[it.id] = !!checked; });
+  packImgDlRender();
+}
+function packImgDlSyncCount() {
+  var total = packImgDlItems.length;
+  var sel = packImgDlItems.filter(function(x){ return packImgDlSel[x.id]; }).length;
+  var vis = packImgDlItems.filter(function(x){ return packImgDlGroup === 'all' || x.group === packImgDlGroup; });
+  var visSel = vis.filter(function(x){ return packImgDlSel[x.id]; }).length;
+  var info = document.getElementById('packImgDlSelInfo');
+  if (info) info.innerHTML = '已选 <b style="color:var(--primary);">' + sel + '</b> / ' + total + ' 张' + (packImgDlGroup === 'all' ? '' : '（当前分类 ' + visSel + '/' + vis.length + '）');
+  var all = document.getElementById('packImgDlAll');
+  if (all) { all.checked = vis.length > 0 && visSel === vis.length; all.indeterminate = visSel > 0 && visSel < vis.length; }
+  var btn = document.getElementById('packImgDlBtn');
+  if (btn) { btn.textContent = '下载 ' + sel + ' 张'; btn.disabled = sel === 0; }
+}
+function packImgDlLoadImg(it) {
+  return new Promise(function(resolve){
+    var img = new Image();
+    img.onload = function(){ resolve(img); };
+    img.onerror = function(){ resolve(null); };
+    if (it.src) { img.src = it.src; return; }
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="320" height="320">' + it.svg + '</svg>';
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  });
+}
+function packImgDlCompose(items) {
+  var o = orderPackages.filter(function(x){ return x.id === currentPackStartId; })[0];
+  var title = '打包图片 · ' + ((o && (o.xy || o.code)) || '—');
+  var now = new Date();
+  var dateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+  var cols = items.length === 1 ? 1 : (items.length === 2 ? 2 : 3);
+  var cellW = 300, cellH = 300, capH = 38, gap = 14, pad = 26, headH = 84, footH = 46;
+  var rows = Math.ceil(items.length / cols);
+  var W = pad * 2 + cols * cellW + (cols - 1) * gap;
+  var H = headH + rows * (cellH + capH) + (rows - 1) * gap + footH;
+  var dpr = 2;
+  var cv = document.createElement('canvas');
+  cv.width = W * dpr; cv.height = H * dpr;
+  var ctx = cv.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#173D5B';
+  ctx.font = '600 18px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText(title, pad, 24);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '12px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText('共 ' + items.length + ' 张 · 导出时间 ' + dateStr + ' · 虾远集运', pad, 52);
+  return Promise.all(items.map(packImgDlLoadImg)).then(function(imgs){
+    imgs.forEach(function(img, i){
+      var c = i % cols, r = Math.floor(i / cols);
+      var x = pad + c * (cellW + gap);
+      var y = headH + r * (cellH + capH + gap);
+      ctx.fillStyle = '#EEF2F6';
+      ctx.fillRect(x, y, cellW, cellH);
+      if (img) {
+        var scale = Math.min(cellW / img.width, cellH / img.height);
+        var dw = img.width * scale, dh = img.height * scale;
+        ctx.drawImage(img, x + (cellW - dw) / 2, y + (cellH - dh) / 2, dw, dh);
+      }
+      ctx.strokeStyle = '#DDE5EC'; ctx.lineWidth = 1;
+      ctx.strokeRect(x + 0.5, y + 0.5, cellW - 1, cellH - 1);
+      ctx.fillStyle = '#173D5B';
+      ctx.font = '600 12px "PingFang SC","Microsoft YaHei",sans-serif';
+      ctx.fillText((i + 1) + '. ' + items[i].label, x + 2, y + cellH + 8);
+      ctx.fillStyle = '#64748B';
+      ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+      ctx.fillText(items[i].sub || '', x + 2, y + cellH + 24);
+    });
+    ctx.fillStyle = '#94A3B8';
+    ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText('虾远集运 · 打包图片汇总', pad, H - 30);
+    ctx.fillText(dateStr, W - pad - ctx.measureText(dateStr).width, H - 30);
+    return cv;
+  });
+}
+function packImgDlExport() {
+  var sel = packImgDlItems.filter(function(x){ return packImgDlSel[x.id]; });
+  if (!sel.length) { showToast('请先勾选要下载的图片'); return; }
+  var btn = document.getElementById('packImgDlBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '正在导出…'; }
+  packImgDlCompose(sel).then(function(cv){
+    var o = orderPackages.filter(function(x){ return x.id === currentPackStartId; })[0];
+    var now = new Date();
+    var ds = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+    var name = ((o && (o.xy || o.code)) || '打包') + '_打包图片_' + ds + '.png';
+    var dataUrl = cv.toDataURL('image/png');
+    var a = document.createElement('a');
+    a.href = dataUrl; a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    window.__packImgDlLast = { name: name, bytes: Math.round(dataUrl.length * 0.75), count: sel.length, w: cv.width, h: cv.height };
+    return name;
+  }).then(function(name){
+    showToast('已下载 ' + sel.length + ' 张图片：' + name);
+    closePackImgDownload();
+  }).catch(function(e){
+    showToast('导出失败：' + (e && e.message ? e.message : e));
+    if (btn) { btn.disabled = false; packImgDlSyncCount(); }
+  });
+}
+
 // 包裹 / 箱 图片缩略图：用内联 SVG 做确定性占位，不依赖外部图片
 // in=入库（整箱封箱胶带+面单） / out=拆包（开箱见物） / load=装箱（箱盖向两侧打开、物品待入箱） / seal=封箱（封箱胶带十字）
 function pkgShotSvg(tone, kind) {
@@ -28959,10 +29193,35 @@ function togglePackBoxGroup(gi) {
   packBoxCollapsed[gi] = !packBoxCollapsed[gi];
   renderPackBoxPool();
 }
+var packBoxStatusFilter = '全部';
+function packBoxStatusCounts() {
+  var total = 0, picked = 0;
+  packBoxPool.forEach(function(g, gi){
+    g.items.forEach(function(it, ii){ total++; if (packBoxPicked[gi + ':' + ii]) picked++; });
+  });
+  return { total: total, picked: picked, unpicked: Math.max(0, total - picked) };
+}
+function renderPackBoxStatusOptions() {
+  var sel = document.getElementById('packBoxStatusFilter');
+  if (!sel) return;
+  var c = packBoxStatusCounts();
+  var keys = ['全部', '未装箱', '已装箱'];
+  var nums = { '全部': c.total, '未装箱': c.unpicked, '已装箱': c.picked };
+  var cur = keys.indexOf(packBoxStatusFilter) >= 0 ? packBoxStatusFilter : '全部';
+  sel.innerHTML = keys.map(function(k){
+    return '<option value="' + k + '"' + (cur === k ? ' selected' : '') + '>' + k + '（' + nums[k] + '）</option>';
+  }).join('');
+}
+function onPackBoxStatusFilter(v) {
+  packBoxStatusFilter = v || '全部';
+  renderPackBoxPool();
+}
 function togglePackBoxItem(gi, ii, checked) {
   var key = gi + ':' + ii;
   if (checked) packBoxPicked[key] = true; else delete packBoxPicked[key];
   updatePackBoxStat();
+  if (packBoxStatusFilter !== '全部') renderPackBoxPool();
+  else renderPackBoxStatusOptions();
 }
 function updatePackBoxStat() {
   var el = document.getElementById('packBoxItemStat');
@@ -28979,11 +29238,14 @@ function renderPackBoxPool() {
   var kwEl = document.getElementById('packBoxSearch');
   var kw = ((kwEl && kwEl.value) ? kwEl.value : '').trim().toLowerCase();
   updatePackBoxStat();
+  renderPackBoxStatusOptions();
   var html = '';
   packBoxPool.forEach(function(g, gi){
     var rows = [];
     g.items.forEach(function(it, ii){ rows.push({ it: it, ii: ii }); });
     if (kw) rows = rows.filter(function(r){ return (g.express + '|' + r.it.name + '|' + r.it.brand).toLowerCase().indexOf(kw) >= 0; });
+    if (packBoxStatusFilter === '未装箱') rows = rows.filter(function(r){ return !packBoxPicked[gi + ':' + r.ii]; });
+    else if (packBoxStatusFilter === '已装箱') rows = rows.filter(function(r){ return !!packBoxPicked[gi + ':' + r.ii]; });
     if (!rows.length) return;
     var open = !packBoxCollapsed[gi];
     var grid = 'grid-template-columns:26px 1.5fr 1fr 46px 40px;';
