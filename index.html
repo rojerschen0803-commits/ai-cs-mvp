@@ -526,6 +526,8 @@ button, input, select, textarea { font-family: inherit; }
 /* Page */
 .page { display: none; }
 .page.active { display: block; }
+/* 仓库列表：整页纵向填满内容区，避免底部大片留白 */
+#page-warehouseList.active { display: flex; flex-direction: column; height: 100%; }
 
 /* ---------- 启动加载页（刷新首屏遮罩，避免默认页面闪烁） ---------- */
 @keyframes bootBarSweep { 0%, 100% { width: 24%; opacity: .8; } 50% { width: 74%; opacity: 1; } }
@@ -611,6 +613,9 @@ button, input, select, textarea { font-family: inherit; }
 .data-table--compact th { padding: 6px 6px; }
 .data-table--compact td { padding: 7px 6px; font-size: 12px; }
 .data-table--compact .btn { padding: 4px 8px; font-size: 11px; }
+/* 仓库人员表：首列留出左侧间隙，避免贴边 */
+#whDetailPanel .data-table th:first-child,
+#whDetailPanel .data-table td:first-child { padding-left: 16px; }
 .data-table tr:hover td { background: #FAFBFC; }
 .data-table tr:last-child td { border-bottom: none; }
 /* 核款 / 财务明细 / 客户列表 / 集包列表 / 员工管理 / 团队 / 物流管理：统一 12px 字号，适配超宽多列表格 */
@@ -2896,6 +2901,8 @@ main > .modal-overlay.show { display: flex !important; }
     <div class="nav-item sub nav-agent-hidden" data-page="store" data-nav-group="config" onclick="showPage('store')"> <span class="nav-text">国内门店</span>
     </div>
     <div class="nav-item sub nav-agent-hidden" data-page="storeOverseas" data-nav-group="config" onclick="showPage('storeOverseas')"> <span class="nav-text">海外门店</span>
+    </div>
+    <div class="nav-item sub nav-agent-hidden" data-page="warehouseList" data-nav-group="config" onclick="showPage('warehouseList')"> <span class="nav-text">仓库列表</span>
     </div>
     <div class="nav-item sub nav-agent-hidden" data-page="teamSchedule" data-nav-group="config" onclick="showPage('teamSchedule')"> <span class="nav-text">排班</span>
     </div>
@@ -6741,6 +6748,46 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
     </div>
 
+    <!-- ====== 仓库列表（配置 → 团队） ====== -->
+    <div class="page fade-in" id="page-warehouseList">
+      <div class="page-desc-banner"><span class="note-type page-desc">仓库列表</span> 左侧选择仓库，右侧查看该仓库档案与 <strong>仓库人员</strong>。仓库关联部门后，只有这些部门（及其成员）能在集运、打包、核款等页面看到该仓库及其数据；未关联部门的仓库仅超管可见。<br>新增或停用的仓库会同步影响「新建集包 → 所属仓库」的可选项。</div>
+
+      <div class="filter-section" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;margin-bottom:12px;">
+        <div style="position:relative;display:inline-flex;align-items:center;">
+          <svg class="ico" style="position:absolute;left:9px;width:13px;height:13px;color:var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="whSearch" placeholder="搜索仓库名称 / 编码 / 负责人（回车查询）" onkeydown="if(event.key==='Enter')renderWarehouseList()" style="width:266px;padding:6px 8px 6px 28px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;">
+        </div>
+        <span style="font-size:12px;color:var(--text-muted);white-space:nowrap;">仓库类型</span>
+        <select id="whTypeFilter" onchange="renderWarehouseList()" title="按仓库类型筛选" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);color:var(--text);cursor:pointer;">
+          <option value="all">全部类型</option>
+          <option value="自营仓">自营仓</option>
+          <option value="合作仓">合作仓</option>
+          <option value="门店">门店</option>
+          <option value="虚拟仓">虚拟仓</option>
+        </select>
+        <button class="btn btn-primary btn-sm" onclick="renderWarehouseList()" style="display:inline-flex;align-items:center;gap:5px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><circle cx="11" cy="11" r="7"/><line x1="20.5" y1="20.5" x2="16.65" y2="16.65"/></svg>查询
+        </button>
+        <button class="btn btn-sm" onclick="resetWarehouseFilter()" style="display:inline-flex;align-items:center;gap:5px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>重置
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="openWarehouseModal()" style="margin-left:auto;display:inline-flex;align-items:center;gap:4px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width:12px;height:12px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增仓库
+        </button>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:stretch;flex:1;min-height:0;">
+        <div style="width:360px;flex-shrink:0;display:flex;flex-direction:column;min-height:0;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-bottom:1px solid var(--border-light);background:#FAFCFE;">
+            <span style="font-size:12.5px;font-weight:600;color:var(--text);">仓库</span>
+            <span id="whLeftCount" style="font-size:11px;color:var(--text-muted);">共 0 个</span>
+          </div>
+          <div id="whCardList" style="flex:1;min-height:0;padding:8px;overflow-y:auto;"></div>
+        </div>
+        <div id="whDetailPanel" style="flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;"></div>
+      </div>
+    </div>
+
     <!-- ====== 打包设置 ====== -->
     <div class="page fade-in" id="page-pkgConfig">
       <div class="page-desc-banner">
@@ -7553,6 +7600,65 @@ main > .modal-overlay.show { display: flex !important; }
       <div id="packStartReasonWrap" style="margin-bottom:12px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">完成说明 <span style="color:var(--danger);">*</span></label><textarea id="packStartReason" placeholder="请填写完成说明，如：外箱已加固，封箱完整，标签清晰，可进入出库交接。" style="width:100%;height:70px;padding:7px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;font-family:inherit;"></textarea></div>
       <div id="packStartFooter" style="position:sticky;bottom:-24px;z-index:6;display:flex;gap:8px;justify-content:flex-end;align-items:center;margin:10px -24px -24px;padding:12px 24px 14px;background:var(--card);border-top:1px solid var(--border-light);border-radius:0 0 var(--radius-lg) var(--radius-lg);"><span id="packStartAiHint" style="margin-right:auto;font-size:11px;color:#D97706;font-weight:600;"></span><button class="btn btn-sm" onclick="openPackImgDownload()" title="下载本单打包相关图片" style="border:1px solid var(--border);display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下载</button><button class="btn btn-sm" onclick="hidePackStart()">取消</button><button class="btn btn-sm" id="packStartAiBtn" onclick="triggerParcelAiRecognize()" style="display:none;align-items:center;gap:4px;border:1px solid var(--primary);color:var(--primary);background:#fff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>AI识别</button><button class="btn btn-primary btn-sm" id="packStartSubmitBtn" onclick="submitPackStart()">确认提交</button></div>
     </div></div>
+
+    <!-- 仓库新增 / 编辑弹框 -->
+    <div class="modal-overlay" id="warehouseModal" style="z-index:2150;">
+      <div class="modal" style="width:580px;">
+        <h3 id="warehouseModalTitle">新增仓库</h3>
+        <button type="button" class="modal-close-x" onclick="closeWarehouseModal()" title="关闭" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div style="display:flex;gap:10px;margin-bottom:10px;">
+          <div style="flex:1.4;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">仓库名称 <span style="color:var(--danger);">*</span></label><input type="text" id="whName" placeholder="如：青源仓" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">仓库编码 <span style="color:var(--danger);">*</span></label><input type="text" id="whCode" placeholder="如：QY" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;text-transform:uppercase;"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:10px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">仓库类型</label><select id="whType" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option>自营仓</option><option>合作仓</option><option>门店</option><option>虚拟仓</option></select></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">负责人</label><input type="text" id="whOwner" placeholder="选填" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:10px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">所在省份 <span style="color:var(--danger);">*</span></label><select id="whProv" onchange="onWhProvChange()" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);cursor:pointer;"></select></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">所在城市 <span style="color:var(--danger);">*</span></label><select id="whCity" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);cursor:pointer;"></select></div>
+        </div>
+        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">详细地址 <span style="color:var(--danger);">*</span> <span style="color:var(--text-muted);font-weight:400;">（区 / 街道 / 门牌 / 库位，不含省市）</span></label><input type="text" id="whAddr" placeholder="如：宝安区福永街道青源物流园 B 栋" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+        <div style="margin-bottom:10px;">
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">关联部门（可见范围） <span style="color:var(--text-muted);font-weight:400;">不选则仅超管可见</span></label>
+          <div id="whDeptGroup" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+          <label style="font-size:11px;color:var(--text-muted);">状态</label>
+          <label class="toggle-switch" style="width:38px;height:21px;"><input type="checkbox" id="whEnabled" checked><span class="toggle-slider"></span></label>
+          <span style="font-size:11px;color:var(--text-secondary);">停用后不出现在新建集包的仓库选项</span>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn btn-sm" onclick="closeWarehouseModal()">取消</button>
+          <button class="btn btn-primary btn-sm" onclick="saveWarehouse()">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 仓库人员 新增/编辑弹框 -->
+    <div class="modal-overlay" id="whStaffModal" style="z-index:2160;">
+      <div class="modal" style="width:460px;">
+        <h3 id="whStaffModalTitle">添加人员</h3>
+        <button type="button" class="modal-close-x" onclick="closeWhStaffModal()" title="关闭" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div id="whStaffSub" style="font-size:11.5px;color:var(--text-muted);margin-bottom:12px;">—</div>
+        <div style="display:flex;gap:10px;margin-bottom:10px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">姓名 <span style="color:var(--danger);">*</span></label><input type="text" id="whStaffName" placeholder="如：张三" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">工号</label><input type="text" id="whStaffNo" placeholder="如：XY201" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;text-transform:uppercase;"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:10px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">角色</label><select id="whStaffRole" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);cursor:pointer;"></select></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">所属部门</label><select id="whStaffDept" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);cursor:pointer;"></select></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:16px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">手机号</label><input type="text" id="whStaffPhone" placeholder="选填，11 位手机号" maxlength="11" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">状态</label><select id="whStaffStatus" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;background:var(--card);cursor:pointer;"><option>在职</option><option>离职</option></select></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn btn-sm" onclick="closeWhStaffModal()">取消</button>
+          <button class="btn btn-primary btn-sm" onclick="saveWhStaff()">保存</button>
+        </div>
+      </div>
+    </div>
 
     <!-- 打包图片下载弹框 -->
     <div class="modal-overlay" id="packImgDlModal" style="z-index:2300;">
@@ -10068,6 +10174,7 @@ var breadcrumbMap = {
   team:               { lv1:'config', lv2:'团队', lv3:'团队列表' },
   store:              { lv1:'config', lv2:'团队', lv3:'国内门店' },
   storeOverseas:      { lv1:'config', lv2:'团队', lv3:'海外门店' },
+  warehouseList:      { lv1:'config', lv2:'团队', lv3:'仓库列表' },
   teamSchedule:       { lv1:'config', lv2:'团队', lv3:'排班' },
   aiTicketConfig:     { lv1:'config', lv2:'系统管理', lv3:'AI工单配置' },
   qcConfig:           { lv1:'config', lv2:'系统管理', lv3:'质检配置' },
@@ -10337,6 +10444,7 @@ function showPage(pageId) {
   if (pageId === 'aiTicketConfig') { loadAiTicketConfig(); }
   if (pageId === 'qcConfig') { loadQcConfig(); }
   if (pageId === 'pkgConfig') { loadPkgConfig(); }
+  if (pageId === 'warehouseList') { renderWarehouseList(); }
   if (pageId === 'training') {
     updateTrainingStats();
     renderRecords();
@@ -17951,6 +18059,388 @@ function savePkgConfig() {
   showToast('打包设置已保存：打包精细化物品装箱 ' + (pkgFinePackingEnabled() ? '已开启' : '已关闭'));
 }
 
+// ========== 配置 → 团队：仓库列表（左：仓库档案 / 右：仓库人员）==========
+var WAREHOUSE_DEPTS = ['仓储部', '市场-门店团队', '市场-销售团队', '运营团队', '财务部', '客服部'];
+var WAREHOUSE_TYPES = ['自营仓', '合作仓', '门店', '虚拟仓'];
+var WH_REGIONS = {
+  '广东省': ['深圳市', '广州市', '东莞市', '佛山市', '中山市', '珠海市', '惠州市', '汕头市'],
+  '浙江省': ['丽水市', '温州市', '杭州市', '宁波市', '义乌市', '嘉兴市', '台州市'],
+  '福建省': ['福州市', '厦门市', '泉州市', '莆田市'],
+  '江苏省': ['苏州市', '南京市', '无锡市', '常州市'],
+  '上海市': ['上海市'],
+  '北京市': ['北京市'],
+  '山东省': ['青岛市', '济南市', '临沂市'],
+  '四川省': ['成都市'],
+  '新疆维吾尔自治区': ['乌鲁木齐市', '昌吉回族自治州', '伊犁哈萨克自治州', '喀什地区']
+};
+var WH_ROLES = ['仓库主管', '仓管员', '打包员', '拣货员', '客服跟单', '其他'];
+var warehouseList = [
+  { id: 1, name: '青源仓', code: 'QY', type: '自营仓', prov: '浙江省', city: '丽水市', addr: '青田县油竹街道江滨路 8 号 青源金属有限公司', owner: '廖晓杰', depts: ['仓储部', '市场-门店团队'], enabled: true },
+  { id: 2, name: '派力仓', code: 'PL', type: '自营仓', prov: '浙江省', city: '丽水市', addr: '青田县侨乡工业园派力路一号', owner: '冯甜甜', depts: ['仓储部', '市场-销售团队'], enabled: true },
+  { id: 3, name: '银羽仓', code: 'YY', type: '自营仓', prov: '新疆维吾尔自治区', city: '乌鲁木齐市', addr: '头屯河区银羽街', owner: '林达', depts: ['仓储部'], enabled: true },
+  { id: 4, name: '福永仓', code: 'FY', type: '合作仓', prov: '广东省', city: '深圳市', addr: '宝安区立新南路锦城大厦西北侧', owner: '彭笑微', depts: [], enabled: true },
+  { id: 5, name: '门店', code: 'MD', type: '门店', prov: '浙江省', city: '丽水市', addr: '青田县', owner: '—', depts: ['市场-门店团队'], enabled: true }
+];
+// 仓库人员：挂在具体仓库下，左侧选中哪个仓库，右侧就展示该仓库的人
+var whStaffList = [
+  { id: 1, whId: 1, name: '廖晓杰', no: 'XY201', role: '仓库主管', dept: '仓储部', phone: '13800138021', status: '在职', joined: '2024-03-11' },
+  { id: 2, whId: 1, name: '陈志强', no: 'XY202', role: '仓管员', dept: '仓储部', phone: '13900139022', status: '在职', joined: '2024-05-20' },
+  { id: 3, whId: 1, name: '黄伟明', no: 'XY203', role: '打包员', dept: '仓储部', phone: '13700137023', status: '在职', joined: '2025-01-06' },
+  { id: 4, whId: 1, name: '吴敏', no: 'XY204', role: '客服跟单', dept: '客服部', phone: '13600136024', status: '离职', joined: '2023-09-14' },
+  { id: 5, whId: 2, name: '冯甜甜', no: 'XY205', role: '仓库主管', dept: '仓储部', phone: '13800138025', status: '在职', joined: '2024-02-19' },
+  { id: 6, whId: 2, name: '刘洋', no: 'XY206', role: '仓管员', dept: '仓储部', phone: '13900139026', status: '在职', joined: '2024-07-01' },
+  { id: 7, whId: 2, name: '郑小雨', no: 'XY207', role: '打包员', dept: '仓储部', phone: '13700137027', status: '在职', joined: '2025-03-03' },
+  { id: 8, whId: 3, name: '林达', no: 'XY208', role: '仓库主管', dept: '仓储部', phone: '13800138028', status: '在职', joined: '2023-11-27' },
+  { id: 9, whId: 3, name: '许文杰', no: 'XY209', role: '仓管员', dept: '仓储部', phone: '13900139029', status: '在职', joined: '2024-04-08' },
+  { id: 10, whId: 3, name: '何嘉俊', no: 'XY210', role: '拣货员', dept: '仓储部', phone: '13700137030', status: '在职', joined: '2024-08-15' },
+  { id: 11, whId: 3, name: '梁美玲', no: 'XY211', role: '打包员', dept: '仓储部', phone: '13600136031', status: '在职', joined: '2025-02-10' },
+  { id: 12, whId: 3, name: '罗建华', no: 'XY212', role: '客服跟单', dept: '客服部', phone: '13500135032', status: '在职', joined: '2025-06-05' },
+  { id: 13, whId: 4, name: '彭笑微', no: 'XY213', role: '仓库主管', dept: '仓储部', phone: '13800138033', status: '在职', joined: '2024-09-02' },
+  { id: 14, whId: 4, name: '谢婷婷', no: 'XY214', role: '仓管员', dept: '仓储部', phone: '13900139034', status: '在职', joined: '2025-04-21' },
+  { id: 15, whId: 5, name: '李旭伟', no: 'XY215', role: '仓管员', dept: '市场-门店团队', phone: '13700137035', status: '在职', joined: '2024-06-17' },
+  { id: 16, whId: 5, name: '余炜恒', no: 'XY216', role: '仓管员', dept: '市场-门店团队', phone: '13600136036', status: '在职', joined: '2025-05-12' }
+];
+var whStaffNextId = 200;
+var whState = { typeFilter: 'all', editing: null, selId: 1 };
+var whDeptPicked = {};
+var whStaffState = { editing: null, whId: null };
+
+function whFullAddr(w) {
+  if (!w) return '—';
+  var head = [w.prov, w.city].filter(Boolean).join(' · ');
+  var tail = (w.addr || '').trim();
+  var all = (head + (head && tail ? ' · ' : '') + tail).trim();
+  return all || '—';
+}
+function whStaffOf(id) { return whStaffList.filter(function(x){ return x.whId === id; }); }
+function whStaffStats(id) {
+  var l = whStaffOf(id);
+  return { total: l.length, on: l.filter(function(x){ return x.status === '在职'; }).length };
+}
+function whTypeTagCls(t) {
+  if (t === '自营仓') return 'tag-green';
+  if (t === '门店') return 'tag-purple';
+  if (t === '虚拟仓') return 'tag-gray';
+  return 'tag-yellow';
+}
+function whDeptHtml(d) {
+  return '<span class="tag tag-blue" style="font-size:10.5px;padding:1px 7px;">' + d + '</span>';
+}
+
+/* ---- 左侧列表 ---- */
+function renderWarehouseList() {
+  var box = document.getElementById('whCardList');
+  if (!box) return;
+  var kwEl = document.getElementById('whSearch');
+  var kw = ((kwEl && kwEl.value) || '').trim().toLowerCase();
+  var list = warehouseList.slice();
+  if (kw) list = list.filter(function(w){
+    return (w.name + w.code + (w.owner || '') + whFullAddr(w)).toLowerCase().indexOf(kw) >= 0;
+  });
+  var typeSel = document.getElementById('whTypeFilter');
+  var typeVal = typeSel ? typeSel.value : (whState.typeFilter || 'all');
+  whState.typeFilter = typeVal;
+  if (typeVal && typeVal !== 'all') list = list.filter(function(w){ return w.type === typeVal; });
+  var cntEl = document.getElementById('whLeftCount');
+  if (cntEl) cntEl.textContent = '共 ' + list.length + ' 个';
+  if (!list.some(function(w){ return w.id === whState.selId; })) whState.selId = list.length ? list[0].id : null;
+  box.innerHTML = list.length ? list.map(function(w){
+    var on = w.id === whState.selId;
+    var st = whStaffStats(w.id);
+    var deptTxt = (w.depts || []).length
+      ? (w.depts || []).join('、')
+      : '<span style="color:var(--danger);">未关联部门</span>';
+    var regionTxt = ((w.prov || '') + (w.city ? ' · ' + w.city : '')) || '—';
+    return '<div onclick="whSelect(' + w.id + ')" title="' + (regionTxt + ' · ' + (w.owner || '—') + ' · ' + st.total + ' 人 · ' + ((w.depts || []).join('、') || '未关联部门')) + '" style="cursor:pointer;padding:7px 10px;border-radius:8px;border:1px solid ' + (on ? 'var(--primary)' : 'var(--border-light)') + ';background:' + (on ? '#EEF6FC' : 'var(--card)') + ';margin-bottom:6px;' + (w.enabled ? '' : 'opacity:.6;') + '">' +
+      '<div style="display:flex;align-items:center;gap:6px;">' +
+        '<span style="font-size:12.5px;font-weight:700;color:' + (on ? 'var(--primary)' : 'var(--text)') + ';">' + w.name + '</span>' +
+        '<span style="font-size:10.5px;color:var(--text-muted);">' + w.code + '</span>' +
+        '<span class="tag ' + whTypeTagCls(w.type) + '" style="margin-left:auto;font-size:10px;padding:1px 6px;flex-shrink:0;">' + w.type + '</span>' +
+        (w.enabled ? '' : '<span class="tag tag-gray" style="font-size:10px;padding:0 5px;flex-shrink:0;">停用</span>') +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:4px;margin-top:3px;font-size:10.5px;color:var(--text-muted);white-space:nowrap;overflow:hidden;">' +
+        '<span style="flex-shrink:0;">' + regionTxt + '</span>' +
+        '<span style="color:var(--border);flex-shrink:0;">·</span>' +
+        '<span style="flex-shrink:0;">' + (w.owner || '—') + '</span>' +
+        '<span style="color:var(--border);flex-shrink:0;">·</span>' +
+        '<span style="flex-shrink:0;">' + st.total + ' 人</span>' +
+        '<span style="color:var(--border);flex-shrink:0;">·</span>' +
+        '<span style="overflow:hidden;text-overflow:ellipsis;">' + deptTxt + '</span>' +
+      '</div>' +
+    '</div>';
+  }).join('') : '<div style="padding:38px 10px;text-align:center;color:var(--text-muted);font-size:12px;">没有符合条件的仓库</div>';
+  renderWhDetail();
+}
+function whSelect(id) { whState.selId = id; renderWarehouseList(); }
+function resetWarehouseFilter() {
+  whState.typeFilter = 'all';
+  var kwEl = document.getElementById('whSearch'); if (kwEl) kwEl.value = '';
+  var typeSel = document.getElementById('whTypeFilter'); if (typeSel) typeSel.value = 'all';
+  renderWarehouseList();
+  showToast('已重置筛选条件');
+}
+
+/* ---- 右侧详情 + 人员 ---- */
+function whInfoItem(label, val, full) {
+  return '<div' + (full ? ' style="grid-column:1/-1;"' : '') + '>' +
+    '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">' + label + '</div>' +
+    '<div style="font-size:12.5px;color:var(--text);line-height:1.55;">' + (val || '—') + '</div>' +
+  '</div>';
+}
+function whStaffTableHtml(w, staff) {
+  if (!staff.length) {
+    return '<div style="padding:36px 16px;text-align:center;color:var(--text-muted);font-size:12px;">该仓库暂无人员</div>';
+  }
+  var rows = staff.map(function(p){
+    var on = p.status === '在职';
+    var posTag = p.role === '仓库主管' ? 'tag-blue' : 'tag-gray';
+    return '<tr' + (on ? '' : ' style="opacity:.6;"') + '>' +
+      '<td><div style="font-weight:600;color:var(--text);">' + p.name + '</div><div style="font-size:10.5px;color:var(--text-muted);">' + (p.no || '—') + '</div></td>' +
+      '<td><span class="tag ' + posTag + '" style="font-size:10.5px;padding:1px 7px;">' + p.role + '</span></td>' +
+      '<td style="color:var(--text-secondary);">' + (p.dept || '—') + '</td>' +
+      '<td style="color:var(--text-secondary);">' + (p.phone || '—') + '</td>' +
+      '<td>' + (on ? '<span class="tag tag-green" style="font-size:10.5px;padding:1px 7px;">在职</span>' : '<span class="tag tag-gray" style="font-size:10.5px;padding:1px 7px;">离职</span>') + '</td>' +
+      '<td style="white-space:nowrap;">' +
+        '<button class="btn btn-sm" onclick="openWhStaffModal(' + p.id + ')" style="padding:3px 8px;font-size:11px;">编辑</button> ' +
+        '<button class="btn btn-sm btn-gray" onclick="removeWhStaff(' + p.id + ')" style="padding:3px 8px;font-size:11px;">移除</button>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+  return '<table class="data-table data-table--compact"><thead><tr>' +
+    '<th style="width:150px;">姓名 / 工号</th><th style="width:96px;">角色</th><th style="width:110px;">部门</th>' +
+    '<th style="width:118px;">手机号</th><th style="width:70px;">状态</th><th style="width:112px;">操作</th>' +
+    '</tr></thead><tbody>' + rows + '</tbody></table>';
+}
+function renderWhDetail() {
+  var panel = document.getElementById('whDetailPanel');
+  if (!panel) return;
+  var w = warehouseList.filter(function(x){ return x.id === whState.selId; })[0];
+  if (!w) {
+    panel.innerHTML = '<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:70px 20px;text-align:center;color:var(--text-muted);font-size:12.5px;">左侧暂无可选仓库</div>';
+    return;
+  }
+  var deptHtml = (w.depts || []).length
+    ? (w.depts || []).map(whDeptHtml).join(' ')
+    : '<span class="tag tag-red" style="font-size:10.5px;padding:1px 7px;">未关联 · 仅超管可见</span>';
+  var staff = whStaffOf(w.id);
+  var stat = whStaffStats(w.id);
+  panel.innerHTML =
+    '<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:11px 14px;margin-bottom:10px;flex-shrink:0;">' +
+      '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+        '<span style="font-size:15px;font-weight:700;color:var(--text);flex-shrink:0;">' + w.name + '</span>' +
+        '<span class="tag ' + whTypeTagCls(w.type) + '" style="font-size:10.5px;padding:1px 7px;flex-shrink:0;">' + w.type + '</span>' +
+        (w.enabled ? '<span class="tag tag-green" style="font-size:10.5px;padding:1px 7px;flex-shrink:0;">启用</span>' : '<span class="tag tag-gray" style="font-size:10.5px;padding:1px 7px;flex-shrink:0;">停用</span>') +
+        '<span style="width:1px;height:12px;background:var(--border);flex-shrink:0;"></span>' +
+        '<span style="flex:1;min-width:0;font-size:12px;color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + whFullAddr(w) + '">' + whFullAddr(w) + '</span>' +
+        '<button class="btn btn-sm" onclick="openWarehouseModal(' + w.id + ')" style="padding:3px 10px;font-size:11.5px;flex-shrink:0;">编辑仓库</button>' +
+        '<button class="btn btn-sm btn-gray" onclick="deleteWarehouse(' + w.id + ')" style="padding:3px 10px;font-size:11.5px;flex-shrink:0;">删除</button>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:7px;font-size:11.5px;color:var(--text-muted);">' +
+        '<span>编码：' + w.code + '</span>' +
+        '<span>负责人：' + (w.owner || '—') + '</span>' +
+        '<span style="display:inline-flex;align-items:center;gap:4px;">关联部门：' + deptHtml + '</span>' +
+        '<span>' + staff.length + ' 名人员</span>' +
+      '</div>' +
+    '</div>' +
+    '<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;flex:1;min-height:0;display:flex;flex-direction:column;">' +
+      '<div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border-light);background:#FAFCFE;flex-shrink:0;">' +
+        '<span style="font-size:13px;font-weight:600;color:var(--text);">仓库人员</span>' +
+
+      '</div>' +
+      '<div style="flex:1;min-height:0;overflow:auto;">' + whStaffTableHtml(w, staff) + '</div>' +
+    '</div>';
+}
+
+/* ---- 仓库新增 / 编辑 ---- */
+function renderWhDeptChips() {
+  var box = document.getElementById('whDeptGroup');
+  if (!box) return;
+  box.innerHTML = WAREHOUSE_DEPTS.map(function(d){
+    var on = !!whDeptPicked[d];
+    return '<label onclick="toggleWhDept(\'' + d + '\')" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid ' + (on ? 'var(--primary)' : 'var(--border)') + ';border-radius:14px;font-size:12px;cursor:pointer;background:' + (on ? '#E7F3FB' : '#fff') + ';color:' + (on ? 'var(--primary)' : 'var(--text-secondary)') + ';font-weight:' + (on ? '600' : '400') + ';">' +
+      '<input type="checkbox" ' + (on ? 'checked' : '') + ' onclick="event.stopPropagation();toggleWhDept(\'' + d + '\')" style="margin:0;width:12px;height:12px;cursor:pointer;">' + d + '</label>';
+  }).join('');
+}
+function toggleWhDept(d) {
+  if (whDeptPicked[d]) delete whDeptPicked[d]; else whDeptPicked[d] = true;
+  renderWhDeptChips();
+}
+function renderWhProvinceOptions(prov) {
+  var sel = document.getElementById('whProv');
+  if (!sel) return;
+  var keys = Object.keys(WH_REGIONS);
+  var cur = keys.indexOf(prov) >= 0 ? prov : keys[0];
+  sel.innerHTML = '<option value="">请选择省</option>' + keys.map(function(p){
+    return '<option value="' + p + '"' + (cur === p ? ' selected' : '') + '>' + p + '</option>';
+  }).join('');
+  sel.value = cur;
+  renderWhCityOptions(cur, '');
+}
+function renderWhCityOptions(prov, city) {
+  var sel = document.getElementById('whCity');
+  if (!sel) return;
+  var cities = WH_REGIONS[prov] || [];
+  var cur = cities.indexOf(city) >= 0 ? city : (cities[0] || '');
+  sel.innerHTML = '<option value="">请选择市</option>' + cities.map(function(c){
+    return '<option value="' + c + '"' + (cur === c ? ' selected' : '') + '>' + c + '</option>';
+  }).join('');
+  sel.value = cur;
+}
+function onWhProvChange() {
+  var p = document.getElementById('whProv').value;
+  renderWhCityOptions(p, '');
+}
+function openWarehouseModal(id) {
+  whState.editing = (typeof id === 'number') ? id : null;
+  var w = whState.editing ? warehouseList.filter(function(x){ return x.id === whState.editing; })[0] : null;
+  var title = document.getElementById('warehouseModalTitle');
+  if (title) title.textContent = w ? ('编辑仓库 · ' + w.name) : '新增仓库';
+  document.getElementById('whName').value = w ? w.name : '';
+  document.getElementById('whCode').value = w ? w.code : '';
+  document.getElementById('whType').value = w ? w.type : '自营仓';
+  document.getElementById('whOwner').value = w ? (w.owner || '') : '';
+  document.getElementById('whAddr').value = w ? (w.addr || '') : '';
+  document.getElementById('whEnabled').checked = w ? !!w.enabled : true;
+  renderWhProvinceOptions(w ? w.prov : '广东省');
+  renderWhCityOptions((w && w.prov) || '广东省', w ? w.city : '深圳市');
+  whDeptPicked = {};
+  (w && w.depts ? w.depts : []).forEach(function(d){ whDeptPicked[d] = true; });
+  renderWhDeptChips();
+  var el = document.getElementById('warehouseModal');
+  if (el) el.classList.add('show');
+}
+function closeWarehouseModal() {
+  var el = document.getElementById('warehouseModal');
+  if (el) el.classList.remove('show');
+}
+function saveWarehouse() {
+  var name = (document.getElementById('whName').value || '').trim();
+  var code = (document.getElementById('whCode').value || '').trim().toUpperCase();
+  var prov = document.getElementById('whProv').value;
+  var city = document.getElementById('whCity').value;
+  var addr = (document.getElementById('whAddr').value || '').trim();
+  if (!name) { showToast('请填写仓库名称'); return; }
+  if (!code) { showToast('请填写仓库编码'); return; }
+  if (!prov) { showToast('请选择所在省份'); return; }
+  if (!city) { showToast('请选择所在城市'); return; }
+  if (!addr) { showToast('请填写详细地址'); return; }
+  var dup = warehouseList.filter(function(w){ return w.id !== whState.editing && (w.name === name || w.code === code); })[0];
+  if (dup) { showToast('仓库名称或编码已存在：' + dup.name); return; }
+  var depts = Object.keys(whDeptPicked).filter(function(d){ return whDeptPicked[d]; });
+  var payload = {
+    name: name, code: code, prov: prov, city: city,
+    type: document.getElementById('whType').value,
+    owner: (document.getElementById('whOwner').value || '').trim(),
+    addr: addr,
+    depts: depts,
+    enabled: document.getElementById('whEnabled').checked
+  };
+  if (whState.editing) {
+    var w = warehouseList.filter(function(x){ return x.id === whState.editing; })[0];
+    Object.assign(w, payload);
+    showToast('仓库已更新：' + name + (depts.length ? ('（' + depts.length + ' 个部门可见）') : '（仅超管可见）'));
+  } else {
+    payload.id = warehouseList.reduce(function(a, b){ return Math.max(a, b.id); }, 0) + 1;
+    warehouseList.push(payload);
+    whState.selId = payload.id;
+    showToast('仓库已新增：' + name + (depts.length ? ('（' + depts.length + ' 个部门可见）') : '（仅超管可见）'));
+  }
+  closeWarehouseModal();
+  renderWarehouseList();
+  renderPkgWarehouseChips();
+  syncPkgWarehouseConst();
+}
+function deleteWarehouse(id) {
+  var w = warehouseList.filter(function(x){ return x.id === id; })[0];
+  if (!w) return;
+  var n = whStaffOf(id).length;
+  if (!confirm('确认删除仓库「' + w.name + '」？' + (n ? ('该仓库下的 ' + n + ' 名人员会一并移除；') : '') + '删除后该仓库不再出现在新建集包的仓库选项，历史订单数据保留。')) return;
+  warehouseList = warehouseList.filter(function(x){ return x.id !== id; });
+  whStaffList = whStaffList.filter(function(x){ return x.whId !== id; });
+  if (whState.selId === id) whState.selId = warehouseList.length ? warehouseList[0].id : null;
+  renderWarehouseList();
+  renderPkgWarehouseChips();
+  syncPkgWarehouseConst();
+  showToast('已删除仓库：' + w.name);
+}
+
+/* ---- 仓库人员：新增 / 编辑 / 移除 ---- */
+function openWhStaffModal(id) {
+  if (!whState.selId) { showToast('请先选择仓库'); return; }
+  whStaffState.whId = whState.selId;
+  whStaffState.editing = (typeof id === 'number') ? id : null;
+  var p = whStaffState.editing ? whStaffList.filter(function(x){ return x.id === whStaffState.editing; })[0] : null;
+  var w = warehouseList.filter(function(x){ return x.id === whState.selId; })[0];
+  document.getElementById('whStaffModalTitle').textContent = p ? ('编辑人员 · ' + p.name) : ('添加人员 · ' + (w ? w.name : ''));
+  document.getElementById('whStaffSub').textContent = '人员将归属到「' + (w ? w.name : '—') + '」，可在右侧列表继续编辑或移除';
+  document.getElementById('whStaffName').value = p ? p.name : '';
+  document.getElementById('whStaffNo').value = p ? (p.no || '') : '';
+  document.getElementById('whStaffPhone').value = p ? (p.phone || '') : '';
+  document.getElementById('whStaffStatus').value = p ? p.status : '在职';
+  var roleSel = document.getElementById('whStaffRole');
+  roleSel.innerHTML = WH_ROLES.map(function(x){ return '<option value="' + x + '"' + (p && p.role === x ? ' selected' : '') + '>' + x + '</option>'; }).join('');
+  roleSel.value = p ? p.role : '仓管员';
+  var deptSel = document.getElementById('whStaffDept');
+  deptSel.innerHTML = WAREHOUSE_DEPTS.map(function(x){ return '<option value="' + x + '"' + (p && p.dept === x ? ' selected' : '') + '>' + x + '</option>'; }).join('');
+  deptSel.value = p ? (p.dept || WAREHOUSE_DEPTS[0]) : (w && (w.depts || []).length ? w.depts[0] : WAREHOUSE_DEPTS[0]);
+  document.getElementById('whStaffModal').classList.add('show');
+}
+function closeWhStaffModal() {
+  var el = document.getElementById('whStaffModal');
+  if (el) el.classList.remove('show');
+}
+function saveWhStaff() {
+  var name = (document.getElementById('whStaffName').value || '').trim();
+  var no = (document.getElementById('whStaffNo').value || '').trim().toUpperCase();
+  var phone = (document.getElementById('whStaffPhone').value || '').trim();
+  if (!name) { showToast('请填写人员姓名'); return; }
+  if (phone && !/^1\d{10}$/.test(phone)) { showToast('手机号格式不正确'); return; }
+  if (no && whStaffList.some(function(x){ return x.no === no && x.id !== whStaffState.editing; })) { showToast('工号已存在：' + no); return; }
+  var payload = {
+    whId: whStaffState.whId, name: name, no: no,
+    role: document.getElementById('whStaffRole').value,
+    dept: document.getElementById('whStaffDept').value,
+    phone: phone,
+    status: document.getElementById('whStaffStatus').value
+  };
+  if (whStaffState.editing) {
+    var p = whStaffList.filter(function(x){ return x.id === whStaffState.editing; })[0];
+    Object.assign(p, payload);
+    showToast('人员已更新：' + name);
+  } else {
+    payload.id = ++whStaffNextId;
+    payload.joined = new Date().toISOString().slice(0, 10);
+    whStaffList.push(payload);
+    showToast('已添加人员：' + name);
+  }
+  closeWhStaffModal();
+  renderWarehouseList();
+}
+function removeWhStaff(id) {
+  var p = whStaffList.filter(function(x){ return x.id === id; })[0];
+  if (!p) return;
+  if (!confirm('确认从该仓库移除「' + p.name + '」？')) return;
+  whStaffList = whStaffList.filter(function(x){ return x.id !== id; });
+  renderWarehouseList();
+  showToast('已移除人员：' + p.name);
+}
+// 新建集包的「所属仓库」按启用仓库动态渲染
+function renderPkgWarehouseChips() {
+  var box = document.getElementById('orderPkgWarehouseGroup');
+  if (!box) return;
+  var list = warehouseList.filter(function(w){ return w.enabled; });
+  box.innerHTML = list.map(function(w){
+    return '<label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="' + w.name + '" onchange="onOrderPkgWarehouseChange()">' + w.name + '</label>';
+  }).join('');
+}
+// 保持业务常量与仓库档案一致（供筛选/统计等旧逻辑使用）
+function syncPkgWarehouseConst() {
+  if (typeof PKG_WAREHOUSES === 'undefined') return;
+  var names = warehouseList.filter(function(w){ return w.enabled; }).map(function(w){ return w.name; });
+  PKG_WAREHOUSES.length = 0;
+  names.forEach(function(n){ PKG_WAREHOUSES.push(n); });
+}
+
 // ===== AI工单分配设置 =====
 let aiTicketAssignees = [
   { name: '廖晓杰', dept: '门店团队', store: '宝幢街店', enabled: true, scheduled: true },
@@ -21503,6 +21993,7 @@ function pkgSetWarehouses(arr) {
   document.querySelectorAll('.pkg-wh-cb').forEach(function(el){ el.checked = list.indexOf(el.value) >= 0; });
 }
 function showOrderPkgCreate() {
+  renderPkgWarehouseChips();
   resetOrderPkgSaveBtn();
   fillPkgXySuggest();
   // 恢复所有行可见（从编辑模式恢复）
