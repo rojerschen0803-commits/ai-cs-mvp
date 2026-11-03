@@ -23147,9 +23147,6 @@ function buildPkgPackingSecHtml(o) {
       '<th style="width:28px;"><input type="checkbox" onclick="pkgBoxToggleAll(this)" title="全选"></th>' +
       '<th style="width:40px;">序号</th>' +
       '<th>箱号</th>' +
-      '<th style="width:88px;">所属仓库</th>' +
-      '<th>包裹数</th>' +
-      '<th>物品数</th>' +
       '<th title="长（cm）">长</th>' +
       '<th title="宽（cm）">宽</th>' +
       '<th title="高（cm）">高</th>' +
@@ -23158,9 +23155,6 @@ function buildPkgPackingSecHtml(o) {
       '<th title="体积重（kg）＝ 长×宽×高 ÷ 6000">体积重</th>' +
       '<th title="实重（kg）">实重</th>' +
       '<th title="密度（kg/m³）＝ 实重 ÷ 体积">密度</th>' +
-      '<th title="装箱图片（点击看大图）">装箱图片</th>' +
-      '<th title="封箱图片（点击看大图）">封箱图片</th>' +
-      '<th style="width:64px;" title="物品单（点击看大图）">物品单</th>' +
     '</tr></thead><tbody id="pkgBoxTableBody"></tbody></table>' +
   '</div></div>';
   return h;
@@ -23174,9 +23168,6 @@ function renderPkgPackingRows(o) {
       '<td><input type="checkbox" class="pkgbox-check" value="' + b.idx + '" onchange="pkgBoxUpdateBatch()"></td>' +
       '<td>' + b.idx + '</td>' +
       '<td style="white-space:nowrap;font-weight:600;">' + b.boxNo + '</td>' +
-      '<td style="white-space:nowrap;">' + orderWhTag(b.warehouse) + '</td>' +
-      '<td><span class="org-count-link" onclick="showPkgBoxParcels(' + o.id + ',' + b.idx + ')" title="查看该箱包裹明细" style="cursor:pointer;">' + b.parcels + '</span></td>' +
-      '<td><span class="org-count-link" onclick="showPkgBoxItems(' + o.id + ',' + b.idx + ')" title="查看该箱物品明细" style="cursor:pointer;">' + b.items + '</span></td>' +
       '<td>' + b.length + '</td>' +
       '<td>' + b.width + '</td>' +
       '<td>' + b.height + '</td>' +
@@ -23185,11 +23176,8 @@ function renderPkgPackingRows(o) {
       '<td>' + b.volWeight.toFixed(2) + '</td>' +
       '<td>' + b.realWeight.toFixed(2) + '</td>' +
       '<td>' + b.density.toFixed(1) + '</td>' +
-      '<td>' + pkgShotThumb(b.tone, 'load', '装箱图片', 'showPkgBoxShot(' + o.id + ',' + b.idx + ',\'load\')', 30) + '</td>' +
-      '<td>' + pkgShotThumb(b.tone, 'seal', '封箱图片', 'showPkgBoxShot(' + o.id + ',' + b.idx + ',\'seal\')', 30) + '</td>' +
-      '<td>' + pkgShotThumb(b.tone, 'slip', '物品单', 'showPkgBoxShot(' + o.id + ',' + b.idx + ',\'slip\')', 30) + '</td>' +
       '</tr>';
-  }).join('') || '<tr><td colspan="17" style="text-align:center;color:var(--text-muted);padding:30px;">暂无打包明细</td></tr>';
+  }).join('') || '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:30px;">暂无打包明细</td></tr>';
   var master = document.querySelector('#pkgBoxTable thead input[type="checkbox"]');
   if (master) master.checked = false;
   pkgBoxUpdateBatch();
@@ -23936,38 +23924,66 @@ function pkgFlowDetailHtml(o, key, state) {
     // 完成说明（始终展示；未完成时显示占位 —）
     var packNote = pkgFlowNoteClean(o.packCompleteReason || o.packStartReason || '');
     var packNoteRow = '<div class="pkg-step-field" style="margin-top:8px;"><span class="pkg-step-field-label">完成说明</span><span class="pkg-step-field-value">' + pkgFlowEsc(packNote) + '</span></div>';
-    // —— 打包包裹列表 / 打包箱子列表（与「打包明细」同口径：pkgBoxData）——
+    // —— 顶部：装箱图片 / 封箱图片（不按箱分组，所有箱子的图片汇总展示，点击看大图）——
     var fBoxes = (typeof pkgBoxData === 'function') ? pkgBoxData(o) : [];
-    var fParcels = [];
-    fBoxes.forEach(function(b){ (b.parcelList || []).forEach(function(p){ fParcels.push({ box: b, p: p }); }); });
-    var fShotMini = function(tone, kind){
-      return '<span style="display:inline-block;width:28px;height:28px;border-radius:5px;overflow:hidden;vertical-align:middle;border:1px solid var(--border);margin-right:4px;"><svg viewBox="0 0 44 44" style="width:28px;height:28px;display:block;">' + pkgShotSvg(tone, kind) + '</svg></span>';
-    };
-    var fSecHead = function(title, countText){
-      return '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
-        '<span style="font-size:12px;font-weight:600;color:var(--text);">' + title + '</span>' +
-        '<span style="font-size:11px;color:var(--text-muted);">' + countText + '</span>' +
+    var fShotGroup = function(label, kind){
+      var items = [];
+      fBoxes.forEach(function(b){
+        var n = (b.idx % 3 === 0) ? 2 : 1;          // 每箱 1~2 张，模拟实拍多图
+        for (var i = 0; i < n; i++) items.push(b);
+      });
+      return '<div style="display:flex;align-items:flex-start;gap:10px;">' +
+        '<span style="font-size:11px;color:var(--text-muted);flex-shrink:0;width:58px;line-height:40px;white-space:nowrap;">' + label + ' <span style="color:var(--text-secondary);">' + items.length + '</span></span>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:6px;">' +
+          (items.length
+            ? items.map(function(b){
+                return pkgShotThumb(b.tone, kind, label, 'showPkgBoxShot(' + oid + ',' + b.idx + ',\'' + kind + '\')', 40);
+              }).join('')
+            : '<span style="font-size:12px;color:var(--text-muted);line-height:40px;">暂无' + label + '</span>') +
+        '</div>' +
       '</div>';
     };
-    var fParcelSec = '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">' +
-      fSecHead('打包包裹列表', '共 ' + fParcels.length + ' 个包裹') +
-      (fParcels.length
-        ? '<div class="pkg-step-scroll"><table class="pkg-step-table"><thead><tr><th>箱号</th><th>所属仓库</th><th>包裹编号</th><th>快递单号</th><th style="text-align:center;">物品数</th><th style="text-align:right;">重量</th></tr></thead><tbody>' +
-          fParcels.map(function(x){
-            return '<tr><td>' + x.box.boxNo + '</td><td>' + orderWhTag(x.box.warehouse) + '</td><td>' + x.p.no + '</td><td>' + x.p.express + '</td><td style="text-align:center;">' + x.p.itemLines + '</td><td style="text-align:right;">' + x.p.weight + ' kg</td></tr>';
-          }).join('') + '</tbody></table></div>'
-        : '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">暂无包裹数据</div>') +
+    var fShotSec = '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">' +
+      '<div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:10px;">装箱图片 / 封箱图片</div>' +
+      '<div style="display:flex;flex-direction:column;gap:10px;">' +
+        fShotGroup('装箱图片', 'load') + fShotGroup('封箱图片', 'seal') +
+      '</div>' +
     '</div>';
-    var fBoxSec = '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">' +
-      fSecHead('打包箱子列表', '共 ' + fBoxes.length + ' 箱') +
+    // —— 打包明细列表（与「订单管理 · 打包明细」同口径：序号/箱号/长/宽/高/体积周长/体积/体积重/实重/密度）——
+    var fDetailSec = '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<span style="font-size:12px;font-weight:600;color:var(--text);">打包明细</span>' +
+        '<span style="font-size:11px;color:var(--text-muted);">共 ' + fBoxes.length + ' 箱</span>' +
+      '</div>' +
       (fBoxes.length
-        ? '<div class="pkg-step-scroll"><table class="pkg-step-table"><thead><tr><th>箱号</th><th>所属仓库</th><th style="text-align:center;">包裹数</th><th style="text-align:center;">物品数</th><th style="text-align:right;">体积</th><th style="text-align:right;">实重</th><th>装箱图片 / 封箱图片</th></tr></thead><tbody>' +
+        ? '<div class="pkg-step-scroll"><table class="pkg-step-table"><thead><tr>' +
+          '<th style="text-align:center;">序号</th><th>箱号</th>' +
+          '<th style="text-align:right;" title="长（cm）">长</th>' +
+          '<th style="text-align:right;" title="宽（cm）">宽</th>' +
+          '<th style="text-align:right;" title="高（cm）">高</th>' +
+          '<th style="text-align:right;" title="体积周长（cm）＝ 长 ＋ 2×(宽 ＋ 高)">体积周长</th>' +
+          '<th style="text-align:right;" title="体积（m³）＝ 长×宽×高 ÷ 1000000">体积</th>' +
+          '<th style="text-align:right;" title="体积重（kg）＝ 长×宽×高 ÷ 6000">体积重</th>' +
+          '<th style="text-align:right;" title="实重（kg）">实重</th>' +
+          '<th style="text-align:right;" title="密度（kg/m³）＝ 实重 ÷ 体积">密度</th>' +
+          '</tr></thead><tbody>' +
           fBoxes.map(function(b){
-            return '<tr><td>' + b.boxNo + '</td><td>' + orderWhTag(b.warehouse) + '</td><td style="text-align:center;">' + b.parcels + '</td><td style="text-align:center;">' + b.items + '</td><td style="text-align:right;">' + b.volume + ' m³</td><td style="text-align:right;">' + b.realWeight + ' kg</td><td>' + fShotMini(b.tone, 'load') + fShotMini(b.tone, 'seal') + '</td></tr>';
+            return '<tr>' +
+              '<td style="text-align:center;">' + b.idx + '</td>' +
+              '<td style="white-space:nowrap;font-weight:600;">' + b.boxNo + '</td>' +
+              '<td style="text-align:right;">' + b.length + '</td>' +
+              '<td style="text-align:right;">' + b.width + '</td>' +
+              '<td style="text-align:right;">' + b.height + '</td>' +
+              '<td style="text-align:right;">' + b.girth + '</td>' +
+              '<td style="text-align:right;">' + b.volume.toFixed(3) + '</td>' +
+              '<td style="text-align:right;">' + b.volWeight.toFixed(2) + '</td>' +
+              '<td style="text-align:right;">' + b.realWeight.toFixed(2) + '</td>' +
+              '<td style="text-align:right;">' + b.density.toFixed(1) + '</td>' +
+            '</tr>';
           }).join('') + '</tbody></table></div>'
-        : '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">暂无箱子数据</div>') +
+        : '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">暂无打包明细</div>') +
     '</div>';
-    return packBase + packReqRow + packNoteRow + fParcelSec + fBoxSec;
+    return packBase + packReqRow + packNoteRow + fShotSec + fDetailSec;
   }
   if (key === 'split') {
     var spRes = o.splitResult || '';
