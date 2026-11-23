@@ -2719,6 +2719,19 @@ main > .modal-overlay.show { display: flex !important; }
 .wh-drawer-kv .k{font-size:11px;color:var(--text-muted);}
 .wh-drawer-kv .v{font-size:13px;color:var(--text);margin-top:2px;}
 .wh-timeline{padding:4px 2px;}
+/* 仓库记录：仓间流转台账（与物流轨迹并列的第二页签） */
+.wh-drawer-tabs{display:flex;gap:4px;margin:20px 0 12px;padding:4px;background:#F1F5F9;border-radius:8px;}
+.wh-drawer-tabs .sub-tab-item{flex:0 0 auto;padding:5px 12px;font-size:12px;background:transparent;}
+.wh-drawer-tabs .sub-tab-item.active{background:var(--primary);color:#fff;}
+.wh-rec-item{border:1px solid var(--border-light);border-radius:10px;padding:10px 12px;margin-bottom:8px;background:#F8FBFD;}
+.wh-rec-item .r1{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--text);}
+.wh-rec-item .r1 em{margin-left:auto;font-style:normal;font-size:10.5px;color:var(--text-muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.wh-rec-item .flow{display:flex;align-items:center;gap:6px;margin-top:7px;font-size:12.5px;color:var(--text-secondary);flex-wrap:wrap;}
+.wh-rec-item .flow b{color:var(--text);font-weight:700;}
+.wh-rec-item .flow .ar{color:#173D5B;font-weight:700;}
+.wh-rec-item .flow .mv{font-size:10.5px;padding:1px 7px;border-radius:6px;background:#E7F3FB;color:#173D5B;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;}
+.wh-rec-item .meta{margin-top:6px;font-size:11.5px;color:var(--text-muted);line-height:1.65;}
+.wh-rec-empty{padding:26px 8px;text-align:center;font-size:12px;color:var(--text-muted);}
 .wh-timeline .it{position:relative;padding:0 0 16px 20px;}
 .wh-timeline .it:last-child{padding-bottom:2px;}
 .wh-timeline .it:before{content:"";position:absolute;left:3px;top:5px;width:9px;height:9px;border-radius:50%;background:#173D5B;box-shadow:0 0 0 3px #E7F3FB;}
@@ -8846,7 +8859,7 @@ main > .modal-overlay.show { display: flex !important; }
         <select id="whWhSel" onchange="whApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
           <option value="all">全部仓库</option>
         </select>
-        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">更新时间</span>
+        <span id="whDateLabel" style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">更新时间</span>
         <input id="whPkgDateFrom" type="date" onchange="whApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text-secondary);">
         <span style="font-size:12px;color:var(--text-muted);">至</span>
         <input id="whPkgDateTo" type="date" onchange="whApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text-secondary);">
@@ -8929,7 +8942,7 @@ main > .modal-overlay.show { display: flex !important; }
       </div>
 
       <div class="sub-tab-bar" style="margin:0 0 12px;display:flex;align-items:center;gap:4px;">
-        <div class="sub-tab-item active" onclick="whTabTransfers('待签收',this)">待签收 <span class="sub-tab-count">10</span></div>
+        <div class="sub-tab-item active" onclick="whTabTransfers('待签收',this)">待签收 <span class="sub-tab-count">11</span></div>
         <div class="sub-tab-item" onclick="whTabTransfers('已签收',this)">已签收 <span class="sub-tab-count">5</span></div>
         <div class="sub-tab-item" onclick="whTabTransfers('all',this)">全部 <span class="sub-tab-count">16</span></div>
         <div class="wh-toolbar-row" style="margin-left:auto;display:flex;align-items:center;gap:8px;">
@@ -8947,46 +8960,46 @@ main > .modal-overlay.show { display: flex !important; }
           <th id="whTrOpTh" style="width:66px;">操作人</th>
           <th style="width:108px;">移仓时间</th><th style="width:86px;">备注</th><th id="whTrActTh" style="width:228px;">操作</th>
         </tr></thead><tbody>
-                        <tr data-tm="2026-11-18 09:10:00" data-status="运输中" data-operator="张伟" data-type="散包" data-mtype="中转移仓" data-from="青田仓" data-to="西安仓" data-cid="2532969" data-moveno="MY20261118001">
+                        <tr data-tm="2026-11-18 09:10:00" data-status="待签收" data-operator="张伟" data-type="散包" data-mtype="中转移仓" data-from="青田仓" data-to="西安仓" data-cid="2532969" data-moveno="MY20261118001">
               <td><input type="checkbox" data-trsel></td><td><strong><a href="javascript:;" onclick="whOpenTransferPkgDetail('332854767','MY20261118001')" title="查看包裹详情" style="color:#173D5B;font-weight:600;text-decoration:none;cursor:pointer;">332854767</a></strong></td><td>散包</td><td>3</td><td>—</td>
               <td>2532969</td>
-              <td><span class="wh-tag warn">运输中</span></td>
+              <td><span class="wh-tag info">待签收</span></td>
               <td>青田仓</td><td>西安仓</td><td>中转移仓</td><td>MY20261118001</td>
               <td><div style="font-size:12px;color:var(--text);">发起移仓 → 西安仓</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">2026-11-18 09:10:00 · 西安仓</div></td>
               <td>张伟</td><td>2026-11-18 09:10:00</td><td>客户加急</td>
               <td class="wh-tr-act" style="width:228px;"><button class="btn btn-sm" onclick="whSignInTransfer('MY20261118001')">签收入库</button><button class="btn btn-sm" onclick="whOpenCancelTransfer('MY20261118001','青田仓')">移仓退回</button></td>
             </tr>
-                        <tr data-tm="2026-11-18 10:20:00" data-status="运输中" data-operator="李娜" data-type="整票" data-mtype="中转移仓" data-from="青田仓" data-to="西安仓" data-cid="2532974" data-moveno="MY20261118002">
+                        <tr data-tm="2026-11-18 10:20:00" data-status="待签收" data-operator="李娜" data-type="整票" data-mtype="中转移仓" data-from="青田仓" data-to="西安仓" data-cid="2532974" data-moveno="MY20261118002">
               <td><input type="checkbox" data-trsel></td><td><strong><a href="javascript:;" onclick="whOpenTransferPkgDetail('XY202600022','MY20261118002')" title="查看包裹详情" style="color:#173D5B;font-weight:600;text-decoration:none;cursor:pointer;">XY202600022</a></strong></td><td>整票</td><td>—</td><td>2</td>
               <td>2532974</td>
-              <td><span class="wh-tag warn">运输中</span></td>
+              <td><span class="wh-tag info">待签收</span></td>
               <td>青田仓</td><td>西安仓</td><td>中转移仓</td><td>MY20261118002</td>
               <td><div style="font-size:12px;color:var(--text);">发起移仓 → 西安仓</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">2026-11-18 10:20:00 · 西安仓</div></td>
               <td>李娜</td><td>2026-11-18 10:20:00</td><td>—</td>
               <td class="wh-tr-act" style="width:228px;"><button class="btn btn-sm" onclick="whSignInTransfer(\'MY20261118002\')">签收入库</button><button class="btn btn-sm" onclick="whOpenCancelTransfer('MY20261118002','青田仓')">移仓退回</button></td>
             </tr>
-                        <tr data-tm="2026-11-18 11:05:00" data-status="运输中" data-operator="王强" data-type="散包" data-mtype="中转移仓" data-from="西安仓" data-to="乌鲁木齐银羽仓" data-cid="2532981" data-moveno="MY20261118003">
+                        <tr data-tm="2026-11-18 11:05:00" data-status="待签收" data-operator="王强" data-type="散包" data-mtype="中转移仓" data-from="西安仓" data-to="乌鲁木齐银羽仓" data-cid="2532981" data-moveno="MY20261118003">
               <td><input type="checkbox" data-trsel></td><td><strong><a href="javascript:;" onclick="whOpenTransferPkgDetail('SF464700411','MY20261118003')" title="查看包裹详情" style="color:#173D5B;font-weight:600;text-decoration:none;cursor:pointer;">SF464700411</a></strong></td><td>散包</td><td>2</td><td>—</td>
               <td>2532981</td>
-              <td><span class="wh-tag warn">运输中</span></td>
+              <td><span class="wh-tag info">待签收</span></td>
               <td>西安仓</td><td>乌鲁木齐银羽仓</td><td>中转移仓</td><td>MY20261118003</td>
               <td><div style="font-size:12px;color:var(--text);">发起移仓 → 银羽仓</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">2026-11-18 11:05:00 · 乌鲁木齐银羽仓</div></td>
               <td>王强</td><td>2026-11-18 11:05:00</td><td>—</td>
               <td class="wh-tr-act" style="width:228px;"><button class="btn btn-sm" onclick="whSignInTransfer(\'MY20261118003\')">签收入库</button><button class="btn btn-sm" onclick="whOpenCancelTransfer('MY20261118003','西安仓')">移仓退回</button></td>
             </tr>
-                        <tr data-tm="2026-11-18 13:30:00" data-status="运输中" data-operator="赵敏" data-type="整票" data-mtype="退件移仓" data-from="西安仓" data-to="乌鲁木齐银羽仓" data-cid="2532988" data-moveno="MY20261118004">
+                        <tr data-tm="2026-11-18 13:30:00" data-status="待签收" data-operator="赵敏" data-type="整票" data-mtype="退件移仓" data-from="西安仓" data-to="乌鲁木齐银羽仓" data-cid="2532988" data-moveno="MY20261118004">
               <td><input type="checkbox" data-trsel></td><td><strong><a href="javascript:;" onclick="whOpenTransferPkgDetail('XY202600024','MY20261118004')" title="查看包裹详情" style="color:#173D5B;font-weight:600;text-decoration:none;cursor:pointer;">XY202600024</a></strong></td><td>整票</td><td>—</td><td>1</td>
               <td>2532988</td>
-              <td><span class="wh-tag warn">运输中</span></td>
+              <td><span class="wh-tag info">待签收</span></td>
               <td>西安仓</td><td>乌鲁木齐银羽仓</td><td>退件移仓</td><td>MY20261118004</td>
               <td><div style="font-size:12px;color:var(--text);">发起移仓 → 银羽仓</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">2026-11-18 13:30:00 · 乌鲁木齐银羽仓</div></td>
               <td>赵敏</td><td>2026-11-18 13:30:00</td><td>退件回运</td>
               <td class="wh-tr-act" style="width:228px;"><button class="btn btn-sm" onclick="whSignInTransfer(\'MY20261118004\')">签收入库</button><button class="btn btn-sm" onclick="whOpenCancelTransfer('MY20261118004','西安仓')">移仓退回</button></td>
             </tr>
-                        <tr data-tm="2026-11-18 15:40:00" data-status="运输中" data-operator="陈晨" data-type="散包" data-mtype="中转移仓" data-from="青田仓" data-to="西安仓" data-cid="2532995" data-moveno="MY20261118005">
+                        <tr data-tm="2026-11-18 15:40:00" data-status="待签收" data-operator="陈晨" data-type="散包" data-mtype="中转移仓" data-from="青田仓" data-to="西安仓" data-cid="2532995" data-moveno="MY20261118005">
               <td><input type="checkbox" data-trsel></td><td><strong><a href="javascript:;" onclick="whOpenTransferPkgDetail('332886443','MY20261118005')" title="查看包裹详情" style="color:#173D5B;font-weight:600;text-decoration:none;cursor:pointer;">332886443</a></strong></td><td>散包</td><td>6</td><td>—</td>
               <td>2532995</td>
-              <td><span class="wh-tag warn">运输中</span></td>
+              <td><span class="wh-tag info">待签收</span></td>
               <td>青田仓</td><td>西安仓</td><td>中转移仓</td><td>MY20261118005</td>
               <td><div style="font-size:12px;color:var(--text);">发起移仓 → 西安仓</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">2026-11-18 15:40:00 · 西安仓</div></td>
               <td>陈晨</td><td>2026-11-18 15:40:00</td><td>—</td>
@@ -9082,10 +9095,10 @@ main > .modal-overlay.show { display: flex !important; }
               <td>陈晨</td><td>2026-11-16 17:20:00</td><td>—</td>
               <td class="wh-tr-act" style="width:228px;"><button class="btn btn-sm" onclick="whOpenReceipt('MY20261116005')">查看回执</button><button class="btn btn-sm" onclick="whOpenCancelTransfer('MY20261116005','青田仓')">移仓退回</button></td>
             </tr>
-                    <tr data-tm="2026-11-19 09:30:00" data-status="异常" data-operator="张伟" data-type="散包" data-mtype="中转移仓" data-from="西安仓" data-to="乌鲁木齐银羽仓" data-cid="2532974" data-moveno="MY20261119088">
+                    <tr data-tm="2026-11-19 09:30:00" data-status="待签收" data-abn="1" data-operator="张伟" data-type="散包" data-mtype="中转移仓" data-from="西安仓" data-to="乌鲁木齐银羽仓" data-cid="2532974" data-moveno="MY20261119088">
               <td><input type="checkbox" data-trsel></td><td><strong><a href="javascript:;" onclick="whOpenTransferPkgDetail('332934187','MY20261119088')" title="查看包裹详情" style="color:#173D5B;font-weight:600;text-decoration:none;cursor:pointer;">332934187</a></strong></td><td>散包</td><td>3</td><td>—</td>
               <td>2532974</td>
-              <td><span class="wh-tag danger">异常</span></td>
+              <td><span class="wh-tag info">待签收</span> <span class="wh-tag danger">异常</span></td>
               <td>西安仓</td><td>乌鲁木齐银羽仓</td><td>中转移仓</td><td>MY20261119088</td>
               <td><div style="font-size:12px;color:var(--text);">运输异常，外箱破损待处理</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">2026-11-19 09:30:00 · 西安仓</div></td>
               <td>张伟</td><td>2026-11-19 09:30:00</td><td>外箱破损</td>
@@ -10886,13 +10899,22 @@ function whApply() {
   var kw = ((document.getElementById('whKwInput') || {}).value || '').trim();
   var d1 = (document.getElementById('whPkgDateFrom') || {}).value || '';
   var d2 = (document.getElementById('whPkgDateTo') || {}).value || '';
+  /* 日期筛选口径跟随状态：待入库=预报时间、已入库=入库时间、移仓中=移仓时间，其余=更新时间 */
+  var dateLabel = { '待入库': '预报时间', '已入库': '入库时间', '移仓中': '移仓时间' }[st] || '更新时间';
+  var useFc = (st === '待入库');
+  var lab = document.getElementById('whDateLabel');
+  if (lab && lab.textContent !== dateLabel) lab.textContent = dateLabel;
+  var fromEl = document.getElementById('whPkgDateFrom');
+  var toEl = document.getElementById('whPkgDateTo');
+  if (fromEl) fromEl.title = '按' + dateLabel + '筛选';
+  if (toEl) toEl.title = '按' + dateLabel + '筛选';
   var shown = 0;
   document.querySelectorAll('#whPkgBody > tr[data-status]').forEach(function(tr){
     var okSt = (st === 'all' || tr.getAttribute('data-status') === st);
     var okWh = (wh === 'all' || tr.getAttribute('data-wh') === wh);
     var okTp = (tp === 'all' || tr.getAttribute('data-type') === tp);
     var okKw = !kw || (tr.innerText || '').indexOf(kw) >= 0;
-    var day = (tr.getAttribute('data-time') || '').slice(0, 10);
+    var day = ((useFc ? (tr.getAttribute('data-fc') || '') : (tr.getAttribute('data-time') || ''))).slice(0, 10);
     var okD = (!d1 || (day && day >= d1)) && (!d2 || (day && day <= d2));
     var show = okSt && okWh && okTp && okKw && okD;
     tr.style.display = show ? '' : 'none';
@@ -11075,21 +11097,21 @@ function whOpenNewTransfer() {
     whField('起运仓', whSel('whMvFrom2', ['青田仓', '西安仓'])) +
     whField('目的仓', whSel('whMvTo2', ['西安仓', '乌鲁木齐银羽仓'])) +
     whField('预计到达', whInput('whMvEta2', '如 11-21')) +
-    '<div style="font-size:12px;color:var(--text-muted);">移仓链路：青田仓 → 西安仓 → 乌鲁木齐银羽仓。发起后进入运输中，目的仓签收核对后完成归属变更。</div>',
+    '<div style="font-size:12px;color:var(--text-muted);">移仓链路：青田仓 → 西安仓 → 乌鲁木齐银羽仓。发起后进入待签收，目的仓签收核对后完成归属变更。</div>',
     '发起移仓', function(){
       var no = (document.getElementById('whMvNo') || {}).value || 'XY202600005';
-      showToast('已发起移仓：' + no + ' 进入运输中');
+      showToast('已发起移仓：' + no + ' 进入待签收');
     });
 }
 
 function whOpenTransit(no) {
   var map = {
-    MY20261118004: ['青田仓', '西安仓', '3 件', '8.200', '2026-11-18 09:10:00', '11-20', '运输中'],
-    MY20261117002: ['西安仓', '乌鲁木齐银羽仓', '2 件', '5.600', '2026-11-17 16:30:00', '11-19', '运输中']
+    MY20261118004: ['青田仓', '西安仓', '3 件', '8.200', '2026-11-18 09:10:00', '11-20', '待签收'],
+    MY20261117002: ['西安仓', '乌鲁木齐银羽仓', '2 件', '5.600', '2026-11-17 16:30:00', '11-19', '待签收']
   };
   var d = map[no] || map.MY20261117002;
   whOpenModal('移仓单详情',
-    whKV([['移仓单号', no], ['状态', '<span class="wh-tag warn">' + d[6] + '</span>'], ['起运仓', d[0]], ['目的仓', d[1]], ['包裹数', d[2]], ['总重量', d[3] + ' kg'], ['发起时间', d[4]], ['预计到达', d[5]]]) +
+    whKV([['移仓单号', no], ['状态', '<span class="wh-tag ' + (d[6] === '已签收' ? 'ok' : 'info') + '">' + d[6] + '</span>'], ['起运仓', d[0]], ['目的仓', d[1]], ['包裹数', d[2]], ['总重量', d[3] + ' kg'], ['发起时间', d[4]], ['预计到达', d[5]]]) +
     '<div style="font-size:12px;font-weight:500;margin:4px 0 8px;">运输轨迹</div>' +
     whRows([
       '<span style="width:76px;color:var(--text-muted);">' + d[4] + '</span><span>' + d[0] + ' 发起移仓</span>',
@@ -11250,7 +11272,7 @@ function whRowHtml(p) {
   var toCell = (p.st === '移仓中') ? p.toWh : '—';
   var locCell = p.loc || '—';
   var cid = p.cid || '—';
-  return '<tr data-id="' + p.no + '" data-status="' + p.st + '" data-wh="' + whPkgWhKey(p) + '" data-type="' + (p.pkgType || '散包') + '" data-time="' + (p.tm || '') + '">'
+  return '<tr data-id="' + p.no + '" data-status="' + p.st + '" data-wh="' + whPkgWhKey(p) + '" data-type="' + (p.pkgType || '散包') + '" data-time="' + (p.tm || '') + '" data-fc="' + (p.forecastTm || '') + '">'
     + '<td><input type="checkbox" data-sel></td>'
     + '<td><strong><a href="javascript:;" onclick="whOpenDrawer(\'' + p.no + '\')" title="查看包裹详情" style="color:#173D5B;font-weight:600;text-decoration:none;cursor:pointer;">' + p.no + '</a></strong></td>'
     + '<td>' + (p.pkgType || '散包') + '</td>'
@@ -11950,6 +11972,7 @@ function switchTopNav(group, el) {
 
 function showPage(pageId) {
   dismissLogPopup();
+  if (pageId === 'whTransfers' && typeof whRefreshTransferCounts === 'function') setTimeout(whRefreshTransferCounts, 0);
   // Save current page for refresh recovery
   localStorage.setItem('currentPage', pageId);
   // Hide all pages
@@ -38027,12 +38050,91 @@ setTimeout(function(){ if (typeof whRenderPkgs === 'function') whRenderPkgs(); e
   <div class="wh-drawer-body">
     <div class="wh-drawer-section">基本信息</div>
     <div class="wh-drawer-kv" id="whDrawerKv"></div>
-    <div class="wh-drawer-section mt">物流轨迹</div>
-    <div class="wh-timeline" id="whDrawerTrace"></div>
+    <div class="wh-drawer-tabs" id="whDrawerTabs">
+      <div class="sub-tab-item active" data-whtab="trace" onclick="whDrawerTab('trace')">物流轨迹<span class="sub-tab-count" id="whDrawerTraceCnt">0</span></div>
+      <div class="sub-tab-item" data-whtab="record" onclick="whDrawerTab('record')">仓库记录<span class="sub-tab-count" id="whDrawerRecCnt">0</span></div>
+    </div>
+    <div id="whDrawerTracePane">
+      <div class="wh-timeline" id="whDrawerTrace"></div>
+    </div>
+    <div id="whDrawerRecPane" style="display:none">
+      <div id="whDrawerRec"></div>
+    </div>
   </div>
 </aside>
 <script>
 /* __whFlow__ 覆盖旧弹窗：操作后真实流转 */
+/* ===== 仓库记录：从物流轨迹推导「仓间流转台账」 =====
+   一条记录 = 一次仓库动作：入库登记 / 发起移仓 / 目的仓签收 / 转运退回 / 出库发运。
+   字段：时间、类型、起运仓 → 目的仓、移仓单号、操作人、备注、状态。 */
+var whDrawerTabCur = 'trace';
+var WH_OPERATOR = { '青田仓': '张伟', '西安仓': '李明', '银羽仓': '王芳' };
+function whOwnerOf(wh) { return WH_OPERATOR[wh] || '仓库管理员'; }
+
+function whRecordsOf(trace, fallbackWh) {
+  var recs = [], pending = null, lastWh = fallbackWh || '—';
+  // 轨迹可能新→旧（运行时 unshift）也可能旧→新（种子数据），先按时间升序再推导
+  var asc = (trace || []).slice().sort(function (a, b) { return String(a[0]).localeCompare(String(b[0])); });
+  asc.forEach(function (t) {
+    var tm = t[0], wh = t[1], title = t[2] || '', desc = t[3] || '';
+    var mv = (desc.match(/MY\d{8,}/) || [])[0] || '';
+    if (title.indexOf('发起移仓') >= 0) {
+      var to = (title.split('→')[1] || '').replace(/^\s+|\s+$/g, '');
+      if (to && to !== '—' && !/仓$/.test(to)) to += '仓';
+      pending = { tm: tm, type: '发起移仓', from: wh, to: to || '—', moveNo: mv, operator: whOwnerOf(wh), remark: desc, st: '在途' };
+      recs.push(pending);
+      lastWh = wh;
+    } else if (title.indexOf('签收核对') >= 0) {
+      var fromWh = pending ? pending.from : lastWh;
+      var no = pending ? pending.moveNo : mv;
+      if (pending) pending.st = '已完成';
+      recs.push({ tm: tm, type: '目的仓签收', from: fromWh || '—', to: wh, moveNo: no, operator: whOwnerOf(wh), remark: desc || '签收入库', st: '已签收' });
+      pending = null;
+      lastWh = wh;
+    } else if (title.indexOf('取消移仓') >= 0 || title.indexOf('移仓退回') >= 0) {
+      var backTo = wh;
+      pending && (pending.st = '已退回');
+      recs.push({ tm: tm, type: '转运退回', from: pending ? pending.to : lastWh, to: backTo, moveNo: pending ? pending.moveNo : mv, operator: whOwnerOf(backTo), remark: desc || '退回起运仓在库', st: '已退回' });
+      pending = null;
+      lastWh = backTo;
+    } else if (title.indexOf('等待入库') >= 0) {
+      var mWh = (desc.match(/已到([^\s，。]+仓)/) || [])[1];
+      recs.push({ tm: tm, type: '待到仓', from: '—', to: wh !== '—' ? wh : (mWh || fallbackWh || '—'), moveNo: '', operator: '—', remark: desc, st: '待入库' });
+    } else if (title.indexOf('入库登记') >= 0) {
+      recs.push({ tm: tm, type: '入库登记', from: '—', to: wh, moveNo: '', operator: whOwnerOf(wh), remark: desc, st: '已入库' });
+      lastWh = wh;
+    } else if (title.indexOf('出库') >= 0 || title.indexOf('发货') >= 0) {
+      recs.push({ tm: tm, type: '出库发运', from: wh, to: '—', moveNo: '', operator: whOwnerOf(wh), remark: desc, st: '已出库' });
+    }
+  });
+  return recs.reverse(); // 最新在上
+}
+
+function whDrawerTab(t) {
+  whDrawerTabCur = t;
+  var tabs = document.querySelectorAll('#whDrawerTabs .sub-tab-item');
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle('active', tabs[i].getAttribute('data-whtab') === t);
+  }
+  var tp = document.getElementById('whDrawerTracePane');
+  var rp = document.getElementById('whDrawerRecPane');
+  if (tp) tp.style.display = t === 'trace' ? '' : 'none';
+  if (rp) rp.style.display = t === 'record' ? '' : 'none';
+}
+
+function whRenderRecords(recs) {
+  if (!recs.length) return '<div class="wh-rec-empty">该包裹还没有仓间流转记录</div>';
+  return recs.map(function (r) {
+    var tone = r.st === '在途' ? 'warn' : r.st === '已退回' ? 'danger' : r.st === '待入库' ? 'muted' : 'ok';
+    return '<div class="wh-rec-item">'
+      + '<div class="r1">' + r.type + '<span class="wh-tag ' + tone + '" style="height:18px;font-size:10px;">' + r.st + '</span><em>' + r.tm + '</em></div>'
+      + '<div class="flow"><b>' + r.from + '</b><span class="ar">→</span><b>' + r.to + '</b>'
+      + (r.moveNo ? '<span class="mv">' + r.moveNo + '</span>' : '') + '</div>'
+      + '<div class="meta">操作人：' + r.operator + (r.remark ? '<br>备注：' + r.remark : '') + '</div>'
+      + '</div>';
+  }).join('');
+}
+
 function whOpenDrawer(no) {
   var p = whFindPkg(no);
   var d = (typeof __whDetail !== 'undefined' && __whDetail[no]) ? __whDetail[no] : null;
@@ -38059,6 +38161,15 @@ function whOpenDrawer(no) {
     return '<div class="it"><div class="h"><strong>' + t[2] + '</strong><span>' + t[1] + '</span><em>' + t[0] + '</em></div>'
       + '<div class="n">' + t[3] + '</div></div>';
   }).join('');
+  /* 仓库记录页签 */
+  var recs = whRecordsOf(trace, (p && p.wh) || (d && d.wh) || '');
+  var tc = document.getElementById('whDrawerTraceCnt');
+  var rc = document.getElementById('whDrawerRecCnt');
+  if (tc) tc.textContent = (trace || []).length;
+  if (rc) rc.textContent = recs.length;
+  var recBox = document.getElementById('whDrawerRec');
+  if (recBox) recBox.innerHTML = whRenderRecords(recs);
+  whDrawerTab('trace'); // 每次打开默认落在物流轨迹
   dr.classList.add('show');
   document.getElementById('whDrawerOverlay').classList.add('show');
 }
@@ -38358,7 +38469,7 @@ function whRefreshTransferCounts() {
   var cnt = { all: rows.length, '待签收': 0, '已签收': 0 };
   rows.forEach(function (r) {
     var st = r.getAttribute('data-status');
-    if (st === '待签收' || st === '运输中' || st === '异常') cnt['待签收']++;
+    if (st === '待签收') cnt['待签收']++;
     if (st === '已签收') cnt['已签收']++;
   });
   document.querySelectorAll('#page-whTransfers .sub-tab-item').forEach(function (el) {
@@ -39099,7 +39210,7 @@ function whTrApply() {
   var st = window.__whTrTab || '待签收';
   document.querySelectorAll('#page-whTransfers tbody tr[data-status]').forEach(function (tr) {
     var stt = tr.getAttribute('data-status');
-    var okSt = (st === 'all' || (st === '待签收' ? (stt === '待签收' || stt === '运输中' || stt === '异常') : stt === st));
+    var okSt = (st === 'all' || stt === st);
     var okKw = !kw || (tr.innerText || '').indexOf(kw) >= 0;
     var okTp = (tp === 'all' || tr.getAttribute('data-type') === tp);
     var okMt = (mt === 'all' || tr.getAttribute('data-mtype') === mt);
@@ -39265,7 +39376,7 @@ function whRenderRoundsPage() {
         pkgs: 0, boxes: 0,
         tm: tds[13] ? tds[13].textContent.trim() : '—',
         operator: tr.getAttribute('data-operator') || '—',
-        status: (tr.getAttribute('data-status') === '已签收') ? '已签收' : '运输中'
+        status: (tr.getAttribute('data-status') === '已签收') ? '已签收' : '待签收'
       };
       order.push(no);
     }
@@ -39768,10 +39879,10 @@ setTimeout(function () {
 </script>
 <script>
 function whBatchAbnormalTransfer() {
-  var rows = Array.prototype.slice.call(document.querySelectorAll('#page-whTransfers tbody tr[data-status="异常"]')).filter(function (tr) { return tr.style.display !== 'none'; });
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#page-whTransfers tbody tr[data-abn="1"]')).filter(function (tr) { return tr.style.display !== 'none'; });
   var checked = Array.prototype.slice.call(document.querySelectorAll('#page-whTransfers tbody input[data-trsel]:checked')).map(function (cb) {
     var tr = cb.closest('tr');
-    return (tr && tr.getAttribute('data-status') === '异常') ? tr : null;
+    return (tr && tr.getAttribute('data-abn') === '1') ? tr : null;
   }).filter(Boolean);
   var list = checked.length ? checked : rows;
   if (!list.length) { showToast('当前没有异常移仓单'); return; }
