@@ -11569,7 +11569,7 @@ function whOpenMoveDetail(no, pkgNo) {
     a.mtype = plist[0].moveType || '—';
     a.operator = plist[0].operator || '—';
     a.tm = plist[0].tm || '—';
-    a.status = plist[0].st || '—';
+    a.status = (plist[0].st === '移仓中') ? '待签收' : (plist[0].st || '—');
     a.remark = plist[0].remark || '—';
     a.latest = a.pkgs[0].latest;
   }
