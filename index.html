@@ -11104,23 +11104,7 @@ function whOpenNewTransfer() {
     });
 }
 
-function whOpenTransit(no) {
-  var map = {
-    MY20261118004: ['青田仓', '西安仓', '3 件', '8.200', '2026-11-18 09:10:00', '11-20', '待签收'],
-    MY20261117002: ['西安仓', '乌鲁木齐银羽仓', '2 件', '5.600', '2026-11-17 16:30:00', '11-19', '待签收']
-  };
-  var d = map[no] || map.MY20261117002;
-  whOpenModal('移仓单详情',
-    whKV([['移仓单号', no], ['状态', '<span class="wh-tag ' + (d[6] === '已签收' ? 'ok' : 'info') + '">' + d[6] + '</span>'], ['起运仓', d[0]], ['目的仓', d[1]], ['包裹数', d[2]], ['总重量', d[3] + ' kg'], ['发起时间', d[4]], ['预计到达', d[5]]]) +
-    '<div style="font-size:12px;font-weight:500;margin:4px 0 8px;">运输轨迹</div>' +
-    whRows([
-      '<span style="width:76px;color:var(--text-muted);">' + d[4] + '</span><span>' + d[0] + ' 发起移仓</span>',
-      '<span style="width:76px;color:var(--text-muted);">—</span><span>干线运输中，预计 ' + d[5] + ' 到达 ' + d[1] + '</span>',
-      '<span style="width:76px;color:var(--text-muted);">—</span><span style="color:var(--text-muted);">到达后由目的仓签收核对</span>'
-    ]),
-    false);
-}
-
+function whOpenTransit(no) { whOpenMoveDetail(no); }
 function whOpenSignCheck(no) {
   whOpenModal('签收核对',
     whKV([['移仓单号', no], ['起运仓', '青田仓'], ['目的仓', '西安仓'], ['包裹数', '1 件'], ['到达时间', '2026-11-17 18:05:00']]) +
@@ -11497,23 +11481,261 @@ var __whDetail = {
   XY202600009: { tn:'SF26110461020123', cid:'2532981', st:'待入库', tone:'muted', wh:'青田仓', pkgs:1, boxes:0, tm:'2026-11-18 17:30:00',
     trace:[['2026-11-18 17:30:00','—','等待入库登记','包裹已到青田仓，待扫描登记入库']]}
 };
-function whOpenDrawer(no) {
-  var d = __whDetail[no];
-  var dr = document.getElementById('whDrawer');
-  if (!d || !dr) return;
-  document.getElementById('whDrawerTitle').textContent = no;
-  document.getElementById('whDrawerSub').innerHTML = '<span class="wh-tag ' + d.tone + '">' + d.st + '</span><span>' + d.wh + '</span>';
-  document.getElementById('whDrawerKv').innerHTML = [
-    ['包裹订单号', no], ['发运单号', d.tn], ['客户ID', d.cid], ['状态', d.st],
-    ['所在仓库', d.wh], ['包裹数 / 箱数', d.pkgs + ' / ' + d.boxes],
-    ['更新时间', d.tm], ['预报仓库', d.st === '待入库' ? '青田仓' : '—']
-  ].map(function(p){
+/* ===== 详情页增强：公共字段拼装 ===== */
+function whDLink(text, fn, arg) {
+  return '<a href="javascript:;" onclick="' + fn + '(\'' + String(arg).replace(/'/g, '') + '\')" style="color:#185FA5;font-weight:600;text-decoration:none;">' + text + '</a>';
+}
+function whDKv(pairs) {
+  return '<div class="wh-drawer-kv">' + pairs.map(function (p) {
     return '<div><div class="k">' + p[0] + '</div><div class="v">' + p[1] + '</div></div>';
-  }).join('');
-  document.getElementById('whDrawerTrace').innerHTML = d.trace.map(function(t){
+  }).join('') + '</div>';
+}
+function whDSection(title, pairs, mt) {
+  if (!pairs || !pairs.length) return '';
+  return '<div class="wh-drawer-section' + (mt ? ' mt' : '') + '">' + title + '</div>' + whDKv(pairs);
+}
+function whBoxOfPkg(no) {
+  if (typeof __whBoxes === 'undefined' || !__whBoxes) return null;
+  for (var i = 0; i < __whBoxes.length; i++) {
+    if ((__whBoxes[i].pkgs || []).indexOf(no) >= 0) return __whBoxes[i];
+  }
+  return null;
+}
+function whSameTnCount(no, tn) {
+  if (!tn || tn === '—') return 0;
+  var rows = document.querySelectorAll('#whPkgBody tr[data-id]');
+  if (rows.length) {
+    var n = 0;
+    Array.prototype.forEach.call(rows, function (tr) {
+      if (tr.getAttribute('data-id') === no) return;
+      var t = tr.querySelectorAll('td');
+      if (t[11] && t[11].textContent.trim() === tn) n++;
+    });
+    return n;
+  }
+  if (typeof __whPkgs === 'undefined' || !__whPkgs) return 0;
+  return __whPkgs.filter(function (x) { return x.tn === tn && x.no !== no; }).length;
+}
+function whMoveRows(no) {
+  return Array.prototype.slice.call(document.querySelectorAll('#page-whTransfers tbody tr[data-status]'))
+    .filter(function (tr) { return (tr.getAttribute('data-moveno') || '') === no; });
+}
+function whMoveAgg(no) {
+  var rows = whMoveRows(no);
+  var agg = { no: no, rows: rows.length, orders: rows.length, pieces: 0, boxes: 0, cids: [], pkgs: [],
+    from: '—', to: '—', mtype: '—', operator: '—', tm: '—', status: '—', remark: '—', latest: '—' };
+  var pkgMap = {};
+  (typeof __whPkgs !== 'undefined' ? __whPkgs : []).forEach(function (p) { if (p.moveNo === no) pkgMap[p.no] = p; });
+  rows.forEach(function (tr, i) {
+    var tds = tr.querySelectorAll('td');
+    var g = function (k) { return tds[k] ? tds[k].textContent.trim() : ''; };
+    if (!i) {
+      agg.from = tr.getAttribute('data-from') || g(7) || '—';
+      agg.to = tr.getAttribute('data-to') || g(8) || '—';
+      agg.mtype = tr.getAttribute('data-mtype') || g(9) || '—';
+      agg.operator = tr.getAttribute('data-operator') || g(12) || '—';
+      agg.tm = tr.getAttribute('data-tm') || g(13) || '—';
+      agg.status = tr.getAttribute('data-status') || g(6) || '—';
+      agg.remark = g(14) || '—';
+    }
+    var pc = parseInt(g(3), 10); if (!isNaN(pc)) agg.pieces += pc;
+    var bc = parseInt(g(4), 10); if (!isNaN(bc)) agg.boxes += bc;
+    var cid = tr.getAttribute('data-cid') || g(5);
+    if (cid && agg.cids.indexOf(cid) < 0) agg.cids.push(cid);
+    var pp = pkgMap[g(1)] || {};
+    agg.pkgs.push({ no: g(1), type: g(2), pieces: g(3), boxes: g(4), cid: cid, loc: pp.loc || '—', wh: pp.wh || '—', st: g(6), latest: whSpTrace(g(11)) });
+    if (i === 0) agg.latest = whSpTrace(g(11)) || '—';
+  });
+  agg.customers = agg.cids.length;
+  return agg;
+}
+function whOpenMoveDetail(no, pkgNo) {
+  var a = whMoveAgg(no);
+  if (!a.rows) {
+    var plist = (typeof __whPkgs !== 'undefined' ? __whPkgs : []).filter(function (x) { return x.moveNo === no; });
+    if (!plist.length) { showToast('未找到移仓单：' + no); return; }
+    a.rows = plist.length;
+    a.orders = plist.length;
+    a.pieces = 0; a.boxes = 0; a.cids = []; a.pkgs = [];
+    plist.forEach(function (p) {
+      a.pieces += (p.pkgType === '整票') ? 0 : (p.pkgs || 0);
+      a.boxes += (p.pkgType === '整票') ? (p.boxes || 0) : 0;
+      if (p.cid && a.cids.indexOf(p.cid) < 0) a.cids.push(p.cid);
+      a.pkgs.push({ no: p.no, type: p.pkgType || '散包', pieces: (p.pkgType === '整票' ? '—' : (p.pkgs || 0)), boxes: (p.pkgType === '整票' ? (p.boxes || 0) : '—'), cid: p.cid || '—', loc: p.loc || '—', st: p.st, latest: (p.trace && p.trace[0]) ? (p.trace[0][2] + ' · ' + p.trace[0][0]) : '—' });
+    });
+    a.customers = a.cids.length;
+    a.from = plist[0].fromWh || '—';
+    a.to = plist[0].toWh || '—';
+    a.mtype = plist[0].moveType || '—';
+    a.operator = plist[0].operator || '—';
+    a.tm = plist[0].tm || '—';
+    a.status = plist[0].st || '—';
+    a.remark = plist[0].remark || '—';
+    a.latest = a.pkgs[0].latest;
+  }
+  var tag = '<span class="wh-tag ' + (a.status === '已签收' ? 'ok' : 'info') + '">' + a.status + '</span>';
+  var head = '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);margin-bottom:8px;">'
+    + '<span style="width:118px;">包裹订单号</span><span style="width:44px;">类型</span><span style="width:44px;">件数</span>'
+    + '<span style="width:44px;">箱数</span><span style="width:68px;">客户ID</span><span style="width:52px;">货位</span>'
+    + '<span style="flex:1;">最新轨迹</span><span style="width:70px;">状态</span></div>';
+  var rows = a.pkgs.map(function (p) {
+    return '<strong style="width:118px;">' + p.no + '</strong>'
+      + '<span style="width:44px;">' + p.type + '</span>'
+      + '<span style="width:44px;">' + p.pieces + '</span>'
+      + '<span style="width:44px;">' + p.boxes + '</span>'
+      + '<span style="width:62px;color:var(--text-muted);">' + p.cid + '</span>'
+      + '<span style="width:52px;color:var(--text-muted);font-family:ui-monospace,Consolas,monospace;">' + p.loc + '</span>'
+      + '<span style="flex:1;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + p.latest + '">' + p.latest + '</span>'
+      + '<span style="width:70px;">' + p.st + '</span>';
+  });
+  whOpenModal('移仓单详情',
+    whKV([
+      ['移仓单号', no], ['状态', tag],
+      ['起运仓', a.from], ['目的仓', a.to],
+      ['移仓类型', a.mtype], ['操作人', a.operator],
+      ['关联订单数', a.orders + ' 单'], ['包裹件数', a.pieces > 0 ? (a.pieces + ' 件') : '—'],
+      ['箱数', a.boxes > 0 ? (a.boxes + ' 箱') : '—'], ['覆盖客户数', a.customers + ' 个'],
+      ['发起时间', a.tm], ['最新轨迹', '<span style="font-size:12px;color:var(--text-secondary);">' + a.latest + '</span>'],
+      ['备注', a.remark]
+    ])
+    + '<div style="font-size:12px;font-weight:500;margin:2px 0 8px;">关联包裹（' + a.orders + ' 单 / ' + (a.pieces > 0 ? (a.pieces + ' 件') : '—') + '）</div>'
+    + head + whRows(rows)
+    + '<div style="font-size:12px;color:var(--text-secondary);margin-top:10px;">移仓单维度：状态取自移仓单；件数与箱数按关联订单累加；货位为包裹当前所在货位。</div>',
+    false, null, true);
+}
+/* 移仓管理：点击「移仓编号」列打开移仓单详情（事件委托，兼容后续新增行） */
+document.addEventListener('click', function (e) {
+  var td = e.target && e.target.closest ? e.target.closest('#page-whTransfers tbody td') : null;
+  if (!td || td.cellIndex !== 10) return;
+  var tr = td.parentNode;
+  var no = (tr && tr.getAttribute('data-moveno')) || td.textContent.trim();
+  if (!no) return;
+  e.preventDefault();
+  whOpenMoveDetail(no);
+});
+
+function whRowOfPkg(no) {
+  var tr = document.querySelector('#whPkgBody tr[data-id="' + no + '"]');
+  if (!tr) return null;
+  var t = tr.querySelectorAll('td');
+  var g = function (k) { return t[k] ? t[k].textContent.trim() : '—'; };
+  return { type: g(2), pieces: g(3), boxes: g(4), cid: g(5), st: g(6), wh: g(7), toWh: g(8), mtype: g(9), loc: g(10), tn: g(11), latest: g(12), fcTm: g(13), op: g(14), tm: g(15), remark: g(16) };
+}
+function whSpTrace(s) { return String(s || '').replace(/(\d{4}-\d{2}-\d{2})/, ' $1'); }
+function whMoveNoOfTrace(trace) {
+  var txt = (trace || []).map(function (t) { return (t[2] || '') + ' ' + (t[3] || ''); }).join(' ');
+  var m = txt.match(/MY\d{6,}/);
+  return m ? m[0] : '';
+}
+function whOpenDrawer(no) {
+  var p = whFindPkg(no);
+  var d = (typeof __whDetail !== 'undefined' && __whDetail[no]) ? __whDetail[no] : null;
+  if (!p && !d) return;
+  var st = p ? p.st : d.st;
+  var tone = __WH_TONE[st] || (d ? d.tone : 'muted');
+  var wh = p ? ((st === '移仓中') ? (p.fromWh + ' → ' + p.toWh) : (p.wh || (st === '待入库' ? ('预报 ' + (p.forecastWh || __WH_QH)) : '—')))
+    : ((st === '待入库') ? ('预报 ' + __WH_QH) : d.wh);
+  var tn = p ? p.tn : d.tn;
+  var cid = p ? p.cid : d.cid;
+  var trace = p ? p.trace : d.trace;
+  var pkgs = p ? p.pkgs : d.pkgs;
+  var boxes = p ? p.boxes : d.boxes;
+  var tm = p ? p.tm : d.tm;
+  var dr = document.getElementById('whDrawer');
+  if (!dr) return;
+  document.getElementById('whDrawerTitle').textContent = no;
+  document.getElementById('whDrawerSub').innerHTML = '<span class="wh-tag ' + tone + '">' + st + '</span><span>' + wh + '</span>';
+
+  /* ---- 字段分组：基础 / 仓储 / 移仓 / 异常 / 关联 ---- */
+  var rc = whRowOfPkg(no);
+  var type = (p && p.pkgType) || (rc && rc.type) || '—';
+  var goods = (p && p.goods) || '—';
+  var loc = (p && p.loc) || (rc && rc.loc) || '—';
+  var op = (p && p.operator) || (rc && rc.op) || '—';
+  var remark = (p && p.remark && p.remark !== '—') ? p.remark : ((rc && rc.remark && rc.remark !== '—') ? rc.remark : '—');
+  var fcTm = (p && p.forecastTm) || (rc && rc.fcTm) || '—';
+  var firstInWh = (function () {
+    var t = (trace || []).filter(function (x) { return /入库登记/.test(x[2] || ''); })[0];
+    return t ? (t[1] || '') : '';
+  })();
+  var fcWh = (p && p.forecastWh) || ((st === '待入库') ? __WH_QH : (firstInWh || '—'));
+  var timeLabel = (st === '待入库') ? '预报登记时间' : (st === '已入库' ? '入库时间' : (st === '移仓中' ? '移仓时间' : '更新时间'));
+  var timeVal = (p && p.tm) || (d && d.tm) || (rc && rc.tm) || '—';
+  var pkVal = p ? (p.pkgs || 0) : ((rc && rc.pieces !== '—') ? rc.pieces : '—');
+  var bxVal = p ? (p.boxes || 0) : ((rc && rc.boxes !== '—') ? rc.boxes : '—');
+  var toWhVal = (p && p.toWh) || ((rc && rc.toWh !== '—') ? rc.toWh : '');
+  var fromWhVal = (p && p.fromWh) || ((st === '移仓中') ? wh : '');
+  if (!toWhVal) {
+    var mvTrace = (trace || []).filter(function (t) { return /发起移仓/.test(t[2] || ''); }).slice(-1)[0];
+    if (mvTrace) {
+      if (!fromWhVal) fromWhVal = mvTrace[1] || '';
+      toWhVal = String(mvTrace[2] || '').split('→')[1] ? String(mvTrace[2]).split('→')[1].trim() : '';
+    }
+  }
+  var mtypeVal = (p && p.moveType) || ((rc && rc.mtype !== '—') ? rc.mtype : '');
+  var mvNo = (p && p.moveNo) || whMoveNoOfTrace(trace);
+  var box = whBoxOfPkg(no);
+  var sameTn = whSameTnCount(no, tn);
+
+  var html = whDSection('基础信息', [
+    ['包裹订单号', no],
+    ['发运单号', tn || '—'],
+    ['客户ID', cid || '—'],
+    ['状态', '<span class="wh-tag ' + tone + '">' + st + '</span>'],
+    ['包裹类型', type],
+    ['包裹数', pkVal === '—' ? '—' : (pkVal + ' 件')],
+    ['箱数', bxVal === '—' ? '—' : (bxVal + ' 箱')],
+    ['物品名称', goods]
+  ]);
+  html += whDSection('仓储与时间', [
+    ['所在仓库', wh],
+    ['货位', loc],
+    ['预报仓库', fcWh],
+    ['预报时间', fcTm],
+    [timeLabel, timeVal],
+    ['操作人', op]
+  ], true);
+
+  if (st === '移仓中' || mvNo || toWhVal) {
+    var mvVal = mvNo
+      ? ('<a href="javascript:;" onclick="whOpenMoveDetail(\'' + mvNo + '\',\'' + no + '\')" style="color:#185FA5;font-weight:600;text-decoration:none;">' + mvNo + '</a>')
+      : '—';
+    html += whDSection('移仓信息', [
+      ['移仓单号', mvVal],
+      ['移仓类型', mtypeVal || '—'],
+      ['起运仓', fromWhVal || '—'],
+      ['目的仓', toWhVal || '—']
+    ], true);
+  }
+
+  if (st === '异常件') {
+    html += whDSection('异常信息', [
+      ['异常前状态', (p && p.prevSt) || '—'],
+      ['异常所在货位', loc]
+    ], true);
+  }
+
+  html += whDSection('关联信息', [
+    ['所属箱号', box ? whDLink(box.no, 'whOpenBoxPkgs', box.no) : '—'],
+    ['箱内件数', box ? ((box.pkgs || []).length + ' 件') : '—'],
+    ['同发运单包裹', sameTn ? (sameTn + ' 件') : '0 件'],
+    ['备注', remark]
+  ], true);
+  document.getElementById('whDrawerKv').innerHTML = html;
+
+  document.getElementById('whDrawerTrace').innerHTML = (trace || []).map(function (t) {
     return '<div class="it"><div class="h"><strong>' + t[2] + '</strong><span>' + t[1] + '</span><em>' + t[0] + '</em></div>'
       + '<div class="n">' + t[3] + '</div></div>';
   }).join('');
+  /* 仓库记录页签 */
+  var recs = whRecordsOf(trace, (p && p.wh) || (d && d.wh) || '');
+  var tc = document.getElementById('whDrawerTraceCnt');
+  var rc = document.getElementById('whDrawerRecCnt');
+  if (tc) tc.textContent = (trace || []).length;
+  if (rc) rc.textContent = recs.length;
+  var recBox = document.getElementById('whDrawerRec');
+  if (recBox) recBox.innerHTML = whRenderRecords(recs);
+  whDrawerTab('trace');
   dr.classList.add('show');
   document.getElementById('whDrawerOverlay').classList.add('show');
 }
@@ -38048,8 +38270,7 @@ setTimeout(function(){ if (typeof whRenderPkgs === 'function') whRenderPkgs(); e
     <button class="wh-drawer-close" onclick="whCloseDrawer()" aria-label="关闭">×</button>
   </div>
   <div class="wh-drawer-body">
-    <div class="wh-drawer-section">基本信息</div>
-    <div class="wh-drawer-kv" id="whDrawerKv"></div>
+    <div id="whDrawerKv" style="margin-top:2px;"></div>
     <div class="wh-drawer-tabs" id="whDrawerTabs">
       <div class="sub-tab-item active" data-whtab="trace" onclick="whDrawerTab('trace')">物流轨迹<span class="sub-tab-count" id="whDrawerTraceCnt">0</span></div>
       <div class="sub-tab-item" data-whtab="record" onclick="whDrawerTab('record')">仓库记录<span class="sub-tab-count" id="whDrawerRecCnt">0</span></div>
@@ -38135,45 +38356,7 @@ function whRenderRecords(recs) {
   }).join('');
 }
 
-function whOpenDrawer(no) {
-  var p = whFindPkg(no);
-  var d = (typeof __whDetail !== 'undefined' && __whDetail[no]) ? __whDetail[no] : null;
-  if (!p && !d) return;
-  var st = p ? p.st : d.st;
-  var tone = __WH_TONE[st] || (d ? d.tone : 'muted');
-  var wh = p ? ((st === '移仓中') ? (p.fromWh + ' → ' + p.toWh) : (p.wh || '—')) : d.wh;
-  var tn = p ? p.tn : d.tn;
-  var cid = p ? p.cid : d.cid;
-  var trace = p ? p.trace : d.trace;
-  var pkgs = p ? p.pkgs : d.pkgs;
-  var boxes = p ? p.boxes : d.boxes;
-  var tm = p ? p.tm : d.tm;
-  var dr = document.getElementById('whDrawer');
-  if (!dr) return;
-  document.getElementById('whDrawerTitle').textContent = no;
-  document.getElementById('whDrawerSub').innerHTML = '<span class="wh-tag ' + tone + '">' + st + '</span><span>' + wh + '</span>';
-  document.getElementById('whDrawerKv').innerHTML = [
-    ['包裹订单号', no], ['发运单号', tn], ['客户ID', cid], ['状态', st],
-    ['所在仓库', wh], ['包裹数 / 箱数', pkgs + ' / ' + boxes],
-    ['更新时间', tm], ['预报仓库', st === '待入库' ? __WH_QH : '—']
-  ].map(function (x) { return '<div><div class="k">' + x[0] + '</div><div class="v">' + x[1] + '</div></div>'; }).join('');
-  document.getElementById('whDrawerTrace').innerHTML = (trace || []).map(function (t) {
-    return '<div class="it"><div class="h"><strong>' + t[2] + '</strong><span>' + t[1] + '</span><em>' + t[0] + '</em></div>'
-      + '<div class="n">' + t[3] + '</div></div>';
-  }).join('');
-  /* 仓库记录页签 */
-  var recs = whRecordsOf(trace, (p && p.wh) || (d && d.wh) || '');
-  var tc = document.getElementById('whDrawerTraceCnt');
-  var rc = document.getElementById('whDrawerRecCnt');
-  if (tc) tc.textContent = (trace || []).length;
-  if (rc) rc.textContent = recs.length;
-  var recBox = document.getElementById('whDrawerRec');
-  if (recBox) recBox.innerHTML = whRenderRecords(recs);
-  whDrawerTab('trace'); // 每次打开默认落在物流轨迹
-  dr.classList.add('show');
-  document.getElementById('whDrawerOverlay').classList.add('show');
-}
-
+/* 抽屉渲染统一由前面的 whOpenDrawer 实现（此处原为重复定义，已移除） */
 function whOpenSingleIn(no) {
   var p = whFindPkg(no) || {};
   whOpenModal('入库登记',
@@ -38735,18 +38918,33 @@ function whTabBoxes(status, el) {
   });
 }
 function whOpenBoxPkgs(no) {
-  var b = whBoxFind(no) || { pkgs: [] };
-  var rows = (b.pkgs || []).map(function (x, i) {
-    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:12px;' + (i ? 'border-top:1px solid var(--border-light);' : '') + '">'
-      + '<span style="width:26px;color:var(--text-muted);">' + (i + 1) + '</span>'
-      + '<span style="flex:1;">' + x + '</span>'
-      + '<span style="color:var(--text-muted);">' + b.wh + '</span></div>';
-  }).join('');
-  whOpenModal('箱内包裹',
-    '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">共 ' + (b.pkgs || []).length + ' 个包裹，整箱入库后箱内包裹同步为「已入库」。</div>'
-    + '<div style="border:1px solid var(--border-light);border-radius:8px;overflow:hidden;">'
-    + (rows || '<div style="padding:14px;font-size:12px;color:var(--text-muted);">暂无包裹</div>')
-    + '</div>', false);
+  var b = whBoxFind(no) || { pkgs: [], wh: '—', st: '—', operator: '—', boxTime: '—', wt: '—' };
+  var list = b.pkgs || [];
+  var inStock = (b.st === '已入库');
+  var html = whKV([
+    ['装箱号', no], ['所在仓库', b.wh || '—'],
+    ['状态', '<span class="wh-tag ' + (inStock ? 'ok' : 'warn') + '">' + b.st + '</span>'],
+    ['操作人', b.operator || '—'],
+    ['装箱时间', b.boxTime || '—'], ['箱内件数', list.length + ' 件'],
+    ['重量', (b.wt || '—') + ' kg'], ['货位', b.loc || '—'],
+    ['入库时间', b.inTime || '—'], ['箱内包裹状态', inStock ? '随箱入库' : '待入库']
+  ]);
+  var head = '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);margin-bottom:8px;">'
+    + '<span style="width:26px;">#</span><span style="width:180px;">包裹单号</span>'
+    + '<span style="width:88px;">所在仓库</span><span style="width:78px;">货位</span>'
+    + '<span style="flex:1;">状态</span></div>';
+  var rows = list.map(function (x, i) {
+    var p = (typeof whFindPkg === 'function') ? whFindPkg(x) : null;
+    return '<span style="width:26px;color:var(--text-muted);">' + (i + 1) + '</span>'
+      + '<span style="width:180px;">' + x + '</span>'
+      + '<span style="width:88px;color:var(--text-muted);">' + ((p && p.wh) || b.wh || '—') + '</span>'
+      + '<span style="width:78px;color:var(--text-muted);font-family:ui-monospace,Consolas,monospace;">' + ((p && p.loc) || b.loc || '—') + '</span>'
+      + '<span style="flex:1;"><span class="wh-tag ' + (inStock ? 'ok' : 'muted') + '">' + (inStock ? '已入库' : '未入库') + '</span></span>';
+  });
+  html += '<div style="font-size:12px;font-weight:500;margin:2px 0 8px;">箱内包裹（' + list.length + ' 件）</div>'
+    + (list.length ? (head + whRows(rows)) : '<div style="padding:14px;font-size:12px;color:var(--text-muted);">暂无包裹</div>')
+    + '<div style="font-size:12px;color:var(--text-secondary);margin-top:10px;">整箱入库时，箱内包裹同步置为已入库并沿用一个货位；箱内包裹单号未建档时，客户与货位显示占位。</div>';
+  whOpenModal('箱内包裹', html, false, null, true);
 }
 function whSealBox2(no) {
   var b = whBoxFind(no);
@@ -39431,54 +39629,93 @@ function whRenderRoundsPage() {
 }
 function whOpenFcRoundDetail(tn) {
   var list = (typeof __whPkgs !== 'undefined' ? __whPkgs : []).filter(function (p) { return p.tn === tn; });
-  var html = '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">预报班次 <strong>' + tn + '</strong>：' + list.length + ' 个包裹订单</div>'
-    + '<div style="border:1px solid var(--border-light);border-radius:8px;overflow:hidden;">'
-    + (list.length ? list.map(function (p, i2) {
-        return '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:12px;' + (i2 ? 'border-top:1px solid var(--border-light);' : '') + '">'
-          + '<strong style="width:128px;">' + p.no + '</strong>'
-          + '<span style="width:48px;">' + (p.pkgType || '散包') + '</span>'
-          + '<span style="width:64px;color:var(--text-muted);">' + (p.forecastWh || __WH_QH) + '</span>'
-          + '<span style="flex:1;">' + (p.forecastTm || '—') + '</span>'
-          + '<span class="wh-tag ' + (__WH_TONE[p.st] || 'muted') + '">' + p.st + '</span></div>';
-      }).join('') : '<div style="padding:14px;font-size:12px;color:var(--text-muted);">暂无明细</div>')
-    + '</div>';
-  whOpenModal('预报班次明细', html, false);
+  var pieces = 0, boxes = 0, cids = [], types = [], fcWh = '—', fcTm = '—', op = '—';
+  list.forEach(function (p) {
+    pieces += (p.pkgType === '整票') ? 0 : (p.pkgs || 0);
+    boxes += (p.pkgType === '整票') ? (p.boxes || 0) : 0;
+    if (p.cid && cids.indexOf(p.cid) < 0) cids.push(p.cid);
+    if (types.indexOf(p.pkgType || '散包') < 0) types.push(p.pkgType || '散包');
+    if (p.forecastWh && fcWh === '—') fcWh = p.forecastWh;
+    if (p.forecastTm && (fcTm === '—' || String(p.forecastTm) > String(fcTm))) { fcTm = p.forecastTm; }
+    if (p.operator && op === '—') op = p.operator;
+  });
+  if (fcWh === '—' && list.length) fcWh = __WH_QH;
+  var allDone = list.length > 0 && list.every(function (x) { return x.st === '已完成'; });
+  var status = allDone ? '已签收' : '运输中';
+  var html = whKV([
+    ['发运单号', tn], ['状态', '<span class="wh-tag ' + (allDone ? 'ok' : 'warn') + '">' + status + '</span>'],
+    ['预报仓库', fcWh], ['类型', types.length > 1 ? '混合' : (types[0] || '—')],
+    ['订单数', list.length + ' 单'], ['包裹件数', pieces + ' 件'],
+    ['箱数', boxes > 0 ? (boxes + ' 箱') : '—'], ['覆盖客户数', cids.length + ' 个'],
+    ['操作人', op], ['预报时间', fcTm]
+  ]);
+  var head = '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);margin-bottom:8px;">'
+    + '<span style="width:118px;">包裹订单号</span><span style="width:44px;">类型</span><span style="width:40px;">件数</span>'
+    + '<span style="width:40px;">箱数</span><span style="width:62px;">客户ID</span><span style="width:74px;">预报仓库</span>'
+    + '<span style="flex:1;">预报时间</span><span style="width:70px;">状态</span></div>';
+  var rows = list.map(function (p) {
+    return '<strong style="width:118px;">' + p.no + '</strong>'
+      + '<span style="width:44px;">' + (p.pkgType || '散包') + '</span>'
+      + '<span style="width:40px;">' + (p.pkgType === '整票' ? '—' : (p.pkgs || 0)) + '</span>'
+      + '<span style="width:40px;">' + (p.pkgType === '整票' ? (p.boxes || 0) : '—') + '</span>'
+      + '<span style="width:66px;color:var(--text-muted);">' + (p.cid || '—') + '</span>'
+      + '<span style="width:74px;color:var(--text-muted);">' + (p.forecastWh || __WH_QH) + '</span>'
+      + '<span style="flex:1;color:var(--text-muted);">' + (p.forecastTm || '—') + '</span>'
+      + '<span style="width:56px;"><span class="wh-tag ' + (__WH_TONE[p.st] || 'muted') + '">' + p.st + '</span></span>';
+  });
+  html += '<div style="font-size:12px;font-weight:500;margin:2px 0 8px;">班次内订单（' + list.length + ' 单）</div>'
+    + (list.length ? (head + whRows(rows)) : '<div style="padding:14px;font-size:12px;color:var(--text-muted);">暂无明细</div>');
+  whOpenModal('预报班次明细', html, false, null, true);
 }
 function whOpenRoundDetail(no) {
-  var pkgs = [];
-  if (typeof __whPkgs !== 'undefined') {
-    __whPkgs.forEach(function (p) { if (p.moveNo === no) pkgs.push(p); });
-  }
-  var tr = (typeof whTransferRow === 'function') ? whTransferRow(no) : null;
-  var html = '';
-  if (pkgs.length) {
-    html = '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">班次 <strong>' + no + '</strong>：' + pkgs.length + ' 个包裹订单</div>'
-      + '<div style="border:1px solid var(--border-light);border-radius:8px;overflow:hidden;">'
-      + pkgs.map(function (p, i2) {
-          return '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:12px;' + (i2 ? 'border-top:1px solid var(--border-light);' : '') + '">'
-            + '<strong style="width:130px;">' + p.no + '</strong>'
-            + '<span style="width:52px;">' + (p.pkgType || '散包') + '</span>'
-            + '<span style="flex:1;">' + (p.fromWh || '—') + ' → ' + (p.toWh || '—') + '</span>'
-            + '<span style="color:var(--text-muted);">' + (p.st || '') + '</span></div>';
-        }).join('')
-      + '</div>';
-  } else if (tr) {
-    var tds = tr.querySelectorAll('td');
-    var get = function (k) { return tds[k] ? tds[k].textContent.trim() : '—'; };
-    html = '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">班次 <strong>' + no + '</strong>（历史移仓单）</div>'
-      + whKV([
-          ['移仓包裹订单号', get(1)],
-          ['类型', get(2)],
-          ['起运仓 → 目的仓', get(7) + ' → ' + get(8)],
-          ['移仓类型', get(9)],
-          ['包裹数 / 箱数', get(3) + ' / ' + get(4)],
-          ['操作人', get(12)], ['移仓时间', get(13)],
-          ['状态', get(6)]
-        ]);
+  var a = whMoveAgg(no);
+  var pairs = [
+    ['班次号', no], ['班次类型', '移仓班次'],
+    ['状态', '<span class="wh-tag ' + (a.status === '已签收' ? 'ok' : 'warn') + '">' + a.status + '</span>'],
+    ['移仓类型', a.mtype],
+    ['起运仓', a.from], ['目的仓', a.to],
+    ['订单数', a.orders + ' 单'], ['包裹件数', a.pieces > 0 ? (a.pieces + ' 件') : '—'],
+    ['箱数', a.boxes > 0 ? (a.boxes + ' 箱') : '—'], ['覆盖客户数', a.customers + ' 个'],
+    ['操作人', a.operator], ['移仓时间', a.tm]
+  ];
+  var html = whKV(pairs);
+  if (a.rows) {
+    var head = '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);margin-bottom:8px;">'
+      + '<span style="width:116px;">包裹订单号</span><span style="width:44px;">类型</span><span style="width:40px;">件数</span>'
+      + '<span style="width:40px;">箱数</span><span style="width:62px;">客户ID</span><span style="width:52px;">货位</span>'
+      + '<span style="flex:1;">最新轨迹</span><span style="width:70px;">状态</span></div>';
+    var rows = a.pkgs.map(function (p) {
+      return '<strong style="width:116px;">' + p.no + '</strong>'
+        + '<span style="width:44px;">' + p.type + '</span>'
+        + '<span style="width:40px;">' + p.pieces + '</span>'
+        + '<span style="width:40px;">' + p.boxes + '</span>'
+        + '<span style="width:66px;color:var(--text-muted);">' + p.cid + '</span>'
+        + '<span style="width:52px;color:var(--text-muted);font-family:ui-monospace,Consolas,monospace;">' + p.loc + '</span>'
+        + '<span style="flex:1;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + whSpTrace(p.latest) + '">' + whSpTrace(p.latest) + '</span>'
+        + '<span style="width:70px;">' + p.st + '</span>';
+    });
+    html += '<div style="font-size:12px;font-weight:500;margin:2px 0 8px;">班次内订单（' + a.orders + ' 单 / ' + a.pieces + ' 件）</div>' + head + whRows(rows);
   } else {
-    html = '<div style="padding:14px;font-size:12px;color:var(--text-muted);">该班次暂无明细数据</div>';
+    var pkgs = [];
+    if (typeof __whPkgs !== 'undefined') {
+      __whPkgs.forEach(function (p) { if (p.moveNo === no) pkgs.push(p); });
+    }
+    if (pkgs.length) {
+      html += '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">班次 <strong>' + no + '</strong>：' + pkgs.length + ' 个包裹订单</div>'
+        + '<div style="border:1px solid var(--border-light);border-radius:8px;overflow:hidden;">'
+        + pkgs.map(function (p, i2) {
+            return '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:12px;' + (i2 ? 'border-top:1px solid var(--border-light);' : '') + '">'
+              + '<strong style="width:130px;">' + p.no + '</strong>'
+              + '<span style="width:52px;">' + (p.pkgType || '散包') + '</span>'
+              + '<span style="flex:1;">' + (p.fromWh || '—') + ' → ' + (p.toWh || '—') + '</span>'
+              + '<span style="color:var(--text-muted);">' + (p.st || '') + '</span></div>';
+          }).join('')
+        + '</div>';
+    } else {
+      html += '<div style="padding:14px;font-size:12px;color:var(--text-muted);">该班次暂无明细数据</div>';
+    }
   }
-  whOpenModal('班次明细', html, false);
+  whOpenModal('班次明细', html, false, null, true);
 }
 </script>
 <script>
@@ -39605,21 +39842,26 @@ function whOpenTransferPkgDetail(no, moveno) {
   if (tr) {
     var tds = tr.querySelectorAll('td');
     var get = function (k) { return tds[k] ? tds[k].textContent.trim() : '—'; };
+    var mvLink = (moveno && whMoveRows(moveno).length) ? whDLink(moveno, 'whOpenMoveDetail', moveno) : (moveno || '—');
     whOpenModal('移仓包裹详情',
       whKV([
         ['移仓包裹订单号', no],
         ['类型', get(2)],
-        ['包裹数 / 箱数', get(3) + ' / ' + get(4)],
+        ['包裹数', get(3) + ' 件'],
+        ['箱数', get(4) === '—' ? '—' : (get(4) + ' 箱')],
         ['客户ID', get(5)],
         ['状态', get(6)],
-        ['起运仓 → 目的仓', get(7) + ' → ' + get(8)],
+        ['起运仓', get(7)],
+        ['目的仓', get(8)],
         ['移仓类型', get(9)],
-        ['移仓编号', get(10)],
-        ['移仓时间', get(12)],
-        ['备注', get(13)]
-      ]) +
-      '<div style="font-size:12px;color:var(--text-muted);">该包裹为历史移仓记录，可在移仓管理中查看当前状态与回执。</div>',
-      false);
+        ['移仓编号', mvLink],
+        ['操作人', get(12)],
+        ['移仓时间', get(13)],
+        ['最新轨迹', '<span style="font-size:12px;color:var(--text-secondary);">' + whSpTrace(get(11)) + '</span>'],
+        ['备注', get(14)]
+      ])
+      + '<div style="font-size:12px;color:var(--text-secondary);">该包裹未在仓库台账建档，以上字段取自移仓单行；可点移仓编号查看整单。</div>',
+      false, null, true);
     return;
   }
   showToast('未找到包裹详情：' + no);
