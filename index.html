@@ -7096,7 +7096,7 @@ main > .modal-overlay.show { display: flex !important; }
           <div id="pkgFilterStoreWrap" style="display:none;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">门店</span><select id="orderPkgFilterStore" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>宝幢街店</option><option>温州鹿城店</option><option>福州南站店</option><option>马鞍山路店</option><option>水南店</option><option>滨江国际店</option><option>福清龙田店</option><option>瑞安莘塍店</option><option>油竹店</option><option>文成店</option><option>巴塞罗纳</option><option>巴塞店</option></select></div>
           <div id="pkgFilterTypeWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">类型</span><select id="orderPkgFilterType" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>加货</option><option>变更</option><option>现场打包</option><option>成品入库</option></select></div>
           <div id="pkgFilterTrackerWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">跟单人</span><select id="orderPkgFilterTracker" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>张三</option><option>李四</option><option>王五</option><option>赵六</option><option>赵敏</option></select></div>
-          <div id="pkgFilterWarehouseWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">仓库</span><select id="orderPkgFilterWarehouse" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>门店</option><option>青源仓</option><option>派力仓</option><option>青源仓+派力仓</option><option>银羽仓</option><option>福永仓</option></select></div>
+          <div id="pkgFilterWarehouseWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">仓库</span><select id="orderPkgFilterWarehouse" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>门店</option><option>青源仓</option><option>派力仓</option><option>青源仓+派力仓</option><option>银羽仓</option><option>利沣仓</option></select></div>
           <div id="pkgFilterActivityWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">活动</span><select id="orderPkgFilterActivity" onchange="renderOrderPkgList();renderOrderPkgStats();" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><option value="">全部</option><option>常规</option><option>拼团</option></select></div>
           <div id="pkgFilterDemandWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">客户要求</span><input type="text" id="orderPkgSearchDemand" placeholder="模糊检索" style="width:110px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
           <div id="pkgFilterCreatedWrap" style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--text-muted);white-space:nowrap;">创建时间</span><input type="date" id="orderPkgFilterDateFrom" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"><span style="font-size:11px;color:var(--text-muted);margin:0 4px;">至</span><input type="date" id="orderPkgFilterDateTo" style="width:125px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;outline:none;"></div>
@@ -7175,7 +7175,7 @@ main > .modal-overlay.show { display: flex !important; }
               <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="青源仓" onchange="onOrderPkgWarehouseChange()">青源仓</label>
               <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="派力仓" onchange="onOrderPkgWarehouseChange()">派力仓</label>
               <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="银羽仓" onchange="onOrderPkgWarehouseChange()">银羽仓</label>
-              <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="福永仓" onchange="onOrderPkgWarehouseChange()">福永仓</label>
+              <label class="pkg-wh-chip"><input type="checkbox" class="pkg-wh-cb" value="利沣仓" onchange="onOrderPkgWarehouseChange()">利沣仓</label>
           </div>
         </div>
         <div class="pkg-row3" style="display:flex;gap:8px;margin-bottom:10px;">
@@ -8488,7 +8488,7 @@ main > .modal-overlay.show { display: flex !important; }
       <div class="modal" style="width:420px;">
         <h3>确认发货</h3>
         <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;" id="verifyShipInfo"></div>
-        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">出库仓库 <span style="color:var(--danger);">*</span></label><select id="verifyShipWarehouse" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择出库仓库</option><option>青源仓</option><option>派力仓</option><option>银羽仓</option><option>福永仓</option></select></div>
+        <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">出库仓库 <span style="color:var(--danger);">*</span></label><select id="verifyShipWarehouse" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;"><option value="">请选择出库仓库</option><option>青源仓</option><option>派力仓</option><option>银羽仓</option><option>利沣仓</option></select></div>
         <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:3px;">确认备注 <span style="color:var(--text-muted);">(选填)</span></label><textarea id="verifyShipNote" placeholder="请输入发货备注..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;resize:vertical;height:70px;"></textarea></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;"><button class="btn btn-sm" onclick="hideVerifyShipModal()">取消</button><button class="btn btn-primary btn-sm" onclick="doConfirmVerifyShip()">确认发货</button></div>
       </div>
@@ -15643,7 +15643,7 @@ const pageAnnotations = {
     sections: [
       { type: 'desc', label: '页面说明', items: ['集包管理是订单全链路起点，客服在此创建工单。系统根据集包类型自动决定是否进入拣货/打包环节'] },
       { type: 'interaction', label: '新建/编辑', items: [
-        '集包类型：常规/加货/变更/现场打包（仅变更、现场打包创建后跳过拣货，与仓库无关）；所属仓库：门店/青源仓/派力仓/银羽仓/福永仓（可多选）；活动选拼团需XYPD号+关联1-5个XY号',
+        '集包类型：常规/加货/变更/现场打包（仅变更、现场打包创建后跳过拣货，与仓库无关）；所属仓库：门店/青源仓/派力仓/银羽仓/利沣仓（可多选）；活动选拼团需XYPD号+关联1-5个XY号',
         '初始状态逻辑：变更/现场打包→待分配(跳过拣货，直接进入打包)；常规/加货→派单则待认领、未派单则待开始（均需拣货）',
         '跟单人自动分配：美线/日韩→李四；中东/非洲→王五；其他→张三'
       ]},
@@ -20161,7 +20161,7 @@ var warehouseList = [
   { id: 1, name: '青源仓', code: 'QY', type: '自营仓', prov: '浙江省', city: '丽水市', addr: '青田县油竹街道江滨路 8 号 青源金属有限公司', owner: '廖晓杰', depts: ['仓储部', '市场-门店团队'], enabled: true },
   { id: 2, name: '派力仓', code: 'PL', type: '自营仓', prov: '浙江省', city: '丽水市', addr: '青田县侨乡工业园派力路一号', owner: '冯甜甜', depts: ['仓储部', '市场-销售团队'], enabled: true },
   { id: 3, name: '银羽仓', code: 'YY', type: '自营仓', prov: '新疆维吾尔自治区', city: '乌鲁木齐市', addr: '头屯河区银羽街', owner: '林达', depts: ['仓储部'], enabled: true },
-  { id: 4, name: '福永仓', code: 'FY', type: '合作仓', prov: '广东省', city: '深圳市', addr: '宝安区立新南路锦城大厦西北侧', owner: '彭笑微', depts: [], enabled: true },
+  { id: 4, name: '利沣仓', code: 'LF', type: '合作仓', prov: '广东省', city: '深圳市', addr: '宝安区立新南路锦城大厦西北侧', owner: '彭笑微', depts: [], enabled: true },
   { id: 5, name: '门店', code: 'MD', type: '门店', prov: '浙江省', city: '丽水市', addr: '青田县', owner: '—', depts: ['市场-门店团队'], enabled: true },
   { id: 7, name: '西安仓', code: 'XA', type: '合作仓', prov: '陕西省', city: '西安市', addr: '西安市国际港务区保税一路 12 号', owner: '冯甜甜', depts: ['仓储部', '市场-销售团队'], enabled: true }];
 // 仓库人员：挂在具体仓库下，左侧选中哪个仓库，右侧就展示该仓库的人
@@ -22455,11 +22455,11 @@ function balancePackageTypes() {
     o.activity = '拼团';
     if (i >= 10) { o.type = '常规'; o.activity = '常规'; o.xpd = ''; o.links = []; o.linkDemands = null; o.linkHaioIds = null; o.linkBoxes = null; }
   });
-  // 2. 仓库优先沿用旧类型（门店/青源仓/派力仓/银羽仓/福永仓），类型收敛为 常规/加货/变更
+  // 2. 仓库优先沿用旧类型（门店/青源仓/派力仓/银羽仓/利沣仓），类型收敛为 常规/加货/变更
   //    —— 必须先迁仓库再归类型，否则旧仓库信息会丢失
-  var WH = ['青源仓', '派力仓', '银羽仓', '福永仓', '门店'];
-  var legacyWh = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'混合仓', '博乐仓':'银羽仓', '乌鲁木齐仓':'银羽仓', '银羽仓':'银羽仓', '福永仓':'福永仓' };
-  var whCount = { '门店':0, '青源仓':0, '派力仓':0, '银羽仓':0, '福永仓':0 };
+  var WH = ['青源仓', '派力仓', '银羽仓', '利沣仓', '门店'];
+  var legacyWh = { '门店':'门店', '青源仓':'青源仓', '派力仓':'派力仓', '混合仓':'混合仓', '博乐仓':'银羽仓', '乌鲁木齐仓':'银羽仓', '银羽仓':'银羽仓', '利沣仓':'利沣仓' };
+  var whCount = { '门店':0, '青源仓':0, '派力仓':0, '银羽仓':0, '利沣仓':0 };
   var addGoodsXyCounter = 0;
   var typeTick = 0;
   orderPackages.forEach(function(o){
@@ -23740,13 +23740,13 @@ function orderActivityTag(a) {
 }
 
 // ===== 集包「类型 / 仓库」拆分口径（2026-10-19）=====
-// 类型：常规 / 加货；仓库：门店 / 青源仓 / 派力仓 / 银羽仓 / 福永仓（可多选，青源仓+派力仓 = 原混合仓）
+// 类型：常规 / 加货；仓库：门店 / 青源仓 / 派力仓 / 银羽仓 / 利沣仓（可多选，青源仓+派力仓 = 原混合仓）
 var PKG_TYPES = ['常规', '加货', '变更', '现场打包', '成品入库'];
 // 这些类型货已在仓/已打包，创建后直接跳过拣货
 var PKG_SKIP_PICK_TYPES = ['变更', '现场打包', '成品入库'];
 // 创建即进入核款环节（待付款）的类型：不经过拣货 / 打包 / 审核 / 质检
 var PKG_PAY_FIRST_TYPES = ['成品入库'];
-var PKG_WAREHOUSES = ['门店', '青源仓', '派力仓', '银羽仓', '福永仓'];
+var PKG_WAREHOUSES = ['门店', '青源仓', '派力仓', '银羽仓', '利沣仓'];
 // 拼团属于「活动」维度，历史数据仍以 type='拼团' 标记，统一兼容判断
 function isPkgTuan(o) { return !!o && (o.activity === '拼团' || o.type === '拼团'); }
 // 是否跳过拣货：变更 / 现场打包 类型，或创建时已标记
