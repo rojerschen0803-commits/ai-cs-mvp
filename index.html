@@ -8861,7 +8861,12 @@ main > .modal-overlay.show { display: flex !important; }
           <option value="散包">散包</option>
           <option value="整票">整票</option>
         </select>
-        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">所在仓库</span>
+        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">仓库</span>
+        <select id="whWhTypeSel" onchange="whOnWhTypeChange()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
+          <option value="wh">所在仓库</option>
+          <option value="start">起运仓</option>
+          <option value="end">终点仓</option>
+        </select>
         <select id="whWhSel" onchange="whApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
           <option value="all">全部仓库</option>
         </select>
@@ -8916,13 +8921,14 @@ main > .modal-overlay.show { display: flex !important; }
         <select id="whTrMtype" onchange="whTrApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
           <option value="all">全部移仓类型</option><option value="中转移仓">中转移仓</option><option value="退件移仓">退件移仓</option>
         </select>
-        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">起运仓</span>
-        <select id="whTrFrom" onchange="whTrApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
-          <option value="all">全部起运仓</option><option value="青田仓">青田仓</option><option value="西安仓">西安仓</option><option value="乌鲁木齐银羽仓">乌鲁木齐银羽仓</option>
+        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">仓库</span>
+        <select id="whTrWhType" onchange="whOnTrWhType()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
+          <option value="from">起运仓</option>
+          <option value="to">所在仓库</option>
+          <option value="end">终点仓</option>
         </select>
-        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">终点仓</span>
-        <select id="whTrTo" onchange="whTrApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
-          <option value="all">全部终点仓</option>
+        <select id="whTrWh" onchange="whTrApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
+          <option value="all">全部仓库</option>
         </select>
         <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">移仓时间</span>
         <input id="whTrDateFrom" type="date" onchange="whTrApply()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text-secondary);">
@@ -9120,13 +9126,14 @@ main > .modal-overlay.show { display: flex !important; }
         </select>
         </span>
         <span id="whRdWhWrap" style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">起运仓</span>
-        <select id="whRdFrom" onchange="whRenderRoundsPage()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
-          <option value="all">全部起运仓</option>
+        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">仓库</span>
+        <select id="whRdWhType" onchange="whOnRdWhType()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
+          <option value="from">起运仓</option>
+          <option value="to">所在仓库</option>
+          <option value="end">终点仓</option>
         </select>
-        <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">终点仓</span>
-        <select id="whRdTo" onchange="whRenderRoundsPage()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
-          <option value="all">全部终点仓</option>
+        <select id="whRdWh" onchange="whRenderRoundsPage()" style="height:32px;padding:0 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;color:var(--text-secondary);">
+          <option value="all">全部仓库</option>
         </select>
         </span>
         <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap;">状态</span>
@@ -10896,9 +10903,30 @@ function openMsgDetail(row, title, content) {
   showConfirmModal(title, content, '#173D5B', function(){});
 }
 
+function whPkgWhByType(tr, type) {
+  if (type === 'start') return tr.getAttribute('data-startwh') || '';
+  if (type === 'end') return tr.getAttribute('data-endwh') || '';
+  return tr.getAttribute('data-wh') || '';
+}
+function whFillPkgWhOptions() {
+  var type = (document.getElementById('whWhTypeSel') || {}).value || 'wh';
+  var arr = [];
+  document.querySelectorAll('#whPkgBody > tr[data-status]').forEach(function (tr) {
+    var v = whPkgWhByType(tr, type);
+    if (v && v !== '—' && arr.indexOf(v) < 0) arr.push(v);
+  });
+  var el = document.getElementById('whWhSel');
+  if (!el) return;
+  var cur = el.value || 'all';
+  el.innerHTML = '<option value="all">全部仓库</option>'
+    + arr.map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('');
+  el.value = (cur === 'all' || arr.indexOf(cur) >= 0) ? cur : 'all';
+}
+function whOnWhTypeChange() { whFillPkgWhOptions(); whApply(); }
 function whApply() {
   var st = (document.getElementById('whStatusSel') || {}).value || 'all';
   var wh = (document.getElementById('whWhSel') || {}).value || 'all';
+  var whType = (document.getElementById('whWhTypeSel') || {}).value || 'wh';
   var tp = (document.getElementById('whTypeSel') || {}).value || 'all';
   var kw = ((document.getElementById('whKwInput') || {}).value || '').trim();
   var d1 = (document.getElementById('whPkgDateFrom') || {}).value || '';
@@ -10915,7 +10943,7 @@ function whApply() {
   var shown = 0;
   document.querySelectorAll('#whPkgBody > tr[data-status]').forEach(function(tr){
     var okSt = (st === 'all' || whMainSt(tr.getAttribute('data-status') || '') === st);
-    var okWh = (wh === 'all' || tr.getAttribute('data-wh') === wh);
+    var okWh = (wh === 'all' || whPkgWhByType(tr, whType) === wh);
     var okTp = (tp === 'all' || tr.getAttribute('data-type') === tp);
     var okKw = !kw || (tr.innerText || '').indexOf(kw) >= 0;
     var day = ((useFc ? (tr.getAttribute('data-fc') || tr.getAttribute('data-time') || '') : (tr.getAttribute('data-time') || ''))).slice(0, 10);
@@ -10934,16 +10962,7 @@ function whOnStatusChange() {
     var hit = (st === 'all') ? txt.indexOf('全部') === 0 : txt.indexOf(st) === 0;
     t.classList.toggle('active', hit);
   });
-  var sel = document.getElementById('whWhSel');
-  if (sel) {
-    var inTransit = (st === '移仓中');
-    var opts = inTransit
-      ? [['all', '全部仓库'], ['在途', '西安仓 - 银羽仓']]
-      : [['all', '全部仓库'], ['青田仓', '青田仓'], ['西安仓', '西安仓'], ['银羽仓', '乌鲁木齐银羽仓']];
-    var cur = sel.value;
-    sel.innerHTML = opts.map(function(o){ return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
-    sel.value = opts.some(function(o){ return o[0] === cur; }) ? cur : 'all';
-  }
+  if (typeof whFillPkgWhOptions === 'function') whFillPkgWhOptions();
   whSetTabActions(st);
   whApply();
 }
@@ -10958,8 +10977,11 @@ function whReset() {
   if (kw) kw.value = '';
   var st = document.getElementById('whStatusSel');
   if (st) st.value = 'all';
+  var whTypeSel = document.getElementById('whWhTypeSel');
+  if (whTypeSel) whTypeSel.value = 'wh';
   var wh = document.getElementById('whWhSel');
-  if (wh) { wh.innerHTML = (typeof whWarehouseOptionsHtml === 'function') ? whWarehouseOptionsHtml('全部仓库') : '<option value="all">全部仓库</option>'; wh.value = 'all'; }
+  if (wh) { wh.innerHTML = '<option value="all">全部仓库</option>'; wh.value = 'all'; }
+  if (typeof whFillPkgWhOptions === 'function') whFillPkgWhOptions();
   var tp = document.getElementById('whTypeSel');
   if (tp) tp.value = 'all';
   document.querySelectorAll('#page-whPackages .sub-tab-item').forEach(function(t){ t.classList.remove('active'); });
@@ -10974,14 +10996,7 @@ function whFilter(status, el) {
   var sel = document.getElementById('whStatusSel');
   if (sel) sel.value = status;
   whSetTabActions(status);
-  var wh = document.getElementById('whWhSel');
-  if (wh && status === '移仓中') {
-    wh.innerHTML = '<option value="all">全部仓库</option><option value="在途">西安仓 - 银羽仓</option>';
-    wh.value = 'all';
-  } else if (wh && wh.options.length <= 2) {
-    wh.innerHTML = '<option value="all">全部仓库</option><option value="青田仓">青田仓</option><option value="西安仓">西安仓</option><option value="银羽仓">乌鲁木齐银羽仓</option>';
-    wh.value = 'all';
-  }
+  if (typeof whFillPkgWhOptions === 'function') whFillPkgWhOptions();
   whApply();
 }
 var __whModalOk = null;
@@ -11373,7 +11388,7 @@ function whRowHtml(p) {
   var toCell = (p.st === '移仓中') ? p.toWh : ((p.st === '待发货') ? (p.startWh || p.forecastWh || '—') : '—');
   var locCell = p.loc || '—';
   var cid = p.cid || '—';
-  return '<tr data-id="' + p.no + '" data-status="' + p.st + '" data-wh="' + whPkgWhKey(p) + '" data-type="' + (p.pkgType || '散包') + '" data-time="' + (p.tm || '') + '" data-fc="' + (p.forecastTm || '') + '">'
+  return '<tr data-id="' + p.no + '" data-status="' + p.st + '" data-wh="' + whCell + '" data-startwh="' + (p.startWh || (p.st === '移仓中' ? p.fromWh : '') || '') + '" data-endwh="' + (p.endWh || p.forecastWh || '') + '" data-type="' + (p.pkgType || '散包') + '" data-time="' + (p.tm || '') + '" data-fc="' + (p.forecastTm || '') + '">'
     + '<td><input type="checkbox" data-sel></td>'
     + '<td><strong><a href="javascript:;" onclick="whOpenDrawer(\'' + p.no + '\')" title="查看包裹详情" style="color:#173D5B;font-weight:600;text-decoration:none;cursor:pointer;">' + p.no + '</a></strong>'
     + (function () {
@@ -39890,30 +39905,31 @@ function whSyncPkgsByMove(no, action, toWh, fromWh, loc, pkgNo) {
 <script>
 /* __whTrFilter__ 移仓管理多条件筛选 */
 function whTrVal(id) { var el = document.getElementById(id); return el ? el.value : 'all'; }
-function whFillTransferWhOptions() {
-  var froms = [], ends = [];
-  Array.prototype.forEach.call(document.querySelectorAll('#page-whTransfers tbody tr[data-status]'), function (tr) {
-    var f = tr.getAttribute('data-from') || '';
-    var e = tr.getAttribute('data-end') || tr.getAttribute('data-to') || '';
-    if (f && froms.indexOf(f) < 0) froms.push(f);
-    if (e && ends.indexOf(e) < 0) ends.push(e);
-  });
-  var fill = function (id, title, arr) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var cur = el.value || 'all';
-    el.innerHTML = '<option value="all">' + title + '</option>'
-      + arr.map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('');
-    el.value = (cur === 'all' || arr.indexOf(cur) >= 0) ? cur : 'all';
-  };
-  fill('whTrFrom', '全部起运仓', froms);
-  fill('whTrTo', '全部终点仓', ends);
+function whTrWhByRow(tr, type) {
+  if (type === 'to') return tr.getAttribute('data-to') || '';
+  if (type === 'end') return tr.getAttribute('data-end') || tr.getAttribute('data-to') || '';
+  return tr.getAttribute('data-from') || '';
 }
+function whFillTransferWhOptions() {
+  var type = (document.getElementById('whTrWhType') || {}).value || 'from';
+  var arr = [];
+  Array.prototype.forEach.call(document.querySelectorAll('#page-whTransfers tbody tr[data-status]'), function (tr) {
+    var v = whTrWhByRow(tr, type);
+    if (v && v !== '—' && arr.indexOf(v) < 0) arr.push(v);
+  });
+  var el = document.getElementById('whTrWh');
+  if (!el) return;
+  var cur = el.value || 'all';
+  el.innerHTML = '<option value="all">全部仓库</option>'
+    + arr.map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('');
+  el.value = (cur === 'all' || arr.indexOf(cur) >= 0) ? cur : 'all';
+}
+function whOnTrWhType() { whFillTransferWhOptions(); whTrApply(); }
 function whTrApply() {
   var kw = '';
   var inp = document.querySelector('#page-whTransfers .filter-section input[type=text]');
   if (inp) kw = (inp.value || '').trim();
-  var tp = whTrVal('whTrType'), mt = whTrVal('whTrMtype'), fm = whTrVal('whTrFrom'), to = whTrVal('whTrTo');
+  var tp = whTrVal('whTrType'), mt = whTrVal('whTrMtype'), whType = whTrVal('whTrWhType'), whVal = whTrVal('whTrWh');
   var d1 = ((document.getElementById('whTrDateFrom') || {}).value) || '';
   var d2 = ((document.getElementById('whTrDateTo') || {}).value) || '';
   var st = window.__whTrTab || '待签收';
@@ -39923,21 +39939,23 @@ function whTrApply() {
     var okKw = !kw || (tr.innerText || '').indexOf(kw) >= 0;
     var okTp = (tp === 'all' || tr.getAttribute('data-type') === tp);
     var okMt = (mt === 'all' || tr.getAttribute('data-mtype') === mt);
-    var okFm = (fm === 'all' || tr.getAttribute('data-from') === fm);
-    var okTo = (to === 'all' || (tr.getAttribute('data-end') || tr.getAttribute('data-to')) === to);
+    var okWh = (whVal === 'all' || whTrWhByRow(tr, whType) === whVal);
     var day = (tr.getAttribute('data-tm') || '').slice(0, 10);
     var okD = (!d1 || (day && day >= d1)) && (!d2 || (day && day <= d2));
-    tr.style.display = (okSt && okKw && okTp && okMt && okFm && okTo && okD) ? '' : 'none';
+    tr.style.display = (okSt && okKw && okTp && okMt && okWh && okD) ? '' : 'none';
   });
   if (typeof whTrToggleAct === 'function') whTrToggleAct();
 }
 function whTrReset() {
   var inp = document.querySelector('#page-whTransfers .filter-section input[type=text]');
   if (inp) inp.value = '';
-  ['whTrType', 'whTrMtype', 'whTrFrom', 'whTrTo'].forEach(function (id) {
+  ['whTrType', 'whTrMtype', 'whTrWh'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.value = 'all';
   });
+  var wt = document.getElementById('whTrWhType');
+  if (wt) wt.value = 'from';
+  if (typeof whFillTransferWhOptions === 'function') whFillTransferWhOptions();
   ['whTrDateFrom', 'whTrDateTo'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.value = '';
@@ -39964,31 +39982,49 @@ function whTabTransfers(status, el) {
 setTimeout(function () { if (typeof whTrApply === 'function') whTrApply(); }, 1100);
 </script>
 <script>
+function whRdTypeList() {
+  return (window.__whRoundTab === 'fc')
+    ? [['start', '预报起运仓'], ['end', '预报终点仓']]
+    : [['from', '起运仓'], ['to', '所在仓库'], ['end', '终点仓']];
+}
+function whOnRdWhType() { whRdFillWhFilters(); whRenderRoundsPage(); }
 function whRdFillWhFilters() {
-  var froms = [], ends = [];
-  Array.prototype.forEach.call(document.querySelectorAll('#page-whTransfers tbody tr[data-status]'), function (tr) {
-    var f = tr.getAttribute('data-from') || '';
-    var e = tr.getAttribute('data-end') || tr.getAttribute('data-to') || '';
-    if (f && froms.indexOf(f) < 0) froms.push(f);
-    if (e && ends.indexOf(e) < 0) ends.push(e);
-  });
-  var fill = function (id, title, arr) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var cur = el.value || 'all';
-    el.innerHTML = '<option value="all">' + title + '</option>'
-      + arr.map(function (w) { return '<option value="' + w + '">' + w + '</option>'; }).join('');
-    el.value = (cur === 'all' || arr.indexOf(cur) >= 0) ? cur : 'all';
-  };
-  fill('whRdFrom', '全部起运仓', froms);
-  fill('whRdTo', '全部终点仓', ends);
+  var fc = (window.__whRoundTab === 'fc');
+  var sel = document.getElementById('whRdWhType');
+  if (sel) {
+    var opts = whRdTypeList();
+    var curT = sel.value;
+    sel.innerHTML = opts.map(function (o) { return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
+    sel.value = opts.some(function (o) { return o[0] === curT; }) ? curT : opts[0][0];
+  }
+  var type = (sel && sel.value) || (fc ? 'start' : 'from');
+  var arr = [];
+  if (fc) {
+    (typeof __whPkgs !== 'undefined' ? __whPkgs : []).forEach(function (p) {
+      var v = (type === 'start') ? (p.startWh || '') : (p.endWh || p.forecastWh || '');
+      if (v && arr.indexOf(v) < 0) arr.push(v);
+    });
+  } else {
+    Array.prototype.forEach.call(document.querySelectorAll('#page-whTransfers tbody tr[data-status]'), function (tr) {
+      var v = whTrWhByRow(tr, type);
+      if (v && arr.indexOf(v) < 0) arr.push(v);
+    });
+  }
+  var el = document.getElementById('whRdWh');
+  if (!el) return;
+  var cur = el.value || 'all';
+  el.innerHTML = '<option value="all">全部仓库</option>'
+    + arr.map(function (w) { return '<option value="' + w + '">' + w + '</option>'; }).join('');
+  el.value = (cur === 'all' || arr.indexOf(cur) >= 0) ? cur : 'all';
 }
 function whRdReset() {
   var kw = document.getElementById('whRdKw'); if (kw) kw.value = '';
   var t = document.getElementById('whRdType'); if (t) t.value = 'all';
   var st = document.getElementById('whRdStatus'); if (st) st.value = 'all';
-  var rf = document.getElementById('whRdFrom'); if (rf) rf.value = 'all';
-  var rt = document.getElementById('whRdTo'); if (rt) rt.value = 'all';
+  var wt = document.getElementById('whRdWhType');
+  if (wt) wt.value = (window.__whRoundTab === 'fc') ? 'start' : 'from';
+  var rw = document.getElementById('whRdWh'); if (rw) rw.value = 'all';
+  if (typeof whRdFillWhFilters === 'function') whRdFillWhFilters();
   ['whRdDateFrom', 'whRdDateTo'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.value = '';
@@ -40003,7 +40039,9 @@ function whRoundsTab(mode, el) {
   var wrap = document.getElementById('whRdMtypeWrap');
   if (wrap) wrap.style.display = (window.__whRoundTab === 'fc') ? 'none' : 'flex';
   var wrapWh = document.getElementById('whRdWhWrap');
-  if (wrapWh) wrapWh.style.display = (window.__whRoundTab === 'fc') ? 'none' : 'flex';
+  if (wrapWh) wrapWh.style.display = 'flex';
+  var wt = document.getElementById('whRdWhType'); if (wt) wt.value = '';
+  if (typeof whRdFillWhFilters === 'function') whRdFillWhFilters();
   whRenderRoundsPage();
 }
 function whRoundsKpiHtml(items) {
@@ -40059,8 +40097,8 @@ function whRenderRoundsPage() {
   if (!body || !head) return;
   var mode = window.__whRoundTab || 'move';
   if (typeof whRdFillWhFilters === 'function') whRdFillWhFilters();
-  var rf = (document.getElementById('whRdFrom') || {}).value || 'all';
-  var rt = (document.getElementById('whRdTo') || {}).value || 'all';
+  var whType = (document.getElementById('whRdWhType') || {}).value || (mode === 'fc' ? 'start' : 'from');
+  var whVal = (document.getElementById('whRdWh') || {}).value || 'all';
   var kw = ((document.getElementById('whRdKw') || {}).value || '').trim();
   var ty = (document.getElementById('whRdType') || {}).value || 'all';
   var stt = (document.getElementById('whRdStatus') || {}).value || 'all';
@@ -40069,18 +40107,20 @@ function whRenderRoundsPage() {
   var toneMap = { '运输中': 'warn', '待签收': 'info', '已签收': 'ok', '异常': 'danger', '未预报': 'warn', '已预报': 'info', '已入库': 'ok', '移仓中': 'warn', '待发货': 'info', '发货中': 'info', '已完成': 'muted', '异常件': 'danger' };
 
   if (mode === 'fc') {
-    head.innerHTML = '<tr><th style="width:150px;">发运单号</th><th style="width:112px;">预报终点仓</th><th style="width:70px;">类型</th>'
+    head.innerHTML = '<tr><th style="width:150px;">发运单号</th><th style="width:96px;">预报起运仓</th><th style="width:112px;">预报终点仓</th><th style="width:70px;">类型</th>'
       + '<th style="width:70px;">订单数</th><th style="width:76px;">托盘数</th>'
       + '<th style="width:66px;">操作人</th><th style="width:150px;">预报时间</th><th style="width:80px;">状态</th><th style="width:96px;">操作</th></tr>';
     var fm = {}, forder = [];
     __whPkgs.forEach(function (p) {
       var key = p.tn || '—';
       if (!fm[key]) {
-        fm[key] = { tn: key, wh: p.forecastWh || __WH_QH, types: [], orders: 0, pallets: [], palletCnt: {}, tm: p.forecastTm || '—', operator: p.operator || '—', sts: [] };
+        fm[key] = { tn: key, start: p.startWh || '—', wh: p.endWh || p.forecastWh || '—', types: [], orders: 0, pallets: [], palletCnt: {}, tm: p.forecastTm || '—', operator: p.operator || '—', sts: [] };
         forder.push(key);
       }
       var r = fm[key];
       r.orders++;
+      if (p.startWh && r.start === '—') r.start = p.startWh;
+      if (r.wh === '—' && (p.endWh || p.forecastWh)) r.wh = p.endWh || p.forecastWh;
       if (p.pallet) {
         if (r.pallets.indexOf(p.pallet) < 0) r.pallets.push(p.pallet);
         r.palletCnt[p.pallet] = (r.palletCnt[p.pallet] || 0) + 1;
@@ -40098,12 +40138,13 @@ function whRenderRoundsPage() {
     var flist = forder.filter(function (k) {
       var r = fm[k];
       var typeLabel = (r.types.length > 1) ? '混合' : r.types[0];
-      var okKw = !kw || (r.tn + r.wh).indexOf(kw) >= 0;
+      var okKw = !kw || (r.tn + r.start + r.wh).indexOf(kw) >= 0;
       var okTy = (ty === 'all' || typeLabel === ty);
       var okSt = (stt === 'all' || r.status === stt);
+      var okWhF = (whVal === 'all' || ((whType === 'start') ? r.start : r.wh) === whVal);
       var dayF = (r.tm || '').slice(0, 10);
       var okDF = (!rd1 || (dayF && dayF >= rd1)) && (!rd2 || (dayF && dayF <= rd2));
-      return okKw && okTy && okSt && okDF;
+      return okKw && okTy && okSt && okWhF && okDF;
     });
     var ft = { rounds: flist.length, orders: 0, pallets: [] };
     flist.forEach(function (k) {
@@ -40121,13 +40162,13 @@ function whRenderRoundsPage() {
       var typeLabel = (r.types.length > 1) ? '混合' : r.types[0];
       var stLabel = r.status;
       var tone = (r.status === '已签收') ? 'ok' : 'warn';
-      return '<tr data-status="' + stLabel + '"><td><strong>' + r.tn + '</strong></td><td>' + r.wh + '</td><td>' + typeLabel + '</td>'
+      return '<tr data-status="' + stLabel + '"><td><strong>' + r.tn + '</strong></td><td>' + r.start + '</td><td>' + r.wh + '</td><td>' + typeLabel + '</td>'
         + '<td><a href="javascript:;" onclick="whOpenFcRoundDetail(\'' + r.tn + '\')" title="查看订单明细" style="color:#185FA5;font-weight:700;text-decoration:none;">' + r.orders + '</a></td>'
         + '<td>' + whPalletCountHtml('fc:' + r.tn, r.pallets, r.palletCnt) + '</td>'
         + '<td>' + (r.operator || '—') + '</td>'
         + '<td>' + r.tm + '</td><td><span class="wh-tag ' + tone + '">' + stLabel + '</span></td>'
         + '<td><button class="btn btn-sm" onclick="whOpenFcRoundDetail(\'' + r.tn + '\')">查看明细</button></td></tr>';
-    }).join('') : '<tr><td colspan="9" style="padding:18px;font-size:12px;color:var(--text-muted);text-align:center;">暂无预报班次</td></tr>';
+    }).join('') : '<tr><td colspan="10" style="padding:18px;font-size:12px;color:var(--text-muted);text-align:center;">暂无预报班次</td></tr>';
     return;
   }
 
@@ -40179,11 +40220,13 @@ function whRenderRoundsPage() {
     var okKw = !kw || (r.no + r.from + r.to).indexOf(kw) >= 0;
     var okTy = (ty === 'all' || r.mtype === ty);
     var okSt = (stt === 'all' || r.status === stt);
-    var okFm2 = (rf === 'all' || r.from === rf);
-    var okEn = (rt === 'all' || (r.ends.length ? r.ends.indexOf(rt) >= 0 : r.to === rt));
+    var okWh2 = (whVal === 'all')
+      || (whType === 'from' && r.from === whVal)
+      || (whType === 'to' && r.to === whVal)
+      || (whType === 'end' && (r.ends.length ? r.ends.indexOf(whVal) >= 0 : r.to === whVal));
     var dayM = (r.tm || '').slice(0, 10);
     var okDM = (!rd1 || (dayM && dayM >= rd1)) && (!rd2 || (dayM && dayM <= rd2));
-    return okKw && okTy && okSt && okFm2 && okEn && okDM;
+    return okKw && okTy && okSt && okWh2 && okDM;
   });
   var totals = { rounds: list.length, orders: 0, pallets: [] };
   list.forEach(function (no) {
@@ -40214,21 +40257,22 @@ function whRenderRoundsPage() {
 }
 function whOpenFcRoundDetail(tn) {
   var list = (typeof __whPkgs !== 'undefined' ? __whPkgs : []).filter(function (p) { return p.tn === tn; });
-  var cids = [], types = [], pallets = [], fcWh = '—', fcTm = '—', op = '—';
+  var cids = [], types = [], pallets = [], fcStart = '—', fcWh = '—', fcTm = '—', op = '—';
   list.forEach(function (p) {
     if (p.pallet && pallets.indexOf(p.pallet) < 0) pallets.push(p.pallet);
     if (p.cid && cids.indexOf(p.cid) < 0) cids.push(p.cid);
     if (types.indexOf(p.pkgType || '散包') < 0) types.push(p.pkgType || '散包');
-    if (p.forecastWh && fcWh === '—') fcWh = p.forecastWh;
+    if (p.startWh && fcStart === '—') fcStart = p.startWh;
+    var pEnd = p.endWh || p.forecastWh || '';
+    if (pEnd && (fcWh === '—' || fcWh === '')) fcWh = pEnd;
     if (p.forecastTm && (fcTm === '—' || String(p.forecastTm) > String(fcTm))) { fcTm = p.forecastTm; }
     if (p.operator && op === '—') op = p.operator;
   });
-  if (fcWh === '—' && list.length) fcWh = __WH_QH;
   var allDone = list.length > 0 && list.every(function (x) { return x.st === '已完成'; });
   var status = allDone ? '已签收' : '运输中';
   var html = whKV([
     ['发运单号', tn], ['状态', '<span class="wh-tag ' + (allDone ? 'ok' : 'warn') + '">' + status + '</span>'],
-    ['预报终点仓', fcWh], ['类型', types.length > 1 ? '混合' : (types[0] || '—')],
+    ['预报起运仓', fcStart], ['预报终点仓', fcWh], ['类型', types.length > 1 ? '混合' : (types[0] || '—')],
     ['订单数', list.length + ' 单'], ['托盘数', pallets.length + ' 个'],
     ['托盘ID', pallets.length ? pallets.join('、') : '—'], ['覆盖客户数', cids.length + ' 个'],
     ['操作人', op], ['预报时间', fcTm]
@@ -40242,7 +40286,7 @@ function whOpenFcRoundDetail(tn) {
       + '<span style="width:44px;">' + (p.pkgType || '散包') + '</span>'
       + '<span style="width:96px;">' + whPalletAggHtml([p.pallet]) + '</span>'
       + '<span style="width:62px;color:var(--text-muted);">' + (p.cid || '—') + '</span>'
-      + '<span style="width:86px;color:var(--text-muted);">' + (p.forecastWh || '—') + '</span>'
+      + '<span style="width:86px;color:var(--text-muted);">' + (p.endWh || p.forecastWh || '—') + '</span>'
       + '<span style="flex:1;color:var(--text-muted);">' + (p.forecastTm || '—') + '</span>'
       + '<span style="width:70px;"><span class="wh-tag ' + (__WH_TONE[p.st] || 'muted') + '">' + p.st + '</span></span>';
   });
@@ -40479,11 +40523,9 @@ setTimeout(function () {
     whSelEl.innerHTML = whWarehouseOptionsHtml('全部仓库');
     whSelEl.value = 'all';
   }
-  ['whTrFrom', 'whTrTo'].forEach(function (id) {
-    if (typeof whFillTransferWhOptions === 'function') {
-      whFillTransferWhOptions();
-    }
-  });
+  if (typeof whFillTransferWhOptions === 'function') whFillTransferWhOptions();
+  if (typeof whFillPkgWhOptions === 'function') whFillPkgWhOptions();
+  if (typeof whRdFillWhFilters === 'function') whRdFillWhFilters();
 }, 900);
 </script>
 <script>
